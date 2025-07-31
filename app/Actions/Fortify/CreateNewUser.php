@@ -1,146 +1,162 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Fortify;
 
+use App\Kafka\Exception\ProducerSendException;
+use App\Kafka\Exception\TopicNotFoundException;
+use App\Kafka\Producer\BaseProducer;
 use App\Models\Captcha;
 use App\Models\Setting;
 use App\Models\User;
+use Exception;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Spatie\Permission\Models\Role;
+use Throwable;
 
 class CreateNewUser implements CreatesNewUsers
 {
     use PasswordValidationRules;
 
+    const string EVENT_NAME = 'user.registration';
+
+    protected array $availableEmailDomains = [
+        'gmail.com',
+        'ya.ru',
+        'yandex.ru',
+        'mail.ru',
+        'list.ru',
+    ];
+
+    public function __construct(
+        private readonly BaseProducer $producer
+    ) {
+    }
+
     /**
      * Validate and create a newly registered user.
      *
      * @param array $input
-     * @return \App\Models\User
+     * @return User
+     * @throws ValidationException
+     * @throws TopicNotFoundException
+     * @throws ProducerSendException
+     * @throws Exception
      */
-    public function create(array $input)
+    public function create(array $input): User
     {
-        if ($input['user_type'] === 'student') {
-            $validator = Validator::make($input, [
-                'name' => ['required', 'string', 'max:255'],
-                'surname' => ['required', 'string', 'max:255'],
-                'email' => [
-                    'required',
-                    'string',
-                    'email',
-                    'max:255',
-                    Rule::unique(User::class),
-                ],
-                'password' => $this->passwordRules(),
-                'agreement' => ['required']
-            ]);
+        $this->validateInput($input);
 
-            $validator->after(function ($validator) use($input) {
-                if ($input['user_text'] != Captcha::find($input['user_text_x'])->code) {
-                    $validator->errors()->add(
-                        'user_text', 'Код с картинки введен не верно.'
-                    );
-                }
+        $roleName = $input['user_type'] === 'student' ? 'user' : 'teacher';
+        $role = Role::where('name', $roleName)->firstOrFail();
 
-                $availableDomains = [
-                    'gmail.com',
-                    'ya.ru',
-                    'yandex.ru',
-                    'mail.ru',
-                    'list.ru',
-                ];
-
-                $isCorrectDomain = false;
-                foreach ($availableDomains as $domain) {
-                    if (str_contains($input['email'], $domain)) {
-                        $isCorrectDomain = true;
-                        break;
-                    }
-                }
-
-                if (!$isCorrectDomain) {
-                    $validator->errors()->add(
-                        'email', 'Email, с которого вы пытаетесь зарегистрироваться, запрещен системой.'
-                    );
-                }
-            });
-            $validator->validate();
-
-            $user = User::create([
-                'name' => $input['name'],
-                'surname' => $input['surname'],
-                'email' => $input['email'],
-                'password' => Hash::make($input['password']),
-                'role_id' => Role::where('name', 'User')->first()->id,
-            ]);
-            $user->roles()->attach(Role::where('name', 'user')->first()->id);
-
-
-        } else {
-            $validator = Validator::make($input, [
-                'name' => ['required', 'string', 'max:255'],
-                'surname' => ['required', 'string', 'max:255'],
-                'email' => [
-                    'required',
-                    'string',
-                    'email',
-                    'max:255',
-                    Rule::unique(User::class),
-                ],
-                'password' => $this->passwordRules(),
-                'agreement' => ['required'],
-//                'lease-contract' => ['required'],
-            ]);
-
-            $validator->after(function ($validator) use($input) {
-                if ($input['user_text'] != Captcha::where('code', $input['user_text'])->first()->code) {
-                    $validator->errors()->add(
-                        'user_text', 'Код с картинки введен не верно.'
-                    );
-                }
-
-                $availableDomains = [
-                    'gmail.com',
-                    'ya.ru',
-                    'yandex.ru',
-                    'mail.ru',
-                    'list.ru',
-                ];
-
-                $isCorrectDomain = false;
-                foreach ($availableDomains as $domain) {
-                    if (str_contains($input['email'], $domain)) {
-                        $isCorrectDomain = true;
-                        break;
-                    }
-                }
-
-                if (!$isCorrectDomain) {
-                    $validator->errors()->add(
-                        'email', 'Email, с которого вы пытаетесь зарегистрироваться, запрещен системой.'
-                    );
-                }
-            });
-            $validator->validate();
-
-            $user = User::create([
-                'name' => $input['name'],
-                'surname' => $input['surname'],
-                'email' => $input['email'],
-                'password' => Hash::make($input['password']),
-                'role_id' => Role::where('name', 'teacher')->first()->id,
-            ]);
-            $user->roles()->attach(Role::where('name', 'teacher')->first()->id);
-        }
+        $user = User::create([
+            'name' => $input['name'],
+            'surname' => $input['surname'],
+            'email' => $input['email'],
+            'password' => Hash::make($input['password']),
+            'role_id' => $role->id,
+        ]);
+        $user->roles()->attach($role);
 
         Setting::create([
             'user_id' => $user->id,
             'locale' => 'ru',
         ]);
 
+        try {
+            $this->sendNotification($user);
+        } catch (ProducerSendException $e) {
+            throw new ProducerSendException($e->getMessage(), $e->getCode(), $e);
+        } catch (TopicNotFoundException $e) {
+            throw new TopicNotFoundException($e->getMessage());
+        } catch (Throwable $e) {
+            throw new Exception($e->getMessage());
+        }
+
         return $user;
+    }
+
+    /**
+     * @throws ValidationException
+     */
+    private function validateInput(array $input): void
+    {
+        $validator = Validator::make($input, [
+            'name' => ['required', 'string', 'max:255'],
+            'surname' => ['required', 'string', 'max:255'],
+            'email' => [
+                'required',
+                'string',
+                'email',
+                'max:255',
+                Rule::unique(User::class),
+            ],
+            'password' => $this->passwordRules(),
+            'agreement' => ['required']
+        ]);
+
+        $validator->after(function ($validator) use ($input) {
+            $this->validateCaptcha($input, $validator);
+            $this->validateEmailDomain($input['email'], $validator);
+        });
+
+        $validator->validate();
+    }
+
+    private function validateCaptcha(array $input, $validator): void
+    {
+        $code = $input['user_text'] ?? '';
+        $expected = $input['user_type'] === 'student'
+            ? Captcha::find($input['user_text_x'])->code ?? null
+            : Captcha::where('code', $code)->value('code');
+
+        if ($code !== $expected) {
+            $validator->errors()->add('user_text', 'Код с картинки введен не верно.');
+        }
+    }
+
+    private function validateEmailDomain(string $email, $validator): void
+    {
+        $domain = substr(strrchr($email, "@"), 1);
+
+        if (!in_array($domain, $this->availableEmailDomains)) {
+            $validator->errors()->add(
+                'email',
+                'Email, с которого вы пытаетесь зарегистрироваться, запрещен системой.'
+            );
+        }
+    }
+
+    /**
+     * @throws ProducerSendException
+     * @throws Throwable
+     * @throws TopicNotFoundException
+     *
+     * TODO: Fix after contracts will be done
+     */
+    private function sendNotification(User $user): void
+    {
+        $payload = [
+            'eventName' => self::EVENT_NAME,
+            'recipientEmail' => $user->email,
+            'data' => [
+                'user' => [
+                    'id' => $user->id,
+                    'name' => $user->name ?? null,
+                    'surname' => $user->surname ?? null,
+                    'email' => $user->email,
+                    'verificationToken' => $user->remember_token ?? null,
+                ],
+                'baseUrl' => env('APP_URL'),
+            ]
+        ];
+
+        $this->producer->send('notification.user', json_encode($payload));
     }
 }

@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
-use App\Models\Setting;
+use App\Kafka\Producer\BaseProducer;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\ServiceProvider;
+use Psr\Log\LoggerInterface;
+use RdKafka\Conf;
+use RdKafka\Producer;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -16,7 +18,19 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        // Kafka producer
+        $this->app->singleton(BaseProducer::class, function ($app) {
+            $topicsConfig = config('kafka.topics');
+
+            $conf = new Conf();
+            $conf->set('metadata.broker.list', env('KAFKA'));
+
+            $producer = new Producer($conf);
+
+            $logger = $app->make(LoggerInterface::class);
+
+            return new BaseProducer($producer, $topicsConfig, $logger);
+        });
     }
 
     /**
