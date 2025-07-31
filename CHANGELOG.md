@@ -2,6 +2,16 @@
 
 ---
 
+## [1.6.0] - 2025-07-28
+### Added:
+* Kafka producer
+* Send notification if user registered
+
+### Updated:
+* Updated PHP version to 8.3
+
+---
+
 ## [1.5.0] - 2025-07-14
 ### Added
 * Added link to media files page
