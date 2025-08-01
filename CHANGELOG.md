@@ -2,6 +2,12 @@
 
 ---
 
+## [1.6.1] - 2025-08-01
+### Fixed:
+* Fix settings for deploy on PHP8.3
+
+---
+
 ## [1.6.0] - 2025-07-28
 ### Added:
 * Kafka producer

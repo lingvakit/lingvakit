@@ -27,8 +27,8 @@ jobs:
             git checkout tags/${{ github.ref_name }} &&
             echo 'Deployed tag ${{ github.ref_name }} to production' &&
           
-            docker exec php82 sh -c 'cd lingvakit && composer install --no-interaction --prefer-dist' &&
-            docker exec php82 sh -c 'cd lingvakit && php artisan migrate --force' &&
-            docker exec php82 sh -c 'cd lingvakit && php artisan cache:clear' &&
+            docker exec php83 sh -c 'cd lingvakit && composer install --no-interaction --prefer-dist' &&
+            docker exec php83 sh -c 'cd lingvakit && php artisan migrate --force' &&
+            docker exec php83 sh -c 'cd lingvakit && php artisan cache:clear' &&
             echo 'Deployment and post-steps completed for production.'
           "
