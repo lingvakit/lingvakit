@@ -17,13 +17,10 @@ use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Spatie\Permission\Models\Role;
-use Throwable;
 
 class CreateNewUser implements CreatesNewUsers
 {
     use PasswordValidationRules;
-
-    const string EVENT_NAME = 'user.registration';
 
     protected array $availableEmailDomains = [
         'gmail.com',
@@ -68,16 +65,6 @@ class CreateNewUser implements CreatesNewUsers
             'user_id' => $user->id,
             'locale' => 'ru',
         ]);
-
-        try {
-            $this->sendNotification($user);
-        } catch (ProducerSendException $e) {
-            throw new ProducerSendException($e->getMessage(), $e->getCode(), $e);
-        } catch (TopicNotFoundException $e) {
-            throw new TopicNotFoundException($e->getMessage());
-        } catch (Throwable $e) {
-            throw new Exception($e->getMessage());
-        }
 
         return $user;
     }
@@ -131,32 +118,5 @@ class CreateNewUser implements CreatesNewUsers
                 'Email, с которого вы пытаетесь зарегистрироваться, запрещен системой.'
             );
         }
-    }
-
-    /**
-     * @throws ProducerSendException
-     * @throws Throwable
-     * @throws TopicNotFoundException
-     *
-     * TODO: Fix after contracts will be done
-     */
-    private function sendNotification(User $user): void
-    {
-        $payload = [
-            'eventName' => self::EVENT_NAME,
-            'recipientEmail' => $user->email,
-            'data' => [
-                'user' => [
-                    'id' => $user->id,
-                    'name' => $user->name ?? null,
-                    'surname' => $user->surname ?? null,
-                    'email' => $user->email,
-                    'verificationToken' => $user->remember_token ?? null,
-                ],
-                'baseUrl' => env('APP_URL'),
-            ]
-        ];
-
-        $this->producer->send('notification.user', json_encode($payload));
     }
 }

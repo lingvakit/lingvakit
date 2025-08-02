@@ -2,10 +2,11 @@
 
 namespace App\Providers;
 
+use App\Listeners\SendVerifiedEmailKafka;
+use App\Listeners\SendVerifyEmailKafka;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
+use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Event;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -15,9 +16,8 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        Registered::class => [
-            SendEmailVerificationNotification::class,
-        ],
+        Registered::class => [SendVerifyEmailKafka::class],
+        Verified::class => [SendVerifiedEmailKafka::class],
     ];
 
     /**

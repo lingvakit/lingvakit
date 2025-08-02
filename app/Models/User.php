@@ -8,7 +8,6 @@ use App\Models\LMS\HomeWorkResult;
 use App\Models\LMS\Result;
 use App\Models\LMS\TopicComment;
 use App\Notifications\CustomResetPasswordNotification;
-use App\Notifications\CustomVerificationEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -17,7 +16,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable, SoftDeletes, HasRoles;
 
@@ -215,16 +214,6 @@ class User extends Authenticatable
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new CustomResetPasswordNotification($token));
-    }
-
-    public function sendEmailVerificationNotification()
-    {
-        try {
-            $this->notify(new CustomVerificationEmail($this));
-        } catch (\Throwable $e) {
-            return redirect()->route('login');
-        }
-
     }
 
     public function formatPhoneNumber()

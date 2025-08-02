@@ -2,6 +2,13 @@
 
 ---
 
+## [1.7.0] - 2025-08-02
+### Added:
+* Logic for sending email if new user registered
+* Logic for sending email as verification
+
+---
+
 ## [1.6.1] - 2025-08-01
 ### Fixed:
 * Fix settings for deploy on PHP8.3
