@@ -42,6 +42,8 @@ Route::get('teachers/1', function (){
    return view('about-teacher');
 })->name('app.teacher-info');
 
+Route::post('/email/verification-notification', [AuthController::class, 'sendEmailVerificationNotification'])
+    ->middleware('auth')->name('verification.send');
 Route::get('/email/verify', [AuthController::class, 'verifyEmail'])
     ->middleware('auth')->name('verification.notice');
 Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'emailVerification'])

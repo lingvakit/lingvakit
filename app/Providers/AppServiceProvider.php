@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Kafka\Producer\BaseProducer;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 use Psr\Log\LoggerInterface;
@@ -18,6 +19,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        VerifyEmail::toMailUsing(function ($notifiable, $url) {
+            return null;
+        });
+
         // Kafka producer
         $this->app->singleton(BaseProducer::class, function ($app) {
             $topicsConfig = config('kafka.topics');
