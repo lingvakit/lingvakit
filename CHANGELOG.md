@@ -2,6 +2,12 @@
 
 ---
 
+## [1.9.0] - 2025-08-03
+### Added:
+* Notification for password reset
+
+---
+
 ## [1.8.0] - 2025-08-03
 ### Updated:
 * Set new logo for emails
