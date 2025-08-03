@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Kafka\Producer\BaseProducer;
 use App\Models\LMS\Course;
 use App\Models\LMS\CourseReview;
 use App\Models\LMS\HomeWorkResult;
 use App\Models\LMS\Result;
 use App\Models\LMS\TopicComment;
-use App\Notifications\CustomResetPasswordNotification;
+use App\Notifications\ResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -211,9 +212,12 @@ class User extends Authenticatable implements MustVerifyEmail
      * @param string $token
      * @return void
      */
-    public function sendPasswordResetNotification($token)
+    public function sendPasswordResetNotification($token): void
     {
-        $this->notify(new CustomResetPasswordNotification($token));
+        $producer = app(BaseProducer::class);
+        $passwordResetNotification = new ResetPassword($producer, $token);
+
+        $this->notify($passwordResetNotification);
     }
 
     public function formatPhoneNumber()
