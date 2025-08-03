@@ -2,6 +2,15 @@
 
 ---
 
+## [1.8.0] - 2025-08-03
+### Updated:
+* Set new logo for emails
+
+### Removed:
+* Unused images from emails
+
+---
+
 ## [1.7.0] - 2025-08-02
 ### Added:
 * Logic for sending email if new user registered
