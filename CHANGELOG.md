@@ -2,6 +2,12 @@
 
 ---
 
+## [1.10.0] - 2025-08-26
+### Changed:
+* Landing page content
+
+---
+
 ## [1.9.0] - 2025-08-03
 ### Added:
 * Notification for password reset
