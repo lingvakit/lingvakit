@@ -60,7 +60,7 @@
                 data-delay="500"
                 data-ease="easeOutExpo"
                 data-duration="1230"
-                data-effect="scale(1.5,1.6)">Лингва&middot;Кит</h3>
+                data-effect="scale(1.5,1.6)">ЛИНГВАКИТ</h3>
 
             <h3 class="ms-layer text59"
                 style="left: 230px;top: 275px;font-family: 'Nunito', sans-serif;"
@@ -68,7 +68,7 @@
                 data-delay="1000"
                 data-ease="easeOutExpo"
                 data-duration="1230"
-                data-effect="scale(1.5,1.6)"> Школа успеха в изучении китайского языка </h3>
+                data-effect="scale(1.5,1.6)">Школа китайского языка 中文学校</h3>
 
             <a href="{{route('site.learning')}}"
                class="ms-layer sbut1"
@@ -89,26 +89,6 @@
                data-effect="scale(1.5,1.6)"> Отзывы </a>
         </div>
     </div>
-    <div class="clearfix"></div>
-
-    <!-- subscription -->
-    <section class="sec-padding section-primary">
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-12 text-center">
-                    <h1 class="dosis text-white lspace-sm">Новости</h1>
-                    <p class="sub-title text-white">Подпишитесь на рассылку и будьте в курсе наших новостей.</p>
-                </div>
-                <div class="clearfix"></div>
-                <div class="col-md-12">
-                    <div class="input_holder">
-                        <input class="email_input" type="search" placeholder="Введите Вашу электронную почту">
-                        <input name="submit" value="Подписаться" class="email_submit" type="submit">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
     <div class="clearfix"></div>
 
     <!-- it's easy -->
@@ -138,29 +118,29 @@
                     <div class="bubbles-container">
                         <div class="bubble">
                             <div class="iconbox-xtiny"><span class="icon-notebook"></span></div>
-                            <p>Всегда быть готовым к&nbsp;олимпиадам и&nbsp;другим конкурсам</p>
+                            <p>Курсы для детей от&nbsp;10 лет и&nbsp;старше</p>
                         </div>
                         <div class="bubble">
                             <div class="iconbox-xtiny"><span class="icon-pencil"></span></div>
-                            <p>Весело изучать китайский язык с нуля и до HSK/HSKK</p>
+                            <p>Китайский язык «с&nbsp;нуля»</p>
                         </div>
                         <div class="bubble">
                             <div class="iconbox-xtiny"><span class="icon-calendar"></span></div>
-                            <p>Увлеченно познавать культуру и&nbsp;историю Китая</p>
+                            <p>Курсы для студентов и взрослых</p>
                         </div>
                     </div>
                     <div class="bubbles-container">
                         <div class="bubble">
                             <div class="iconbox-xtiny"><span class="icon-grid"></span></div>
-                            <p>Эффективно подготовиться к&nbsp;ЕГЭ</p>
+                            <p>Работа в&nbsp;группах и&nbsp;мини-группах</p>
                         </div>
                         <div class="bubble">
                             <div class="iconbox-xtiny"><span class="icon-tools"></span></div>
-                            <p>Просто и&nbsp;свободно создавать свои уроки и&nbsp;курсы</p>
+                            <p>Китайский язык для бизнеса и&nbsp;путешествий</p>
                         </div>
                         <div class="bubble">
                             <div class="iconbox-xtiny"><span class="icon-briefcase"></span></div>
-                            <p>Успешно сдать международные экзамены HSK1-6</p>
+                            <p>Подготовка<br>к HSK</p>
                         </div>
                     </div>
                 </div>
@@ -176,152 +156,152 @@
     <div class="clearfix"></div>
 
     <!-- features -->
-    <section class="section-light section-side-image clearfix">
-        <div class="img-holder col-md-6 col-sm-3 pull-left">
-            <div class="background-imgholder"
-                 style="background:url({{ asset('assets/promo-site/images/features/features-1.jpg') }});">
-                <img class="nodisplay-image" src="{{ asset('assets/promo-site/images/features/features-1.jpg') }}"
-                     alt=""/>
-            </div>
-        </div>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-7 col-md-offset-5 col-sm-8 col-sm-offset-2 text-inner clearfix align-left">
-                    <div class="text-box white padding-7">
-                        <div class="col-xs-12 text-left">
-                            <h1 class="paddtop1 dosis font-weight-5 lspace-sm">
-                                Гарантия качества обучения
-                            </h1>
-                            <div class="title-line-4"></div>
-                        </div>
-                        <div class="clearfix"></div>
-                        <ul class="iconlist orange">
-                            <li>
-                                <i class="fa fa-check"></i> Сильные преподаватели, которые имеют богатый стаж и опыт
-                                работы
-                            </li>
-                            <li>
-                                <i class="fa fa-check"></i> Авторская методика прошла несколько лет апробации и
-                                одобрение Центра развития одаренных детей
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <div class=" clearfix"></div>
+{{--    <section class="section-light section-side-image clearfix">--}}
+{{--        <div class="img-holder col-md-6 col-sm-3 pull-left">--}}
+{{--            <div class="background-imgholder"--}}
+{{--                 style="background:url({{ asset('assets/promo-site/images/features/features-1.jpg') }});">--}}
+{{--                <img class="nodisplay-image" src="{{ asset('assets/promo-site/images/features/features-1.jpg') }}"--}}
+{{--                     alt=""/>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--        <div class="container-fluid">--}}
+{{--            <div class="row">--}}
+{{--                <div class="col-md-7 col-md-offset-5 col-sm-8 col-sm-offset-2 text-inner clearfix align-left">--}}
+{{--                    <div class="text-box white padding-7">--}}
+{{--                        <div class="col-xs-12 text-left">--}}
+{{--                            <h1 class="paddtop1 dosis font-weight-5 lspace-sm">--}}
+{{--                                Гарантия качества обучения--}}
+{{--                            </h1>--}}
+{{--                            <div class="title-line-4"></div>--}}
+{{--                        </div>--}}
+{{--                        <div class="clearfix"></div>--}}
+{{--                        <ul class="iconlist orange">--}}
+{{--                            <li>--}}
+{{--                                <i class="fa fa-check"></i> Сильные преподаватели, которые имеют богатый стаж и опыт--}}
+{{--                                работы--}}
+{{--                            </li>--}}
+{{--                            <li>--}}
+{{--                                <i class="fa fa-check"></i> Авторская методика прошла несколько лет апробации и--}}
+{{--                                одобрение Центра развития одаренных детей--}}
+{{--                            </li>--}}
+{{--                        </ul>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </section>--}}
+{{--    <div class=" clearfix"></div>--}}
 
-    <section class="section-light section-side-image clearfix">
-        <div class="img-holder col-md-6 col-sm-3 col-md-offset-6 pull-right">
-            <div class="background-imgholder"
-                 style="background:url({{ asset('assets/promo-site/images/features/features-2.jpg') }});">
-                <img class="nodisplay-image" src="{{ asset('assets/promo-site/images/features/features-2.jpg') }}"
-                     alt=""/>
-            </div>
-        </div>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-7 col-sm-8 text-inner inner-left clearfix align-left">
-                    <div class="text-box white padding-7">
-                        <div class="col-xs-12 text-left">
-                            <h1 class="paddtop1 dosis font-weight-5 lspace-sm">
-                                Динамика роста каждого студента
-                            </h1>
-                            <div class="title-line-4"></div>
-                        </div>
-                        <div class="clearfix"></div>
-                        <ul class="iconlist orange">
-                            <li>
-                                <i class="fa fa-check"></i> Рейтинговая система и приятные подарки мотивируют изучать
-                                язык лучше всех
-                            </li>
-                            <li>
-                                <i class="fa fa-check"></i> После прохождения любого теста студенты могут
-                                проанализировать свои ошибки и исправить их
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <div class=" clearfix"></div>
+{{--    <section class="section-light section-side-image clearfix">--}}
+{{--        <div class="img-holder col-md-6 col-sm-3 col-md-offset-6 pull-right">--}}
+{{--            <div class="background-imgholder"--}}
+{{--                 style="background:url({{ asset('assets/promo-site/images/features/features-2.jpg') }});">--}}
+{{--                <img class="nodisplay-image" src="{{ asset('assets/promo-site/images/features/features-2.jpg') }}"--}}
+{{--                     alt=""/>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--        <div class="container-fluid">--}}
+{{--            <div class="row">--}}
+{{--                <div class="col-md-7 col-sm-8 text-inner inner-left clearfix align-left">--}}
+{{--                    <div class="text-box white padding-7">--}}
+{{--                        <div class="col-xs-12 text-left">--}}
+{{--                            <h1 class="paddtop1 dosis font-weight-5 lspace-sm">--}}
+{{--                                Динамика роста каждого студента--}}
+{{--                            </h1>--}}
+{{--                            <div class="title-line-4"></div>--}}
+{{--                        </div>--}}
+{{--                        <div class="clearfix"></div>--}}
+{{--                        <ul class="iconlist orange">--}}
+{{--                            <li>--}}
+{{--                                <i class="fa fa-check"></i> Рейтинговая система и приятные подарки мотивируют изучать--}}
+{{--                                язык лучше всех--}}
+{{--                            </li>--}}
+{{--                            <li>--}}
+{{--                                <i class="fa fa-check"></i> После прохождения любого теста студенты могут--}}
+{{--                                проанализировать свои ошибки и исправить их--}}
+{{--                            </li>--}}
+{{--                        </ul>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </section>--}}
+{{--    <div class=" clearfix"></div>--}}
 
-    <section id="about" class="section-light section-side-image clearfix">
-        <div class="img-holder col-md-6 col-sm-3 pull-left">
-            <div class="background-imgholder"
-                 style="background:url({{ asset('assets/promo-site/images/features/features-3.jpg') }});">
-                <img class="nodisplay-image" src="{{ asset('assets/promo-site/images/features/features-3.jpg') }}"
-                     alt=""/>
-            </div>
-        </div>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-7 col-md-offset-5 col-sm-8 col-sm-offset-2 text-inner clearfix align-left">
-                    <div class="text-box white padding-7">
-                        <div class="col-xs-12 text-left">
-                            <h1 class="paddtop1 dosis font-weight-5 lspace-sm">
-                                Комфорт и удобство
-                            </h1>
-                            <div class="title-line-4"></div>
-                        </div>
-                        <div class="clearfix"></div>
-                        <ul class="iconlist orange">
-                            <li>
-                                <i class="fa fa-check"></i> Изучать материал и выполнять задания можно и на компьютере,
-                                и на мобильных устройствах
-                            </li>
-                            <li>
-                                <i class="fa fa-check"></i> Студенты могут самостоятельно моделировать свой учебный
-                                график и получать поддержку от учителя на протяжении всего периода обучения
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <div class=" clearfix"></div>
+{{--    <section id="about" class="section-light section-side-image clearfix">--}}
+{{--        <div class="img-holder col-md-6 col-sm-3 pull-left">--}}
+{{--            <div class="background-imgholder"--}}
+{{--                 style="background:url({{ asset('assets/promo-site/images/features/features-3.jpg') }});">--}}
+{{--                <img class="nodisplay-image" src="{{ asset('assets/promo-site/images/features/features-3.jpg') }}"--}}
+{{--                     alt=""/>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--        <div class="container-fluid">--}}
+{{--            <div class="row">--}}
+{{--                <div class="col-md-7 col-md-offset-5 col-sm-8 col-sm-offset-2 text-inner clearfix align-left">--}}
+{{--                    <div class="text-box white padding-7">--}}
+{{--                        <div class="col-xs-12 text-left">--}}
+{{--                            <h1 class="paddtop1 dosis font-weight-5 lspace-sm">--}}
+{{--                                Комфорт и удобство--}}
+{{--                            </h1>--}}
+{{--                            <div class="title-line-4"></div>--}}
+{{--                        </div>--}}
+{{--                        <div class="clearfix"></div>--}}
+{{--                        <ul class="iconlist orange">--}}
+{{--                            <li>--}}
+{{--                                <i class="fa fa-check"></i> Изучать материал и выполнять задания можно и на компьютере,--}}
+{{--                                и на мобильных устройствах--}}
+{{--                            </li>--}}
+{{--                            <li>--}}
+{{--                                <i class="fa fa-check"></i> Студенты могут самостоятельно моделировать свой учебный--}}
+{{--                                график и получать поддержку от учителя на протяжении всего периода обучения--}}
+{{--                            </li>--}}
+{{--                        </ul>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </section>--}}
+{{--    <div class=" clearfix"></div>--}}
 
-    <section class="section-light section-side-image clearfix">
-        <div class="img-holder col-md-6 col-sm-3 col-md-offset-6 pull-left">
-            <div class="background-imgholder"
-                 style="background:url({{ asset('assets/promo-site/images/features/features-4.jpg') }});">
-                <img class="nodisplay-image" src="{{ asset('assets/promo-site/images/features/features-4.jpg') }}"
-                     alt=""/>
-            </div>
-        </div>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-7 col-sm-8 text-inner inner-left clearfix align-left">
-                    <div class="text-box white padding-7">
-                        <div class="col-xs-12 text-left">
-                            <h1 class="paddtop1 dosis font-weight-5 lspace-sm">
-                                Бонусы и полезные советы
-                            </h1>
-                            <div class="title-line-4"></div>
-                        </div>
-                        <div class="clearfix"></div>
-                        <ul class="iconlist orange">
-                            <li>
-                                <i class="fa fa-check"></i> После приобретения одного из наших курсов, можно
-                                воспользоваться скидкой на последующее обучение
-                            </li>
-                            <li>
-                                <i class="fa fa-check"></i> Кроме учебных материалов, студенты получают полезную
-                                информацию для развития памяти и речи
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <div class=" clearfix"></div>
+{{--    <section class="section-light section-side-image clearfix">--}}
+{{--        <div class="img-holder col-md-6 col-sm-3 col-md-offset-6 pull-left">--}}
+{{--            <div class="background-imgholder"--}}
+{{--                 style="background:url({{ asset('assets/promo-site/images/features/features-4.jpg') }});">--}}
+{{--                <img class="nodisplay-image" src="{{ asset('assets/promo-site/images/features/features-4.jpg') }}"--}}
+{{--                     alt=""/>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--        <div class="container-fluid">--}}
+{{--            <div class="row">--}}
+{{--                <div class="col-md-7 col-sm-8 text-inner inner-left clearfix align-left">--}}
+{{--                    <div class="text-box white padding-7">--}}
+{{--                        <div class="col-xs-12 text-left">--}}
+{{--                            <h1 class="paddtop1 dosis font-weight-5 lspace-sm">--}}
+{{--                                Бонусы и полезные советы--}}
+{{--                            </h1>--}}
+{{--                            <div class="title-line-4"></div>--}}
+{{--                        </div>--}}
+{{--                        <div class="clearfix"></div>--}}
+{{--                        <ul class="iconlist orange">--}}
+{{--                            <li>--}}
+{{--                                <i class="fa fa-check"></i> После приобретения одного из наших курсов, можно--}}
+{{--                                воспользоваться скидкой на последующее обучение--}}
+{{--                            </li>--}}
+{{--                            <li>--}}
+{{--                                <i class="fa fa-check"></i> Кроме учебных материалов, студенты получают полезную--}}
+{{--                                информацию для развития памяти и речи--}}
+{{--                            </li>--}}
+{{--                        </ul>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </section>--}}
+{{--    <div class=" clearfix"></div>--}}
 
     <!-- teachers -->
-    <section class="sec-padding">
+    <section class="sec-padding" style="background-color:#f6f6f6">
         <div class="container">
             <div class="row">
                 <div class="col-xs-12 text-center">
@@ -329,15 +309,15 @@
                     <p class="sub-title">Прогресс, мотивация и сроки обучения зависят от преподавателя. Не теряйте
                         время, доверьте свой китайский нашим экспертам.</p>
                 </div>
-                <div class="col-md-4 col-sm-6">
-                    <div class="team-holder7 two bmargin">
+                <div class="col-md-4 offset-md-4 col-12">
+                    <div class="one bmargin">
                         <div class="team-member">
                             <a href="{{route('app.teacher-info')}}">
                                 <img src="{{ asset('assets/promo-site/images/teachers/teacher1.jpg') }}" alt=""
                                      class="img-responsive"/>
                             </a>
                         </div>
-                        <div class="info-box text-center">
+                        <div class="info-box text-center" style="background-color: inherit">
                             <a href="{{route('app.teacher-info')}}">
                                 <h4 class="uppercase oswald font-weight-3 less-mar2">Алена Пристинская</h4>
                             </a>
@@ -345,20 +325,6 @@
                             <br/>
                             <p>В 2005 году закончила Педагогический Университет в г. Благовещенск, который находится
                                 на самой северной границе с Китаем.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4 col-sm-6">
-                    <div class="team-holder7 two bmargin">
-                        <div class="team-member">
-                            <img src="{{asset('assets/promo-site/images/no-user.png')}}" alt="" class="img-responsive"/>
-                        </div>
-                        <div class="info-box text-center">
-                            <h4 class="uppercase oswald font-weight-3 less-mar2">Преподаватели</h4>
-                            <br/>
-                            <br/>
-                            <p>Приглашаем к сотрудничеству репетиторов и преподавателей</p>
                         </div>
                     </div>
                 </div>
@@ -496,7 +462,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-xs-12 text-center">
-                    <h1 class="paddtop1 dosis font-weight-5 lspace-sm">Как учиться в Лингва&middot;Кит</h1>
+                    <h1 class="paddtop1 dosis font-weight-5 lspace-sm">Как учиться в ЛИНГВАКИТ</h1>
                     <div class="title-line-4 align-center"></div>
                 </div>
                 <div class="clearfix"></div>

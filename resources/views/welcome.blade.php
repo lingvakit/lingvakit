@@ -1,6 +1,6 @@
 @extends('layouts.site')
 
-@section('seo-title', 'Лингва-Кит - Онлайн школа успеха')
+@section('seo-title', 'ЛИНГВАКИТ - школа китайского языка')
 @section('seo-description', 'Изучение иностранных языков')
 @section('page-styles')
     <link rel="stylesheet" href="{{asset('assets/cms/css/owl-carousel/owl.carousel.min.css')}}">
