@@ -2,6 +2,12 @@
 
 ---
 
+## [1.11.0] - 2025-09-21
+### Added:
+* Command for migrating media files
+
+---
+
 ## [1.10.0] - 2025-08-26
 ### Changed:
 * Landing page content

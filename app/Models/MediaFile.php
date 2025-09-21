@@ -116,7 +116,8 @@ class MediaFile extends Model
         if ($this->filename == null && $this->type === 'image') {
             return asset('/assets/cms/img/no-image.jpg');
         }
-        return asset('/uploads/' . $this->path . '/' . $this->filename);
+
+        return $this->getMsFile();
     }
 
     public function getLargeImage(): string
@@ -197,4 +198,12 @@ class MediaFile extends Model
         return $size . ' b';
     }
 
+    private function getMsFile(): string
+    {
+        $rootMsPath = config('app.url') . config('services.ms.media');
+        $partsPath = explode('/', $this->path);
+        $path = implode('_', $partsPath) . '/' . $this->filename;
+
+        return "$rootMsPath/$path";
+    }
 }
