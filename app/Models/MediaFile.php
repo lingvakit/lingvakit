@@ -204,7 +204,7 @@ class MediaFile extends Model
         if ($this->type === 'video') {
             $partsArray = explode('_', $this->path);
 
-            return asset('/uploads/' . implode('/', [$partsArray]) . '/' . $this->filename);
+            return asset('/uploads/' . implode('/', $partsArray) . '/' . $this->filename);
         }
 
         $rootMsPath = config('app.url') . config('services.ms.media');
