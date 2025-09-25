@@ -2,6 +2,12 @@
 
 ---
 
+## [1.11.1] - 2025-09-25
+### Fixed:
+* Display video files
+
+---
+
 ## [1.11.0] - 2025-09-21
 ### Added:
 * Command for migrating media files

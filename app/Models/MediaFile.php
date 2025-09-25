@@ -200,6 +200,13 @@ class MediaFile extends Model
 
     private function getMsFile(): string
     {
+        // TODO: Remove this code after fix migrating video files
+        if ($this->type === 'video') {
+            $partsArray = explode('_', $this->path);
+
+            return asset('/uploads/' . implode('/', [$partsArray]) . '/' . $this->filename);
+        }
+
         $rootMsPath = config('app.url') . config('services.ms.media');
         $partsPath = explode('/', $this->path);
         $path = implode('_', $partsPath) . '/' . $this->filename;
