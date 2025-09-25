@@ -202,9 +202,16 @@ class MediaFile extends Model
     {
         // TODO: Remove this code after fix migrating video files
         if ($this->type === 'video') {
-            $partsArray = explode('_', $this->path);
+            $parts = explode('_', $this->path);
 
-            return asset('/uploads/' . implode('/', $partsArray) . '/' . $this->filename);
+            $newPath =
+                $parts[0] . '/' .           // teachers
+                $parts[1] . '_' . $parts[2] . '/' . // id_1
+                $parts[3] . '/' .           // video
+                $parts[4] . '/' .           // 2025
+                $parts[5];                  // 07
+
+            return asset('/uploads/' . $newPath . '/' . $this->filename);
         }
 
         $rootMsPath = config('app.url') . config('services.ms.media');
