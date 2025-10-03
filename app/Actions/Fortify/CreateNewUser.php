@@ -28,6 +28,7 @@ class CreateNewUser implements CreatesNewUsers
         'yandex.ru',
         'mail.ru',
         'list.ru',
+        'icloud.com',
     ];
 
     public function __construct(

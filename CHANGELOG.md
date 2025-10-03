@@ -2,6 +2,12 @@
 
 ---
 
+## [1.12.0] - 2025-10-03
+### Changed:
+* List of available mail domains
+
+---
+
 ## [1.11.4] - 2025-09-25
 ### Fixed:
 * Display video files
