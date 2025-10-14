@@ -59,7 +59,8 @@
                             <div id="player" data-id="{{$lesson->getVideoId()}}"
                                  data-width="640" data-height="390"></div>
                         @else
-                            <video src="{{$lesson->getVideo()}}" width="640" controls></video>
+                            {{--TODO: Fix if does not exists--}}
+{{--                            <video src="{{$lesson->getVideo()}}" width="640" controls></video>--}}
                         @endif
 
 {{--                    @if(strpos($lesson->video, 'rutube') !== false)--}}
