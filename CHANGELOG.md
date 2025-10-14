@@ -2,6 +2,12 @@
 
 ---
 
+## [1.12.1] - 2025-10-14
+### Fixed:
+* Lesson page
+
+---
+
 ## [1.12.0] - 2025-10-03
 ### Changed:
 * List of available mail domains

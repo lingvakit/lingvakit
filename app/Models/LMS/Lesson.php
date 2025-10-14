@@ -94,7 +94,7 @@ class Lesson extends Model
     {
         $video = $this->video;
         if($video && is_numeric($video)) {
-            return $this->video()->first()->getPath();
+            return $this->video()->first()?->getPath();
         }
         return false;
     }
