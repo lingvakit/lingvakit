@@ -2,6 +2,12 @@
 
 ---
 
+## [1.13.1] - 2025-10-15
+### Fixed:
+* Migrating video files to MS Media
+
+---
+
 ## [1.13.0] - 2025-10-15
 ### Updated:
 * Composer
