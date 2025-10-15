@@ -2,6 +2,12 @@
 
 ---
 
+## [1.13.2] - 2025-10-15
+### Fixed:
+* Migrating only video files to MS Media
+
+---
+
 ## [1.13.1] - 2025-10-15
 ### Fixed:
 * Migrating video files to MS Media

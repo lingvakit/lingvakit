@@ -12,7 +12,7 @@ class MigrateFileCommand extends Command
     protected $signature = 'files:migrate';
     protected $description = 'Command description';
 
-    private const array SKIPPED_EXTENSIONS = ['bin'];
+    private const array SKIPPED_EXTENSIONS = ['bin', 'jpg', 'jpeg', 'png', 'mp3'];
 
     private const array TYPE_MAP = [
         'file' => 'document',
