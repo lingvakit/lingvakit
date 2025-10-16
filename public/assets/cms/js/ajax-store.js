@@ -47,7 +47,7 @@ window.Lingva = {};
             let id = file.id,
                 title = file.title,
                 alt = file.alt,
-                path = '/uploads/' + file.path + '/' + file.filename,
+                path = file.path,
                 type = file.type,
                 before_content = '<div class="col-4"><div class="file-wrap exists-file mt-2 mb-2" data-type="' + type + '">',
                 after_content = '</div></div>',

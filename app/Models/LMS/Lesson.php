@@ -90,13 +90,14 @@ class Lesson extends Model
         return false;
     }
 
-    public function getVideo() : string
+    public function getVideo(): ?string
     {
         $video = $this->video;
         if($video && is_numeric($video)) {
             return $this->video()->first()->getPath();
         }
-        return false;
+
+        return null;
     }
 
     public function isExternalVideo() : bool

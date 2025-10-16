@@ -88,5 +88,5 @@
             });
         });
     </script>
-    <script src="{{asset('assets/cms/js/ajax-store.min.js')}}"></script>
+    <script src="{{asset('assets/cms/js/ajax-store.js')}}"></script>
 @endsection

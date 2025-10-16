@@ -122,7 +122,16 @@ class MediaFileController extends Controller
         $files = array();
 
         foreach ($mediaFiles as $mediaFile) {
-            $files[] = $mediaFile;
+            $files[] = [
+                'id' => $mediaFile->id,
+                'title' => $mediaFile->title,
+                'path' => $mediaFile->getMiddleImage(),
+                'alt' => $mediaFile->alt,
+                'type' => $mediaFile->type,
+                'size' => $mediaFile->getFileSize(),
+                'duration' => $mediaFile->duration,
+                'link' => "{$mediaFile->getMsMediaUrl()}/uploads/{$mediaFile->path}/{$mediaFile->filename}",
+            ];
         }
 
         return response()->json([

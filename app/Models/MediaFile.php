@@ -8,12 +8,12 @@ use App\Models\LMS\Lesson;
 use App\Models\LMS\Question;
 use App\Models\LMS\QuestionAudio;
 use App\Models\LMS\Quiz;
+use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use Intervention\Image\Facades\Image;
 
 class MediaFile extends Model
 {
@@ -21,93 +21,53 @@ class MediaFile extends Model
 
     protected $fillable = ['title', 'filename', 'path', 'alt', 'type', 'size', 'duration', 'author_id'];
 
-    public function uploadFile($file)
+    /**
+     * @throws Exception
+     */
+    public function uploadFile($file): void
     {
+        $msUrl = $this->getMsMediaUrl();
+        $extension = $file->guessExtension();
+        $fileType = $this->getFileType($extension);
+
+        $url = "{$msUrl}/api/{$fileType}/catalog_course/save";
+        $response = Http::withoutVerifying()->attach(
+            'file',
+            file_get_contents($file),
+            $file->getClientOriginalName()
+        )->post($url);
+
+        if (!$response->successful()) {
+            throw new Exception('Uploading file error: ' . $response->body());
+        }
+
+        $filename = $this->getFilenameFromPath($response);
+        $directoryPath = $this->getDirectoryPath($response);
         $currentUser = Auth::user();
-        $extImages = ['jpg', 'png', 'gif'];
-        $extAudio = ['wav', 'mp3'];
-        $extVideo = ['mp4'];
-
-        if ($file == null) {
-            return;
-        }
-
-        $extension = strtolower($file->extension());
-        if ($extension == 'jpeg') {
-            $extension = 'jpg';
-        }
-
-        $type = 'file';
-
-        if (in_array($extension, $extImages)) {
-            $type = 'image';
-            $filename = 'image-' . Str::random(3) . time() . '.' . $extension;
-            $path = 'teachers/id_' . $currentUser->id . '/' . 'img/' . date("Y") . '/' . date("m");
-            $file->storeAs($path . '/', $filename, 'uploads');
-
-            // Make thumbs
-            $thumb = Image::make($file);
-
-            // Make large image
-            if (getimagesize($file)[0] > 1200 || getimagesize($file)[1] > 1200) {
-                $thumbPath = 'uploads/' . $path . '/' . strstr($filename, '.', true) . '_large.' . $extension;
-                $thumb->resize(1200, 1200, function ($constraint) {
-                    $constraint->aspectRatio();
-                })->save($thumbPath, 100);
-            }
-
-            // Make middle image
-            if (getimagesize($file)[0] > 600 || getimagesize($file)[1] > 600) {
-                $thumbPath = 'uploads/' . $path . '/' . strstr($filename, '.', true) . '_middle.' . $extension;
-                $thumb->resize(600, 600, function ($constraint) {
-                    $constraint->aspectRatio();
-                })->save($thumbPath, 100);
-            }
-
-            // Make small image
-            if (getimagesize($file)[0] > 300 || getimagesize($file)[1] > 300) {
-                $thumbPath = 'uploads/' . $path . '/' . strstr($filename, '.', true) . '_small.' . $extension;
-                $thumb->resize(300, 300, function ($constraint) {
-                    $constraint->aspectRatio();
-                })->save($thumbPath, 100);
-            }
-        } elseif (in_array($extension, $extAudio)) {
-            $type = 'audio';
-            $filename = 'audio-' . Str::random(3) . time() . '.' . $extension;
-            $path = 'teachers/id_' . $currentUser->id . '/' . 'audio/' . date("Y") . '/' . date("m");
-            $file->storeAs($path . '/', $filename, 'uploads');
-        } elseif (in_array($extension, $extVideo)) {
-            $type = 'video';
-            $filename = 'video-' . Str::random(3) . time() . '.' . $extension;
-            $path = 'teachers/id_' . $currentUser->id . '/' . 'video/' . date("Y") . '/' . date("m");
-            $file->storeAs($path . '/', $filename, 'uploads');
-        } else {
-            $filename = 'file-' . Str::random(3) . time() . '.' . $extension;
-            $path = 'teachers/id_' . $currentUser->id . '/' . 'files/' . date("Y") . '/' . date("m");
-            $file->storeAs($path . '/', $filename, 'uploads');
-        }
 
         $this->title = $file->getClientOriginalName();
         $this->filename = $filename;
-        $this->path = $path;
-        $this->type = $type;
+        $this->path = $directoryPath;
+        $this->type = $fileType;
         $this->size = $file->getSize();
         $this->author_id = $currentUser->id;
         $this->save();
     }
 
-    public function removeFile()
+    /**
+     * @throws Exception
+     */
+    public function removeFile(): void
     {
-        if ($this->filename != null) {
-            $ext = strstr($this->filename, '.');
-            $filename = str_replace($ext, '', $this->filename);
+        $msUrl = $this->getMsMediaUrl();
+        $url = "$msUrl/api/file/{$this->type}/delete";
 
-            Storage::disk('uploads')->delete([
-                $this->path . '/' . $this->filename,
-                $this->path . '/' . $filename . '_large' . $ext,
-                $this->path . '/' . $filename . '_middle' . $ext,
-                $this->path . '/' . $filename . '_small' . $ext
-            ]);
+        $response = Http::withoutVerifying()->delete($url, [
+            'path' => "{$this->path}/{$this->filename}"
+        ]);
+
+        if (!$response->successful()) {
+            throw new Exception('Removing file error: ' . $response->body());
         }
     }
 
@@ -198,6 +158,11 @@ class MediaFile extends Model
         return $size . ' b';
     }
 
+    public function getMsMediaUrl(): string
+    {
+        return config('app.url') . config('services.ms.media');
+    }
+
     private function getMsFile(): string
     {
         $rootMsPath = config('app.url') . config('services.ms.media');
@@ -205,5 +170,31 @@ class MediaFile extends Model
         $path = implode('_', $partsPath) . '/' . $this->filename;
 
         return "$rootMsPath/$path";
+    }
+
+    private function getFileType(string $extension): string
+    {
+        return match ($extension) {
+            'jpg', 'png', 'gif' => 'image',
+            'mp3', 'wav' => 'audio',
+            'mp4' => 'video',
+            'doc', 'docx', 'xls', 'xlsx', 'pdf' => 'document',
+            default => 'unknown',
+        };
+    }
+
+    private function getDirectoryPath(string $path): string
+    {
+        $pathArray = explode('/', $path);
+        array_pop($pathArray);
+
+        return implode('/', $pathArray);
+    }
+
+    private function getFilenameFromPath(string $path): string
+    {
+        $pathArray = explode('/', $path);
+
+        return end($pathArray);
     }
 }
