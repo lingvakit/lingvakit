@@ -2,6 +2,16 @@
 
 ---
 
+## [1.14.0] - 2025-10-16
+### Changed:
+* Upload media files via MS Media
+
+### Fixed:
+* Showing video on frontend
+
+
+---
+
 ## [1.13.2] - 2025-10-15
 ### Fixed:
 * Migrating only video files to MS Media
