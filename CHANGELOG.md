@@ -2,6 +2,12 @@
 
 ---
 
+## [1.15.0] - 2025-11-10
+### Updated:
+* Composer packages
+
+---
+
 ## [1.14.0] - 2025-10-16
 ### Changed:
 * Upload media files via MS Media
