@@ -2,6 +2,12 @@
 
 ---
 
+## [1.16.0] - 2025-11-12
+### Added:
+* JWT Auth
+
+---
+
 ## [1.15.0] - 2025-11-10
 ### Updated:
 * Composer packages
