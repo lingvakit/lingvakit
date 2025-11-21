@@ -206,7 +206,6 @@
                                 <div class="form-group row d-flex align-items-center mb-5">
                                     <div class="col-lg-12">
                                         <div class="source-list">
-{{--                                            {{dd($conformity->answersByUser($result))}}--}}
                                             @foreach($conformity->answersByUser($result) as $answer)
                                                 <div class="question-container make-sentence"
                                                      data-id="{{$answer->id }}">

@@ -1,16 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models\LMS;
 
 use App\Models\MediaFile;
 use Carbon\Carbon;
-use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class Quiz extends Model
 {
@@ -18,7 +17,7 @@ class Quiz extends Model
 
     protected $table = 'lms_quizzes';
 
-    protected $fillable = ['title', 'description', 'image', 'audio', 'video',
+    protected $fillable = ['uuid', 'title', 'description', 'image', 'audio', 'video',
         'type', 'duration', 'passing_score', 'topic_id', 'category_id'];
 
     public function category()
@@ -51,26 +50,6 @@ class Quiz extends Model
         return $this->hasOne(MediaFile::class, 'id', 'video');
     }
 
-    public static function add($fields, $topic)
-    {
-        $quiz = new static();
-        $quiz->fill($fields);
-        $quiz->topic_id = $topic->id;
-        $quiz->save();
-
-        return $quiz;
-    }
-
-    public function addCategory($category)
-    {
-        if ($category) {
-            $this->category_id = $category->id;
-        } else {
-            $this->category_id = Category::where('name', 'Uncategorized')->first()->id;
-        }
-        $this->save();
-    }
-
     public function getImage() : string
     {
         if($this->image) {
@@ -79,7 +58,7 @@ class Quiz extends Model
         return '/assets/cms/img/no-image.jpg';
     }
 
-    public function getAudio() : string
+    public function getAudio() : bool|string
     {
         $audio = $this->audio()->first();
         if ($audio) {
@@ -88,36 +67,15 @@ class Quiz extends Model
         return false;
     }
 
-    public function getVideo() : string
-    {
-        $video = $this->video;
-        if($video && is_numeric($video)) {
-            return $this->video()->first()->getPath();
-        }
-        return false;
-    }
-
-    public function isExternalVideo() : bool
-    {
-        $video = $this->video;
-        if ($video && !is_numeric($video)) {
-            return true;
-        }
-        return false;
-    }
-
-    public function remove()
-    {
-        Topic::find($this->topic_id)->delete();
-        $this->delete();
-    }
-
     public function getVideoId() : string
     {
         $videoArr = explode('/', $this->video);
         return end($videoArr);
     }
 
+    /**
+     * @deprecated
+     */
     public function getDuration() : string
     {
         return formatDuration($this);
@@ -157,7 +115,7 @@ class Quiz extends Model
         return $total;
     }
 
-    public function getTotalScore($user) : int
+    public function getTotalScore($user) : float
     {
         $totalScore = false;
         $totalPoints = $this->getTotalPoints();
@@ -179,7 +137,7 @@ class Quiz extends Model
         return $totalScore;
     }
 
-    public function getUserScore($user) : int
+    public function getUserScore($user) : float
     {
         $points = 0;
         $result = $this->getResult($user);
@@ -187,6 +145,7 @@ class Quiz extends Model
         if ($result) {
             $points = $result->points;
         }
+
         return round($points);
     }
 
