@@ -5,7 +5,7 @@
     <ul class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}"><i class="ti ti-home"></i></a></li>
         <li class="breadcrumb-item"><a href="{{ route('courses.index') }}">{{ __("cms-pages.courses") }}</i></a></li>
-        <li class="breadcrumb-item"><a href="{{ route('courses.show', $course->id) }}">{{ $course->title }}</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('courses.show', $course) }}">{{ $course->title }}</a></li>
         <li class="breadcrumb-item active">{{ $quiz->title }}</li>
     </ul>
 @endsection
@@ -15,57 +15,69 @@
             <div class="widget has-shadow">
                 <div class="widget-header bordered no-actions d-flex align-items-center justify-content-between">
                     <h4>{{ __("cms-pages.about-quiz") }}</h4>
-                    <a href="{{ route('quizzes.edit', [$course->id, $stage->id, $quiz->id]) }}" type="button"
+                    <a href="{{ route('quizzes.edit', [$course, $stage, $quiz]) }}" type="button"
                        class="btn btn-primary mr-1 mb-2">{{ __("cms-pages.edit") }}</a>
                 </div>
                 <div class="widget-body">
                     <div class="row flex-row">
                         <div class="col-xl-3">
-                            <div class="about-infos d-flex flex-column mb-3">
-                                <div class="about-image">
-                                    <img src="{{$quiz->getImage()}}" alt="{{ $quiz->title }}">
+                            {{-- Quiz Image --}}
+                            @if($quizImageUrl)
+                                <div class="about-infos d-flex flex-column mb-3">
+                                    <div class="about-image">
+                                        <img src="{{$quizImageUrl}}" alt="{{ $quizDto->getTitle() ?? '' }}">
+                                    </div>
                                 </div>
-                            </div>
+                            @endif
                         </div>
+
                         <div class="col-xl-9">
                             {{-- Quiz Title --}}
-                            <div class="about-infos d-flex flex-column mb-3">
-                                <div class="about-title"><h5>{{ __("cms-pages.title") }}:</h5></div>
-                                <div class="about-text">{{ $quiz->title }}</div>
-                            </div>
-                            @if($quiz->description)
-                                {{-- Quiz Description --}}
+                            @if($quizDto->getTitle())
+                                <div class="about-infos d-flex flex-column mb-3">
+                                    <div class="about-title"><h5>{{ __("cms-pages.title") }}:</h5></div>
+                                    <div class="about-text">{{ $quizDto->getTitle() }}</div>
+                                </div>
+                            @endif
+
+                            {{-- Quiz Description --}}
+                            @if($quizDto->getDescription())
                                 <div class="about-infos d-flex flex-column mb-3">
                                     <div class="about-title"><h5>{{ __("cms-pages.description") }}:</h5></div>
-                                    <div class="about-text">{!! $quiz->description !!}</div>
+                                    <div class="about-text">{!! $quizDto->getDescription() !!}</div>
                                 </div>
                             @endif
-                            @if($quiz->audio)
-                                {{-- Quiz Audio --}}
+
+                            {{-- Quiz Audio --}}
+                            @if($quizAudioUrl)
                                 <div class="about-infos d-flex flex-column mb-3">
                                     <div class="about-text">
-                                        <audio src="{{$quiz->getAudio()}}" preload="auto" controls></audio>
+                                        <audio src="{{$quizAudioUrl}}" preload="auto" controls></audio>
                                     </div>
                                 </div>
                             @endif
-                            @if($quiz->video)
-                                {{-- Course Video --}}
+
+                            {{-- Quiz Video --}}
+                            @if($quizVideoUrl)
                                 <div class="about-infos d-flex flex-column mb-3">
                                     <div class="about-text">
-                                        @if($quiz->isExternalVideo())
-                                            <div id="player" data-id="{{$quiz->getVideoId()}}"
-                                                 data-width="640" data-height="390"></div>
-                                        @else
-                                            <video src="{{$quiz->getVideo()}}" width="640" controls></video>
-                                        @endif
+                                        <div id="player"
+                                             data-id="{{$quizDto->getVideoId()}}"
+                                             data-width="640"
+                                             data-height="390"
+                                        >
+                                            <video src="{{$quizVideoUrl}}" controls></video>
+                                        </div>
                                     </div>
                                 </div>
                             @endif
-                            @if($quiz->duration > 0)
+
+                            {{-- Quiz Duration --}}
+                            @if($quizDto->getTimeLimit() > 0)
                                 {{-- Quiz Duration --}}
                                 <div class="about-infos d-flex flex-column mb-3">
                                     <div class="about-title"><h5>{{ __("cms-pages.quiz-duration") }}:</h5></div>
-                                    <div class="about-text">{{ $quiz->getDuration() }}</div>
+                                    <div class="about-text">{{ $quizTimeLimit }}</div>
                                 </div>
                             @endif
                             @if($quiz->topic->passed_topics)
@@ -88,12 +100,14 @@
                     <div class="text-right">
                         <div class="actions dark">
                             <div class="dropdown">
-                                <button type="button" class="btn btn-primary mr-1 mb-2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle">
+                                <button type="button" class="btn btn-primary mr-1 mb-2" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false" class="dropdown-toggle">
                                     {{ __("cms-pages.add-question") }} ...
                                 </button>
                                 <div class="dropdown-menu">
                                     @foreach($questionTypes as $type)
-                                        <a href="{{ route('questions.create', [$course->id, $stage->id, $quiz->id, $type->title]) }}" class="dropdown-item">
+                                        <a href="{{ route('questions.create', [$course->id, $stage->id, $quiz->id, $type->title]) }}"
+                                           class="dropdown-item">
                                             <i class="la la-plus"></i>{{ __("cms-pages.".$type->title) }}
                                         </a>
                                     @endforeach
@@ -120,9 +134,9 @@
 
                                     <td class="td-actions">
                                         <a href="{{ route('questions.show', [$course->id, $stage->id, $quiz->id, $question->id]) }}"><i
-                                                class="la la-eye edit"></i></a>
+                                                    class="la la-eye edit"></i></a>
                                         <a href="{{ route('questions.edit', [$course->id, $stage->id, $quiz->id, $question->id]) }}"><i
-                                                class="la la-edit edit"></i></a>
+                                                    class="la la-edit edit"></i></a>
                                         <form style="display: inline-block" method="POST"
                                               action="{{ route('questions.destroy', [$course->id, $stage->id, $quiz->id, $question->id]) }}">
                                             @csrf @method('DELETE')

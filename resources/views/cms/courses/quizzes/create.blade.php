@@ -51,6 +51,7 @@
                                 </div>
                             </div>
                         </div>
+
                         {{-- Quiz Title --}}
                         <div class="form-group row d-flex align-items-center mb-5">
                             <label class="col-lg-3 form-control-label">{{ __("cms-pages.title") }}<span
@@ -63,6 +64,7 @@
                                 @enderror
                             </div>
                         </div>
+
                         {{-- Quiz Description--}}
                         <div class="form-group row d-flex align-items-center mb-5">
                             <label class="col-lg-3 form-control-label">{{ __("cms-pages.description") }}</label>
@@ -74,6 +76,7 @@
                                 @enderror
                             </div>
                         </div>
+
                         {{-- Quiz Image --}}
                         <div class="form-group row d-flex align-items-center mb-5">
                             <label class="col-lg-3 form-control-label">{{ __("cms-pages.main-image") }}</label>
@@ -90,6 +93,7 @@
                                 </button>
                             </div>
                         </div>
+
                         {{-- Quiz Audio --}}
                         <div class="form-group row d-flex align-items-center mb-5">
                             <label class="col-lg-3 form-control-label">{{ __("cms-pages.audio") }}</label>
@@ -102,6 +106,7 @@
                                 </button>
                             </div>
                         </div>
+
                         {{-- Quiz Video --}}
                         <div class="form-group row d-flex align-items-center mb-5">
                             <label class="col-lg-3 form-control-label">{{ __("cms-pages.video") }}</label>
@@ -116,6 +121,7 @@
                                        placeholder="{{ __("cms-pages.video-link") }}" value="{{old('video')}}">
                             </div>
                         </div>
+
                         {{-- Quiz Duration --}}
                         <div class="form-group row d-flex align-items-center mb-5">
                             <label class="col-lg-3 form-control-label">{{ __("cms-pages.quiz-duration") }}
@@ -127,6 +133,7 @@
                                 @enderror
                             </div>
                         </div>
+
                         {{-- Quiz Passing Score --}}
                         <div class="form-group row d-flex align-items-center mb-5">
                             <label class="col-lg-3 form-control-label">{{ __("cms-pages.passing-score") }}, %</label>
@@ -138,6 +145,7 @@
                                 @enderror
                             </div>
                         </div>
+
                         {{-- Quiz Required Topics Must Be Passed --}}
                         <div class="form-group row mb-5">
                             <label class="col-lg-3 form-control-label">{{ __("cms-pages.required-topics") }}</label>
@@ -178,6 +186,5 @@
             });
         });
     </script>
-    <script src="{{asset('assets/cms/js/youtube.min.js')}}"></script>
     <script src="{{asset('assets/cms/js/ajax-store.js')}}"></script>
 @endsection

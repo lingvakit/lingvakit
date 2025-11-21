@@ -1,131 +1,92 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Admin;
 
+use App\Application\Quiz\Actions\CreateAction;
+use App\Application\Quiz\Actions\DeleteAction;
+use App\Application\Quiz\Actions\UpdateAction;
+use App\Application\Quiz\Services\QuizViewService;
 use App\Http\Controllers\Controller;
-use App\Models\LMS\Category;
+use App\Http\Requests\StoreQuizRequest;
 use App\Models\LMS\Course;
-use App\Models\LMS\Lesson;
-use App\Models\LMS\QuestionType;
 use App\Models\LMS\Quiz;
 use App\Models\LMS\Stage;
-use App\Models\LMS\Topic;
-use App\Models\MediaFile;
-use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\DB;
+use Illuminate\View\View;
 
 class QuizController extends Controller
 {
-    public function create(Course $course, Stage $stage)
-    {
-        $uncategorized = Category::where('name', 'Uncategorized')->first();
-        $audio = MediaFile::where('type', 'audio')->orderBy('id', 'desc')->get();
-        $images = MediaFile::where('type', 'image')->orderBy('id', 'desc')->get();
-
-        return view('cms.courses.quizzes.create', [
-            'categories' => Category::all()->except($uncategorized->id),
-            'course' => $course,
-            'stage' => $stage,
-            'audioFiles' => $audio,
-            'images' => $images
-        ]);
+    public function __construct(
+        private readonly CreateAction $createAction,
+        private readonly UpdateAction $updateAction,
+        private readonly DeleteAction $deleteAction,
+        private readonly QuizViewService $quizViewService,
+    ) {
     }
 
-    public function store(Request $request, Course $course, Stage $stage)
+    public function create(Course $course, Stage $stage): View
     {
-        $request->validate([
-            'title' => 'required|string',
-            'duration' => 'required|numeric',
-            'passing_score' => 'required|numeric',
-        ]);
-
-        if ($request->has('category_id')) {
-            $category = Category::find($request->input('category_id'));
-            if ($request->input('category_id') == 0) {
-                $category = Category::create(['name' => $request->input('category')]);
-            }
-        } else {
-            $category = Category::find(1);
-        }
-
-        $passed_topics = $request->input('passed_topics');
-        if ($passed_topics) {
-            $passed_topics = implode(',', $passed_topics);
-        }
-
-        $topic = Topic::create([
-            'name' => 'quiz',
-            'stage_id' => $stage->id,
-            'passed_topics' => $passed_topics,
-        ]);
-        $topic->update(['index_number' => $topic->id,]);
-        $quiz = Quiz::add($request->all(), $topic);
-        $quiz->addCategory($category);
-
-        $course->updateDuration();
-
-        return redirect()->route('quizzes.show', [$course->id, $stage->id, $quiz->id]);
+        return view(
+            view: 'cms.courses.quizzes.create',
+            data: $this->quizViewService->prepareDataForCreateView($course, $stage)
+        );
     }
 
-    public function show(Course $course, Stage $stage, Quiz $quiz)
+    /**
+     * @throws \Exception
+     */
+    public function store(StoreQuizRequest $request, Course $course, Stage $stage): RedirectResponse
     {
-        return view('cms.courses.quizzes.show', [
-            'course' => $course,
-            'stage' => $stage,
-            'quiz' => $quiz,
-            'questionTypes' => QuestionType::all(),
-        ]);
+        $quiz = DB::transaction(function () use ($request, $course, $stage) {
+            return $this->createAction->execute(
+                data: $request->validated(),
+                course: $course,
+                stage: $stage
+            );
+        });
+
+        return redirect()->route('quizzes.show', [$course, $stage, $quiz]);
     }
 
-    public function edit(Course $course, Stage $stage, Quiz $quiz)
+    public function show(Course $course, Stage $stage, Quiz $quiz): View
     {
-        $uncategorized = Category::where('name', 'Uncategorized')->first();
-        $audio = MediaFile::where('type', 'audio')->orderBy('id', 'desc')->get();
-        $images = MediaFile::where('type', 'image')->orderBy('id', 'desc')->get();
-
-        return view('cms.courses.quizzes.edit', [
-            'categories' => Category::all()->except($uncategorized->id),
-            'course' => $course,
-            'stage' => $stage,
-            'quiz' => $quiz,
-            'audioFiles' => $audio,
-            'images' => $images
-        ]);
+        return view(
+            view: 'cms.courses.quizzes.show',
+            data: $this->quizViewService->prepareDataForShowView($course, $stage, $quiz)
+        );
     }
 
-    public function update(Request $request, Course $course, Stage $stage, Quiz $quiz)
+    public function edit(Course $course, Stage $stage, Quiz $quiz): View
     {
-        $request->validate([
-            'title' => 'required|string',
-            'duration' => 'required|numeric',
-            'passing_score' => 'required|numeric',
-        ]);
-
-        if ($request->has('category_id')) {
-            $category = Category::find($request->input('category_id'));
-            if ($request->input('category_id') == 0) {
-                $category = Category::create(['name' => $request->input('category')]);
-            }
-        } else {
-            $category = Category::find(1);
-        }
-
-        $passed_topics = $request->input('passed_topics');
-
-        $quiz->update($request->all());
-        $quiz->addCategory($category);
-        $quiz->topic->addRequiredTopics($passed_topics);
-
-        $course->updateDuration();
-
-        return redirect()->route('quizzes.show', [$course->id, $stage->id, $quiz->id]);
+        return view(
+            view: 'cms.courses.quizzes.edit',
+            data: $this->quizViewService->prepareDataForEditView($course, $stage, $quiz)
+        );
     }
 
-    public function destroy(Course $course, Stage $stage, Quiz $quiz)
+    public function update(StoreQuizRequest $request, Course $course, Stage $stage, Quiz $quiz): RedirectResponse
     {
-        $quiz->remove();
-        $course->updateDuration();
+        $quiz = DB::transaction(function () use ($request, $quiz, $course) {
+            return $this->updateAction->execute(
+                data: $request->validated(),
+                quiz: $quiz,
+                course: $course
+            );
+        });
 
-        return redirect()->route('courses.show', $course->id);
+        return redirect()->route('quizzes.show', [$course, $stage, $quiz]);
+    }
+
+    public function destroy(Course $course, Stage $stage, Quiz $quiz): RedirectResponse
+    {
+        DB::transaction(function () use ($quiz, $course) {
+            $this->deleteAction->execute($course, $quiz);
+        });
+
+        return redirect()->route('courses.show', $course);
     }
 
     public function removeImage(Course $course, Stage $stage, Quiz $quiz)

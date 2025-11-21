@@ -5,13 +5,13 @@
     <ul class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}"><i class="ti ti-home"></i></a></li>
         <li class="breadcrumb-item"><a href="{{ route('courses.index') }}">{{ __("cms-pages.courses") }}</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('courses.show', $course->id) }}">{{ $course->title }}</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('courses.show', $course) }}">{{ $course->title }}</a></li>
         <li class="breadcrumb-item active">{{ __("cms-pages.new-quiz") }}</li>
     </ul>
 @endsection
 @section('content')
     <form id="form-update" class="form-horizontal" method="POST"
-          action="{{ route('quizzes.update', [$course->id, $stage->id, $quiz->id]) }}"
+          action="{{ route('quizzes.update', [$course, $stage, $quiz]) }}"
           enctype="multipart/form-data">
         @csrf @method('PUT')
 
@@ -55,127 +55,143 @@
                                 </div>
                             </div>
                         </div>
+
                         {{-- Quiz Title --}}
                         <div class="form-group row d-flex align-items-center mb-5">
                             <label class="col-lg-3 form-control-label">{{ __("cms-pages.title") }}<span
                                         class="text-danger ml-2">*</span></label>
                             <div class="col-lg-9">
                                 <input type="text" name="title" class="form-control"
-                                       placeholder="{{ __("cms-pages.title") }}" value="{{$quiz->title}}">
+                                       placeholder="{{ __("cms-pages.title") }}"
+                                       value="{{old('title', $quizDto->getTitle() ?? '')}}">
                                 @error('title')
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
+
                         {{-- Quiz Description--}}
                         <div class="form-group row d-flex align-items-center mb-5">
                             <label class="col-lg-3 form-control-label">{{ __("cms-pages.description") }}</label>
                             <div class="col-lg-9">
-                                <textarea id="description" name="description" class="form-control" rows="3"
-                                          placeholder="{{ __("cms-pages.description") }}">{{$quiz->description}}</textarea>
+                                <textarea id="description"
+                                          name="description"
+                                          class="form-control"
+                                          rows="3"
+                                          placeholder="{{ __("cms-pages.description") }}"
+                                >{{old('description', $quizDto->getDescription() ?? '')}}</textarea>
                                 @error('description')
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
+
                         {{-- Quiz Image --}}
                         <div class="form-group row d-flex align-items-center mb-5">
                             <label class="col-lg-3 form-control-label">{{ __("cms-pages.main-image") }}</label>
                             <div class="col-lg-9">
                                 <div class="form-group preview">
-                                    <div class="current-item">
-                                        <img src="{{ $quiz->getImage() }}" width="240" alt="{{ $quiz->title }}">
-                                        @if($quiz->image)
-                                            <div class="small file-remove" data-method="PUT"
-                                                 data-delete="{{route('quizzes.image.remove', [$course->id, $stage->id, $quiz->id])}}">
-                                                {{ __("cms-pages.remove") }}
-                                            </div>
-                                        @endif
-                                    </div>
-                                </div>
-                                <button type="button" class="btn btn-primary square mr-1 mb-2 btn-attach"
-                                        data-type="image" data-var="image" data-toggle="modal"
-                                        data-target="#modal-files">
-                                    {{__("cms-pages.choose")}}
-                                </button>
-                            </div>
-                        </div>
-                        {{-- Quiz Audio --}}
-                        <div class="form-group row d-flex align-items-center mb-5">
-                            <label class="col-lg-3 form-control-label">{{ __("cms-pages.audio") }}</label>
-                            <div class="col-lg-9">
-                                <div class="form-group preview">
-                                    @if($quiz->audio)
+                                    @if($quizImageUrl)
                                         <div class="current-item">
-                                            <audio src="{{$quiz->getAudio()}}" controls></audio>
+                                            <img src="{{ $quizImageUrl }}" width="240" alt="{{ $quizDto->getTitle() }}">
                                             <div class="small file-remove" data-method="PUT"
-                                                 data-delete="{{route('quizzes.audio.remove', [$course->id, $stage->id, $quiz->id])}}">
+                                                 data-delete="{{route('quizzes.image.remove', [$course, $stage, $quiz])}}">
                                                 {{ __("cms-pages.remove") }}
                                             </div>
-                                            <input type="hidden" name="audio" value="{{ $quiz->audio }}">
+                                            <input type="hidden" name="image" value="{{ $quizDto->getImageId() }}">
                                         </div>
                                     @endif
                                 </div>
-                                <button type="button" class="btn btn-primary square mr-1 mb-2 btn-attach"
-                                        data-type="audio" data-var="audio" data-toggle="modal"
-                                        data-target="#modal-files">
-                                    {{__("cms-pages.choose")}}
-                                </button>
+                                <button type="button"
+                                        class="btn btn-primary square mr-1 mb-2 btn-attach"
+                                        data-type="image"
+                                        data-var="image"
+                                        data-toggle="modal"
+                                        data-target="#modal-files"
+                                >{{__("cms-pages.choose")}}</button>
                             </div>
                         </div>
+
+                        {{-- Quiz Audio --}}
+                        <div class="form-group row d-flex align-items-center mb-5">
+                            <label class="col-lg-3 form-control-label">
+                                {{ __("cms-pages.audio") }}
+                            </label>
+                            <div class="col-lg-9">
+                                <div class="form-group preview">
+                                    @if($quizAudioUrl)
+                                        <div class="current-item">
+                                            <audio src="{{$quizAudioUrl}}" controls></audio>
+                                            <div class="small file-remove"
+                                                 data-method="PUT"
+                                                 data-delete="{{route('quizzes.audio.remove', [$course, $stage, $quiz])}}"
+                                            >{{ __("cms-pages.remove") }}</div>
+                                            <input type="hidden" name="audio" value="{{ $quizDto->getAudioId() }}">
+                                        </div>
+                                    @endif
+                                </div>
+                                <button type="button"
+                                        class="btn btn-primary square mr-1 mb-2 btn-attach"
+                                        data-type="audio"
+                                        data-var="audio"
+                                        data-toggle="modal"
+                                        data-target="#modal-files"
+                                >{{__("cms-pages.choose")}}</button>
+                            </div>
+                        </div>
+
                         {{-- Quiz Video --}}
                         <div class="form-group row d-flex align-items-center mb-5">
                             <label class="col-lg-3 form-control-label">{{ __("cms-pages.video") }}</label>
                             <div class="col-lg-9">
                                 <div class="form-group preview">
-                                    @if($quiz->video)
+                                    @if($quizVideoUrl)
                                         <div class="current-item">
-                                            @if($quiz->isExternalVideo())
-                                                <div id="player" data-id="{{$quiz->getVideoId()}}"
-                                                     data-width="240" data-height="180"></div>
-                                            @else
-                                                <video src="{{$quiz->getVideo()}}" width="240" controls></video>
-                                            @endif
-                                            <div class="small file-remove" data-method="PUT"
-                                                 data-delete="{{route('quizzes.video.remove', [$course->id, $stage->id, $quiz->id])}}">
-                                                {{ __("cms-pages.remove") }}
-                                            </div>
+                                            <video src="{{$quizVideoUrl}}" width="240" controls></video>
+                                            <div class="small file-remove"
+                                                 data-method="PUT"
+                                                 data-delete="{{route('quizzes.video.remove', [$course, $stage, $quiz])}}"
+                                            >{{ __("cms-pages.remove") }}</div>
+                                            <input type="hidden" name="video" value="{{ $quizDto->getVideoId() }}">
                                         </div>
                                     @endif
                                 </div>
-                                <button type="button" class="btn btn-primary square mr-1 mb-2 btn-attach"
-                                        data-type="video" data-var="video" data-toggle="modal"
-                                        data-target="#modal-files">
-                                    {{__("cms-pages.choose")}}
-                                </button>
-                                <input type="text" name="youtube" class="form-control"
-                                       placeholder="{{ __("cms-pages.video-link") }}"
-                                       value="@if($course->isExternalVideo()){{$course->video}}@endif">
+                                <button type="button"
+                                        class="btn btn-primary square mr-1 mb-2 btn-attach"
+                                        data-type="video"
+                                        data-var="video"
+                                        data-toggle="modal"
+                                        data-target="#modal-files"
+                                >{{__("cms-pages.choose")}}</button>
                             </div>
                         </div>
+
                         {{-- Quiz Duration --}}
                         <div class="form-group row d-flex align-items-center mb-5">
-                            <label class="col-lg-3 form-control-label">{{ __("cms-pages.quiz-duration") }}
-                                , {{ __("min") }}</label>
+                            <label class="col-lg-3 form-control-label">
+                                {{ __("cms-pages.quiz-duration") }}, {{ __("min") }}
+                            </label>
                             <div class="col-lg-9">
                                 <input type="number" name="duration" class="form-control" placeholder="10"
-                                       value="{{$quiz->duration}}">
+                                       value="{{old('duration', $quizDto->getTimeLimit())}}">
                                 @error('duration')
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
+
                         {{-- Quiz Passing Score --}}
                         <div class="form-group row d-flex align-items-center mb-5">
                             <label class="col-lg-3 form-control-label">{{ __("cms-pages.passing-score") }}, %</label>
                             <div class="col-lg-9">
                                 <input type="number" name="passing_score" class="form-control" placeholder="80"
-                                       value="{{$quiz->passing_score}}">
+                                       value="{{old('passing_score', $quizDto->getPassingScore())}}">
                                 @error('passing_score')
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
+
                         {{-- Quiz Required Topics Must Be Passed --}}
                         <div class="form-group row mb-5">
                             <label class="col-lg-3 form-control-label">{{ __("cms-pages.required-topics") }}</label>
@@ -195,6 +211,7 @@
                                 </select>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -216,6 +233,5 @@
             });
         });
     </script>
-    <script src="{{asset('assets/cms/js/youtube.min.js')}}"></script>
     <script src="{{asset('assets/cms/js/ajax-store.js')}}"></script>
 @endsection
