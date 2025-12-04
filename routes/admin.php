@@ -54,6 +54,11 @@ Route::prefix('dashboard')->middleware(['auth', 'locale', 'role:superuser|admin|
     /* COURSES */
     Route::resource('courses', CourseController::class);
 
+    /* Courses React Page */
+    Route::prefix('react')->group(function (){
+        Route::any('{any}', [CourseController::class, 'reactPage'])->where('any', '.*');
+    });
+
     /* Update index of topic */
     Route::put('topic/{topic}/index', [TopicController::class, 'updateIndex'])->name('topic.index');
     /* Update index of presentation */
