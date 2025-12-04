@@ -8,11 +8,17 @@ use App\Models\LMS\Course;
 use App\Models\LMS\Language;
 use App\Models\MediaFile;
 use App\Models\MetaCourse;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class CourseController extends Controller
 {
+    public function reactPage(): View
+    {
+        return view('layouts.cms-react');
+    }
+
     public function index()
     {
         $currentUser = Auth::user();

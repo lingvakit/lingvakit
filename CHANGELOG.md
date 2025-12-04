@@ -2,12 +2,13 @@
 
 ---
 
-## [Unreleased] - 2025-11-21
+## [Unreleased] - 2025-12-04
 ### Added:
 * Using MS Quiz
 
 ### Code refactoring:
 * Quiz domain
+* Courses pages to React
 
 
 ---
