@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 final class CourseController extends Controller
 {
     public function __construct(
-        private readonly CourseHandler $courseHandler,
+        private readonly CourseHandler $courseHandler
     ) {
     }
 
