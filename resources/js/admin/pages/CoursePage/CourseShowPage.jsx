@@ -3,12 +3,12 @@ import {Link, useParams} from "react-router-dom";
 import parse from "html-react-parser";
 
 export default function CourseShowPage() {
-    const {id} = useParams();
+    const {courseId} = useParams();
     const [course, setCourse] = useState(null);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        fetch(`/api/v1/courses/${id}`)
+        fetch(`/api/v1/courses/${courseId}`)
             .then(res => res.json())
             .then(data => {
 
@@ -17,7 +17,7 @@ export default function CourseShowPage() {
                 setCourse(data);
                 setLoading(false);
             });
-    }, [id]);
+    }, [courseId]);
 
     if (loading) {
         return <div>Загрузка...</div>
@@ -152,19 +152,41 @@ export default function CourseShowPage() {
                             <div key={index} className="mt-2 mb-2">
                                 <div
                                     className="d-flex justify-content-between align-items-center pl-3 pr-3 text-primary header w-100"
-                                    style={{backgroundColor: "#dedbe2"}}>
+                                    style={{backgroundColor: "#dedbe2"}}
+                                >
                                     <h4 className="mb-0">{module.title}</h4>
                                     <div className="td-actions text-right d-flex justify-content-end">
                                         <div className="actions dark d-inline-block">
-                                            <button type="button">
-                                                <i className="la la-edit edit"></i>
-                                            </button>
+                                            <div className="dropdown">
+                                                <button type="button"
+                                                        data-toggle="dropdown"
+                                                        aria-haspopup="true"
+                                                        aria-expanded="false"
+                                                        className="dropdown-toggle"
+                                                ><i className="la la-plus edit"></i>
+                                                </button>
+                                                <div className="dropdown-menu">
+                                                    <Link to="#" className="dropdown-item">
+                                                        <i className="la la-plus"></i>Добавить урок
+                                                    </Link>
+
+                                                    <Link
+                                                        to={`/courses/${courseId}/modules/${module.id}/quizzes/create`}
+                                                        className="dropdown-item"
+                                                    >
+                                                        <i className="la la-plus"></i>Добавить тест
+                                                    </Link>
+                                                </div>
+                                            </div>
                                         </div>
+                                        <button type="button">
+                                            <i className="la la-edit edit"></i>
+                                        </button>
                                     </div>
                                 </div>
                                 {module.topics.map((topic, index) => (
                                     <div key={index}
-                                        className="stage-topic d-flex justify-content-between align-items-center mt-3 mb-3 ui-sortable-handle">
+                                         className="stage-topic d-flex justify-content-between align-items-center mt-3 mb-3 ui-sortable-handle">
                                         <div className="col-xl-2">
                                             <div className="table-img">
                                                 <img src={topic.imageUrl} width="100" alt=""/>

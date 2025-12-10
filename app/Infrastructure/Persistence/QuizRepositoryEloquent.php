@@ -9,6 +9,11 @@ use App\Models\LMS\Quiz;
 
 class QuizRepositoryEloquent implements QuizRepository
 {
+    public function findById(int $id): ?Quiz
+    {
+        return Quiz::find($id);
+    }
+
     public function store(array $data): Quiz
     {
         return Quiz::create($data);

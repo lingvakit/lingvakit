@@ -38,6 +38,7 @@ final readonly class CourseHandler
 
         foreach ($course->stages ?? [] as $stage) {
             $module = [
+                'id' => $stage->id,
                 'title' => $stage->name,
                 'topics' => []
             ];
@@ -47,7 +48,7 @@ final readonly class CourseHandler
 
                 if ($content) {
                     $module['topics'][] = [
-                        'title' => $topic->lesson->title,
+                        'title' => $content->title,
                         'description' => $content->description,
                         'imageUrl' => $content->getImage(),
                         'timeLimit' => $content->getDuration(),

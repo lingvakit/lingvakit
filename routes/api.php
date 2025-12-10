@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\CourseController;
+use App\Http\Controllers\Api\QuizController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,3 +22,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('v1/courses', [CourseController::class, 'index']);
 Route::get('v1/courses/{id}', [CourseController::class, 'show']);
+Route::post('v1/courses/{courseId}/modules/{moduleId}/quizzes/create', [QuizController::class, 'createQuiz']);
