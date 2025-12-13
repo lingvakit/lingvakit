@@ -2,6 +2,12 @@
 
 ---
 
+## [1.17.0] - 2025-12-13
+### Info:
+* State before creating MS Quiz
+
+---
+
 ## [1.16.1] - 2025-11-12
 ### Fixed:
 * JWT Auth
