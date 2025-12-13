@@ -20,37 +20,107 @@
 
         <div class="col-xl-12">
             {{-- Fill in the Gaps--}}
-            @if($question->type === 'fill_the_gaps')
-                @include('cms.courses.quizzes.questions.conformity.layouts.show.filling')
-            @endif
+{{--            @if($question->type === 'fill_the_gaps')--}}
+{{--                @include('cms.courses.quizzes.questions.conformity.layouts.show.filling')--}}
+{{--            @endif--}}
+
             {{-- Single Choice --}}
-            @if($question->type === 'single_choice')
-                @include('cms.courses.quizzes.questions.conformity.layouts.show.single')
+            @if($questionData['type'] === 'single_choice')
+                <div id="accordion" class="accordion">
+                    <div class="widget has-shadow">
+                        @include('cms.courses.quizzes.questions.conformity.layouts.widget-header')
+
+                        <div class="widget-body">
+                            <div class="table-responsive">
+                                <table id="sorting-table" class="table mb-0">
+                                    <thead>
+                                    <tr>
+                                        <th>{{ __("cms-pages.answer") }}</th>
+                                        <th>{{ __("cms-pages.correct-answer") }}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    @foreach($questionData['options'] ?? [] as $option)
+                                        <tr class="text-primary header">
+                                            <td style="width: 70%"><h4>qqqq</h4>
+                                            </td>
+                                            <td class="td-actions text-right">
+                                                <a href=""><i
+                                                            class="la la-edit edit"></i></a>
+                                                <form style="display: inline-block" method="POST"
+                                                      action="">
+                                                    @csrf @method('DELETE')
+
+                                                    <a href=""
+                                                       onclick="event.preventDefault();if(confirm('{{ __("cms-messages.delete") }}')){this.closest('form').submit();}">
+                                                        <i class="la la-close delete"></i>
+                                                    </a>
+                                                </form>
+                                            </td>
+
+{{--                                            @include('cms.courses.quizzes.questions.conformity.layouts.action-buttons')--}}
+                                        </tr>
+                                        <tr class="border-bottom">
+                                            <td class="text-primary" style="width: 50%">sdfa</td>
+                                            <td>
+                                                <form
+                                                        {{--                                                    action="{{ route('options.change-is-correct', [$question->quiz->topic->stage->course->id, $question->quiz->topic->stage->id, $question->quiz->id, $question->id, $option->id]) }}"--}}
+                                                        method="POST"> @csrf @method('PUT')
+                                                    <div class="styled-radio">
+                                                        <input type="radio" name="option_{{$option['id']}}"
+                                                               id="option_{{$option['id']}}"
+                                                               value="1"
+                                                               @if($option['isCorrect']) checked @endif
+                                                               onchange="event.preventDefault();this.closest('form').submit()">
+                                                        <label
+                                                                for="option_{{$option['id']}}">{{ __("cms-pages.is_true") }}</label>
+                                                    </div>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+{{--                @include('cms.courses.quizzes.questions.conformity.layouts.show.single')--}}
             @endif
+
             {{-- Multiple Choice--}}
-            @if($question->type === 'multiple_choice')
-                @include('cms.courses.quizzes.questions.conformity.layouts.show.multiple')
-            @endif
+{{--            @if($question->type === 'multiple_choice')--}}
+{{--                @include('cms.courses.quizzes.questions.conformity.layouts.show.multiple')--}}
+{{--            @endif--}}
+
             {{-- Logic Choice--}}
-            @if($question->type === 'logic_choice')
-                @include('cms.courses.quizzes.questions.conformity.layouts.show.logic')
-            @endif
+{{--            @if($question->type === 'logic_choice')--}}
+{{--                @include('cms.courses.quizzes.questions.conformity.layouts.show.logic')--}}
+{{--            @endif--}}
+
             {{-- Matching --}}
-            @if($question->type === 'matching')
-                @include('cms.courses.quizzes.questions.conformity.layouts.show.matching')
-            @endif
+{{--            @if($question->type === 'matching')--}}
+{{--                @include('cms.courses.quizzes.questions.conformity.layouts.show.matching')--}}
+{{--            @endif--}}
+
             {{-- Make Sentence --}}
-            @if(in_array($question->type, ['make_sentence', 'listen_write']))
-                @include('cms.courses.quizzes.questions.conformity.layouts.show.sentence')
-            @endif
+{{--            @if(in_array($question->type, ['make_sentence', 'listen_write']))--}}
+{{--                @include('cms.courses.quizzes.questions.conformity.layouts.show.sentence')--}}
+{{--            @endif--}}
+
             {{-- Make Text --}}
-            @if($question->type === 'make_text')
-                @include('cms.courses.quizzes.questions.conformity.layouts.show.text')
-            @endif
+{{--            @if($question->type === 'make_text')--}}
+{{--                @include('cms.courses.quizzes.questions.conformity.layouts.show.text')--}}
+{{--            @endif--}}
+
             {{-- Short Answer --}}
-            @if($question->type === 'short_answer')
-                @include('cms.courses.quizzes.questions.conformity.layouts.show.short')
-            @endif
+{{--            @if($question->type === 'short_answer')--}}
+{{--                @include('cms.courses.quizzes.questions.conformity.layouts.show.short')--}}
+{{--            @endif--}}
+
         </div>
     </div>
 @endsection
