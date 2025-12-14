@@ -39,7 +39,7 @@
                             <label class="col-lg-3 form-control-label">{{ __("cms-pages.description") }}</label>
                             <div class="col-lg-9">
                                 <textarea id="description" name="description" class="form-control" rows="3"
-                                          placeholder="{{ __("cms-pages.description") }}">{{$lesson->description}}</textarea>
+                                          placeholder="{{ __("cms-pages.description") }}">{!! old('description', $lesson->description) !!}</textarea>
                                 @error('description')
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -225,14 +225,7 @@
 @section('page-scripts')
     @include('layouts.cms.template-parts.scripts-forms')
     <script src="{{asset('assets/cms/vendors/js/ckeditor/ckeditor.js')}}"></script>
-    <script>
-        $(document).ready(function () {
-            CKEDITOR.replace('description', {
-                filebrowserUploadUrl: "{{route('ckeditor.upload', ['_token' => csrf_token() ])}}",
-                filebrowserUploadMethod: 'form'
-            });
-        });
-    </script>
+    <script src="{{asset('assets/cms/js/ckeditor-custom.js')}}"></script>
     <script src="{{asset('assets/cms/js/youtube.min.js')}}"></script>
     <script src="{{asset('assets/cms/js/ajax-store.js')}}"></script>
 @endsection
