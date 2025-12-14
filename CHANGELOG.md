@@ -2,6 +2,12 @@
 
 ---
 
+## [1.18.0] - 2025-12-14
+### Info:
+* Attach audio and video from editor
+
+---
+
 ## [1.17.0] - 2025-12-13
 ### Info:
 * State before creating MS Quiz

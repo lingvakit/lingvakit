@@ -8,6 +8,7 @@ let $ = jQuery.noConflict();
 /**
  * Lingva Object
  */
+window.CKEDITOR_MEDIA_MODE = false;
 window.Lingva = {};
 
 (function () {
@@ -243,9 +244,41 @@ window.Lingva = {};
             });
 
             // Choose files
-            $(document).on('click', '.file-wrap', function () {
-                initFillForm($(this));
+            // $(document).on('click', '.file-wrap', function () {
+            //     initFillForm($(this));
+            // });
+            $(document).on('click', '.file-wrap', function (e) {
+
+                // 👉 CKEditor режим
+                if (window.CKEDITOR_MEDIA_MODE === true) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    let el = $(this);
+                    let file = el.find('.file');
+
+                    let media = {
+                        id: file.data('id'),
+                        title: file.data('title'),
+                        path: file.attr('src'),
+                        type: el.data('type'),
+                        alt: file.data('title')
+                    };
+
+                    if (window.CKEditorInsertMedia) {
+                        window.CKEditorInsertMedia(media);
+                    }
+
+                    // 🔻 закрываем режим
+                    window.CKEDITOR_MEDIA_MODE = false;
+
+                    // закрываем модалку
+                    $('.media-modal').modal('hide');
+                } else {
+                    initFillForm($(this));
+                }
             });
+
 
             inputYoutube.blur(function () {
                 let input = '<input type="hidden" name="video" value="' + $(this).val() + '">';
