@@ -2,6 +2,12 @@
 
 ---
 
+## [1.19.0] - 2025-12-23
+### Updated:
+* Documents
+
+---
+
 ## [1.18.0] - 2025-12-14
 ### Info:
 * Attach audio and video from editor
