@@ -5,6 +5,7 @@
 ## [Unreleased] - 2025-12-04
 ### Added:
 * Using MS Quiz
+* Migration for all quizzes to MS Quiz
 
 ### Code refactoring:
 * Quiz domain

@@ -35,7 +35,7 @@ readonly class CreateAction
         $topic->update(['index_number' => $topic->id]);
 
         // Create quiz in microservice
-        $uuid = $this->quizGateway->createQuizInMs($data);
+        $uuid = $this->quizGateway->storeInMs($data);
 
         // Create quiz in database
         $quiz = $this->quizRepository->store([

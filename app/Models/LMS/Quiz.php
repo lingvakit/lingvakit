@@ -112,7 +112,7 @@ class Quiz extends Model
                 $total += $conformity->points;
             }
         }
-        return $total;
+        return (int)$total;
     }
 
     public function getTotalScore($user) : float

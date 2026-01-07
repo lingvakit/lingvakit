@@ -2,19 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\MS\Quiz;
+namespace App\Infrastructure\MS\Quiz\Clients;
 
 use App\Models\LMS\Quiz;
+use Exception;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
-readonly class QuizClient
+final class QuizClient extends BaseMsClient
 {
-    public function __construct(
-        private string $baseUrl,
-        private string $token,
-    ) {}
-
     public function getQuiz(string $uuid): array
     {
         if (empty($uuid)) {
@@ -22,7 +18,9 @@ readonly class QuizClient
         }
 
         $url = "{$this->baseUrl}/api/v1/quizzes/$uuid";
-        $response = Http::withoutVerifying()->withToken($this->token)->get($url);
+        $response = Http::withoutVerifying()
+            ->withToken($this->jwtService->getJwtToken())
+            ->get($url);
 
         if ($response->failed()) {
             Log::error($response->body());
@@ -34,10 +32,27 @@ readonly class QuizClient
         return $response->json();
     }
 
-    public function createQuiz(array $payload): string
+    /**
+     * @param array{
+     *     uuid?: string|null,
+     *     title: string,
+     *     description?: string|null,
+     *     imageId?: int|null,
+     *     videoId?: int|null,
+     *     audioId?: int|null,
+     *     timeLimit?: int|null,
+     *     passingScore: int,
+     *     status: string // enum: draft, published or deleted
+     * } $data
+     *
+     * @throws Exception
+     */
+    public function store(array $data): string
     {
         $url = "{$this->baseUrl}/api/v1/quizzes";
-        $response = Http::withoutVerifying()->withToken($this->token)->post($url, $payload);
+        $response = Http::withoutVerifying()
+            ->withToken($this->jwtService->getJwtToken())
+            ->post($url, $data);
 
         if ($response->failed()) {
             Log::error($response->body());
@@ -56,7 +71,9 @@ readonly class QuizClient
         }
 
         $url = "{$this->baseUrl}/api/v1/quizzes/{$quiz->uuid}";
-        $response = Http::withoutVerifying()->withToken($this->token)->put($url, $payload);
+        $response = Http::withoutVerifying()
+            ->withToken($this->jwtService->getJwtToken())
+            ->put($url, $payload);
 
         if ($response->failed()) {
             Log::error($response->body());
@@ -73,7 +90,9 @@ readonly class QuizClient
         }
 
         $url = "{$this->baseUrl}/api/v1/quizzes/{$quiz->uuid}";
-        $response = Http::withoutVerifying()->withToken($this->token)->delete($url);
+        $response = Http::withoutVerifying()
+            ->withToken($this->jwtService->getJwtToken())
+            ->delete($url);
 
         if ($response->failed()) {
             Log::error($response->body());

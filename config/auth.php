@@ -48,6 +48,13 @@ return [
         ],
     ],
 
+    'jwt' => [
+        'api' => [
+            'client_id' => env('JWT_CLIENT_ID'),
+            'client_secret' => env('JWT_CLIENT_SECRET'),
+        ]
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | User Providers
