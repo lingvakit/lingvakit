@@ -70,7 +70,15 @@ class MediaFileController extends Controller
             if ($input) {
                 $media = new MediaFile;
                 $media->uploadFile($input);
-                $files[] = $media;
+
+                $mediaFileData = [
+                    'id' => $media->id,
+                    'title' => $media->title,
+                    'path' => $media->getPath(),
+                    'type' => $media->type,
+                    'alt' => $media->alt,
+                ];
+                $files[] = $mediaFileData;
             }
         }
         return Response()->json([
@@ -87,7 +95,7 @@ class MediaFileController extends Controller
         return Response()->json([
             'id' => $file->id,
             'title' => $file->title,
-            'path' => $file->getMiddleImage(),
+            'path' => $file->getPath(),
             'alt' => $file->alt,
             'type' => $file->type,
             'size' => $file->getFileSize(),
@@ -125,7 +133,7 @@ class MediaFileController extends Controller
             $files[] = [
                 'id' => $mediaFile->id,
                 'title' => $mediaFile->title,
-                'path' => $mediaFile->getMiddleImage(),
+                'path' => $mediaFile->getPath(),
                 'alt' => $mediaFile->alt,
                 'type' => $mediaFile->type,
                 'size' => $mediaFile->getFileSize(),

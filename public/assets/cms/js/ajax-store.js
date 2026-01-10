@@ -57,7 +57,7 @@ window.Lingva = {};
             switch (type) {
                 case 'image':
                     content =
-                        '<img class="file" src="' + path + '" style="width: 100%" alt="' + alt + '" data-id="' + id + '" data-title="' + title + '">' +
+                        '<img class="file" src="' + path + '?w=135&fit=contain" style="width: 100%" alt="' + alt + '" data-id="' + id + '" data-title="' + title + '">' +
                         '<h6 class="text-center">' + title + '</h6>';
                     break;
                 case 'audio':

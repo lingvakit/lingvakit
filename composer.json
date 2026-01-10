@@ -24,6 +24,7 @@
         "spatie/laravel-permission": "^5.8"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.16",
         "fakerphp/faker": "^1.9.1",
         "kwn/php-rdkafka-stubs": "^2.2",
         "mockery/mockery": "^1.4.2",
