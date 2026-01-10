@@ -125,7 +125,7 @@ class MediaFileController extends Controller
 
         MediaFile::where('author_id', Auth::id())
             ->where('type', $fileType)
-            ->orderBy('id')
+            ->orderBy('created_at', 'desc')
             ->chunk(50, function ($mediaFiles) use (&$result) {
                 foreach ($mediaFiles as $mediaFile) {
                     $result[] = [

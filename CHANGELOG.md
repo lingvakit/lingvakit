@@ -2,7 +2,7 @@
 
 ---
 
-## [1.20.1] - 2025-12-23
+## [1.20.2] - 2025-12-23
 ### Fixed:
 * improve speed for showing images
 
