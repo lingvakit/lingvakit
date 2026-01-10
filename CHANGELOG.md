@@ -2,6 +2,12 @@
 
 ---
 
+## [1.20.1] - 2025-12-23
+### Fixed:
+* improve speed for showing images
+
+---
+
 ## [1.20.0] - 2026-01-10
 ### Added:
 * Add laravel debugger for development

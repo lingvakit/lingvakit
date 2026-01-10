@@ -121,29 +121,28 @@ class MediaFileController extends Controller
 
     public function getFilesByAjax($fileType)
     {
-        $currentUser = Auth::user();
+        $result = [];
 
-        $mediaFiles = MediaFile::where([
-            ['author_id', $currentUser->id],
-            ['type', $fileType],
-        ])->orderBy('id', 'desc')->get();
-        $files = array();
-
-        foreach ($mediaFiles as $mediaFile) {
-            $files[] = [
-                'id' => $mediaFile->id,
-                'title' => $mediaFile->title,
-                'path' => $mediaFile->getPath(),
-                'alt' => $mediaFile->alt,
-                'type' => $mediaFile->type,
-                'size' => $mediaFile->getFileSize(),
-                'duration' => $mediaFile->duration,
-                'link' => "{$mediaFile->getMsMediaUrl()}/uploads/{$mediaFile->path}/{$mediaFile->filename}",
-            ];
-        }
+        MediaFile::where('author_id', Auth::id())
+            ->where('type', $fileType)
+            ->orderBy('id')
+            ->chunk(50, function ($mediaFiles) use (&$result) {
+                foreach ($mediaFiles as $mediaFile) {
+                    $result[] = [
+                        'id' => $mediaFile->id,
+                        'title' => $mediaFile->title,
+                        'path' => $mediaFile->getPath(),
+                        'alt' => $mediaFile->alt,
+                        'type' => $mediaFile->type,
+                        'size' => $mediaFile->getFileSize(),
+                        'duration' => $mediaFile->duration,
+                        'link' => "{$mediaFile->getMsMediaUrl()}/uploads/{$mediaFile->path}/{$mediaFile->filename}",
+                    ];
+                }
+            });
 
         return response()->json([
-            'files' => $files
+            'files' => $result
         ]);
     }
 
