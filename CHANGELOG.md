@@ -2,6 +2,12 @@
 
 ---
 
+## [1.20.3] - 2025-12-23
+### Fixed:
+* improve speed for showing images via lazy load
+
+---
+
 ## [1.20.2] - 2025-12-23
 ### Fixed:
 * improve speed for showing images
