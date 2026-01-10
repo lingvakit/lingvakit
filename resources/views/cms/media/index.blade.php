@@ -397,5 +397,5 @@
 @section('page-scripts')
     @include('layouts.cms.template-parts.scripts-index')
     <script src="{{asset('assets/cms/js/components/audio/audioplayer.min.js')}}"></script>
-    <script src="{{asset('assets/cms/js/ajax-media.min.js')}}"></script>
+    <script src="{{asset('assets/cms/js/ajax-media.js')}}"></script>
 @endsection

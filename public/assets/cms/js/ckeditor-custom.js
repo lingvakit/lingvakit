@@ -22,8 +22,10 @@ window.CKEditorInsertMedia = function (file) {
             break;
 
         case 'image':
+            let src = new URL(file.path);
+
             el = editor.document.createElement('img');
-            el.setAttribute('src', file.path);
+            el.setAttribute('src', src.origin + src.pathname);
             el.setAttribute('alt', file.alt || '');
             el.setStyle('width', '100%');
             el.setStyle('max-width', '600px');

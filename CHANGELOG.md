@@ -2,6 +2,15 @@
 
 ---
 
+## [1.20.0] - 2026-01-10
+### Added:
+* Add laravel debugger for development
+
+### Fixed:
+* Uploading images
+
+---
+
 ## [1.19.0] - 2025-12-23
 ### Updated:
 * Documents
