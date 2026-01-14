@@ -8,12 +8,14 @@ use App\Domain\Category\Repositories\CategoryRepository;
 use App\Domain\Course\Repositories\CourseRepository;
 use App\Domain\Media\Repositories\MediaRepository;
 use App\Domain\Quiz\Repositories\ModuleRepository;
+use App\Domain\Quiz\Repositories\QuestionRepository;
 use App\Domain\Quiz\Repositories\QuizRepository;
 use App\Domain\Topic\Repositories\TopicRepository;
 use App\Infrastructure\Persistence\CategoryRepositoryEloquent;
 use App\Infrastructure\Persistence\CourseRepositoryEloquent;
 use App\Infrastructure\Persistence\MediaRepositoryEloquent;
 use App\Infrastructure\Persistence\ModuleRepositoryEloquent;
+use App\Infrastructure\Persistence\QuestionRepositoryEloquent;
 use App\Infrastructure\Persistence\QuizRepositoryEloquent;
 use App\Infrastructure\Persistence\TopicRepositoryEloquent;
 use Illuminate\Support\ServiceProvider;
@@ -45,6 +47,11 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(
             TopicRepository::class,
             TopicRepositoryEloquent::class
+        );
+
+        $this->app->bind(
+            QuestionRepository::class,
+            QuestionRepositoryEloquent::class
         );
 
         $this->app->bind(

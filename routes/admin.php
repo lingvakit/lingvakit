@@ -117,7 +117,8 @@ Route::prefix('dashboard')->middleware(['auth', 'locale', 'role:superuser|admin|
                     /* Question CRUD */
                     Route::get('{questionType}/create', [QuestionController::class, 'create'])->name('questions.create');
                     Route::post('{questionType}/create', [QuestionController::class, 'store'])->name('questions.store');
-                    Route::get('{question}', [QuestionController::class, 'show'])->name('questions.show');
+
+                    Route::get('{questionUuid}', [QuestionController::class, 'show'])->name('questions.show');
                     Route::get('{question}/edit', [QuestionController::class, 'edit'])->name('questions.edit');
                     Route::put('{question}/edit', [QuestionController::class, 'update'])->name('questions.update');
                     Route::delete('{question}', [QuestionController::class, 'destroy'])->name('questions.destroy');

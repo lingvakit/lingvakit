@@ -3,17 +3,19 @@
         <h4>{{ __("cms-pages.question-form") }}</h4>
     </div>
     <div class="widget-body">
+
         {{-- Question: Title --}}
         <div class="form-group row d-flex align-items-center mb-5">
             <label class="col-lg-3 form-control-label">{{ __("cms-pages.question") }}<span
                         class="text-danger ml-2">*</span></label>
             <div class="col-lg-9">
-                <textarea name="question_title" class="form-control" rows="8">{{old('question_title')}}</textarea>
-                @error('question_title')
+                <textarea name="title" class="form-control" rows="8">{{old('title')}}</textarea>
+                @error('title')
                 <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
         </div>
+
         {{-- Question Font Size --}}
         <div class="form-group row d-flex align-items-center mb-5">
             <label class="col-lg-3 form-control-label">{{ __("cms-pages.font-size") }}</label>
@@ -47,6 +49,7 @@
                 </div>
             </div>
         </div>
+
         {{-- Question Image --}}
         <div class="form-group row d-flex align-items-center mb-5">
             <label class="col-lg-3 form-control-label">{{ __("cms-pages.main-image") }}</label>
@@ -62,6 +65,7 @@
                 </button>
             </div>
         </div>
+
         {{-- Question Audio --}}
         <div class="form-group row d-flex align-items-center mb-5">
             <label class="col-lg-3 form-control-label">{{ __("cms-pages.audio") }}</label>
@@ -73,6 +77,7 @@
                 </button>
             </div>
         </div>
+
         {{-- Question: Explanation --}}
         <div class="form-group row d-flex align-items-center mb-5">
             <label class="col-lg-3 form-control-label">{{ __("cms-pages.explanation") }}</label>
@@ -84,5 +89,6 @@
                 @enderror
             </div>
         </div>
+
     </div>
 </div>
