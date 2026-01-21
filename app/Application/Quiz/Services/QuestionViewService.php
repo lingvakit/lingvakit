@@ -4,6 +4,7 @@ declare (strict_types=1);
 
 namespace App\Application\Quiz\Services;
 
+use App\Application\Quiz\Enum\QuestionType;
 use App\Domain\Media\Repositories\MediaRepository;
 use App\Infrastructure\MS\Quiz\QuestionGateway;
 use App\Models\LMS\Course;
@@ -18,13 +19,17 @@ readonly class QuestionViewService
     ) {
     }
 
-    public function prepareDataForCreateView(Course $course, Stage $stage, Quiz $quiz, $questionType): array
-    {
+    public function prepareDataForCreateView(
+        Course $course,
+        Stage $stage,
+        Quiz $quiz,
+        QuestionType $questionType
+    ): array {
         return [
             'course' => $course,
             'stage' => $stage,
             'quiz' => $quiz,
-            'questionType' => $questionType,
+            'questionType' => $questionType->value,
             'audioFiles' => $this->mediaRepository->getAllByType('audio'),
             'images' => $this->mediaRepository->getAllByType('image'),
         ];

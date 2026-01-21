@@ -4,35 +4,59 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Admin;
 
-use App\Application\Quiz\Actions\Question\CreateAction;
+use App\Application\Quiz\Actions\Question\CreateAction as QuestionCreateAction;
+use App\Application\Quiz\Actions\QuestionGroup\StoreAction as QuestionGroupCreateAction;
+use App\Application\Quiz\Enum\QuestionType;
 use App\Application\Quiz\Services\QuestionViewService;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\QuestionGroup\StoreRequest;
 use App\Http\Requests\StoreQuestionRequest;
 use App\Models\LMS\Conformity;
-use App\Models\LMS\Course;
 use App\Models\LMS\ConformityOption;
+use App\Models\LMS\Course;
+use App\Models\LMS\Question;
 use App\Models\LMS\QuestionAudio;
 use App\Models\LMS\Quiz;
-use App\Models\LMS\Question;
 use App\Models\LMS\Stage;
 use App\Models\MediaFile;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 class QuestionController extends Controller
 {
     public function __construct(
-        private readonly CreateAction $createAction,
+        private readonly QuestionGroupCreateAction $questionGroupCreateAction,
+        private readonly QuestionCreateAction $questionCreateAction,
         private readonly QuestionViewService $questionViewService,
     ) {
     }
 
-    public function create(Course $course, Stage $stage, Quiz $quiz, $questionType): View
+    public function create(Course $course, Stage $stage, Quiz $quiz, QuestionType $questionType): View
     {
         return view(
-            view: 'cms.courses.quizzes.questions.create',
+            view: $questionType->getCreateViewName(),
             data: $this->questionViewService->prepareDataForCreateView($course, $stage, $quiz, $questionType),
         );
+    }
+
+    public function storeWithGroup(
+        StoreRequest $request,
+        Course       $course,
+        Stage        $stage,
+        Quiz         $quiz,
+        QuestionType $questionType
+    ) {
+        DB::transaction(function () use ($request, $course, $stage, $quiz, $questionType) {
+            $this->questionGroupCreateAction->execute(
+                data: $request->toMsPayload(
+                    uuid: $quiz->uuid,
+                    questionType: $questionType->value
+                )
+            );
+        });
+
+        return redirect()->route('quizzes.show', [$course, $stage, $quiz]);
     }
 
     /**
@@ -44,15 +68,11 @@ class QuestionController extends Controller
             throw new \Exception('Quiz uuid is not valid');
         }
 
-        $questionUuid = $this->createAction->execute(
-            data: $request->validated(),
-            quizUuid: $quiz->uuid
+        $questionUuid = $this->questionCreateAction->execute(
+            data: $request->validated()
         );
 
         return redirect()->route('questions.show', [$course, $stage, $quiz, $questionUuid]);
-
-
-
 
 
 

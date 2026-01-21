@@ -8,7 +8,7 @@
         <li class="breadcrumb-item"><a href="{{ route('courses.show', $course->id) }}">{{ $course->title }}</a></li>
         <li class="breadcrumb-item"><a
                     href="{{ route('quizzes.show', [$course->id, $stage->id, $quiz->id]) }}">{{ $quiz->title }}</a></li>
-        <li class="breadcrumb-item active">{{ __("cms-pages.new-question") }}</li>
+        <li class="breadcrumb-item active">Создание группы вопросов</li>
     </ul>
 @endsection
 @section('content')

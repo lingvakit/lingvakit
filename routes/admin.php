@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\MediaFileController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\PresentationController;
 use App\Http\Controllers\Admin\PresentationSlideController;
+use App\Http\Controllers\Admin\QuestionGroupController;
 use App\Http\Controllers\Admin\QuestionOptionController;
 use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -104,8 +105,41 @@ Route::prefix('dashboard')->middleware(['auth', 'locale', 'role:superuser|admin|
                 Route::post('home-works/{homeWork}/edit', [HomeWorkController::class, 'update'])->name('lesson.home-works.update');
             });
 
+            /* Show, Edit, Delete, Create quiz */
             Route::resource('quizzes', QuizController::class); // Quizzes
+
+            /**
+             * Question group CRUD
+             */
+            Route::prefix('quizzes/{quiz}')->group(function () {
+                /* Show question group */
+                Route::get('questionGroups/{uuid}', [QuestionGroupController::class, 'show'])
+                    ->name('questionGroup.show');
+
+                /* Create question group */
+                Route::get('questionGroups/{questionType}/create', [QuestionGroupController::class, 'create'])
+                    ->name('questionGroup.create');
+                Route::post('questionGroups/{questionType}/create', [QuestionGroupController::class, 'store'])
+                    ->name('questionGroup.store');
+
+                /* Edit question group */
+                Route::get('questionGroups/{uuid}/edit', [QuestionGroupController::class, 'edit'])
+                    ->name('questionGroup.edit');
+                Route::put('questionGroups/{uuid}/edit', [QuestionGroupController::class, 'update'])
+                    ->name('questionGroup.update');
+
+                /* Remove question group */
+            });
+
+
             Route::prefix('quizzes/{quiz}')->group(function (){
+                /* Question group */
+//                Route::post('questionGroups/{questionType}/store', [QuestionController::class, 'storeWithGroup'])
+//                    ->name('quizzes.questionGroup.store');
+
+
+
+
 
                 /* Remove Quiz Media Files */
                 Route::put('audio-remove', [QuizController::class, 'removeAudio'])->name('quizzes.audio.remove');

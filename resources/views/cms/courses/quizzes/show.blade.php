@@ -96,17 +96,17 @@
         <div class="col-xl-12">
             <div class="widget has-shadow">
                 <div class="widget-header bordered no-actions d-flex align-items-center justify-content-between">
-                    <h4>{{ __("cms-pages.quiz-questions") }}</h4>
+                    <h4>Вопросы теста (группы)</h4>
                     <div class="text-right">
                         <div class="actions dark">
                             <div class="dropdown">
                                 <button type="button" class="btn btn-primary mr-1 mb-2" data-toggle="dropdown"
                                         aria-haspopup="true" aria-expanded="false" class="dropdown-toggle">
-                                    {{ __("cms-pages.add-question") }} ...
+                                    Добавить группу вопросов ...
                                 </button>
                                 <div class="dropdown-menu">
                                     @foreach($questionTypes as $type)
-                                        <a href="{{ route('questions.create', [$course->id, $stage->id, $quiz->id, $type->title]) }}"
+                                        <a href="{{ route('questionGroup.create', [$course, $stage, $quiz, $type->title]) }}"
                                            class="dropdown-item">
                                             <i class="la la-plus"></i>{{ __("cms-pages.".$type->title) }}
                                         </a>
@@ -121,27 +121,30 @@
                         <table id="sorting-table" class="table mb-0">
                             <thead>
                             <tr>
-                                <th>{{ __("cms-pages.question") }}</th>
-                                <th>{{ __("cms-pages.question-type") }}</th>
+                                <th>Группа</th>
+                                <th>Тип вопросов</th>
                                 <th>{{ __("cms-pages.actions") }}</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($quiz->questions as $question)
+                            @foreach($quizDto->getQuestionGroups() as $group)
                                 <tr>
-                                    <td class="text-primary">{!! $question->title !!}</td>
-                                    <td>{{ __("cms-pages.".$question->type) }}</td>
+                                    <td class="text-primary">{!! $group->getTitle() !!}</td>
+                                    <td>{{ $group->getType()->getValue() }}</td>
+                                    <td class="td-actions" style="width: 190px">
+                                        <a href="{{ route('questionGroup.show', [$course, $stage, $quiz, $group->getUuid()]) }}"
+                                           title="Просмотр группы"><i class="la la-eye edit"></i></a>
 
-                                    <td class="td-actions">
-                                        <a href="{{ route('questions.show', [$course->id, $stage->id, $quiz->id, $question->id]) }}"><i
-                                                    class="la la-eye edit"></i></a>
-                                        <a href="{{ route('questions.edit', [$course->id, $stage->id, $quiz->id, $question->id]) }}"><i
-                                                    class="la la-edit edit"></i></a>
+                                        <a href=""
+                                           title="Добавить вопрос в группу"><i class="la la-plus edit"></i></a>
+
+                                        <a href="{{--{{ route('questions.edit', [$course->id, $stage->id, $quiz->id, $question->id]) }}--}}"
+                                           title="Редактирование группы"><i class="la la-edit edit"></i></a>
+
                                         <form style="display: inline-block" method="POST"
-                                              action="{{ route('questions.destroy', [$course->id, $stage->id, $quiz->id, $question->id]) }}">
+                                              action="{{--{{ route('questions.destroy', [$course->id, $stage->id, $quiz->id, $question->id]) }}--}}">
                                             @csrf @method('DELETE')
-
-                                            <a href="{{ route('questions.destroy', [$course->id, $stage->id, $quiz->id, $question->id]) }}"
+                                            <a href="{{--{{ route('questions.destroy', [$course->id, $stage->id, $quiz->id, $question->id]) }}--}}"
                                                onclick="event.preventDefault();if(confirm('{{ __("cms-messages.delete") }}')){this.closest('form').submit();}">
                                                 <i class="la la-close delete"></i>
                                             </a>

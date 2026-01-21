@@ -7,6 +7,7 @@ namespace App\Infrastructure\MS\Quiz;
 use App\Infrastructure\MS\Quiz\Clients\QuizClient;
 use App\Models\LMS\Quiz;
 use Exception;
+use Symfony\Component\Uid\Uuid;
 
 class QuizGateway
 {
@@ -40,7 +41,7 @@ class QuizGateway
     public function storeInMs(array $data): string
     {
         return $this->client->store([
-            'uuid' => (string)$data['uuid'],
+            'uuid' => Uuid::v4()->toRfc4122(),
             'title' => (string)$data['title'],
             'description' => (string)$data['description'] ?? null,
             'imageId' => $data['image'] ?? null,

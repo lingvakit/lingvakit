@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Symfony\Component\Uid\Uuid;
 
-class StoreQuestionRequest extends FormRequest
+class UpdateQuestionGroupRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -17,8 +18,13 @@ class StoreQuestionRequest extends FormRequest
     {
         return [
             'question_group_title' => ['required', 'string'],
-            'question_text' => ['required', 'string'],
-            'question_points' => ['required', 'numeric', 'min:1'],
+        ];
+    }
+
+    public function toMsPayload(): array
+    {
+        return [
+            'title' => $this->input('question_group_title'),
         ];
     }
 }

@@ -21,7 +21,7 @@
         "laravel/framework": "^9.0",
         "laravel/passport": "^12.4",
         "laravel/tinker": "^2.5",
-        "lingvakit/quiz-contract": "^1.2",
+        "lingvakit/quiz-contract": "^1.6.0",
         "spatie/laravel-permission": "^5.8"
     },
     "require-dev": {

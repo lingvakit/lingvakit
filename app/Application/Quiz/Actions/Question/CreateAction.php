@@ -16,11 +16,11 @@ readonly class CreateAction
     /**
      * @throws \Exception
      */
-    public function execute(array $data, string $quizUuid): string
+    public function execute(array $data): string
     {
         try {
             // Create question in microservice
-            $uuid = $this->questionGateway->createQuestionInMs($data, $quizUuid);
+            $uuid = $this->questionGateway->storeInMs($data);
         } catch (\Throwable $exception) {
             throw new \Exception('Quiz uuid is not valid');
         }
