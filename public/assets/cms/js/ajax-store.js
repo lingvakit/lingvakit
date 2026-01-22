@@ -221,35 +221,83 @@ window.Lingva = {};
             }
         }
 
+        let currentPage = 1;
+        let lastPage = null;
+        let currentType = null;
+        let isLoading = false;
+
+        function loadFiles(type, page = 1) {
+            if (isLoading) return;
+
+            isLoading = true;
+
+            if (page === 1) {
+                showMediaLoader();
+            }
+
+            $.ajax({
+                url: window.location.origin + '/ajax/files/' + type,
+                data: { page },
+                success: function (res) {
+
+                    getGalleryByType(res.files);
+
+                    currentPage = res.meta.current_page;
+                    lastPage = res.meta.last_page;
+
+                    if (currentPage < lastPage) {
+                        $('#load-more').show();
+                    }
+                },
+                complete: function () {
+                    isLoading = false;
+                    hideMediaLoader();
+                }
+            });
+        }
+
+        function showMediaLoader() {
+            $('#media-loader').show();
+            $mediaLibrary.hide();
+        }
+
+        function hideMediaLoader() {
+            $('#media-loader').hide();
+            $mediaLibrary.show();
+        }
+
         return function () {
+
             $button = $('.btn-attach');
+
             $button.on('click', function () {
                 let $this = $(this);
-                let $file_type = $this.attr('data-type');
-                let $file_var = $this.attr('data-var');
-                let url = window.location.origin + '/ajax/files/' + $file_type;
 
-                button = $('[data-var="' + $file_var + '"]');
+                currentType = $this.attr('data-type');
+                let fileVar = $this.attr('data-var');
+
+                button = $('[data-var="' + fileVar + '"]');
+
+                // первая загрузка
+                currentPage = 1;
+                lastPage = null;
+
                 $mediaLibrary.empty();
+                $('#load-more').hide();
 
-                // Получаем галерею по типу файла
-                $.ajax({
-                    url: url,
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function (res) {
-                        getGalleryByType(res.files);
-                    }
-                });
+                loadFiles(currentType, 1);
             });
 
-            // Choose files
-            // $(document).on('click', '.file-wrap', function () {
-            //     initFillForm($(this));
-            // });
+            // КНОПКА "ЗАГРУЗИТЬ ЕЩЁ"
+            $(document).on('click', '#load-more', function () {
+                if (currentPage < lastPage) {
+                    loadFiles(currentType, currentPage + 1);
+                }
+            });
+
+            // 👉 выбор файла
             $(document).on('click', '.file-wrap', function (e) {
 
-                // 👉 CKEditor режим
                 if (window.CKEDITOR_MEDIA_MODE === true) {
                     e.preventDefault();
                     e.stopPropagation();
@@ -269,16 +317,13 @@ window.Lingva = {};
                         window.CKEditorInsertMedia(media);
                     }
 
-                    // 🔻 закрываем режим
                     window.CKEDITOR_MEDIA_MODE = false;
-
-                    // закрываем модалку
                     $('.media-modal').modal('hide');
+
                 } else {
                     initFillForm($(this));
                 }
             });
-
 
             inputYoutube.blur(function () {
                 let input = '<input type="hidden" name="video" value="' + $(this).val() + '">';
@@ -303,32 +348,30 @@ window.Lingva = {};
                     processData: false,
                     data: formData,
                     success: function (result) {
-                        // Add New Images to Gallery
+
                         $.each(result.files, function (key, file) {
                             uploadFile(file);
                         });
 
-                        // Show Success Message
                         $('.alert').removeClass('hide').html(result.success);
                         setTimeout(function () {
                             $('.alert').addClass('hide');
                         }, 1000);
 
-                        // Click to Choosing file tab
                         setTimeout(function () {
-                            $this.closest('.modal-body').find('.choose-aria').trigger('click');
-                            // $('#choosing-tab').trigger('click');
+                            $this.closest('.modal-body')
+                                .find('.choose-aria')
+                                .trigger('click');
                         }, 1000);
                     }
                 });
             });
 
-
-            $(document).on('click', '.slide-item .la-close', function (e) {
+            $(document).on('click', '.slide-item .la-close', function () {
                 $(this).parent('.slide-item').remove();
             });
 
-            // Remove File From Database
+            // Remove File
             $(document).on('click', '.file-remove', function (e) {
                 e.preventDefault();
 
@@ -341,7 +384,7 @@ window.Lingva = {};
                 } else {
                     let formData = new FormData(document.getElementById("form-update"));
                     $.ajax({
-                        url: div.attr('data-delete'),
+                        url: url,
                         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                         method: method,
                         data: formData,
@@ -353,7 +396,7 @@ window.Lingva = {};
                     });
                 }
             });
-        }
+        };
     })();
 
     Lingva.init = function () {
