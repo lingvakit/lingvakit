@@ -28,7 +28,18 @@
                 <div class="tab-content pt-3">
                     <div class="tab-pane fade show active" id="choosing-area" role="tabpanel" aria-labelledby="choosing-tab">
                         {{-- File Gallery --}}
+                        <div id="media-loader" class="text-center py-4" style="display:none">
+                            <div class="spinner-border text-primary"></div>
+                            <div class="mt-2">Загрузка файлов…</div>
+                        </div>
+
                         <div id="media-library" class="media-library row"></div>
+
+                        <div class="text-center mt-3">
+                            <button id="load-more" class="btn btn-outline-primary" style="display:none">
+                                Загрузить ещё
+                            </button>
+                        </div>
                     </div>
                     <div class="tab-pane fade" id="uploading-area" role="tabpanel" aria-labelledby="uploading-tab">
                         <form id="form-upload" action="{{route('media.store-ajax')}}" method="POST" enctype="multipart/form-data">

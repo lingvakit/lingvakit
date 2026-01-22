@@ -123,26 +123,32 @@ class MediaFileController extends Controller
     {
         $result = [];
 
-        MediaFile::where('author_id', Auth::id())
+        $files = MediaFile::where('author_id', Auth::id())
             ->where('type', $fileType)
             ->orderBy('created_at', 'desc')
-            ->chunk(50, function ($mediaFiles) use (&$result) {
-                foreach ($mediaFiles as $mediaFile) {
-                    $result[] = [
-                        'id' => $mediaFile->id,
-                        'title' => $mediaFile->title,
-                        'path' => $mediaFile->getPath(),
-                        'alt' => $mediaFile->alt,
-                        'type' => $mediaFile->type,
-                        'size' => $mediaFile->getFileSize(),
-                        'duration' => $mediaFile->duration,
-                        'link' => "{$mediaFile->getMsMediaUrl()}/uploads/{$mediaFile->path}/{$mediaFile->filename}",
-                    ];
-                }
-            });
+            ->paginate(12);
+
+        foreach ($files as $mediaFile) {
+            $result[] = [
+                'id' => $mediaFile->id,
+                'title' => $mediaFile->title,
+                'path' => $mediaFile->getPath(),
+                'alt' => $mediaFile->alt,
+                'type' => $mediaFile->type,
+                'size' => $mediaFile->getFileSize(),
+                'duration' => $mediaFile->duration,
+                'link' => "{$mediaFile->getMsMediaUrl()}/uploads/{$mediaFile->path}/{$mediaFile->filename}",
+            ];
+        }
 
         return response()->json([
-            'files' => $result
+            'files' => $result,
+            'meta' => [
+                'current_page' => $files->currentPage(),
+                'last_page' => $files->lastPage(),
+                'per_page' => $files->perPage(),
+                'total' => $files->total(),
+            ]
         ]);
     }
 

@@ -2,6 +2,12 @@
 
 ---
 
+## [1.20.4] - 2026-01-22
+### Fixed:
+* Decrease media items on page for improving loading speed
+
+---
+
 ## [1.20.3] - 2025-12-23
 ### Fixed:
 * improve speed for showing images via lazy load
