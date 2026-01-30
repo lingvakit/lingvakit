@@ -73,7 +73,7 @@ window.Lingva = {};
                     break;
                 case 'file':
                     content =
-                        '<span class="file" data-id="' + id + '" data-title="' + title + '"></span>' +
+                        '<a href="' + path + '" class="file" data-id="' + id + '" data-title="' + title + '"></a>' +
                         '<h6 class="text-center">' + title + '</h6>';
                     break;
             }
@@ -309,6 +309,7 @@ window.Lingva = {};
                         id: file.data('id'),
                         title: file.data('title'),
                         path: file.attr('src'),
+                        href: file.attr('href'),
                         type: el.data('type'),
                         alt: file.data('title')
                     };
