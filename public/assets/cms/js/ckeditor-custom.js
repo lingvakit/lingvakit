@@ -21,6 +21,13 @@ window.CKEditorInsertMedia = function (file) {
             el.setStyle('max-width', '600px');
             break;
 
+        case 'file':
+            el = editor.document.createElement('a');
+            el.setAttribute('href', file.href);
+            el.setAttribute('target', '_blank');
+            el.setText(file.title || 'Скачать файл');
+            break;
+
         case 'image':
             let src = new URL(file.path);
 
@@ -32,6 +39,17 @@ window.CKEditorInsertMedia = function (file) {
             break;
     }
 
+    editor.insertElement(el);
+};
+
+window.CKEditorInsertFile = function(file) {
+    let editor = CKEDITOR.instances.description;
+    if (!editor) return;
+
+    let el = editor.document.createElement('a');
+    el.setAttribute('href', file.path);
+    el.setAttribute('target', '_blank'); // открывать в новой вкладке
+    el.setText(file.name || 'Скачать файл');
     editor.insertElement(el);
 };
 
@@ -67,6 +85,15 @@ CKEDITOR.plugins.add('mediaupload', {
             }
         });
 
+        editor.addCommand('openFileLibrary', {
+            exec: function (editor) {
+                window.CKEDITOR_MEDIA_MODE = true;
+                window.currentCkEditorInstance = editor;
+
+                $('.btn-attach[data-type="file"]').trigger('click');
+            }
+        });
+
         editor.ui.addButton('Image', {
             label: 'Картинка',
             command: 'openImageLibrary',
@@ -84,6 +111,13 @@ CKEDITOR.plugins.add('mediaupload', {
             label: 'Видео',
             command: 'openVideoLibrary',
             toolbar: 'insert',
+        });
+
+        editor.ui.addButton('File', {
+            label: 'Файл',
+            command: 'openFileLibrary',
+            toolbar: 'insert',
+            icon: 'link'
         });
     }
 });
@@ -170,6 +204,51 @@ CKEDITOR.dialog.add('videoDialog', function (editor) {
                     video.setStyle('max-width', '100%');
 
                     editor.insertElement(video);
+                });
+        }
+    };
+});
+
+CKEDITOR.dialog.add('fileDialog', function(editor) {
+    return {
+        title: 'Загрузка файла',
+        minWidth: 400,
+        minHeight: 100,
+
+        contents: [{
+            id: 'upload',
+            elements: [{
+                type: 'file',
+                id: 'file',
+                label: 'Выберите файл',
+                validate: CKEDITOR.dialog.validate.notEmpty("Файл обязателен")
+            }]
+        }],
+
+        onOk: function () {
+            console.log(1);
+            let dialog = this;
+            let fileInput = dialog.getContentElement('upload', 'file').getInputElement().$;
+
+            let formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+
+            fetch('/admin/upload/file', { // <-- ваш роут для загрузки файлов
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                },
+                body: formData
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data)
+
+                    let link = editor.document.createElement('a');
+                    link.setAttribute('href', data.url);
+                    link.setAttribute('target', '_blank');
+                    link.setText(fileInput.files[0].name);
+                    editor.insertElement(link);
                 });
         }
     };

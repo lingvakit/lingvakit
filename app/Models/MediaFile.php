@@ -48,7 +48,7 @@ class MediaFile extends Model
         $this->title = $file->getClientOriginalName();
         $this->filename = $filename;
         $this->path = $directoryPath;
-        $this->type = $fileType;
+        $this->type = $fileType === "document" ? "file" : $fileType;
         $this->size = $file->getSize();
         $this->author_id = $currentUser->id;
         $this->save();
