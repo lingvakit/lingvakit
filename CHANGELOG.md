@@ -2,6 +2,12 @@
 
 ---
 
+## [1.20.5] - 2026-01-30
+### Fixed:
+* Uploading PDF toeditor
+
+---
+
 ## [1.20.4] - 2026-01-22
 ### Fixed:
 * Decrease media items on page for improving loading speed
