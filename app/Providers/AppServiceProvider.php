@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Application\Courses\ReadModel\CourseReadRepository;
+use App\Infrastructure\Persistence\Eloquent\Courses\EloquentCourseReadRepository;
 use App\Kafka\Producer\BaseProducer;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Support\Facades\Auth;
@@ -36,6 +38,11 @@ class AppServiceProvider extends ServiceProvider
 
             return new BaseProducer($producer, $topicsConfig, $logger);
         });
+
+        $this->app->bind(
+            abstract: CourseReadRepository::class,
+            concrete: EloquentCourseReadRepository::class
+        );
     }
 
     /**

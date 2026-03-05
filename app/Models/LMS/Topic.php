@@ -34,17 +34,31 @@ class Topic extends Model
         return $this->hasMany(TopicComment::class);
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
-        $title = false;
-
-        if ($this->quiz) {
-            $title = $this->quiz->title;
-        }
         if ($this->lesson) {
-            $title = $this->lesson->title;
+            return $this->lesson->title;
         }
-        return $title;
+
+        return $this->quiz->title;
+    }
+
+    public function getType(): string
+    {
+        if ($this->lesson) {
+            return 'Урок';
+        }
+
+        return 'Тест';
+    }
+
+    public function getImageUrl(): string
+    {
+        if ($this->lesson) {
+            return $this->lesson->getImage();
+        }
+
+        return $this->quiz->getImage();
     }
 
     public function getResult($user)
