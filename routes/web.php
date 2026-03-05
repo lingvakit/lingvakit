@@ -53,11 +53,6 @@ Route::get('/email/verify/success', [AuthController::class, 'successVerification
 
 Route::post('ckeditor/upload', [CKEditorController::class, 'upload'])->name('ckeditor.upload');
 
-/* TEACHER'S DASHBOARD */
-/*Route::middleware(['auth', 'verified', 'locale', 'role:teacher'])->group(function (){
-    Route::get('teacher-panel', [CourseController::class, 'index'])->name('teacher.panel');
-});*/
-
 /* AJAX */
 Route::get('ajax/files/{fileType}', [MediaFileController::class, 'getFilesByAjax'])->name('ajax.get-files');
 Route::get('ajax/promo/{code}', [PromocodeController::class, 'getPromoCodeData'])->name('ajax.get-promo-code');
@@ -66,15 +61,6 @@ Route::get('ajax/promo/{code}', [PromocodeController::class, 'getPromoCodeData']
 Route::middleware(['guest'])->group(function (){
     Route::post('reset-user-password', [AuthController::class, 'resetPassword'])->name('password.update');
 });
-
-
-/* Scripts for Changing Database */
-//Route::get('media/change-paths', [SuperuserController::class, 'changePaths'])
-//    ->middleware(['auth', 'role:admin'])->name('media.change-paths');
-
-/* Update all index_number for each entry */
-/*Route::get('topics/set-numbers', [SuperuserController::class, 'setNumbersForTopics'])
-    ->name('superuser.set-numbers-for-topics');*/
 
 // Delete non-existent topics
 Route::prefix('repair')->middleware(['role:superuser'])->group(function (){
@@ -85,3 +71,6 @@ Route::prefix('repair')->middleware(['role:superuser'])->group(function (){
 require_once 'lk-students.php';
 /* Admins routes */
 require_once 'admin.php';
+
+/* React admin API */
+require_once 'react-admin.php';
