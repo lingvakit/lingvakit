@@ -5,7 +5,6 @@ namespace App\UI\Http\Api\Admin\Controllers\Category;
 
 use App\Application\Category\Queries\CategoryListQuery;
 use App\Http\Controllers\Controller;
-use App\UI\Http\Api\Admin\Requests\Category\CategoryListRequest;
 use App\UI\Http\Api\Admin\Resources\Category\CategoryListItemResource;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
@@ -15,7 +14,7 @@ class CategoryListController extends Controller
         private readonly CategoryListQuery $query
     ) {}
 
-    public function __invoke(CategoryListRequest $request): AnonymousResourceCollection
+    public function __invoke(): AnonymousResourceCollection
     {
         $categories = $this->query->handle();
 
