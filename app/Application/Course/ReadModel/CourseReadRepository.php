@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Application\Courses\ReadModel;
+namespace App\Application\Course\ReadModel;
 
-use App\Application\Courses\Dto\CourseDetailsDto;
-use App\Application\Courses\Dto\CourseListItemDto;
+use App\Application\Course\Dto\CourseDetailsDto;
+use App\Application\Course\Dto\CourseListItemDto;
 use Illuminate\Pagination\AbstractPaginator;
 
 interface CourseReadRepository

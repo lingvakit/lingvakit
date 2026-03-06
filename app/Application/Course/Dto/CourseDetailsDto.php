@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Application\Courses\Dto;
+namespace App\Application\Course\Dto;
 
-use App\Application\Courses\Dto\Course\CourseModuleDto;
+use App\Application\Course\Dto\Course\CourseModuleDto;
 
 final readonly class CourseDetailsDto
 {

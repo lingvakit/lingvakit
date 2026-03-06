@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Infrastructure\Persistence\Eloquent\Courses;
+namespace App\Infrastructure\Persistence\Eloquent\Course;
 
-use App\Application\Courses\Dto\CourseDetailsDto;
-use App\Application\Courses\Dto\CourseListItemDto;
-use App\Application\Courses\ReadModel\CourseReadRepository;
+use App\Application\Course\Dto\CourseDetailsDto;
+use App\Application\Course\Dto\CourseListItemDto;
+use App\Application\Course\ReadModel\CourseReadRepository;
 use App\Models\LMS\Course;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Pagination\AbstractPaginator;

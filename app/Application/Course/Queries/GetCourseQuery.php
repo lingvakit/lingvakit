@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Application\Courses\Queries;
+namespace App\Application\Course\Queries;
 
-use App\Application\Courses\Dto\CourseDetailsDto;
-use App\Application\Courses\ReadModel\CourseReadRepository;
+use App\Application\Course\Dto\CourseDetailsDto;
+use App\Application\Course\ReadModel\CourseReadRepository;
 
 final readonly class GetCourseQuery
 {
