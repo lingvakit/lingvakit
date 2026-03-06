@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace App\UI\Http\Api\Admin\Controllers\Courses;
+namespace App\UI\Http\Api\Admin\Controllers\Course;
 
-use App\Application\Courses\Queries\GetCourseQuery;
+use App\Application\Course\Queries\GetCourseQuery;
 use App\Http\Controllers\Controller;
-use App\UI\Http\Api\Admin\Resources\CourseDetailsResource;
+use App\UI\Http\Api\Admin\Resources\Course\CourseDetailsResource;
 
 final class CourseShowController extends Controller
 {

@@ -28,13 +28,6 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\Admin\PromocodeController;
 use Illuminate\Support\Facades\Route;
 
-// React admin
-Route::middleware(['auth'])->get('me', function (){});
-Route::prefix('admin')->middleware(['auth', 'locale', 'role:superuser|admin|teacher'])->group(function () {
-    Route::view('{any?}', 'layouts.cms-react')
-        ->where('any', '.*');
-});
-
 Route::prefix('dashboard')->middleware(['auth', 'locale', 'role:superuser|admin|teacher'])->group(function (){
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 

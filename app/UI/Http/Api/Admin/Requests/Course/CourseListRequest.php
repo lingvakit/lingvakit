@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\UI\Http\Api\Admin\Requests\Courses;
+namespace App\UI\Http\Api\Admin\Requests\Course;
 
 use Illuminate\Foundation\Http\FormRequest;
 

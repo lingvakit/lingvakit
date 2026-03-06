@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace App\UI\Http\Api\Admin\Resources;
+namespace App\UI\Http\Api\Admin\Resources\Course;
 
-use App\Application\Courses\Dto\CourseDetailsDto;
+use App\Application\Course\Dto\CourseDetailsDto;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CourseDetailsResource extends JsonResource

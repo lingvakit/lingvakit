@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Application\Courses\Queries;
+namespace App\Application\Course\Queries;
 
-use App\Application\Courses\ReadModel\CourseReadRepository;
+use App\Application\Course\ReadModel\CourseReadRepository;
 use Illuminate\Pagination\AbstractPaginator;
 
-final readonly class ListCoursesQuery
+final readonly class CourseListQuery
 {
     public function __construct(
         private CourseReadRepository $repository

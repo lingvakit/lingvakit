@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Application\Courses\Dto\Course;
+namespace App\Application\Course\Dto\Course;
 
 final readonly class CourseTopicDto
 {
