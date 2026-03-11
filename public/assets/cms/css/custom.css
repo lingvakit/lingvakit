@@ -348,3 +348,12 @@ tr.header-danger {
 .chat .friend-list .list-group-item.active {
     box-shadow: inset 2px 0 0 0 #e76c90;
 }
+
+/* Modal */
+.modal-open .modal {
+    background-color: rgba(46,52,81,.8)
+}
+
+.modal-dialog {
+    max-width: 1600px;
+}

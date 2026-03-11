@@ -14,6 +14,7 @@ export type Course = {
 
 export type CreateCoursePayload = {
     title: string;
+    description: string;
     price: string;
     duration: number;
     difficultyLevel: string;
