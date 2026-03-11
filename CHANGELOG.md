@@ -2,6 +2,12 @@
 
 ---
 
+## [1.21.0] - 2026-03-11
+### Added:
+* Course pages via react
+
+---
+
 ## [1.20.5] - 2026-01-30
 ### Fixed:
 * Uploading PDF to editor

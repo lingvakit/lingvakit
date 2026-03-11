@@ -21,14 +21,37 @@ jobs:
       - name: Deploy to VDS
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
+            set -e &&
             cd ${{ secrets.DEPLOY_PATH }} &&
-            git fetch --all &&
-            git reset --hard HEAD &&
+            git fetch --all --tags &&
             git checkout tags/${{ github.ref_name }} &&
             echo 'Deployed tag ${{ github.ref_name }} to production' &&
           
-            docker exec php83 sh -c 'cd lingvakit && composer install --no-interaction --prefer-dist' &&
-            docker exec php83 sh -c 'cd lingvakit && php artisan migrate --force' &&
-            docker exec php83 sh -c 'cd lingvakit && php artisan cache:clear' &&
+            docker run --rm \
+              -v $DEPLOY_PATH/src/backend/lingvakit:/app \
+              -w /app \
+              node:20-alpine \
+              sh -c "npm ci && npm run build" &&
+          
+            docker exec lingvakit sh -c '
+              composer install --no-interaction --prefer-dist --no-dev --optimize-autoloader
+            ' &&
+            
+            docker exec lingvakit sh -c '
+              php artisan migrate --force
+            ' &&
+          
+            docker exec lingvakit sh -c '
+              php artisan cache:clear
+            ' &&
+          
+            docker exec lingvakit sh -c '
+              php artisan config:clear &&
+              php artisan cache:clear &&
+              php artisan route:clear &&
+              php artisan view:clear &&
+              php artisan config:cache
+            ' &&
+          
             echo 'Deployment and post-steps completed for production.'
           "
