@@ -28,7 +28,7 @@ jobs:
             echo 'Deployed tag ${{ github.ref_name }} to production' &&
           
             docker run --rm \
-              -v ${{ secrets.DEPLOY_PATH }}:/app \
+              -v ./:/app \
               -w /app \
               node:20-alpine \
               sh -c 'npm ci && npm run build' &&
