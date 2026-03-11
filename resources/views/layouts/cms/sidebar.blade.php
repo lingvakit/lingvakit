@@ -27,8 +27,11 @@
 
             {{-- Courses --}}
             @if($currentUser->hasPermissionTo('course manage'))
-                <li><a href="#dropdown-courses" aria-expanded="false" data-toggle="collapse"><i
-                                class="la la-mortar-board"></i><span>{{ __("cms-pages.courses") }}</span></a>
+                <li>
+                    <a href="#dropdown-courses" aria-expanded="false" data-toggle="collapse">
+                        <i class="la la-mortar-board"></i>
+                        <span>{{ __("cms-pages.courses") }}</span>
+                    </a>
                     <ul id="dropdown-courses" class="collapse list-unstyled pt-0">
                         <li><a href="{{ route('courses.index') }}">{{ __("cms-pages.all-courses") }}</a></li>
 
@@ -40,6 +43,19 @@
                         @if($currentUser->hasPermissionTo('promocode manage'))
                             <li><a href="{{ route('promocodes.index') }}">{{ __("cms-pages.promo-codes") }}</a></li>
                         @endif
+                    </ul>
+                </li>
+
+                <li><a href="#dropdown-coursesReact" aria-expanded="false" data-toggle="collapse">
+                        <i class="la la-mortar-board"></i>
+                        <span>Курсы (react)</span>
+                    </a>
+                    <ul id="dropdown-coursesReact" class="collapse list-unstyled pt-0">
+                        <li>
+                            <a href="{{ url('dashboard/coursesReact') }}">
+                                Все курсы
+                            </a>
+                        </li>
                     </ul>
                 </li>
             @endif

@@ -31,6 +31,12 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('dashboard')->middleware(['auth', 'locale', 'role:superuser|admin|teacher'])->group(function (){
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
+    // Micro frontend "Courses"
+    Route::prefix('coursesReact')->group(function () {
+        Route::view('{any?}', 'layouts.cms-react')
+            ->where('any', '.*');
+    });
+
     Route::resource('articles', ArticleController::class);
     Route::put('articles/{article}/image-remove', [ArticleController::class, 'removeImage'])->name('articles.image.remove');
 
