@@ -2,6 +2,12 @@
 
 ---
 
+## [1.21.1] - 2026-03-11
+### Fixed:
+* Deploy config
+
+---
+
 ## [1.21.0] - 2026-03-11
 ### Added:
 * Course pages via react

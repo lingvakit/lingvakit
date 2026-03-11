@@ -31,7 +31,7 @@ jobs:
               -v $DEPLOY_PATH/src/backend/lingvakit:/app \
               -w /app \
               node:20-alpine \
-              sh -c "npm ci && npm run build" &&
+              sh -c 'npm ci && npm run build' &&
           
             docker exec lingvakit sh -c '
               composer install --no-interaction --prefer-dist --no-dev --optimize-autoloader
