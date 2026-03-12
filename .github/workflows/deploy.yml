@@ -42,10 +42,6 @@ jobs:
             ' &&
           
             docker exec lingvakit sh -c '
-              php artisan cache:clear
-            ' &&
-          
-            docker exec lingvakit sh -c '
               php artisan config:clear &&
               php artisan cache:clear &&
               php artisan route:clear &&

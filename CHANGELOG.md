@@ -2,6 +2,12 @@
 
 ---
 
+## [1.21.5] - 2026-03-12
+### Fixed:
+* Autoload helpers
+
+---
+
 ## [1.21.4] - 2026-03-11
 ### Fixed:
 * Deploy config
