@@ -5,8 +5,10 @@ namespace App\Providers;
 
 use App\Application\Category\ReadModel\CategoryReadRepository;
 use App\Application\Course\ReadModel\CourseReadRepository;
+use App\Application\Media\ReadModel\MediaFileRepository;
 use App\Infrastructure\Persistence\Eloquent\Category\EloquentCategoryReadRepository;
 use App\Infrastructure\Persistence\Eloquent\Course\EloquentCourseReadRepository;
+use App\Infrastructure\Persistence\Eloquent\MediaFile\EloquentMediaFileRepository;
 use App\Kafka\Producer\BaseProducer;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Support\Facades\Auth;
@@ -43,13 +45,18 @@ class AppServiceProvider extends ServiceProvider
         });
 
         $this->app->bind(
+            abstract: CategoryReadRepository::class,
+            concrete: EloquentCategoryReadRepository::class
+        );
+
+        $this->app->bind(
             abstract: CourseReadRepository::class,
             concrete: EloquentCourseReadRepository::class
         );
 
         $this->app->bind(
-            abstract: CategoryReadRepository::class,
-            concrete: EloquentCategoryReadRepository::class
+            abstract: MediaFileRepository::class,
+            concrete: EloquentMediaFileRepository::class
         );
     }
 
