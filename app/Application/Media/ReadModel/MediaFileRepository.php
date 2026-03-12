@@ -9,5 +9,5 @@ use Illuminate\Pagination\AbstractPaginator;
 interface MediaFileRepository
 {
     /** @return AbstractPaginator<MediaFileDto> */
-    public function paginate(int $perPage, string $search): AbstractPaginator;
+    public function paginate(int $perPage, string $search, string $type): AbstractPaginator;
 }

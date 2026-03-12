@@ -7,11 +7,12 @@ use App\Application\Media\Dto\MediaFileDto;
 use App\Application\Media\Enum\FileType;
 use App\Application\Media\ReadModel\MediaFileRepository;
 use App\Models\MediaFile;
+use App\UI\Exception\FileTypeNotExistsException;
 use Illuminate\Pagination\AbstractPaginator;
 
 class EloquentMediaFileRepository implements MediaFileRepository
 {
-    public function paginate(int $perPage = 20, string $search = ''): AbstractPaginator
+    public function paginate(int $perPage = 20, string $search = '', string $type = ''): AbstractPaginator
     {
         $query = MediaFile::query()
             ->select([
@@ -21,6 +22,14 @@ class EloquentMediaFileRepository implements MediaFileRepository
                 'type'
             ])
             ->orderByDesc('created_at');
+
+        if ($type !== '') {
+            if (!FileType::tryFrom($type)) {
+                throw new FileTypeNotExistsException("File type '$type' not exists");
+            }
+
+            $query->where('type', '=', $type);
+        }
 
         if ($search !== '') {
             $query->where('filename', 'like', "%{$search}%");

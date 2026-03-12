@@ -3,51 +3,35 @@ import React, {FormEvent} from "react";
 import TextareaEditor from "../../../shared/components/TextareaEditor";
 import CourseMediaField from "./CourseMediaField";
 import CourseDifficultyField from "./CourseDifficultyField";
+import {useCourseCreateForm} from "../hooks/useCourseCreateForm";
 
 type Props = {
     categoryList: Category[];
     submitError: string | null;
     isSaving: boolean;
-    form: {
-        title: string;
-        description: string;
-        difficultyLevel: string;
-        duration: number;
-        price: string;
-        categoryId: string;
-        imageId: number | null;
-        videoId: number | null;
-        audioId: number | null;
-        setDescription: (value: string) => void;
-        handleInputChange: React.ChangeEventHandler<HTMLInputElement>;
-        handleChangeCategoryId: React.ChangeEventHandler<HTMLSelectElement>;
-        handleOpenMediaModal: (type: "image" | "video" | "audio") => void;
-    };
-    onSubmit: (e: FormEvent<HTMLFormElement>) => Promise<void>;
+    form: ReturnType<typeof useCourseCreateForm>;
+    onSubmit: () => Promise<void>;
 };
 
-export default function CourseForm({
-    categoryList,
-    submitError,
-    isSaving,
-    form,
-    onSubmit
-}: Props) {
+export default function CourseForm(
+    {
+        categoryList,
+        submitError,
+        isSaving,
+        form,
+        onSubmit,
+    }: Props) {
     const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
         e.preventDefault();
-        await onSubmit(e);
+        await onSubmit();
     };
 
     return (
-        <form
-            className="form-horizontal"
-            onSubmit={handleSubmit}
-        >
+        <form className="form-horizontal" onSubmit={handleSubmit}>
             <div className="row flex-row">
                 <div className="col-12">
                     <div className="widget has-shadow">
-                        <div
-                            className="widget-header bordered no-actions d-flex align-items-center justify-content-between">
+                        <div className="widget-header bordered no-actions d-flex align-items-center justify-content-between">
                             <h4>Данные о курсе</h4>
 
                             <div className="text-right">
@@ -75,12 +59,14 @@ export default function CourseForm({
                                         <div className="col-12">
                                             <select
                                                 id="category_select"
-                                                name="category_id"
+                                                name="categoryId"
                                                 className="custom-select form-control"
                                                 value={form.categoryId}
-                                                onChange={form.handleChangeCategoryId}
+                                                onChange={form.handleInputChange}
                                             >
-                                                <option value="" disabled>Категория</option>
+                                                <option value="" disabled>
+                                                    Категория
+                                                </option>
 
                                                 {categoryList.map((category: Category) => (
                                                     <option key={category.id} value={category.id}>
@@ -91,6 +77,7 @@ export default function CourseForm({
                                                 <option value="0">Новая категория</option>
                                             </select>
                                         </div>
+
                                         <div id="new_category" className="col-12 mt-3">
                                             <input
                                                 type="text"
@@ -99,6 +86,7 @@ export default function CourseForm({
                                                 placeholder="Новая категория"
                                                 value=""
                                                 disabled
+                                                onChange={() => {}}
                                             />
                                         </div>
                                     </div>
@@ -123,9 +111,7 @@ export default function CourseForm({
                             </div>
 
                             <div className="form-group row d-flex align-items-center mb-5">
-                                <label className="col-lg-3 form-control-label">
-                                    Описание
-                                </label>
+                                <label className="col-lg-3 form-control-label">Описание</label>
                                 <div className="col-lg-9">
                                     <TextareaEditor
                                         value={form.description}
@@ -146,7 +132,7 @@ export default function CourseForm({
                                 onChange={form.handleInputChange}
                             />
 
-                            <div id="price" className="form-group row align-items-center mb-5 ">
+                            <div id="price" className="form-group row align-items-center mb-5">
                                 <label className="col-lg-3 form-control-label">Цена</label>
                                 <div className="col-lg-9">
                                     <input
@@ -160,8 +146,10 @@ export default function CourseForm({
                                 </div>
                             </div>
 
-                            <div className="form-group row align-items-center mb-5 ">
-                                <label className="col-lg-3 form-control-label">Длительность, мин</label>
+                            <div className="form-group row align-items-center mb-5">
+                                <label className="col-lg-3 form-control-label">
+                                    Длительность, мин
+                                </label>
                                 <div className="col-lg-9">
                                     <input
                                         type="number"

@@ -12,8 +12,8 @@ final readonly class MediaFileListQuery
         private MediaFileRepository $repository
     ) {}
 
-    public function handle(int $perPage, string $search): AbstractPaginator
+    public function handle(int $perPage, string $search, string $type): AbstractPaginator
     {
-        return $this->repository->paginate($perPage, $search);
+        return $this->repository->paginate($perPage, $search, $type);
     }
 }

@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import {useCallback, useState} from "react";
 import {createCourse} from "../api/createCourse";
 import type {CreateCoursePayload} from "../types/course";
 
@@ -15,31 +15,28 @@ export function useCreateCourse(): UseCreateCourseResult {
     const [isSaving, setIsSaving] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const create = async (data: CreateCoursePayload): Promise<void> => {
+    const create = useCallback(async (data: CreateCoursePayload): Promise<void> => {
         try {
             setIsSaving(true);
             setError(null);
 
-            const json = await createCourse(data);
-            const courseId = json?.data?.id;
+            const result = await createCourse(data);
+            const courseId = result?.data?.id;
 
-            if (courseId) {
-                navigate(`/dashboard/coursesReact/${courseId}`);
-                return;
-            }
-
-            navigate("/dashboard/coursesReact");
+            navigate(
+                courseId
+                    ? `/dashboard/coursesReact/${courseId}`
+                    : "/dashboard/coursesReact"
+            );
         } catch (error: unknown) {
-            const message =
-                error instanceof Error ? error.message : "Не удалось сохранить курс";
-
-            setError(message);
-            console.error("Ошибка при сохранении курса", error);
+            setError(
+                error instanceof Error ? error.message : "Не удалось сохранить курс"
+            );
             throw error;
         } finally {
             setIsSaving(false);
         }
-    };
+    }, [navigate]);
 
     return {
         create,

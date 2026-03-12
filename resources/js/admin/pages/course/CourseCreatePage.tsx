@@ -1,4 +1,4 @@
-import React, {type FormEvent} from "react";
+import React from "react";
 import {useCategoryList} from "../../features/category/hooks/useCategoryList";
 import {useCreateCourse} from "../../features/course/hooks/useCreateCourse";
 import PageLayout from "../../layouts/PageLayout";
@@ -9,14 +9,9 @@ import CourseForm from "../../features/course/components/CourseForm";
 export default function CourseCreatePage() {
     const {categoryList, isLoading, error} = useCategoryList();
     const {create, isSaving, error: submitError} = useCreateCourse();
-
     const form = useCourseCreateForm();
 
-    const handleSubmit = async (
-        e: FormEvent<HTMLFormElement>
-    ): Promise<void> => {
-        e.preventDefault();
-
+    const handleSubmit = async (): Promise<void> => {
         await create({
             title: form.title.trim(),
             description: form.description,

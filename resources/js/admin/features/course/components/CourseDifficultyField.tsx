@@ -16,14 +16,14 @@ export default function CourseDifficultyField({value, onChange}: Props) {
                 <div className="row">
                     {difficultyLevels.map((level) => (
                         <div
-                            key={`difficulty_level_${level.value}`}
+                            key={`difficultyLevel_${level.value}`}
                             className="col-xl-2"
                         >
                             <div className="mb-3">
                                 <div className="styled-radio">
                                     <input
                                         type="radio"
-                                        name="difficulty_level"
+                                        name="difficultyLevel"
                                         id={level.value}
                                         value={level.value}
                                         checked={value === level.value}

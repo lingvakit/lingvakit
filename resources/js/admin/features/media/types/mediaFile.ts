@@ -1,6 +1,8 @@
+export type MediaType = "audio" | "image" | "video";
+
 export type MediaFile = {
     id: number;
     fileName: string;
-    type: string;
+    type: MediaType;
     url: string;
-}
+};

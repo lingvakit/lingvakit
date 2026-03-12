@@ -1,6 +1,8 @@
-import {MediaFile, MediaType} from "../types/media";
 import React from "react";
 import BaseModal from "./BaseModal";
+import MediaList from "./media/MediaList";
+import {useMediaList} from "../../features/media/hooks/useMediaList";
+import {MediaFile, MediaType} from "../../features/media/types/mediaFile";
 
 type Props = {
     isOpen: boolean,
@@ -10,6 +12,18 @@ type Props = {
 };
 
 export default function MediaUploadModal({isOpen, mediaType, onClose, onSelect}: Props) {
+    const {
+        mediaFiles,
+        paginatorMeta,
+        page,
+        setPage,
+        itemsPerPage,
+        setItemsPerPage,
+        query,
+        setQuery,
+        error
+    } = useMediaList(mediaType);
+
     return (
         <BaseModal
             isOpen={isOpen}
@@ -56,9 +70,7 @@ export default function MediaUploadModal({isOpen, mediaType, onClose, onSelect}:
             </ul>
 
             <div className="tab-content pt-3">
-                <div className="tab-pane fade show active" id="choosing-area" role="tabpanel"
-                     aria-labelledby="choosing-tab">
-
+                <div className="tab-pane fade show active" id="choosing-area">
                     <div
                         id="media-loader"
                         className="text-center py-4"
@@ -68,7 +80,10 @@ export default function MediaUploadModal({isOpen, mediaType, onClose, onSelect}:
                         <div className="mt-2">Загрузка файлов…</div>
                     </div>
 
-                    <div id="media-library" className="media-library row"></div>
+                    <MediaList
+                        mediaFiles={mediaFiles}
+                        onSelect={onSelect}
+                    />
 
                     <div className="text-center mt-3">
                         <button

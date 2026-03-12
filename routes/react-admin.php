@@ -15,5 +15,6 @@ Route::middleware(['web', 'auth'])->prefix('react/api')->group(function () {
     Route::post('courses', CourseCreateController::class);
     Route::get('courses/{id}', CourseShowController::class);
 
-    Route::get('mediafiles', MediaFileListController::class);
+    Route::get('media', MediaFileListController::class)
+        ->name('admin.react.media.list');
 });

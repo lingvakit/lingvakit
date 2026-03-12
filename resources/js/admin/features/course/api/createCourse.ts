@@ -1,4 +1,6 @@
 import type {CreateCoursePayload} from "../types/course";
+import {fetchJson} from "../../../shared/api/fetchJson";
+import {baseApiUrl} from "../../../shared/constants/api";
 
 type CreateCourseResponse = {
     data?: {
@@ -9,20 +11,8 @@ type CreateCourseResponse = {
 export async function createCourse(
     data: CreateCoursePayload
 ): Promise<CreateCourseResponse> {
-    const response = await fetch("/react/api/courses", {
+    return fetchJson<CreateCourseResponse>(`${baseApiUrl}/courses`, {
         method: "POST",
-        credentials: "include",
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
+        body: data,
     });
-
-    if (!response.ok) {
-        const text = await response.text();
-        throw new Error(`HTTP ${response.status}: ${text.slice(0, 200)}`);
-    }
-
-    return response.json();
 }

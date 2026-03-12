@@ -1,47 +1,61 @@
-import React, {type ChangeEvent, useState} from "react";
-import {MediaFile, MediaType} from "../../../shared/types/media";
+import {type ChangeEvent, useState} from "react";
+import {MediaFile, MediaType} from "../../media/types/mediaFile.ts";
+
+type CourseCreateFormState = {
+    title: string;
+    description: string;
+    difficultyLevel: string;
+    duration: number;
+    price: string;
+    categoryId: string;
+    media: {
+        imageId: number | null;
+        videoId: number | null;
+        audioId: number | null;
+    };
+};
+
+const initialFormState: CourseCreateFormState = {
+    title: "",
+    description: "",
+    difficultyLevel: "beginner",
+    duration: 60,
+    price: "",
+    categoryId: "",
+    media: {
+        imageId: null,
+        videoId: null,
+        audioId: null,
+    },
+};
+
+const mediaFieldByType = {
+    image: "imageId",
+    video: "videoId",
+    audio: "audioId",
+} as const;
 
 export function useCourseCreateForm() {
-    const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
-    const [difficultyLevel, setDifficultyLevel] = useState("beginner");
-    const [duration, setDuration] = useState(60);
-    const [price, setPrice] = useState("");
-    const [categoryId, setCategoryId] = useState("");
-
+    const [form, setForm] = useState<CourseCreateFormState>(initialFormState);
     const [isMediaModalOpen, setIsMediaModalOpen] = useState(false);
     const [mediaType, setMediaType] = useState<MediaType>("image");
 
-    const [imageId, setImageId] = useState<number | null>(null);
-    const [videoId, setVideoId] = useState<number | null>(null);
-    const [audioId, setAudioId] = useState<number | null>(null);
-
     const handleInputChange = (
-        e: ChangeEvent<HTMLInputElement>
+        e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
     ): void => {
-        const {name, value} = e.target;
+        const { name, value } = e.target;
 
-        if (name === "title") {
-            setTitle(value);
-        }
-
-        if (name === "price") {
-            setPrice(value);
-        }
-
-        if (name === "difficulty_level") {
-            setDifficultyLevel(value);
-        }
-
-        if (name === "duration") {
-            setDuration(value === "" ? 0 : Number(value));
-        }
+        setForm((prev) => ({
+            ...prev,
+            [name]: name === "duration" ? (value === "" ? 0 : Number(value)) : value,
+        }));
     };
 
-    const handleChangeCategoryId = (
-        e: ChangeEvent<HTMLSelectElement>
-    ): void => {
-        setCategoryId(e.target.value);
+    const setDescription = (value: string): void => {
+        setForm((prev) => ({
+            ...prev,
+            description: value,
+        }));
     };
 
     const handleOpenMediaModal = (type: MediaType): void => {
@@ -54,40 +68,35 @@ export function useCourseCreateForm() {
     };
 
     const handleSelectMediaFile = (file: MediaFile): void => {
-        if (file.type === "image") {
-            setImageId(file.id);
-        }
+        const field = mediaFieldByType[file.type];
 
-        if (file.type === "video") {
-            setVideoId(file.id);
-        }
-
-        if (file.type === "audio") {
-            setAudioId(file.id);
-        }
+        setForm((prev) => ({
+            ...prev,
+            media: {
+                ...prev.media,
+                [field]: file.id,
+            },
+        }));
 
         setIsMediaModalOpen(false);
     };
 
     return {
-        title,
-        description,
-        difficultyLevel,
-        duration,
-        price,
-        categoryId,
-        imageId,
-        videoId,
-        audioId,
+        title: form.title,
+        description: form.description,
+        difficultyLevel: form.difficultyLevel,
+        duration: form.duration,
+        price: form.price,
+        categoryId: form.categoryId,
+        imageId: form.media.imageId,
+        videoId: form.media.videoId,
+        audioId: form.media.audioId,
         isMediaModalOpen,
         mediaType,
-
         setDescription,
-
         handleInputChange,
-        handleChangeCategoryId,
         handleOpenMediaModal,
         handleCloseMediaModal,
-        handleSelectMediaFile
+        handleSelectMediaFile,
     };
 }

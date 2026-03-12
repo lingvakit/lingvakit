@@ -20,7 +20,8 @@ class MediaFileListController extends Controller
     {
         $paginator = $this->query->handle(
             perPage: 20,
-            search: $request->queryString()
+            search: $request->queryString(),
+            type: $request->typeString()
         );
 
          return MediaFileListItemResource::collection($paginator);

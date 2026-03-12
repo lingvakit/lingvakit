@@ -1,27 +1,18 @@
-import {type LoaderFunctionArgs, redirect} from "react-router-dom";
+import {type LoaderFunctionArgs} from "react-router-dom";
 import type {Course} from "../types/course";
+import {fetchLoaderData} from "../../../shared/api/fetchLoaderData";
+import {baseApiUrl} from "../../../shared/constants/api";
 
-type ApiResponse<T> = { data: T };
-
-export async function getCourse({ params }: LoaderFunctionArgs) {
+export async function getCourse(
+    {params, request}: LoaderFunctionArgs
+): Promise<Course> {
     const id = params.id;
-    if (!id) throw new Response("Missing id", { status: 400 });
 
-    const res = await fetch(`/react/api/courses/${id}`, {
-        method: "GET",
-        credentials: "include",
-        headers: { Accept: "application/json" },
+    if (!id) {
+        throw new Response("Missing id", {status: 400});
+    }
+
+    return fetchLoaderData<Course>(`${baseApiUrl}/courses/${id}`, {
+        signal: request.signal
     });
-
-    if (res.status === 401) {
-        throw redirect("/login");
-    }
-
-    if (!res.ok) {
-        const text = await res.text().catch(() => "");
-        throw new Response(text || "Request failed", { status: res.status });
-    }
-
-    const json = (await res.json()) as ApiResponse<Course>;
-    return json.data;
 }
