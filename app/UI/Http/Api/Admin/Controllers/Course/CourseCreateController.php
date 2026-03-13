@@ -3,9 +3,7 @@ declare (strict_types=1);
 
 namespace App\UI\Http\Api\Admin\Controllers\Course;
 
-use App\Application\Course\Commands\CreateCourseCommand;
 use App\Application\Course\Commands\CreateCourseHandler;
-use App\Application\Course\Enum\DifficultyLevelEnum;
 use App\Http\Controllers\Controller;
 use App\UI\Http\Api\Admin\Requests\Course\CourseCreateRequest;
 use Illuminate\Http\JsonResponse;
@@ -15,20 +13,15 @@ class CourseCreateController extends Controller
 {
     public function __construct(
         private readonly CreateCourseHandler $handler
-    ) {}
+    ) {
+    }
 
     public function __invoke(CourseCreateRequest $request): JsonResponse
     {
-        $data = $request->dto();
-
-        $id = $this->handler->handle(new CreateCourseCommand(
-            title: $data['title'],
-            description: $data['description'] ?? null,
-            difficultyLevel: DifficultyLevelEnum::from($data['difficulty_level']),
-            price: $data['price'],
-            duration: $data['duration'],
-            imageId: $data['image'],
-        ));
+        $id = $this->handler->handle(
+            dto: $request->dto(),
+            authorId: auth()->user()->id
+        );
 
         return response()->json(
             data: ['data' => ['id' => $id]],

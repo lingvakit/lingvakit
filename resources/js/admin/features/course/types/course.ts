@@ -4,7 +4,7 @@ export type Course = {
     id: number;
     title: string;
     imageUrl: string;
-    price: string;
+    price: number;
     duration: number;
     createdAt: string;
     description?: string | null;
@@ -15,8 +15,10 @@ export type Course = {
 export type CreateCoursePayload = {
     title: string;
     description: string;
-    price: string;
+    price: number;
     duration: number;
     difficultyLevel: string;
     categoryId: number;
+    image?: number;
+    video?: number;
 };

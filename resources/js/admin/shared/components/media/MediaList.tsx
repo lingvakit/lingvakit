@@ -6,7 +6,7 @@ type Props = {
     onSelect: (mediaFile: MediaFile) => void;
 }
 
-export default function MediaList({ mediaFiles, onSelect }: Props) {
+export default function MediaList({mediaFiles, onSelect}: Props) {
     if (!mediaFiles.length) {
         return <div className="text-center py-4">Файлы не найдены</div>;
     }
@@ -16,14 +16,31 @@ export default function MediaList({ mediaFiles, onSelect }: Props) {
             {mediaFiles.map((mediaFile) => (
                 <div
                     key={mediaFile.id}
-                    className="col-4"
+                    className="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-2"
                 >
-                    <div className="file-wrap exists-file mt-2 mb-2">
-                        <img
-                            src={mediaFile.url}
-                            alt={mediaFile.fileName ?? "media"}
-                            loading="lazy"
-                        />
+                    <div
+                        className="file-wrap exists-file"
+                        onClick={() => onSelect(mediaFile)}
+                    >
+                        {mediaFile.type === "image" && (
+                            <img
+                                src={mediaFile.url}
+                                alt={mediaFile.fileName ?? "image"}
+                                loading="lazy"
+                            />
+                        )}
+
+                        {mediaFile.type === "video" && (
+                            <video
+                                src={mediaFile.url}
+                                style={{width: '100%'}}
+                                controls
+                            />
+                        )}
+
+                        <h6 className="text-center">
+                            {mediaFile.fileName}
+                        </h6>
                     </div>
                 </div>
             ))}

@@ -18,7 +18,9 @@ export default function CourseCreatePage() {
             price: form.price,
             duration: form.duration,
             difficultyLevel: form.difficultyLevel,
-            categoryId: form.categoryId === "" ? 0 : Number(form.categoryId),
+            categoryId: form.categoryId,
+            image: form.image?.id,
+            video: form.video?.id,
         });
     };
 

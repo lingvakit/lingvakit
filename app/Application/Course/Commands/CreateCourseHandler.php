@@ -3,25 +3,18 @@ declare(strict_types=1);
 
 namespace App\Application\Course\Commands;
 
-use App\Models\LMS\Course;
-use DB;
+use App\Application\Course\Dto\CreateCourseDto;
+use App\Infrastructure\Persistence\Repository\CourseRepository;
 
-class CreateCourseHandler
+final readonly class CreateCourseHandler
 {
-    public function handle(CreateCourseCommand $command): int
-    {
-        return DB::transaction(function () use ($command) {
-            $course = new Course();
-            $course->title = $command->title;
-            $course->description = $command->description;
-            $course->difficulty_level = $command->difficultyLevel->value;
-            $course->price = $command->price;
-            $course->duration = $command->duration;
-            $course->image = $command->imageId;
-            $course->author_id = auth()->user()->id;
-            $course->save();
+    public function __construct(
+        private CourseRepository $repository
+    ) {
+    }
 
-            return (int)$course->id;
-        });
+    public function handle(CreateCourseDto $dto, int $authorId): int
+    {
+        return $this->repository->create($dto, $authorId);
     }
 }

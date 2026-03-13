@@ -5,7 +5,7 @@
 /public/uploads/img
 /public/uploads/teachers
 /public/uploads/students
-/storage/*.key
+/storage
 /vendor
 /oauth/*
 .env

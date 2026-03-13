@@ -6,12 +6,12 @@ type CourseCreateFormState = {
     description: string;
     difficultyLevel: string;
     duration: number;
-    price: string;
-    categoryId: string;
+    price: number;
+    categoryId: number;
     media: {
-        imageId: number | null;
-        videoId: number | null;
-        audioId: number | null;
+        image: MediaFile | null;
+        video: MediaFile | null;
+        audio: MediaFile | null;
     };
 };
 
@@ -20,20 +20,28 @@ const initialFormState: CourseCreateFormState = {
     description: "",
     difficultyLevel: "beginner",
     duration: 60,
-    price: "",
-    categoryId: "",
+    price: 0,
+    categoryId: 1,
     media: {
-        imageId: null,
-        videoId: null,
-        audioId: null,
+        image: null,
+        video: null,
+        audio: null,
     },
 };
 
 const mediaFieldByType = {
-    image: "imageId",
-    video: "videoId",
-    audio: "audioId",
+    image: "image",
+    video: "video",
+    audio: "audio",
 } as const;
+
+const numberFields = [
+    "duration",
+    "price",
+    "categoryId",
+    "image",
+    "video",
+];
 
 export function useCourseCreateForm() {
     const [form, setForm] = useState<CourseCreateFormState>(initialFormState);
@@ -48,6 +56,9 @@ export function useCourseCreateForm() {
         setForm((prev) => ({
             ...prev,
             [name]: name === "duration" ? (value === "" ? 0 : Number(value)) : value,
+            [name]: numberFields.includes(name)
+                ? value === "" ? 0 : Number(value)
+                : value,
         }));
     };
 
@@ -74,7 +85,7 @@ export function useCourseCreateForm() {
             ...prev,
             media: {
                 ...prev.media,
-                [field]: file.id,
+                [field]: file,
             },
         }));
 
@@ -88,9 +99,9 @@ export function useCourseCreateForm() {
         duration: form.duration,
         price: form.price,
         categoryId: form.categoryId,
-        imageId: form.media.imageId,
-        videoId: form.media.videoId,
-        audioId: form.media.audioId,
+        image: form.media.image,
+        video: form.media.video,
+        audio: form.media.audio,
         isMediaModalOpen,
         mediaType,
         setDescription,

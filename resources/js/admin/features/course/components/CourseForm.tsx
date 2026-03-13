@@ -121,9 +121,9 @@ export default function CourseForm(
                             </div>
 
                             <CourseMediaField
-                                imageId={form.imageId}
-                                videoId={form.videoId}
-                                audioId={form.audioId}
+                                image={form.image}
+                                video={form.video}
+                                audio={form.audio}
                                 onOpenMediaModal={form.handleOpenMediaModal}
                             />
 

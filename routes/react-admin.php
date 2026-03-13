@@ -8,7 +8,7 @@ use App\UI\Http\Api\Admin\Controllers\Course\CourseShowController;
 use App\UI\Http\Api\Admin\Controllers\Media\MediaFileListController;
 
 // React admin
-Route::middleware(['web', 'auth'])->prefix('react/api')->group(function () {
+Route::middleware(['web'])->prefix('react/api')->group(function () {
     Route::get('categories', CategoryListController::class);
 
     Route::get('courses', CourseListController::class);

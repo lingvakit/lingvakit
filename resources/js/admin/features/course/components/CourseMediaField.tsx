@@ -1,17 +1,17 @@
-import {MediaType} from "../../../shared/types/media";
 import React from "react";
+import {MediaFile, MediaType} from "../../media/types/mediaFile.ts";
 
 type Props = {
-    imageId: number | null;
-    videoId: number | null;
-    audioId: number | null;
+    image: MediaFile | null;
+    video: MediaFile | null;
+    audio: MediaFile | null;
     onOpenMediaModal: (type: MediaType) => void;
 };
 
 export default function CourseMediaField({
-    imageId,
-    videoId,
-    audioId,
+    image,
+    video,
+    audio,
     onOpenMediaModal
 }: Props) {
     return (
@@ -20,26 +20,40 @@ export default function CourseMediaField({
                 Медиафайлы
             </label>
             <div className="col-lg-9">
-                {imageId && (
+                {image && (
                     <div className="form-group preview">
                         <div className="current-item">
-                            <img src="#" style={{width: 240}} alt=""/>
-                            Image ID: {imageId}
+                            <img src={image.url} style={{width: 240}} alt=""/>
                         </div>
+                        <input
+                            type="hidden"
+                            name="image"
+                            value={image.id}
+                        />
                     </div>
                 )}
+
+                {video && (
+                    <div className="form-group preview">
+                        <video
+                            src={video.url}
+                            style={{width: 240}}
+                            controls
+                        />
+                        <input
+                            type="hidden"
+                            name="video"
+                            value={video.id}
+                        />
+                    </div>
+                )}
+
                 <button type="button"
                         className="btn btn-primary square mr-1 mb-2 btn-attach"
                         onClick={() => onOpenMediaModal('image')}
                 >
                     Выбрать изображение
                 </button>
-
-                {videoId && (
-                    <div className="form-group preview">
-                        Video ID: {videoId}
-                    </div>
-                )}
 
                 <button type="button"
                         className="btn btn-primary square mr-1 mb-2 btn-attach"
