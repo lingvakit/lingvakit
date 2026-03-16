@@ -12,7 +12,7 @@ export default defineConfig(({ mode }) => {
     return {
         plugins: [
             laravel({
-                input: ["resources/js/admin/app.tsx"],
+                input: ["resources/js/admin/app/app.tsx"],
                 refresh: true,
             }),
             react(),

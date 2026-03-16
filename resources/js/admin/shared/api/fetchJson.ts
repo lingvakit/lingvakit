@@ -1,4 +1,4 @@
-export type FetchJsonOptions = {
+type FetchJsonOptions = {
     method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
     signal?: AbortSignal;
     body?: unknown;
