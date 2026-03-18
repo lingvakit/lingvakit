@@ -1,15 +1,17 @@
 import React from "react";
-import { useCategoryList } from "../../../../entities/category/model/hooks";
+import {useCategoryList} from "../../../../entities/category/model/hooks";
 import PageLayout from "../../../../widgets/layout/PageLayout";
-import { useCreateCourse } from "../../../../entities/course/model/hooks";
-import { useCourseCreateForm } from "../../../../features/course/create/model/useCourseCreateForm";
+import {useCreateCourse} from "../../../../entities/course/model/hooks";
+import {useCourseCreateForm} from "../../../../features/course/create/model/useCourseCreateForm";
 import CourseForm from "./components/CourseForm";
 import MediaUploadModal from "../../../../shared/ui/modal/media/MediaUploadModal";
+import {useCKEditor} from "../../../../shared/ui/modal/media/useCKEditor.ts";
 
 export default function CourseCreatePage() {
     const {categoryList, isLoading, error} = useCategoryList();
     const {create, isSaving, error: submitError} = useCreateCourse();
     const form = useCourseCreateForm();
+    const ck = useCKEditor();
 
     const handleSubmit = async (): Promise<void> => {
         await create({
@@ -40,13 +42,22 @@ export default function CourseCreatePage() {
                 isSaving={isSaving}
                 form={form}
                 onSubmit={handleSubmit}
+                ck={ck}
             />
 
             <MediaUploadModal
                 isOpen={form.isMediaModalOpen}
                 mediaType={form.mediaType}
                 onClose={form.handleCloseMediaModal}
-                onSelect={form.handleSelectMediaFile}
+                onSelect={(file) => {
+                    if (form.mediaTarget === "editor") {
+                        ck.handleSelectMediaFile(file);
+                    } else {
+                        form.handleSelectMediaFile(file);
+                    }
+
+                    form.handleCloseMediaModal();
+                }}
             />
         </PageLayout>
     );

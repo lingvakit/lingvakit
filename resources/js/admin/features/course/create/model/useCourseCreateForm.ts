@@ -1,6 +1,7 @@
 import {type ChangeEvent, useState} from "react";
 import { CourseCreateFormState } from "./types.ts";
 import { MediaFile, MediaType } from "../../../../entities/media/model/types.ts";
+import {MediaTarget} from "../../../../shared/ui/modal/media/types.ts";
 
 const initialFormState: CourseCreateFormState = {
     title: "",
@@ -34,6 +35,7 @@ export function useCourseCreateForm() {
     const [form, setForm] = useState<CourseCreateFormState>(initialFormState);
     const [isMediaModalOpen, setIsMediaModalOpen] = useState(false);
     const [mediaType, setMediaType] = useState<MediaType>("image");
+    const [mediaTarget, setMediaTarget] = useState<MediaTarget>("form");
 
     const handleInputChange = (
         e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -56,7 +58,8 @@ export function useCourseCreateForm() {
         }));
     };
 
-    const handleOpenMediaModal = (type: MediaType): void => {
+    const handleOpenMediaModal = (target: MediaTarget, type: MediaType): void => {
+        setMediaTarget(target);
         setMediaType(type);
         setIsMediaModalOpen(true);
     };
@@ -90,6 +93,7 @@ export function useCourseCreateForm() {
         video: form.media.video,
         audio: form.media.audio,
         isMediaModalOpen,
+        mediaTarget,
         mediaType,
         setDescription,
         handleInputChange,

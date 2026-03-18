@@ -1,10 +1,11 @@
 import { MediaFile, MediaType } from "../../../entities/media/model/types";
+import {MediaTarget} from "../modal/media/types.ts";
 
 type Props = {
     image: MediaFile | null;
     video: MediaFile | null;
     audio: MediaFile | null;
-    onOpenMediaModal: (type: MediaType) => void;
+    onOpenMediaModal: (target: MediaTarget, type: MediaType) => void;
 };
 
 export default function InputMedia({
@@ -49,14 +50,14 @@ export default function InputMedia({
 
                 <button type="button"
                         className="btn btn-primary square mr-1 mb-2 btn-attach"
-                        onClick={() => onOpenMediaModal('image')}
+                        onClick={() => onOpenMediaModal('form', 'image')}
                 >
                     Выбрать изображение
                 </button>
 
                 <button type="button"
                         className="btn btn-primary square mr-1 mb-2 btn-attach"
-                        onClick={() => onOpenMediaModal('video')}
+                        onClick={() => onOpenMediaModal('form', 'video')}
                 >
                     Выбрать видео
                 </button>

@@ -1,9 +1,10 @@
-import { FormEvent } from "react";
+import {FormEvent} from "react";
 import { Category } from "../../../../../entities/category/model/types";
 import { useCourseCreateForm } from "../../../../../features/course/create/model/useCourseCreateForm";
 import TextareaEditor from "../../../../../shared/ui/textarea-editor/TextareaEditor";
 import InputMedia from "../../../../../shared/ui/input-media/InputMedia";
 import SelectDifficulty from "../../../../../shared/ui/select-difficulty/SelectDifficulty";
+import {useCKEditor} from "../../../../../shared/ui/modal/media/useCKEditor.ts";
 
 type Props = {
     categoryList: Category[];
@@ -11,6 +12,7 @@ type Props = {
     isSaving: boolean;
     form: ReturnType<typeof useCourseCreateForm>;
     onSubmit: () => Promise<void>;
+    ck: ReturnType<typeof useCKEditor>;
 };
 
 export default function CourseForm(
@@ -20,6 +22,7 @@ export default function CourseForm(
         isSaving,
         form,
         onSubmit,
+        ck
     }: Props) {
     const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
         e.preventDefault();
@@ -116,6 +119,8 @@ export default function CourseForm(
                                     <TextareaEditor
                                         value={form.description}
                                         onChange={form.setDescription}
+                                        onOpenMediaModal={form.handleOpenMediaModal}
+                                        setEditorRef={ck.setEditorRef}
                                     />
                                 </div>
                             </div>
