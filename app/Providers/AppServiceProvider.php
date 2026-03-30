@@ -6,6 +6,8 @@ namespace App\Providers;
 use App\Application\Category\ReadModel\CategoryReadRepository;
 use App\Application\Course\ReadModel\CourseReadRepository;
 use App\Application\Media\ReadModel\MediaFileRepository;
+use App\Application\Module\Commands\CreateModuleHandler;
+use App\Application\Module\Commands\CreateModuleHandlerInterface;
 use App\Infrastructure\Persistence\Eloquent\Category\EloquentCategoryReadRepository;
 use App\Infrastructure\Persistence\Eloquent\Course\EloquentCourseReadRepository;
 use App\Infrastructure\Persistence\Eloquent\MediaFile\EloquentMediaFileRepository;
@@ -57,6 +59,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             abstract: MediaFileRepository::class,
             concrete: EloquentMediaFileRepository::class
+        );
+
+        $this->app->bind(
+            abstract: CreateModuleHandlerInterface::class,
+            concrete: CreateModuleHandler::class
         );
     }
 
