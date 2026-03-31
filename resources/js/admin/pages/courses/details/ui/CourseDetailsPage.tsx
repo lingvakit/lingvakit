@@ -1,11 +1,33 @@
 import {useLoaderData} from "react-router-dom";
 import DOMPurify from "dompurify";
-import { Course } from "../../../../entities/course/model/types";
+import {Course} from "../../../../entities/course/model/types";
 import PageLayout from "../../../../widgets/layout/PageLayout";
-import { formatDate, formatDurationToText } from "../../../../shared/lib/converter";
+import {formatDate, formatDurationToText} from "../../../../shared/lib/converter";
+import {useState} from "react";
+import {ModuleFormModal} from "../../../../shared/ui/modal/module/ModuleFormModal";
+import {Module} from "../../../../entities/module/model/types";
 
 export default function CourseShowPage() {
     const course = useLoaderData() as Course;
+
+    const [isModuleModalOpen, setIsModuleModalOpen] = useState(false);
+    const [modules, setModules] = useState(course.modules ?? []);
+
+    const handleOpenModuleModal = (): void => {
+        setIsModuleModalOpen(true);
+    };
+
+    const handleCloseModuleModal = (): void => {
+        setIsModuleModalOpen(false);
+    };
+
+    const handleModuleCreated = (
+        newModule: Module | null
+    ): void => {
+        if (!newModule) return;
+
+        setModules(prev => [...prev, newModule])
+    };
 
     return (
         <PageLayout title={course.title}>
@@ -116,17 +138,18 @@ export default function CourseShowPage() {
                         <div
                             className="widget-header bordered no-actions d-flex align-items-center justify-content-between">
                             <h4>Учебный план</h4>
-                            <button type="button" className="btn btn-primary mr-1 mb-2" data-toggle="modal"
-                                    data-target="#modal-stage">
-                                Новый модуль
+                            <button
+                                type="button"
+                                className="btn btn-primary mr-1 mb-2"
+                                onClick={handleOpenModuleModal}
+                            >Новый модуль
                             </button>
                         </div>
 
                         <div className="widget-body">
-                            {course.modules?.map(module => (
-                                <>
+                            {modules?.map(module => (
+                                <div key={module.id}>
                                     <div
-                                        key={module.id}
                                         className="d-flex justify-content-between align-items-center mt-2 mb-2">
                                         <div
                                             className="d-flex justify-content-between align-items-center pl-3 pr-3 text-primary header w-100"
@@ -198,12 +221,19 @@ export default function CourseShowPage() {
                                             ))}
                                         </div>
                                     ) : null}
-                                </>
+                                </div>
                             ))}
                         </div>
                     </div>
                 </div>
             </div>
+
+            <ModuleFormModal
+                courseId={course.id}
+                isOpen={isModuleModalOpen}
+                onClose={handleCloseModuleModal}
+                onCreated={handleModuleCreated}
+            />
         </PageLayout>
     );
 }

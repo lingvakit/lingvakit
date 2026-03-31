@@ -2,9 +2,11 @@
 
 namespace App\UI\Http\Api\Admin\Controllers\Module;
 
+use App\Application\Course\Dto\Course\CourseModuleDto;
 use App\Application\Module\Commands\CreateModuleHandlerInterface;
 use App\Http\Controllers\Controller;
 use App\UI\Http\Api\Admin\Requests\Module\ModuleRequest;
+use App\UI\Http\Api\Admin\Resources\Module\ModuleDetailsResource;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -18,13 +20,18 @@ class ModuleCreateController extends Controller
         ModuleRequest $request,
         string $courseId
     ): JsonResponse {
-        $id = $this->handler->handle(
+        $module = $this->handler->handle(
             $courseId,
             $request->dto()
         );
 
         return response()->json(
-            data: ['data' => ['id' => $id]],
+            data: ['data' => new ModuleDetailsResource(
+                new CourseModuleDto(
+                    id: $module->id,
+                    title: $module->name
+                )
+            )],
             status: Response::HTTP_CREATED
         );
     }

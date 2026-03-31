@@ -9,7 +9,7 @@ use DB;
 
 class ModuleRepository
 {
-    public function create(int $courseId, RequestModuleDto $dto): int
+    public function create(int $courseId, RequestModuleDto $dto): Stage
     {
         return DB::transaction(function () use ($courseId, $dto) {
             $module = new Stage();
@@ -17,17 +17,17 @@ class ModuleRepository
             $module->course_id = $courseId;
             $module->save();
 
-            return $module->id;
+            return $module;
         });
     }
 
-    public function update(Stage $module, RequestModuleDto $dto): int
+    public function update(Stage $module, RequestModuleDto $dto): Stage
     {
         return DB::transaction(function () use ($module, $dto) {
             $module->name = $dto->title;
             $module->save();
 
-            return $module->id;
+            return $module;
         });
     }
 }
