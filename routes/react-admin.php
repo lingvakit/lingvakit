@@ -7,6 +7,7 @@ use App\UI\Http\Api\Admin\Controllers\Course\CourseListController;
 use App\UI\Http\Api\Admin\Controllers\Course\CourseShowController;
 use App\UI\Http\Api\Admin\Controllers\Media\MediaFileListController;
 use App\UI\Http\Api\Admin\Controllers\Module\ModuleCreateController;
+use App\UI\Http\Api\Admin\Controllers\Module\ModuleUpdateController;
 
 // React admin
 // TODO: add auth middleware !!!
@@ -21,6 +22,10 @@ Route::middleware(['web'])->prefix('react/api')->group(function () {
 
         /* course modules */
         Route::post('{id}/modules', ModuleCreateController::class);
+    });
+
+    Route::prefix('modules/{id}')->group(function () {
+        Route::put('/', ModuleUpdateController::class);
     });
 
 

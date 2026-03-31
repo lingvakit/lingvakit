@@ -13,14 +13,18 @@ class ModuleCreateControllerTest extends TestCase
 
     public function testCreateModuleSuccessfully(): void
     {
+        $courseId = 1;
         $moduleTitle = 'Module 1';
         $handler = Mockery::mock(CreateModuleHandlerInterface::class);
 
         $handler->shouldReceive('handle')
             ->once()
-            ->with(Mockery::on(function ($dto) use ($moduleTitle) {
-                return $dto->title === $moduleTitle;
-            }))
+            ->with(
+                $courseId,
+                Mockery::on(function ($dto) use ($moduleTitle) {
+                    return $dto->title === $moduleTitle;
+                })
+            )
             ->andReturn(10);
 
         $this->app->instance(CreateModuleHandlerInterface::class, $handler);

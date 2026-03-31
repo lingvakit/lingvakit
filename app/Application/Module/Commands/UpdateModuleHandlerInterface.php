@@ -5,7 +5,7 @@ namespace App\Application\Module\Commands;
 
 use App\Application\Module\Dto\RequestModuleDto;
 
-interface CreateModuleHandlerInterface
+interface UpdateModuleHandlerInterface
 {
-    public function handle(int $courseId, RequestModuleDto $dto): int;
+    public function handle(int $moduleId, RequestModuleDto $dto): int;
 }

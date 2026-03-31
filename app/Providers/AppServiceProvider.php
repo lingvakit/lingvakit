@@ -8,6 +8,8 @@ use App\Application\Course\ReadModel\CourseReadRepository;
 use App\Application\Media\ReadModel\MediaFileRepository;
 use App\Application\Module\Commands\CreateModuleHandler;
 use App\Application\Module\Commands\CreateModuleHandlerInterface;
+use App\Application\Module\Commands\UpdateModuleHandler;
+use App\Application\Module\Commands\UpdateModuleHandlerInterface;
 use App\Infrastructure\Persistence\Eloquent\Category\EloquentCategoryReadRepository;
 use App\Infrastructure\Persistence\Eloquent\Course\EloquentCourseReadRepository;
 use App\Infrastructure\Persistence\Eloquent\MediaFile\EloquentMediaFileRepository;
@@ -64,6 +66,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             abstract: CreateModuleHandlerInterface::class,
             concrete: CreateModuleHandler::class
+        );
+
+        $this->app->bind(
+            abstract: UpdateModuleHandlerInterface::class,
+            concrete: UpdateModuleHandler::class
         );
     }
 
