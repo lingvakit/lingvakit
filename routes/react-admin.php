@@ -5,6 +5,7 @@ use App\UI\Http\Api\Admin\Controllers\Category\CategoryListController;
 use App\UI\Http\Api\Admin\Controllers\Course\CourseCreateController;
 use App\UI\Http\Api\Admin\Controllers\Course\CourseListController;
 use App\UI\Http\Api\Admin\Controllers\Course\CourseShowController;
+use App\UI\Http\Api\Admin\Controllers\Lesson\LessonCreateController;
 use App\UI\Http\Api\Admin\Controllers\Media\MediaFileListController;
 use App\UI\Http\Api\Admin\Controllers\Module\ModuleCreateController;
 use App\UI\Http\Api\Admin\Controllers\Module\ModuleUpdateController;
@@ -26,8 +27,10 @@ Route::middleware(['web'])->prefix('react/api')->group(function () {
 
     Route::prefix('modules/{id}')->group(function () {
         Route::put('/', ModuleUpdateController::class);
-    });
 
+        /* create lesson */
+        Route::post('/createLesson', LessonCreateController::class);
+    });
 
     Route::get('media', MediaFileListController::class)
         ->name('admin.react.media.list');
