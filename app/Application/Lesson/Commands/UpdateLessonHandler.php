@@ -6,15 +6,15 @@ namespace App\Application\Lesson\Commands;
 use App\Application\Course\Dto\Lesson\LessonUpdateDto;
 use App\Infrastructure\Persistence\Repository\LessonRepository;
 
-final readonly class CreateLessonHandler
+final readonly class UpdateLessonHandler
 {
     public function __construct(
         private LessonRepository $repository
     ) {
     }
 
-    public function handle(int $lessonId, LessonUpdateDto $dto): void
+    public function handle(int $moduleId, LessonUpdateDto $dto): void
     {
-        $this->repository->update($lessonId, $dto);
+        $this->repository->update($moduleId, $dto);
     }
 }

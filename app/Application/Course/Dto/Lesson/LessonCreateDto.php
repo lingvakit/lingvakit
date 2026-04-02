@@ -1,7 +1,7 @@
 <?php
 declare (strict_types=1);
 
-namespace App\Application\Course\Dto;
+namespace App\Application\Course\Dto\Lesson;
 
 final class LessonCreateDto
 {
