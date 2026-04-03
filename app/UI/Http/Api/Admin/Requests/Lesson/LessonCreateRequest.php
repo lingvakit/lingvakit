@@ -12,6 +12,7 @@ class LessonCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'moduleId' => ['required', 'integer', Rule::exists('lms_stages', 'id')],
             'title' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
             'imageMediaId' => ['nullable', 'integer', Rule::exists('media_files', 'id')],
@@ -24,6 +25,7 @@ class LessonCreateRequest extends FormRequest
     public function dto(): LessonCreateDto
     {
         return new LessonCreateDto(
+            moduleId: $this->input('moduleId'),
             title: $this->string('title')->toString(),
             duration: $this->integer('duration'),
             description: $this->string('description')->toString() ?: null,

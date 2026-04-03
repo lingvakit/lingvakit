@@ -3,18 +3,17 @@ declare(strict_types=1);
 
 namespace App\Application\Lesson\Commands;
 
-use App\Application\Course\Dto\Lesson\LessonCreateDto;
 use App\Infrastructure\Persistence\Repository\LessonRepository;
 
-final readonly class CreateLessonHandler
+final readonly class DeleteLessonHandler
 {
     public function __construct(
         private LessonRepository $repository
     ) {
     }
 
-    public function handle(LessonCreateDto $dto): int
+    public function handle(int $lessonId): void
     {
-        return $this->repository->create($dto);
+        $this->repository->delete($lessonId);
     }
 }

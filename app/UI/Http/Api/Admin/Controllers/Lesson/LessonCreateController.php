@@ -12,14 +12,13 @@ use Symfony\Component\HttpFoundation\Response;
 class LessonCreateController extends Controller
 {
     public function __construct(
-        private CreateLessonHandler $handler
+        private readonly CreateLessonHandler $handler
     ) {
     }
 
-    public function __invoke(LessonCreateRequest $request, int $moduleId): JsonResponse
+    public function __invoke(LessonCreateRequest $request): JsonResponse
     {
         $lessonId = $this->handler->handle(
-            $moduleId,
             $request->dto()
         );
 

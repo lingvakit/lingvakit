@@ -13,14 +13,23 @@ use Illuminate\Support\Facades\DB;
 
 class LessonRepository
 {
-    public function create(int $moduleId, LessonCreateDto $dto): int
+    public function getById(int $lessonId): Lesson
     {
         try {
-            return DB::transaction(function () use ($moduleId, $dto) {
+            return Lesson::find($lessonId);
+        } catch (\Throwable $e) {
+            throw new Exception('Some error occurred when getting lesson');
+        }
+    }
+
+    public function create(LessonCreateDto $dto): int
+    {
+        try {
+            return DB::transaction(function () use ($dto) {
                 $topic = Topic::create([
                     'index_number' => null,
                     'name' => TopicTypeEnum::Lesson->value,
-                    'stage_id' => $moduleId,
+                    'stage_id' => $dto->moduleId,
                     'passed_topics' => null,
                 ]);
 
@@ -62,6 +71,21 @@ class LessonRepository
             });
         } catch (\Throwable $e) {
             throw new Exception('Some error occurred when updating lesson');
+        }
+    }
+
+    public function delete(int $lessonId): void
+    {
+        try {
+            DB::transaction(function () use ($lessonId) {
+                $lesson = Lesson::find($lessonId);
+                $topic = $lesson->topic()->first();
+
+                $lesson->delete();
+                $topic->delete();
+            });
+        } catch (\Throwable $e) {
+            throw new Exception('Some error occurred when deleting lesson');
         }
     }
 }

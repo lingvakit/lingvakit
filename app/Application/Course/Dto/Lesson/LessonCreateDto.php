@@ -6,6 +6,7 @@ namespace App\Application\Course\Dto\Lesson;
 final class LessonCreateDto
 {
     public function __construct(
+        public int $moduleId,
         public string $title,
         public int $duration,
         public ?string $description = null,
