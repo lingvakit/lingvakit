@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Application\Course\Dto;
 
-use App\Application\Course\Dto\Course\CourseModuleDto;
+use App\Application\Module\Dto\ModuleDto;
 
 final readonly class CourseDetailsDto
 {
@@ -17,7 +17,7 @@ final readonly class CourseDetailsDto
         private ?string $imageUrl,
         private ?string $author,
 
-        /** @var array<CourseModuleDto> */
+        /** @var array<ModuleDto> */
         private ?array $modules = [],
     ) {}
 

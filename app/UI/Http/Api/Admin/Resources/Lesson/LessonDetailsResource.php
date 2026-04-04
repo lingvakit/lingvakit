@@ -14,12 +14,12 @@ class LessonDetailsResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
-            'description' => $this->description,
-            'imageUrl' => $this->imageUrl,
-            'audioUrl' => $this->audioUrl,
-            'videoUrl' => $this->videoUrl,
+            'description' => $this->description ?: null,
+            'imageUrl' => $this->imageUrl ?: null,
+            'audioUrl' => $this->audioUrl ?: null,
+            'videoUrl' => $this->videoUrl ?: null,
             'duration' => $this->duration,
-            'orderIndex' => $this->orderIndex,
+            'orderIndex' => $this->orderIndex ?: null,
         ];
     }
 }

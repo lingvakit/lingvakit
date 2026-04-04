@@ -11,6 +11,7 @@ use App\UI\Http\Api\Admin\Controllers\Lesson\LessonShowController;
 use App\UI\Http\Api\Admin\Controllers\Lesson\LessonUpdateController;
 use App\UI\Http\Api\Admin\Controllers\Media\MediaFileListController;
 use App\UI\Http\Api\Admin\Controllers\Module\ModuleCreateController;
+use App\UI\Http\Api\Admin\Controllers\Module\ModuleShowController;
 use App\UI\Http\Api\Admin\Controllers\Module\ModuleUpdateController;
 
 // React admin
@@ -18,28 +19,25 @@ use App\UI\Http\Api\Admin\Controllers\Module\ModuleUpdateController;
 Route::middleware(['web'])->prefix('react/api')->group(function () {
     Route::get('categories', CategoryListController::class);
 
+    /* courses */
     Route::prefix('courses')->group(function () {
-        /* courses */
         Route::get('/', CourseListController::class);
-        Route::post('/', CourseCreateController::class);
         Route::get('{id}', CourseShowController::class);
-
-        /* course modules */
-        Route::post('{id}/modules', ModuleCreateController::class);
+        Route::post('/', CourseCreateController::class);
     });
 
-    Route::prefix('modules/{id}')->group(function () {
-        Route::put('/', ModuleUpdateController::class);
-
-        /* create lesson */
-        Route::post('/createLesson', LessonCreateController::class);
+    /* modules */
+    Route::prefix('modules')->group(function () {
+        Route::get('{id}', ModuleShowController::class);
+        Route::post('/', ModuleCreateController::class);
+        Route::put('{id}', ModuleUpdateController::class);
     });
 
     /* lessons */
     Route::prefix('lessons')->group(function () {
+        Route::get('{id}', LessonShowController::class);
         Route::post('/', LessonCreateController::class);
         Route::put('{id}', LessonUpdateController::class);
-        Route::get('{id}', LessonShowController::class);
         Route::delete('{id}', LessonDeleteController::class);
     });
 

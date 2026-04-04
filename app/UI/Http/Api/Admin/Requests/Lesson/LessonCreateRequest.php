@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace App\UI\Http\Api\Admin\Requests\Lesson;
 
-use App\Application\Course\Dto\Lesson\LessonCreateDto;
+use App\Application\Lesson\Dto\LessonCreateRequestDto;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -22,9 +22,9 @@ class LessonCreateRequest extends FormRequest
         ];
     }
 
-    public function dto(): LessonCreateDto
+    public function dto(): LessonCreateRequestDto
     {
-        return new LessonCreateDto(
+        return new LessonCreateRequestDto(
             moduleId: $this->input('moduleId'),
             title: $this->string('title')->toString(),
             duration: $this->integer('duration'),

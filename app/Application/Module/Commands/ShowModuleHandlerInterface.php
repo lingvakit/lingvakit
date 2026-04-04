@@ -6,7 +6,7 @@ namespace App\Application\Module\Commands;
 use App\Application\Module\Dto\ModuleDto;
 use App\Application\Module\Dto\RequestCreateModuleDto;
 
-interface CreateModuleHandlerInterface
+interface ShowModuleHandlerInterface
 {
-    public function handle(RequestCreateModuleDto $dto): ModuleDto;
+    public function handle(int $moduleId): ModuleDto;
 }

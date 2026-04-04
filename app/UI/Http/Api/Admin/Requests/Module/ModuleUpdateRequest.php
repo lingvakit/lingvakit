@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace App\UI\Http\Api\Admin\Requests\Module;
 
-use App\Application\Module\Dto\RequestModuleDto;
+use App\Application\Module\Dto\RequestUpdateModuleDto;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ModuleRequest extends FormRequest
+class ModuleUpdateRequest extends FormRequest
 {
     public function rules(): array
     {
@@ -15,9 +15,9 @@ class ModuleRequest extends FormRequest
         ];
     }
 
-    public function dto(): RequestModuleDto
+    public function dto(): RequestUpdateModuleDto
     {
-        return new RequestModuleDto(
+        return new RequestUpdateModuleDto(
             title: $this->string('title')->toString()
         );
     }

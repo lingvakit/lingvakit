@@ -6,6 +6,7 @@ namespace App\UI\Http\Api\Admin\Controllers\Lesson;
 use App\Application\Lesson\Commands\CreateLessonHandler;
 use App\Http\Controllers\Controller;
 use App\UI\Http\Api\Admin\Requests\Lesson\LessonCreateRequest;
+use App\UI\Http\Api\Admin\Resources\Lesson\LessonDetailsResource;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -18,13 +19,15 @@ class LessonCreateController extends Controller
 
     public function __invoke(LessonCreateRequest $request): JsonResponse
     {
-        $lessonId = $this->handler->handle(
+        $lesson = $this->handler->handle(
             $request->dto()
         );
 
         return response()->json(
-            ['data' => ['id' => $lessonId]],
-            Response::HTTP_CREATED
+            data: [
+                'data' => new LessonDetailsResource($lesson)
+            ],
+            status: Response::HTTP_CREATED
         );
     }
 }

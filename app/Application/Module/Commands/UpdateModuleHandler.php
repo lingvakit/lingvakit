@@ -3,27 +3,39 @@ declare(strict_types=1);
 
 namespace App\Application\Module\Commands;
 
-use App\Application\Module\Dto\RequestModuleDto;
+use App\Application\Module\Dto\ModuleDto;
+use App\Application\Module\Dto\RequestUpdateModuleDto;
 use App\Exceptions\ModuleNotExistsException;
-use App\Infrastructure\Persistence\Repository\ModuleRepository;
-use App\Models\LMS\Stage;
+use App\Infrastructure\Persistence\Repository\ModuleRepositoryInterface;
+use Illuminate\Support\Facades\DB;
 
 final readonly class UpdateModuleHandler implements UpdateModuleHandlerInterface
 {
     public function __construct(
-        private ModuleRepository $repository,
+        private ModuleRepositoryInterface $repository,
     ) {}
 
-    /**
-     * @throws ModuleNotExistsException
-     */
-    public function handle(int $moduleId, RequestModuleDto $dto): int
+    public function handle(int $moduleId, RequestUpdateModuleDto $dto): ModuleDto
     {
-        $module = Stage::find($moduleId);
-        if ($module === null) {
-            throw new ModuleNotExistsException("Module with id $moduleId not found");
-        }
+        return DB::transaction(function () use ($moduleId, $dto) {
+            $stage = $this->repository->findById($moduleId);
 
-        return $this->repository->update($module, $dto);
+            if ($stage === null) {
+                throw new ModuleNotExistsException(
+                    message: "Stage with id {$moduleId} not found"
+                );
+            }
+
+            $this->repository->update(
+                stage: $stage,
+                data: $dto->toArray()
+            );
+
+            return new ModuleDto(
+                id: $stage->id,
+                title: $stage->name,
+                topics: null,
+            );
+        });
     }
 }
