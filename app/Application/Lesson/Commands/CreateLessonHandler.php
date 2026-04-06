@@ -41,7 +41,7 @@ final readonly class CreateLessonHandler implements CreateLessonHandlerInterface
             return new LessonDto(
                 id: $lesson->id,
                 title: $lesson->title,
-                duration: $lesson->duration,
+                duration: (int)$lesson->duration,
                 description: $lesson->description,
                 imageUrl: $lesson->getImage(),
                 audioUrl: $lesson->getAudio(),

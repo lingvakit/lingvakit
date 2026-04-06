@@ -3,17 +3,38 @@ declare(strict_types=1);
 
 namespace App\Application\Lesson\Commands;
 
-use App\Infrastructure\Persistence\Repository\LessonRepository;
-use App\Models\LMS\Lesson;
+use App\Application\Lesson\Dto\LessonDto;
+use App\Exceptions\LessonNotExistsException;
+use App\Infrastructure\Persistence\Repository\LessonRepositoryInterface;
+use Illuminate\Support\Facades\DB;
 
-final readonly class ShowLessonHandler
+final readonly class ShowLessonHandler implements ShowLessonHandlerInterface
 {
     public function __construct(
-        private LessonRepository $repository,
+        private LessonRepositoryInterface $repository,
     ) {}
 
-    public function handle(int $lessonId): Lesson
+    public function handle(int $lessonId): LessonDto
     {
-        return $this->repository->getById($lessonId);
+        return DB::transaction(function () use ($lessonId) {
+            $lesson = $this->repository->findById($lessonId);
+
+            if ($lesson === null) {
+                throw new LessonNotExistsException(
+                    message: "Lesson with id {$lessonId} not found"
+                );
+            }
+
+            return new LessonDto(
+                id: $lesson->id,
+                title: $lesson->title,
+                duration: (int)$lesson->duration,
+                description: $lesson->description,
+                imageUrl: $lesson->getImage(),
+                audioUrl: $lesson->getAudio(),
+                videoUrl: $lesson->getVideo(),
+                orderIndex: $lesson->topic->index_number,
+            );
+        });
     }
 }

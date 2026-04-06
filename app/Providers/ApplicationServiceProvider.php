@@ -3,6 +3,14 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Application\Lesson\Commands\CreateLessonHandler;
+use App\Application\Lesson\Commands\CreateLessonHandlerInterface;
+use App\Application\Lesson\Commands\DeleteLessonHandler;
+use App\Application\Lesson\Commands\DeleteLessonHandlerInterface;
+use App\Application\Lesson\Commands\ShowLessonHandler;
+use App\Application\Lesson\Commands\ShowLessonHandlerInterface;
+use App\Application\Lesson\Commands\UpdateLessonHandler;
+use App\Application\Lesson\Commands\UpdateLessonHandlerInterface;
 use App\Application\Module\Commands\CreateModuleHandler;
 use App\Application\Module\Commands\CreateModuleHandlerInterface;
 use App\Application\Module\Commands\ShowModuleHandler;
@@ -16,11 +24,6 @@ class ApplicationServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(
-            abstract: ShowModuleHandlerInterface::class,
-            concrete: ShowModuleHandler::class
-        );
-
-        $this->app->bind(
             abstract: CreateModuleHandlerInterface::class,
             concrete: CreateModuleHandler::class
         );
@@ -28,6 +31,31 @@ class ApplicationServiceProvider extends ServiceProvider
         $this->app->bind(
             abstract: UpdateModuleHandlerInterface::class,
             concrete: UpdateModuleHandler::class
+        );
+
+        $this->app->bind(
+            abstract: ShowModuleHandlerInterface::class,
+            concrete: ShowModuleHandler::class
+        );
+
+        $this->app->bind(
+            abstract: CreateLessonHandlerInterface::class,
+            concrete: CreateLessonHandler::class
+        );
+
+        $this->app->bind(
+            abstract: UpdateLessonHandlerInterface::class,
+            concrete: UpdateLessonHandler::class
+        );
+
+        $this->app->bind(
+            abstract: ShowLessonHandlerInterface::class,
+            concrete: ShowLessonHandler::class
+        );
+
+        $this->app->bind(
+            abstract: DeleteLessonHandlerInterface::class,
+            concrete: DeleteLessonHandler::class
         );
     }
 }

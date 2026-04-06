@@ -6,25 +6,27 @@ namespace App\Infrastructure\Persistence\Eloquent\Lesson;
 use App\Infrastructure\Persistence\Repository\LessonRepositoryInterface;
 use App\Models\LMS\Lesson;
 
-/**
- * TODO: findById and update methods will be done
- */
 class EloquentLessonRepository implements LessonRepositoryInterface
 {
-//    public function findById(int $id): ?Stage
-//    {
-//        return Stage::find($id);
-//    }
+    public function findById(int $id): ?Lesson
+    {
+        return Lesson::find($id);
+    }
 
     public function save(array $data): Lesson
     {
         return Lesson::create($data);
     }
 
-//    public function update(Stage $stage, array $data): Stage
-//    {
-//        $stage->update($data);
-//
-//        return $stage;
-//    }
+    public function update(Lesson $lesson, array $data): Lesson
+    {
+        $lesson->update($data);
+
+        return $lesson;
+    }
+
+    public function delete(Lesson $lesson): void
+    {
+        $lesson->delete();
+    }
 }

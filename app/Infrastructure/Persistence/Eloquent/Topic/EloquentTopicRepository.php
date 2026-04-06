@@ -12,4 +12,16 @@ class EloquentTopicRepository implements TopicRepositoryInterface
     {
         return Topic::create($data);
     }
+
+    public function update(Topic $topic, array $data): Topic
+    {
+        $topic->update($data);
+
+        return $topic;
+    }
+
+    public function delete(Topic $topic): void
+    {
+        $topic->delete();
+    }
 }
