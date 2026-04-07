@@ -18,6 +18,9 @@ export type CourseCreatePayload = {
     price: number;
     duration: number;
     difficultyLevel: string;
+    paidType: string;
+    isNew: boolean;
+    isAllowed: boolean;
     categoryId: number;
     image?: number;
     video?: number;
@@ -27,6 +30,7 @@ export type UseCourseCreateResult = {
     create: (data: CourseCreatePayload) => Promise<void>;
     isSaving: boolean;
     error: string | null;
+    fieldErrors: Record<string, string[]>;
 };
 
 export type CourseCreateResponse = {

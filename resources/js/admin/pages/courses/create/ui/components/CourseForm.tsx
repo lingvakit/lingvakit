@@ -4,7 +4,10 @@ import { useCourseCreateForm } from "../../../../../features/course/create/model
 import TextareaEditor from "../../../../../shared/ui/textarea-editor/TextareaEditor";
 import InputMedia from "../../../../../shared/ui/input-media/InputMedia";
 import SelectDifficulty from "../../../../../shared/ui/select-difficulty/SelectDifficulty";
-import {useCKEditor} from "../../../../../shared/ui/modal/media/useCKEditor.ts";
+import {useCKEditor} from "../../../../../shared/ui/modal/media/useCKEditor";
+import SelectPaidTypeField from "../../../../../shared/ui/select-paid-type/SelectPaidTypeField";
+import IsNewCheckbox from "./Form/IsNewCheckbox.tsx";
+import IsPublishedCheckbox from "./Form/IsPublishedCheckbox";
 
 type Props = {
     categoryList: Category[];
@@ -13,6 +16,7 @@ type Props = {
     form: ReturnType<typeof useCourseCreateForm>;
     onSubmit: () => Promise<void>;
     ck: ReturnType<typeof useCKEditor>;
+    fieldErrors?: Record<string, string[]>;
 };
 
 export default function CourseForm(
@@ -22,7 +26,8 @@ export default function CourseForm(
         isSaving,
         form,
         onSubmit,
-        ck
+        ck,
+        fieldErrors,
     }: Props) {
     const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
         e.preventDefault();
@@ -110,6 +115,12 @@ export default function CourseForm(
                                         value={form.title}
                                         onChange={form.handleInputChange}
                                     />
+
+                                    {fieldErrors?.title && (
+                                        <small className="text-danger">
+                                            {fieldErrors.title[0]}
+                                        </small>
+                                    )}
                                 </div>
                             </div>
 
@@ -137,19 +148,52 @@ export default function CourseForm(
                                 onChange={form.handleInputChange}
                             />
 
-                            <div id="price" className="form-group row align-items-center mb-5">
-                                <label className="col-lg-3 form-control-label">Цена</label>
-                                <div className="col-lg-9">
-                                    <input
-                                        type="number"
-                                        name="price"
-                                        className="form-control"
-                                        placeholder="100"
-                                        value={form.price}
-                                        onChange={form.handleInputChange}
-                                    />
-                                </div>
-                            </div>
+                            <SelectPaidTypeField
+                                value={form.paidType}
+                                onChange={form.handleInputChange}
+                            />
+
+                            {form.paidType === "paid" && (
+                                <>
+                                    <div id="price" className="form-group row align-items-center mb-5">
+                                        <label className="col-lg-3 form-control-label">Цена</label>
+                                        <div className="col-lg-9">
+                                            <input
+                                                type="number"
+                                                name="price"
+                                                className="form-control"
+                                                placeholder="100"
+                                                value={form.price}
+                                                onChange={form.handleInputChange}
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div id="salePrice" className="form-group row align-items-center mb-5">
+                                        <label className="col-lg-3 form-control-label">Акционная цена</label>
+                                        <div className="col-lg-9">
+                                            <input
+                                                type="number"
+                                                name="salePrice"
+                                                className="form-control"
+                                                placeholder="100"
+                                                value={form.salePrice}
+                                                onChange={form.handleInputChange}
+                                            />
+                                        </div>
+                                    </div>
+                                </>
+                            )}
+
+                            <IsNewCheckbox
+                                value={form.isNew}
+                                onChange={form.handleInputChange}
+                            />
+
+                            <IsPublishedCheckbox
+                                value={form.isPublished}
+                                onChange={form.handleInputChange}
+                            />
 
                             <div className="form-group row align-items-center mb-5">
                                 <label className="col-lg-3 form-control-label">

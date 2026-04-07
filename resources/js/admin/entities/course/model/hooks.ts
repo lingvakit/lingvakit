@@ -16,11 +16,13 @@ export function useCreateCourse(): UseCourseCreateResult {
 
     const [isSaving, setIsSaving] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
 
     const create = useCallback(async (data: CourseCreatePayload): Promise<void> => {
         try {
             setIsSaving(true);
             setError(null);
+            setFieldErrors({});
 
             const result = await createCourse(data);
             const courseId = result?.data?.id;
@@ -30,10 +32,16 @@ export function useCreateCourse(): UseCourseCreateResult {
                     ? `/dashboard/coursesReact/${courseId}`
                     : "/dashboard/coursesReact"
             );
-        } catch (error: unknown) {
-            setError(
-                error instanceof Error ? error.message : "Не удалось сохранить курс"
-            );
+        } catch (error: any) {
+            if (error?.status === 422) {
+                setFieldErrors(error.errors || {});
+                return;
+            } else {
+                setError(
+                    error instanceof Error ? error.message : "Не удалось сохранить курс"
+                );
+            }
+
             throw error;
         } finally {
             setIsSaving(false);
@@ -44,5 +52,6 @@ export function useCreateCourse(): UseCourseCreateResult {
         create,
         isSaving,
         error,
+        fieldErrors
     };
 }

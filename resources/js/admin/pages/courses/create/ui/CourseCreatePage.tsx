@@ -5,11 +5,11 @@ import {useCreateCourse} from "../../../../entities/course/model/hooks";
 import {useCourseCreateForm} from "../../../../features/course/create/model/useCourseCreateForm";
 import CourseForm from "./components/CourseForm";
 import MediaUploadModal from "../../../../shared/ui/modal/media/MediaUploadModal";
-import {useCKEditor} from "../../../../shared/ui/modal/media/useCKEditor.ts";
+import {useCKEditor} from "../../../../shared/ui/modal/media/useCKEditor";
 
 export default function CourseCreatePage() {
     const {categoryList, isLoading, error} = useCategoryList();
-    const {create, isSaving, error: submitError} = useCreateCourse();
+    const {create, isSaving, error: submitError, fieldErrors} = useCreateCourse();
     const form = useCourseCreateForm();
     const ck = useCKEditor();
 
@@ -20,6 +20,9 @@ export default function CourseCreatePage() {
             price: form.price,
             duration: form.duration,
             difficultyLevel: form.difficultyLevel,
+            paidType: form.paidType,
+            isNew: form.isNew,
+            isAllowed: true,
             categoryId: form.categoryId,
             image: form.image?.id,
             video: form.video?.id,
@@ -43,6 +46,7 @@ export default function CourseCreatePage() {
                 form={form}
                 onSubmit={handleSubmit}
                 ck={ck}
+                fieldErrors={fieldErrors}
             />
 
             <MediaUploadModal

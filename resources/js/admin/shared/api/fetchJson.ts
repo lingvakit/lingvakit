@@ -23,10 +23,16 @@ export async function fetchJson<T>(
         body: body ? JSON.stringify(body) : undefined,
     });
 
+    const data = await response.json().catch(() => null);
+
     if (!response.ok) {
-        const text = await response.text();
-        throw new Error(`HTTP ${response.status}: ${text.slice(0, 200)}`);
+        const error: any = new Error(data?.message || `HTTP ${response.status}`);
+
+        error.status = response.status;
+        error.errors = data?.errors || {};
+
+        throw error;
     }
 
-    return await response.json() as Promise<T>;
+    return await data as Promise<T>;
 }
