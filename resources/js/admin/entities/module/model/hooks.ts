@@ -8,14 +8,13 @@ export function useCreateModule(): UseModuleCreateResult {
 
     const create = useCallback(
         async (
-            courseId: number,
             payload: ModuleCreatePayload
         ): Promise<Module | null> => {
             try {
                 setIsSaving(true);
                 setError(null);
 
-                const result = await createModule(courseId, payload);
+                const result = await createModule(payload);
 
                 return result.data;
             } catch (error: unknown) {

@@ -7,7 +7,8 @@ export type Module = {
 };
 
 export type ModuleCreatePayload = {
-    title: string
+    courseId: number;
+    title: string;
 };
 
 export type ModuleCreateResponse = {
@@ -16,7 +17,6 @@ export type ModuleCreateResponse = {
 
 export type UseModuleCreateResult = {
     create: (
-        courseId: number,
         payload: ModuleCreatePayload
     ) => Promise<Module | null>,
     isSaving: boolean,

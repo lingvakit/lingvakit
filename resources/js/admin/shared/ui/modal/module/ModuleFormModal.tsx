@@ -30,7 +30,10 @@ export function ModuleFormModal({courseId, isOpen, onClose, onCreated}: Props) {
     ): Promise<void> => {
         e.preventDefault();
 
-        const module = await create(courseId, {title: title});
+        const module = await create({
+            courseId: courseId,
+            title: title
+        });
 
         setTitle('');
         onClose();
