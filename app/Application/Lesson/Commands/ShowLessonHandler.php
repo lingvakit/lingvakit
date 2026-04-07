@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Application\Lesson\Commands;
 
 use App\Application\Lesson\Dto\LessonDto;
+use App\Application\Lesson\Mapper\LessonMapper;
 use App\Exceptions\LessonNotExistsException;
 use App\Infrastructure\Persistence\Repository\LessonRepositoryInterface;
 use Illuminate\Support\Facades\DB;
@@ -12,6 +13,7 @@ final readonly class ShowLessonHandler implements ShowLessonHandlerInterface
 {
     public function __construct(
         private LessonRepositoryInterface $repository,
+        private LessonMapper $lessonMapper
     ) {}
 
     public function handle(int $lessonId): LessonDto
@@ -25,16 +27,7 @@ final readonly class ShowLessonHandler implements ShowLessonHandlerInterface
                 );
             }
 
-            return new LessonDto(
-                id: $lesson->id,
-                title: $lesson->title,
-                duration: (int)$lesson->duration,
-                description: $lesson->description,
-                imageUrl: $lesson->getImage(),
-                audioUrl: $lesson->getAudio(),
-                videoUrl: $lesson->getVideo(),
-                orderIndex: $lesson->topic->index_number,
-            );
+            return $this->lessonMapper->fromModel($lesson);
         });
     }
 }

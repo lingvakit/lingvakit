@@ -4,10 +4,10 @@ declare(strict_types = 1);
 namespace App\UI\Http\Api\Admin\Requests\Lesson;
 
 use App\Application\Lesson\Dto\LessonCreateRequestDto;
-use Illuminate\Foundation\Http\FormRequest;
+use App\UI\Http\Api\Admin\Requests\AbstractFormRequest;
 use Illuminate\Validation\Rule;
 
-class LessonCreateRequest extends FormRequest
+class LessonCreateRequest extends AbstractFormRequest
 {
     public function rules(): array
     {
@@ -25,13 +25,13 @@ class LessonCreateRequest extends FormRequest
     public function dto(): LessonCreateRequestDto
     {
         return new LessonCreateRequestDto(
-            moduleId: $this->input('moduleId'),
-            title: $this->string('title')->toString(),
-            duration: $this->integer('duration'),
-            description: $this->string('description')->toString() ?: null,
-            imageMediaId: $this->input('imageMediaId') ?: null,
-            audioMediaId: $this->input('audioMediaId') ?: null,
-            videoMediaId: $this->input('videoMediaId') ?: null,
+            moduleId: $this->fieldInt('moduleId'),
+            title: $this->fieldString('title'),
+            duration: $this->fieldInt('duration') ?? 0,
+            description: $this->fieldString('description'),
+            imageMediaId: $this->fieldInt('imageMediaId'),
+            audioMediaId: $this->fieldInt('audioMediaId'),
+            videoMediaId: $this->fieldInt('videoMediaId'),
         );
     }
 }

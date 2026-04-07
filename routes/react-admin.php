@@ -5,6 +5,7 @@ use App\UI\Http\Api\Admin\Controllers\Category\CategoryListController;
 use App\UI\Http\Api\Admin\Controllers\Course\CourseCreateController;
 use App\UI\Http\Api\Admin\Controllers\Course\CourseListController;
 use App\UI\Http\Api\Admin\Controllers\Course\CourseShowController;
+use App\UI\Http\Api\Admin\Controllers\Course\CourseUpdateController;
 use App\UI\Http\Api\Admin\Controllers\Lesson\LessonCreateController;
 use App\UI\Http\Api\Admin\Controllers\Lesson\LessonDeleteController;
 use App\UI\Http\Api\Admin\Controllers\Lesson\LessonShowController;
@@ -24,6 +25,7 @@ Route::middleware(['web'])->prefix('react/api')->group(function () {
         Route::get('/', CourseListController::class);
         Route::get('{id}', CourseShowController::class);
         Route::post('/', CourseCreateController::class);
+        Route::put('{id}', CourseUpdateController::class);
     });
 
     /* modules */

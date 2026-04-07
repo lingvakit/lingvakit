@@ -4,14 +4,14 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Application\Category\ReadModel\CategoryReadRepository;
-use App\Application\Course\ReadModel\CourseReadRepository;
 use App\Application\Media\ReadModel\MediaFileRepository;
 use App\Infrastructure\Persistence\Eloquent\Category\EloquentCategoryReadRepository;
-use App\Infrastructure\Persistence\Eloquent\Course\EloquentCourseReadRepository;
+use App\Infrastructure\Persistence\Eloquent\Course\EloquentCourseRepository;
 use App\Infrastructure\Persistence\Eloquent\Lesson\EloquentLessonRepository;
 use App\Infrastructure\Persistence\Eloquent\MediaFile\EloquentMediaFileRepository;
 use App\Infrastructure\Persistence\Eloquent\Module\EloquentModuleRepository;
 use App\Infrastructure\Persistence\Eloquent\Topic\EloquentTopicRepository;
+use App\Infrastructure\Persistence\Repository\CourseRepositoryInterface;
 use App\Infrastructure\Persistence\Repository\LessonRepositoryInterface;
 use App\Infrastructure\Persistence\Repository\ModuleRepositoryInterface;
 use App\Infrastructure\Persistence\Repository\TopicRepositoryInterface;
@@ -32,8 +32,8 @@ class RepositoryServiceProvider extends ServiceProvider
         );
 
         $this->app->bind(
-            abstract: CourseReadRepository::class,
-            concrete: EloquentCourseReadRepository::class
+            abstract: CourseRepositoryInterface::class,
+            concrete: EloquentCourseRepository::class
         );
 
         $this->app->bind(

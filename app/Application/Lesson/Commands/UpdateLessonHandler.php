@@ -5,6 +5,7 @@ namespace App\Application\Lesson\Commands;
 
 use App\Application\Lesson\Dto\LessonDto;
 use App\Application\Lesson\Dto\LessonUpdateRequestDto;
+use App\Application\Lesson\Mapper\LessonMapper;
 use App\Exceptions\LessonNotExistsException;
 use App\Infrastructure\Persistence\Repository\LessonRepositoryInterface;
 use App\Infrastructure\Persistence\Repository\TopicRepositoryInterface;
@@ -15,6 +16,7 @@ final readonly class UpdateLessonHandler implements UpdateLessonHandlerInterface
     public function __construct(
         private TopicRepositoryInterface $topicRepository,
         private LessonRepositoryInterface $lessonRepository,
+        private LessonMapper $lessonMapper,
     ) {
     }
 
@@ -29,37 +31,17 @@ final readonly class UpdateLessonHandler implements UpdateLessonHandlerInterface
                 );
             }
 
-            $topic = $this->topicRepository->update(
+            $this->topicRepository->update(
                 topic: $lesson->topic,
-                data: [
-                    'index_number' => $dto->orderIndex,
-                    'stage_id' => $dto->moduleId ?: $lesson->topic->stage_id,
-                    'passed_topics' => null // TODO: Set actual data
-                ]
+                data: $dto->convertToArray(),
             );
 
             $this->lessonRepository->update(
                 lesson: $lesson,
-                data: [
-                    'title' => $dto->title,
-                    'description' => $dto->description,
-                    'duration' => $dto->duration,
-                    'image' => $dto->imageMediaId,
-                    'audio' => $dto->audioMediaId,
-                    'video' => $dto->videoMediaId,
-                ]
+                data: $dto->convertToArray(),
             );
 
-            return new LessonDto(
-                id: $lesson->id,
-                title: $lesson->title,
-                duration: (int)$lesson->duration,
-                description: $lesson->description,
-                imageUrl: $lesson->getImage(),
-                audioUrl: $lesson->getAudio(),
-                videoUrl: $lesson->getVideo(),
-                orderIndex: $topic->index_number,
-            );
+            return $this->lessonMapper->fromModel($lesson);
         });
     }
 }

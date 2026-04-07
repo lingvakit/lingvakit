@@ -4,16 +4,16 @@ declare(strict_types = 1);
 namespace App\UI\Http\Api\Admin\Requests\Lesson;
 
 use App\Application\Lesson\Dto\LessonUpdateRequestDto;
-use Illuminate\Foundation\Http\FormRequest;
+use App\UI\Http\Api\Admin\Requests\AbstractFormRequest;
 use Illuminate\Validation\Rule;
 
-class LessonUpdateRequest extends FormRequest
+class LessonUpdateRequest extends AbstractFormRequest
 {
     public function rules(): array
     {
         return [
             'moduleId' => ['nullable', 'integer', Rule::exists('lms_stages', 'id')],
-            'title' => ['required', 'string', 'max:255'],
+            'title' => ['nullable', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
             'imageMediaId' => ['nullable', 'integer', Rule::exists('media_files', 'id')],
             'audioMediaId' => ['nullable', 'integer', Rule::exists('media_files', 'id')],
@@ -26,14 +26,14 @@ class LessonUpdateRequest extends FormRequest
     public function dto(): LessonUpdateRequestDto
     {
         return new LessonUpdateRequestDto(
-            moduleId: $this->input('moduleId') ?: null,
-            title: $this->string('title')->toString(),
-            duration: $this->integer('duration') ?: null,
-            description: $this->string('description')->toString() ?: null,
-            imageMediaId: $this->input('imageMediaId') ?: null,
-            audioMediaId: $this->input('audioMediaId') ?: null,
-            videoMediaId: $this->input('videoMediaId') ?: null,
-            orderIndex: $this->integer('orderIndex'),
+            moduleId: $this->fieldInt('moduleId'),
+            title: $this->fieldString('title'),
+            duration: (int)$this->fieldInt('duration'),
+            description: $this->fieldString('description'),
+            imageMediaId: $this->fieldInt('imageMediaId'),
+            audioMediaId: $this->fieldInt('audioMediaId'),
+            videoMediaId: $this->fieldInt('videoMediaId'),
+            orderIndex: $this->fieldInt('orderIndex'),
         );
     }
 }

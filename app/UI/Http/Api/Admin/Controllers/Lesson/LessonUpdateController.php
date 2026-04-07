@@ -6,6 +6,7 @@ namespace App\UI\Http\Api\Admin\Controllers\Lesson;
 use App\Application\Lesson\Commands\UpdateLessonHandlerInterface;
 use App\Http\Controllers\Controller;
 use App\UI\Http\Api\Admin\Requests\Lesson\LessonUpdateRequest;
+use App\UI\Http\Api\Admin\Resources\Lesson\LessonDetailsResource;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -23,10 +24,10 @@ class LessonUpdateController extends Controller
         $lesson = $this->handler->handle($lessonId, $request->dto());
 
         return response()->json(
-            ['data' => [
-                "message" => "Module with id: {$lesson->id} successfully updated."
-            ]],
-            Response::HTTP_OK
+            data: [
+                'data' => new LessonDetailsResource($lesson)
+            ],
+            status: Response::HTTP_OK
         );
     }
 }
