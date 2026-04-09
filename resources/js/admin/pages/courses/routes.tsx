@@ -4,6 +4,7 @@ import CourseListPage from "./list/ui/CourseListPage";
 import CourseCreatePage from "./create/ui/CourseCreatePage";
 import CourseDetailsPage from "./details/ui/CourseDetailsPage";
 import { getCourse } from "../../entities/course/api/queries/getCourse";
+import {moduleRoutes} from "../modules/routes";
 
 export const courseRoutes: RouteObject[] = [
     {
@@ -31,7 +32,7 @@ export const courseRoutes: RouteObject[] = [
                 } satisfies BreadcrumbHandle,
             },
             {
-                path: ":id",
+                path: ":courseId",
                 element: <CourseDetailsPage />,
                 loader: getCourse,
                 handle: {
@@ -40,12 +41,14 @@ export const courseRoutes: RouteObject[] = [
                         const course = data as Awaited<ReturnType<typeof getCourse>>;
 
                         return {
-                            label: course?.title ?? `Курс #${params.id}`,
-                            to: `/dashboard/coursesReact/${params.id}`,
+                            label: course?.title ?? `Курс #${params.courseId}`,
+                            to: `/dashboard/coursesReact/${params.courseId}`,
                         };
                     }
                 } satisfies BreadcrumbHandle,
             },
+
+            ...moduleRoutes
         ]
     },
 ];

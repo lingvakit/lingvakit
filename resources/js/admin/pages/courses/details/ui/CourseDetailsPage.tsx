@@ -1,4 +1,4 @@
-import {useLoaderData} from "react-router-dom";
+import {Link, Outlet, useLoaderData} from "react-router-dom";
 import DOMPurify from "dompurify";
 import {Course} from "../../../../entities/course/model/types";
 import PageLayout from "../../../../widgets/layout/PageLayout";
@@ -166,10 +166,13 @@ export default function CourseShowPage() {
                                                             <i className="la la-plus edit"></i></button>
 
                                                         <div className="dropdown-menu">
-                                                            <a href="#"
-                                                               className="dropdown-item">
+                                                            <Link
+                                                                to={`/dashboard/coursesReact/${course.id}/modules/${module.id}/lessons/create`}
+                                                                className="dropdown-item"
+                                                            >
                                                                 <i className="la la-plus"></i>Новый урок
-                                                            </a>
+                                                            </Link>
+
                                                             <a href="#" className="dropdown-item">
                                                                 <i className="la la-plus"></i>Новый тест
                                                             </a>

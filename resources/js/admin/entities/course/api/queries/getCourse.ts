@@ -6,13 +6,13 @@ import { fetchLoaderData } from "../../../../shared/api/fetchLoaderData";
 export async function getCourse(
     { params, request }: LoaderFunctionArgs
 ): Promise<Course> {
-    const id = params.id;
+    const courseId = params.courseId;
 
-    if (!id) {
-        throw new Response("Missing id", { status: 400 });
+    if (!courseId) {
+        throw new Response("Missing courseId", { status: 400 });
     }
 
-    return fetchLoaderData<Course>(`${baseApiUrl}/courses/${id}`, {
+    return fetchLoaderData<Course>(`${baseApiUrl}/courses/${courseId}`, {
         signal: request.signal
     });
 }
