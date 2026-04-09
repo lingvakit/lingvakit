@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Application\Course\Enum;
+namespace App\Application\Topic\Enum;
 
 enum TopicTypeEnum: string
 {

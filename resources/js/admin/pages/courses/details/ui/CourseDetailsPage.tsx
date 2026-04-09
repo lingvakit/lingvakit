@@ -195,31 +195,39 @@ export default function CourseShowPage() {
                                                 <div
                                                     key={topic.id}
                                                     className="stage-topic d-flex justify-content-between align-items-center mt-3 mb-3"
-                                                    data-position="1"
-                                                    data-url="#">
-
-                                                    <div className="col-xl-2">
-                                                        <div className="table-img">
-                                                            <img src={topic.imageUrl} style={{width: 100}} alt=""/>
-                                                        </div>
-                                                    </div>
-                                                    <div className="col-xl-2">
-                                                        {topic.type}
-                                                    </div>
-                                                    <div className="col-xl-3">
-                                                        {topic.title}
-                                                    </div>
-                                                    <div className="col-xl-2">
-                                                        {formatDurationToText(30)}
-                                                    </div>
-                                                    <div className="col-2 td-actions d-flex justify-content-end">
-                                                        <a href="">
-                                                            <i className="la la-edit edit"></i>
-                                                        </a>
-                                                        <a href="">
-                                                            <i className="la la-close delete"></i>
-                                                        </a>
-                                                    </div>
+                                                >
+                                                    {topic.lesson && (
+                                                        <>
+                                                            <div className="col-xl-2">
+                                                                <div className="table-img">
+                                                                    <img
+                                                                        src={topic.lesson.imageUrl}
+                                                                        style={{width: 100}}
+                                                                        alt={topic.lesson.title}
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                            <div className="col-xl-2">
+                                                                <div className="badge badge-dark">
+                                                                    Урок
+                                                                </div>
+                                                            </div>
+                                                            <div className="col-xl-3">
+                                                                {topic.lesson.title}
+                                                            </div>
+                                                            <div className="col-xl-2">
+                                                                {formatDurationToText(topic.lesson.duration)}
+                                                            </div>
+                                                            <div className="col-2 td-actions d-flex justify-content-end">
+                                                                <a href="">
+                                                                    <i className="la la-edit edit"></i>
+                                                                </a>
+                                                                <a href="">
+                                                                    <i className="la la-close delete"></i>
+                                                                </a>
+                                                            </div>
+                                                        </>
+                                                    )}
                                                 </div>
                                             ))}
                                         </div>
