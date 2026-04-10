@@ -6,9 +6,12 @@ import {formatDate, formatDurationToText} from "../../../../shared/lib/converter
 import {useState} from "react";
 import {ModuleFormModal} from "../../../../shared/ui/modal/module/ModuleFormModal";
 import {Module} from "../../../../entities/module/model/types";
+import {Lesson} from "../../../../entities/lesson/model/types.ts";
+import {useDeleteLesson} from "../../../../entities/lesson/model/hooks";
 
 export default function CourseShowPage() {
     const course = useLoaderData() as Course;
+    const {execute} = useDeleteLesson();
 
     const [isModuleModalOpen, setIsModuleModalOpen] = useState(false);
     const [modules, setModules] = useState(course.modules ?? []);
@@ -28,6 +31,22 @@ export default function CourseShowPage() {
 
         setModules(prev => [...prev, newModule])
     };
+
+    const handleDeleteLesson = async (
+        lesson: Lesson | null | undefined
+    ): Promise<void> => {
+        if (!lesson) return;
+        await execute(lesson.id)
+
+        setModules(prev =>
+            prev.map(module => ({
+                ...module,
+                topics: module.topics?.filter(
+                    topic => topic.lesson?.id !== lesson.id
+                )
+            }))
+        );
+    }
 
     return (
         <PageLayout title={course.title}>
@@ -226,12 +245,13 @@ export default function CourseShowPage() {
                                                             <div className="col-2 td-actions d-flex justify-content-end">
                                                                 <Link
                                                                     to={`/dashboard/coursesReact/${course.id}/modules/${module.id}/lessons/${topic.lesson.id}/edit`}
-                                                                ><i className="la la-edit edit"></i>
-                                                                </Link>
+                                                                ><i className="la la-edit edit"></i></Link>
 
-                                                                <a href="">
-                                                                    <i className="la la-close delete"></i>
-                                                                </a>
+                                                                {topic.lesson && (
+                                                                    <button
+                                                                        onClick={() => handleDeleteLesson(topic.lesson)}
+                                                                    ><i className="la la-close delete"></i></button>
+                                                                )}
                                                             </div>
                                                         </>
                                                     )}

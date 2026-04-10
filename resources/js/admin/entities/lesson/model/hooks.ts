@@ -3,6 +3,7 @@ import {LessonStorePayload, LessonResponse, LessonUpdatePayload} from "./types";
 import {useNavigate, useParams} from "react-router-dom";
 import {storeLesson} from "../../topic/api/mutation/storeLesson";
 import {updateLesson} from "../../topic/api/mutation/updateLesson";
+import {deleteLesson} from "../../topic/api/mutation/deleteLesson";
 
 type MutationFn<T, R> = (data: T) => Promise<R>;
 
@@ -78,4 +79,16 @@ export function useUpdateLesson() {
             : "/dashboard/coursesReact",
         errorMessage: "Ошибка обновления урока"
     });
+}
+
+export function useDeleteLesson() {
+    const { courseId } = useParams();
+
+    return useLessonMutation({
+        mutationFn: (lessonId: number) => deleteLesson(Number(lessonId)),
+        onSuccessNavigateTo: courseId
+            ? `/dashboard/coursesReact/${courseId}`
+            : "/dashboard/coursesReact",
+        errorMessage: "Ошибка удаления урока"
+    })
 }
