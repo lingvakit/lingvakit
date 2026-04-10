@@ -15,9 +15,9 @@ class LessonDetailsResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'description' => $this->description ?: null,
-            'imageUrl' => $this->imageUrl ?: null,
-            'audioUrl' => $this->audioUrl ?: null,
-            'videoUrl' => $this->videoUrl ?: null,
+            'imageFile' => $this->imageFile,
+            'audioFile' => $this->audioFile,
+            'videoFile' => $this->videoFile,
             'duration' => $this->duration,
             'orderIndex' => $this->orderIndex ?: null,
         ];

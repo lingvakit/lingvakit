@@ -1,11 +1,17 @@
+import {MediaFile} from "../../media/model/types";
+
 export type Lesson = {
     id: number;
     title: string;
     duration: number;
-    description: string|null;
-    audioUrl: string|null;
-    imageUrl: string;
-    videoUrl: string|null;
+    description: string;
+    audioFile: MediaFile|null;
+    imageFile: MediaFile;
+    videoFile: MediaFile|null;
+};
+
+export type LessonResponse = {
+    data: Lesson
 };
 
 export type LessonStorePayload = {
@@ -18,15 +24,11 @@ export type LessonStorePayload = {
     videoMediaId?: number | null;
 };
 
-export type LessonStoreResponse = {
-    data: {
-        id: number;
-        title: string;
-        duration: number;
-        description: string | null;
-        audioMediaId: number | null;
-        imageMediaId: number | null;
-        videoMediaId: number | null;
-        orderIndex: number | null;
-    }
+export type LessonUpdatePayload = {
+    title?: string;
+    duration?: number;
+    description?: string | null;
+    audioMediaId?: number | null;
+    imageMediaId?: number | null;
+    videoMediaId?: number | null;
 };

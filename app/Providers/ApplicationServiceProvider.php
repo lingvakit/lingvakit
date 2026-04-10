@@ -19,6 +19,8 @@ use App\Application\Lesson\Commands\ShowLessonHandler;
 use App\Application\Lesson\Commands\ShowLessonHandlerInterface;
 use App\Application\Lesson\Commands\UpdateLessonHandler;
 use App\Application\Lesson\Commands\UpdateLessonHandlerInterface;
+use App\Application\Media\Handlers\ShowMediaFilesListHandler;
+use App\Application\Media\Handlers\ShowMediaFilesListHandlerInterface;
 use App\Application\Module\Commands\CreateModuleHandler;
 use App\Application\Module\Commands\CreateModuleHandlerInterface;
 use App\Application\Module\Commands\ShowModuleHandler;
@@ -31,6 +33,11 @@ class ApplicationServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
+        $this->app->bind(
+            abstract: ShowMediaFilesListHandlerInterface::class,
+            concrete: ShowMediaFilesListHandler::class
+        );
+
         $this->app->bind(
             abstract: CreateCourseHandlerInterface::class,
             concrete: CreateCourseHandler::class

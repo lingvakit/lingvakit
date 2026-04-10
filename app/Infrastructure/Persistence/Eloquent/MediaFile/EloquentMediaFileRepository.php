@@ -5,13 +5,18 @@ namespace App\Infrastructure\Persistence\Eloquent\MediaFile;
 
 use App\Application\Media\Dto\MediaFileDto;
 use App\Application\Media\Enum\FileType;
-use App\Application\Media\ReadModel\MediaFileRepository;
+use App\Infrastructure\Persistence\Repository\MediaFileRepositoryInterface;
 use App\Models\MediaFile;
 use App\UI\Exception\FileTypeNotExistsException;
 use Illuminate\Pagination\AbstractPaginator;
 
-class EloquentMediaFileRepository implements MediaFileRepository
+class EloquentMediaFileRepository implements MediaFileRepositoryInterface
 {
+    public function findById(int $id): ?MediaFile
+    {
+        return MediaFile::find($id);
+    }
+
     public function paginate(int $perPage = 20, string $search = '', string $type = ''): AbstractPaginator
     {
         $query = MediaFile::query()

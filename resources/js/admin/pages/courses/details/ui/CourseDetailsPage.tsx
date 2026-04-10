@@ -1,4 +1,4 @@
-import {Link, Outlet, useLoaderData} from "react-router-dom";
+import {Link, useLoaderData} from "react-router-dom";
 import DOMPurify from "dompurify";
 import {Course} from "../../../../entities/course/model/types";
 import PageLayout from "../../../../widgets/layout/PageLayout";
@@ -200,13 +200,16 @@ export default function CourseShowPage() {
                                                         <>
                                                             <div className="col-xl-2">
                                                                 <div className="table-img">
-                                                                    <img
-                                                                        src={topic.lesson.imageUrl}
-                                                                        style={{width: 100}}
-                                                                        alt={topic.lesson.title}
-                                                                    />
+                                                                    {topic.lesson.imageFile && (
+                                                                        <img
+                                                                            src={topic.lesson.imageFile.url}
+                                                                            style={{width: 100}}
+                                                                            alt={topic.lesson.title}
+                                                                        />
+                                                                    )}
                                                                 </div>
                                                             </div>
+
                                                             <div className="col-xl-2">
                                                                 <div className="badge badge-dark">
                                                                     Урок
@@ -215,13 +218,17 @@ export default function CourseShowPage() {
                                                             <div className="col-xl-3">
                                                                 {topic.lesson.title}
                                                             </div>
+
                                                             <div className="col-xl-2">
                                                                 {formatDurationToText(topic.lesson.duration)}
                                                             </div>
+
                                                             <div className="col-2 td-actions d-flex justify-content-end">
-                                                                <a href="">
-                                                                    <i className="la la-edit edit"></i>
-                                                                </a>
+                                                                <Link
+                                                                    to={`/dashboard/coursesReact/${course.id}/modules/${module.id}/lessons/${topic.lesson.id}/edit`}
+                                                                ><i className="la la-edit edit"></i>
+                                                                </Link>
+
                                                                 <a href="">
                                                                     <i className="la la-close delete"></i>
                                                                 </a>

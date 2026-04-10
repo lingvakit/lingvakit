@@ -1,47 +1,81 @@
 import {useCallback, useState} from "react";
-import {LessonStorePayload} from "./types";
+import {LessonStorePayload, LessonResponse, LessonUpdatePayload} from "./types";
 import {useNavigate, useParams} from "react-router-dom";
 import {storeLesson} from "../../topic/api/mutation/storeLesson";
+import {updateLesson} from "../../topic/api/mutation/updateLesson";
 
-export function useCreateLesson() {
+type MutationFn<T, R> = (data: T) => Promise<R>;
+
+type Options<T, R> = {
+    mutationFn: MutationFn<T, R>;
+    onSuccessNavigateTo: string;
+    errorMessage: string;
+    onSuccess?: (response: R) => void;
+};
+
+export function useLessonMutation<T, R>({
+    mutationFn,
+    onSuccessNavigateTo,
+    errorMessage,
+    onSuccess,
+}: Options<T, R>) {
     const navigate = useNavigate();
-    const { courseId } = useParams();
 
-    const [isSavingProcess, setIsSavingProcess] = useState<boolean>(false);
+    const [isSavingProcess, setIsSavingProcess] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const saveLesson = useCallback(
-        async (
-            data: LessonStorePayload
-        ): Promise<void> => {
+    const execute = useCallback(
+        async (data: T): Promise<void> => {
             try {
                 setIsSavingProcess(true);
                 setError(null);
 
-                await storeLesson(data);
+                const response = await mutationFn(data);
 
-                navigate(
-                    courseId
-                        ? `/dashboard/coursesReact/${courseId}`
-                        : "/dashboard/coursesReact"
-                );
-
-            } catch (error: any) {
+                onSuccess?.(response);
+                navigate(onSuccessNavigateTo);
+            } catch (e: any) {
                 setError(
-                    error instanceof Error
-                        ? error.message
-                        : "Something went wrong with creating lesson"
+                    e instanceof Error ? e.message : errorMessage
                 );
             } finally {
                 setIsSavingProcess(false);
             }
         },
-        [navigate]
+        [mutationFn, navigate, onSuccessNavigateTo]
     );
 
     return {
-        saveLesson,
+        execute,
         isSavingProcess,
-        error
+        error,
     };
+}
+
+export function useCreateLesson() {
+    const { courseId } = useParams();
+
+    return useLessonMutation<LessonStorePayload, LessonResponse>({
+        mutationFn: storeLesson,
+        onSuccessNavigateTo: courseId
+            ? `/dashboard/coursesReact/${courseId}`
+            : "/dashboard/coursesReact",
+        errorMessage: "Ошибка создания урока",
+    });
+}
+
+export function useUpdateLesson() {
+    const {courseId, lessonId} = useParams<{courseId: string, lessonId: string}>();
+
+    if (!lessonId) {
+        throw new Error("lessonId is required");
+    }
+
+    return useLessonMutation<LessonUpdatePayload, LessonResponse>({
+        mutationFn: (data) => updateLesson(Number(lessonId), data),
+        onSuccessNavigateTo: courseId
+            ? `/dashboard/coursesReact/${courseId}`
+            : "/dashboard/coursesReact",
+        errorMessage: "Ошибка обновления урока"
+    });
 }

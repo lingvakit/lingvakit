@@ -3,18 +3,18 @@ import {FormEvent} from "react";
 import {useCKEditor} from "../../../../../shared/ui/modal/media/useCKEditor";
 import {MediaTarget} from "../../../../../shared/ui/modal/media/types";
 import {MediaType} from "../../../../../entities/media/model/types";
-import {LessonInputMedia} from "./Form/LessonInputMedia.tsx";
-import {useLessonCreateForm} from "../../../../../features/lesson/create/model/useLessonCreateForm";
+import {LessonInputMedia} from "./Form/LessonInputMedia";
+import {useLessonForm} from "../../../../../features/lesson/create/model/useLessonForm";
 
 type Props = {
     ckEditor: ReturnType<typeof useCKEditor>
     isSavingProgress: boolean;
     onSubmit: () => Promise<void>;
     openMediaModal: (target: MediaTarget, type: MediaType) => void;
-    formData: ReturnType<typeof useLessonCreateForm>
+    form: ReturnType<typeof useLessonForm>
 };
 
-export default function LessonForm({ckEditor, isSavingProgress, onSubmit, openMediaModal, formData }: Props) {
+export default function LessonForm({ckEditor, isSavingProgress, onSubmit, openMediaModal, form }: Props) {
     const handleSubmit = async (
         e: FormEvent<HTMLFormElement>
     ): Promise<void> => {
@@ -64,8 +64,8 @@ export default function LessonForm({ckEditor, isSavingProgress, onSubmit, openMe
                                         name="title"
                                         className="form-control"
                                         placeholder="Наименование"
-                                        value={formData.fields.title}
-                                        onChange={formData.handlers.titleChange}
+                                        value={form.fields.title}
+                                        onChange={form.handlers.handleChange}
                                     />
                                 </div>
                             </div>
@@ -74,8 +74,8 @@ export default function LessonForm({ckEditor, isSavingProgress, onSubmit, openMe
                                 <label className="col-lg-3 form-control-label">Описание</label>
                                 <div className="col-lg-9">
                                     <TextareaEditor
-                                        value={formData.fields.description}
-                                        onChange={formData.handlers.descriptionChange}
+                                        value={form.fields.description ?? ""}
+                                        onChange={form.handlers.setDescription}
                                         onOpenMediaModal={() => {openMediaModal("editor", "image")}}
                                         setEditorRef={ckEditor.setEditorRef}
                                     />
@@ -83,7 +83,7 @@ export default function LessonForm({ckEditor, isSavingProgress, onSubmit, openMe
                             </div>
 
                             <LessonInputMedia
-                                mediaFiles={formData.fields.mediaFiles}
+                                mediaFiles={form.fields.mediaFiles}
                                 onOpenMediaModal={handleOpenMediaModal}
                             />
 
@@ -97,8 +97,8 @@ export default function LessonForm({ckEditor, isSavingProgress, onSubmit, openMe
                                         name="duration"
                                         className="form-control"
                                         placeholder="100"
-                                        value={formData.fields.duration}
-                                        onChange={formData.handlers.durationChange}
+                                        value={form.fields.duration}
+                                        onChange={form.handlers.handleChange}
                                     />
                                 </div>
                             </div>

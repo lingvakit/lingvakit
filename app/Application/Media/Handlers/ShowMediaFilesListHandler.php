@@ -1,16 +1,17 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Application\Media\Queries;
+namespace App\Application\Media\Handlers;
 
-use App\Application\Media\ReadModel\MediaFileRepository;
+use App\Infrastructure\Persistence\Repository\MediaFileRepositoryInterface;
 use Illuminate\Pagination\AbstractPaginator;
 
-final readonly class MediaFileListQuery
+final readonly class ShowMediaFilesListHandler implements ShowMediaFilesListHandlerInterface
 {
     public function __construct(
-        private MediaFileRepository $repository
-    ) {}
+        private MediaFileRepositoryInterface $repository
+    ) {
+    }
 
     public function handle(int $perPage, string $search, string $type): AbstractPaginator
     {

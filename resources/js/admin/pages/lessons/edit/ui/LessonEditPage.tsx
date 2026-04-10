@@ -1,23 +1,29 @@
+import {useLoaderData} from "react-router-dom";
 import PageLayout from "../../../../widgets/layout/PageLayout";
-import LessonForm from "./components/LessonForm";
-import {useCreateLesson} from "../../../../entities/lesson/model/hooks";
-import MediaUploadModal from "../../../../shared/ui/modal/media/MediaUploadModal";
+import {Lesson} from "../../../../entities/lesson/model/types";
+import LessonForm from "../../create/ui/components/LessonForm";
+import {useUpdateLesson} from "../../../../entities/lesson/model/hooks";
+import {useMediaModalManager} from "../../../../shared/ui/modal/media/useMediaModalManager";
 import {MediaFile} from "../../../../entities/media/model/types";
 import {useCKEditor} from "../../../../shared/ui/modal/media/useCKEditor";
-import {useMediaModalManager} from "../../../../shared/ui/modal/media/useMediaModalManager";
-import {useParams} from "react-router-dom";
 import {useLessonForm} from "../../../../features/lesson/create/model/useLessonForm";
+import MediaUploadModal from "../../../../shared/ui/modal/media/MediaUploadModal";
 
-export default function LessonCreatePage() {
-    const { moduleId } = useParams();
+export function LessonEditPage() {
+    const lesson = useLoaderData() as Lesson;
 
-    if (!moduleId) {
-        throw new Error('Module Id is required');
-    }
-
-    const {execute, isSavingProcess, error} = useCreateLesson();
+    const {execute, isSavingProcess, error} = useUpdateLesson();
     const ckEditor = useCKEditor();
-    const form = useLessonForm();
+    const form = useLessonForm({
+        title: lesson.title,
+        duration: lesson.duration,
+        description: lesson.description,
+        mediaFiles: {
+            audio: lesson.audioFile,
+            image: lesson.imageFile,
+            video: lesson.videoFile,
+        }
+    });
 
     const mediaModal = useMediaModalManager({
         onCKEditorSelect: ckEditor.handleSelectMediaFile,
@@ -27,23 +33,15 @@ export default function LessonCreatePage() {
     });
 
     const handleSubmit = async (): Promise<void> => {
-        await execute({
-            moduleId: parseInt(moduleId),
-            title: form.fields.title,
-            duration: form.fields.duration,
-            description: form.fields.description,
-            audioMediaId: form.fields.mediaFiles.audio?.id,
-            imageMediaId: form.fields.mediaFiles.image?.id,
-            videoMediaId: form.fields.mediaFiles.video?.id,
-        });
-    };
+        await execute(form.fields);
+    }
 
     if (error) {
         return <>Ошибка: {error}</>
     }
 
     return (
-        <PageLayout title="Новый урок">
+        <PageLayout title={lesson.title}>
             <LessonForm
                 ckEditor={ckEditor}
                 isSavingProgress={isSavingProcess}

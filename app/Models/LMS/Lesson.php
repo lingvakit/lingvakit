@@ -15,6 +15,12 @@ class Lesson extends Model
 
     protected $fillable = ['title', 'description', 'image', 'audio', 'video', 'duration', 'topic_id'];
 
+    protected $casts = [
+        'audio' => 'integer',
+        'image' => 'integer',
+        'video' => 'integer',
+    ];
+
     public function topic()
     {
         return $this->belongsTo(Topic::class, 'topic_id', 'id', 'lms_topics');

@@ -12,10 +12,10 @@ class MediaFileListItemResource extends JsonResource
     {
         /** @var MediaFileDto $this */
         return [
-            'id' => $this->getId(),
-            'fileName' => $this->getFileName(),
-            'type' => $this->getType()->value,
-            'url' => $this->getUrl(),
+            'id' => $this->id,
+            'fileName' => $this->fileName,
+            'type' => $this->type->value,
+            'url' => $this->url,
         ];
     }
 }

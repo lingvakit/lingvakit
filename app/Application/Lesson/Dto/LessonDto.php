@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Application\Lesson\Dto;
 
+use App\Application\Media\Dto\MediaFileDto;
+
 final readonly class LessonDto
 {
     public function __construct(
@@ -10,9 +12,9 @@ final readonly class LessonDto
         public string $title,
         public int $duration,
         public ?string $description = null,
-        public ?string $imageUrl = null,
-        public ?string $audioUrl = null,
-        public ?string $videoUrl = null,
+        public ?MediaFileDto $imageFile = null,
+        public ?MediaFileDto $audioFile = null,
+        public ?MediaFileDto $videoFile = null,
         public ?int $orderIndex = null,
     ) {
     }
