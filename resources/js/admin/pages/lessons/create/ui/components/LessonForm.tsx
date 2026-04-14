@@ -11,10 +11,11 @@ type Props = {
     isSavingProgress: boolean;
     onSubmit: () => Promise<void>;
     openMediaModal: (target: MediaTarget, type: MediaType) => void;
+    openAiModal: () => void;
     form: ReturnType<typeof useLessonForm>
 };
 
-export default function LessonForm({ckEditor, isSavingProgress, onSubmit, openMediaModal, form }: Props) {
+export default function LessonForm({ckEditor, isSavingProgress, onSubmit, openMediaModal, openAiModal, form }: Props) {
     const handleSubmit = async (
         e: FormEvent<HTMLFormElement>
     ): Promise<void> => {
@@ -67,6 +68,15 @@ export default function LessonForm({ckEditor, isSavingProgress, onSubmit, openMe
                                         value={form.fields.title}
                                         onChange={form.handlers.handleChange}
                                     />
+
+                                    {form.fields.title.length > 5 && (
+                                        <button
+                                            type="button"
+                                            title="Геренировать текст курса с помощью ИИ"
+                                            className="btn btn-gradient-04 btn-square btn-sm mt-1"
+                                            onClick={openAiModal}
+                                        >AI помощник</button>
+                                    )}
                                 </div>
                             </div>
 
@@ -97,6 +107,7 @@ export default function LessonForm({ckEditor, isSavingProgress, onSubmit, openMe
                                         name="duration"
                                         className="form-control"
                                         placeholder="100"
+                                        min={0}
                                         value={form.fields.duration}
                                         onChange={form.handlers.handleChange}
                                     />

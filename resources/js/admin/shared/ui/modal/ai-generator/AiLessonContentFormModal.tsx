@@ -1,0 +1,143 @@
+import BaseModal from "../BaseModal.tsx";
+import {FormEvent, useEffect, useState} from "react";
+import {useGenerateLessonContent} from "../../../../entities/lesson/model/hooks";
+import {useLessonForm} from "../../../../features/lesson/create/model/useLessonForm";
+import {DifficultyLevel} from "../../../../entities/lesson/model/types";
+
+type Props = {
+    lessonTheme: string;
+    isOpen: boolean;
+    onClose: () => void;
+    form: ReturnType<typeof useLessonForm>
+};
+
+export function AiLessonContentFormModal({lessonTheme, isOpen, onClose, form}: Props) {
+    const [title, setTitle] = useState('');
+    const [difficultyLevel, setDifficultyLevel] = useState<DifficultyLevel>('hard');
+    const difficultyLevelOptions = [
+        {label: "Hard", value: "hard"},
+        {label: "HSK-1", value: "hsk1"},
+        {label: "HSK-2", value: "hsk2"},
+        {label: "HSK-3", value: "hsk3"},
+    ];
+    const [lessonContent, setLessonContent] = useState<string | null>('');
+
+    useEffect(() => {
+        setTitle(lessonTheme ?? '');
+    }, [lessonTheme]);
+
+    const {
+        execute,
+    } = useGenerateLessonContent()
+
+    const handelSubmit = async (
+        e: FormEvent<HTMLFormElement>,
+    ): Promise<void> => {
+        e.preventDefault();
+
+        const response = await execute({
+            topic: title,
+            level: difficultyLevel,
+        });
+
+        setLessonContent(response);
+    };
+
+    const handleAcceptContentFromAi = () => {
+        if (lessonContent && lessonContent.length > 0) {
+            form.handlers.setDescription(lessonContent);
+        }
+
+        onClose();
+    };
+
+    return (
+        <BaseModal
+            title="Генерация урока с помощью AI"
+            isOpen={isOpen}
+            onClose={onClose}
+        >
+            <form
+                className="form-horizontal"
+                onSubmit={handelSubmit}
+            >
+                <div className="form-group">
+                    <div className="col-12 mb-3">
+                        <label className="form-control-label">
+                            Тема урока
+                            <span className="text-danger ml-2">*</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            name="title"
+                            className="form-control"
+                            placeholder="Модуль 1"
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                        />
+                    </div>
+                </div>
+
+                <div className="form-group">
+                    <div className="col-12 mb-3">
+                        <label className="form-control-label">
+                            Сложность урока
+                            <span className="text-danger ml-2">*</span>
+                        </label>
+
+                        <select
+                            name="difficulty"
+                            className="custom-select form-control"
+                            value={difficultyLevel}
+                            onChange={(e) => setDifficultyLevel(
+                                e.target.value as DifficultyLevel
+                            )}
+                        >
+                            {difficultyLevelOptions.map((level) => (
+                                <option
+                                    key={`level_${level.value}`}
+                                    value={level.value}
+                                >{level.label}</option>
+                            ))}
+                        </select>
+                    </div>
+                </div>
+
+                {lessonContent && (
+                    <div className="form-group">
+                        <div className="col-12 mb-3">
+                            <label className="form-control-label">
+                                Тема урока
+                                <span className="text-danger ml-2">*</span>
+                            </label>
+
+                            <textarea
+                                className="form-control"
+                                value={lessonContent}
+                                rows={20}
+                                readOnly={true}
+                            />
+                        </div>
+                    </div>
+                )}
+
+                <div className="form-group">
+                    <div className="col-12 mb-3">
+                        <button
+                            className="btn btn-gradient-01 mr-2"
+                            type="submit"
+                        >Генерировать
+                        </button>
+
+                        <button
+                            className="btn btn-gradient-02"
+                            type="button"
+                            onClick={handleAcceptContentFromAi}
+                        >Принять результат</button>
+                    </div>
+                </div>
+            </form>
+        </BaseModal>
+    );
+}

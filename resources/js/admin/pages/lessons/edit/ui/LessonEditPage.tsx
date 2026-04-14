@@ -8,8 +8,12 @@ import {MediaFile} from "../../../../entities/media/model/types";
 import {useCKEditor} from "../../../../shared/ui/modal/media/useCKEditor";
 import {useLessonForm} from "../../../../features/lesson/create/model/useLessonForm";
 import MediaUploadModal from "../../../../shared/ui/modal/media/MediaUploadModal";
+import {AiLessonContentFormModal} from "../../../../shared/ui/modal/ai-generator/AiLessonContentFormModal";
+import {useState} from "react";
 
 export function LessonEditPage() {
+    const [isAiModalOpen, setIsAiModalOpen] = useState(false);
+
     const lesson = useLoaderData() as Lesson;
 
     const {execute, isSavingProcess, error} = useUpdateLesson();
@@ -47,6 +51,7 @@ export function LessonEditPage() {
                 isSavingProgress={isSavingProcess}
                 onSubmit={handleSubmit}
                 openMediaModal={mediaModal.open}
+                openAiModal={() => setIsAiModalOpen(true)}
                 form={form}
             />
 
@@ -55,6 +60,13 @@ export function LessonEditPage() {
                 mediaType={mediaModal.mediaType}
                 onClose={mediaModal.close}
                 onSelect={mediaModal.handleSelect}
+            />
+
+            <AiLessonContentFormModal
+                lessonTheme={form.fields.title}
+                isOpen={isAiModalOpen}
+                onClose={() => setIsAiModalOpen(false)}
+                form={form}
             />
         </PageLayout>
     );

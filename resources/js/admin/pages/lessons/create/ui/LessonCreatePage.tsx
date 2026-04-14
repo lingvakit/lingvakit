@@ -7,6 +7,8 @@ import {useCKEditor} from "../../../../shared/ui/modal/media/useCKEditor";
 import {useMediaModalManager} from "../../../../shared/ui/modal/media/useMediaModalManager";
 import {useParams} from "react-router-dom";
 import {useLessonForm} from "../../../../features/lesson/create/model/useLessonForm";
+import {AiLessonContentFormModal} from "../../../../shared/ui/modal/ai-generator/AiLessonContentFormModal";
+import {useState} from "react";
 
 export default function LessonCreatePage() {
     const { moduleId } = useParams();
@@ -14,6 +16,8 @@ export default function LessonCreatePage() {
     if (!moduleId) {
         throw new Error('Module Id is required');
     }
+
+    const [isAiModalOpen, setIsAiModalOpen] = useState(false);
 
     const {execute, isSavingProcess, error} = useCreateLesson();
     const ckEditor = useCKEditor();
@@ -49,6 +53,7 @@ export default function LessonCreatePage() {
                 isSavingProgress={isSavingProcess}
                 onSubmit={handleSubmit}
                 openMediaModal={mediaModal.open}
+                openAiModal={() => setIsAiModalOpen(true)}
                 form={form}
             />
 
@@ -57,6 +62,13 @@ export default function LessonCreatePage() {
                 mediaType={mediaModal.mediaType}
                 onClose={mediaModal.close}
                 onSelect={mediaModal.handleSelect}
+            />
+
+            <AiLessonContentFormModal
+                lessonTheme={form.fields.title}
+                isOpen={isAiModalOpen}
+                onClose={() => setIsAiModalOpen(false)}
+                form={form}
             />
         </PageLayout>
     );

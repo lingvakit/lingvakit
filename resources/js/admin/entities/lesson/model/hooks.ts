@@ -1,9 +1,16 @@
 import {useCallback, useState} from "react";
-import {LessonStorePayload, LessonResponse, LessonUpdatePayload} from "./types";
+import {
+    LessonStorePayload,
+    LessonResponse,
+    LessonUpdatePayload,
+    AiLessonGeneratePayload,
+    UseAiLessonGeneratedResult
+} from "./types";
 import {useNavigate, useParams} from "react-router-dom";
 import {storeLesson} from "../../topic/api/mutation/storeLesson";
 import {updateLesson} from "../../topic/api/mutation/updateLesson";
 import {deleteLesson} from "../../topic/api/mutation/deleteLesson";
+import {generateAiLessonContent} from "../api/generateAiLessonContent";
 
 type MutationFn<T, R> = (data: T) => Promise<R>;
 
@@ -54,7 +61,7 @@ export function useLessonMutation<T, R>({
 }
 
 export function useCreateLesson() {
-    const { courseId } = useParams();
+    const {courseId} = useParams();
 
     return useLessonMutation<LessonStorePayload, LessonResponse>({
         mutationFn: storeLesson,
@@ -66,7 +73,7 @@ export function useCreateLesson() {
 }
 
 export function useUpdateLesson() {
-    const {courseId, lessonId} = useParams<{courseId: string, lessonId: string}>();
+    const {courseId, lessonId} = useParams<{ courseId: string, lessonId: string }>();
 
     if (!lessonId) {
         throw new Error("lessonId is required");
@@ -91,4 +98,42 @@ export function useDeleteLesson() {
             : "/dashboard/coursesReact",
         errorMessage: "Ошибка удаления урока"
     })
+}
+
+export function useGenerateLessonContent(): UseAiLessonGeneratedResult {
+    const [isProcessing, setIsProcessing] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    const execute = useCallback(
+        async (
+            payload: AiLessonGeneratePayload
+        ): Promise<string | null> => {
+            try {
+                setIsProcessing(true);
+                setError(null);
+
+                const response = await generateAiLessonContent(payload);
+
+                return response.data;
+            } catch (error: unknown) {
+                setError(
+                    error instanceof Error
+                        ? error.message
+                        : 'Не удалось сгенерировать урок.'
+                );
+
+                return null;
+            } finally {
+                setIsProcessing(false);
+            }
+        },
+        []
+    );
+
+
+    return {
+        execute,
+        isProcessing,
+        error
+    };
 }
