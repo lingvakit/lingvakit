@@ -25,7 +25,7 @@ final readonly class CourseMapper
             category: $course->category->name,
             createdAt: $course->created_at->toImmutable(),
             description: $course->description,
-            imageUrl: $course->image,
+            imageUrl: $course->getImage(),
             author: $course->author->getFullName(),
             modules: $course->stages
                 ->map(fn(Stage $stage) => $this->moduleMapper->fromModel($stage))

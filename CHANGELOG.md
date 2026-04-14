@@ -2,6 +2,12 @@
 
 ---
 
+## [unreleased] - 2026-04-14
+### Fixed:
+* Field 'imageUrl' returns image path instead media file id
+
+---
+
 ## [1.22.0] - 2026-04-14
 ### Added:
 #### Functionality for courses
@@ -17,6 +23,7 @@
   * Delete lesson via button on course page
 * Lesson form:
   * Generating fake lesson content on create/update lesson pages
+
 ---
 
 ## [1.21.5] - 2026-03-12
