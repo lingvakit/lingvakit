@@ -2,9 +2,21 @@
 
 ---
 
-## [Unreleased] - 2026-03-11
+## [1.22.0] - 2026-04-14
 ### Added:
-* Course UI - Added CKForm
+#### Functionality for courses
+* Course pages:
+  * List of courses
+  * Course details
+  * Create course
+* Course modules:
+  * Create module via modal window
+* Lessons:
+  * Page for creating new lesson
+  * Page for updating lesson
+  * Delete lesson via button on course page
+* Lesson form:
+  * Generating fake lesson content on create/update lesson pages
 ---
 
 ## [1.21.5] - 2026-03-12
