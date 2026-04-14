@@ -13,14 +13,6 @@ type Props = {
 export default function MediaUploadModal({isOpen, mediaType, onClose, onSelect}: Props) {
     const {
         mediaFiles,
-        paginatorMeta,
-        page,
-        setPage,
-        itemsPerPage,
-        setItemsPerPage,
-        query,
-        setQuery,
-        error
     } = useMediaList(mediaType);
 
     return (

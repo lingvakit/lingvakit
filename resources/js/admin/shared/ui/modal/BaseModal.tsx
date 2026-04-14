@@ -8,23 +8,34 @@ type Props = {
 };
 
 export default function BaseModal({ isOpen, title, onClose, children }: Props) {
+    let openModalsCount = 0;
+
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
             if (e.key === "Escape") {
                 onClose();
             }
-        }
+        };
 
         document.addEventListener("keydown", handleKeyDown);
 
         if (isOpen) {
-            document.body.classList.add("modal-open");
-        } else {
-            document.body.classList.remove("modal-open");
+            openModalsCount++;
+
+            if (openModalsCount === 1) {
+                document.body.classList.add("modal-open");
+            }
         }
 
         return () => {
-            document.body.classList.remove("modal-open");
+            if (isOpen) {
+                openModalsCount--;
+
+                if (openModalsCount === 0) {
+                    document.body.classList.remove("modal-open");
+                }
+            }
+
             document.removeEventListener("keydown", handleKeyDown);
         };
     }, [isOpen, onClose]);
