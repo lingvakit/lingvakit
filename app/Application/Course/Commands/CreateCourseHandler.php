@@ -3,25 +3,43 @@ declare(strict_types=1);
 
 namespace App\Application\Course\Commands;
 
-use App\Models\LMS\Course;
-use DB;
+use App\Application\Course\Dto\CourseCreateRequestDto;
+use App\Application\Course\Dto\CourseDto;
+use App\Application\Course\Mapper\CourseMapper;
+use App\Exceptions\LanguageNotExistsException;
+use App\Infrastructure\Persistence\Repository\CourseRepositoryInterface;
+use App\Models\LMS\Language;
+use Illuminate\Support\Facades\DB;
 
-class CreateCourseHandler
+final readonly class CreateCourseHandler implements CreateCourseHandlerInterface
 {
-    public function handle(CreateCourseCommand $command): int
-    {
-        return DB::transaction(function () use ($command) {
-            $course = new Course();
-            $course->title = $command->title;
-            $course->description = $command->description;
-            $course->difficulty_level = $command->difficultyLevel->value;
-            $course->price = $command->price;
-            $course->duration = $command->duration;
-            $course->image = $command->imageId;
-            $course->author_id = auth()->user()->id;
-            $course->save();
+    private const string LANGUAGE_CHINA_CODE = 'cn';
 
-            return (int)$course->id;
+    public function __construct(
+        private CourseRepositoryInterface $repository,
+        private CourseMapper $courseMapper,
+    ) {
+    }
+
+    public function handle(CourseCreateRequestDto $dto): CourseDto
+    {
+        return DB::transaction(function () use ($dto) {
+            $language = Language::where('label', self::LANGUAGE_CHINA_CODE)->first();
+
+            if ($language === null) {
+                throw new LanguageNotExistsException(
+                    message: "Language with label " . self::LANGUAGE_CHINA_CODE . " not found"
+                );
+            }
+
+            $course = $this->repository->save(
+                array_merge(
+                    $dto->toArray(),
+                    ['language_id' => $language->id]
+                )
+            );
+
+            return $this->courseMapper->fromModel($course);
         });
     }
 }

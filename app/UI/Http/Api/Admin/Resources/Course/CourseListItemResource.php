@@ -12,10 +12,10 @@ class CourseListItemResource extends JsonResource
     {
         /** @var CourseListItemDto $this */
         return [
-            'id' => $this->getId(),
-            'title' => $this->getTitle(),
-            'createdAt' => $this->getCreatedAt(),
-            'imageUrl' => $this->getImageUrl(),
+            'id' => $this->id,
+            'title' => $this->title,
+            'createdAt' => $this->createdAt->toISOString(),
+            'imageUrl' => $this->imageUrl,
         ];
     }
 }

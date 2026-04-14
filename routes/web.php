@@ -68,9 +68,9 @@ Route::prefix('repair')->middleware(['role:superuser'])->group(function (){
 });
 
 /* Students routes */
-require_once 'lk-students.php';
+require __DIR__ . '/lk-students.php';
 /* Admins routes */
-require_once 'admin.php';
+require __DIR__ . '/admin.php';
 
 /* React admin API */
-require_once 'react-admin.php';
+require __DIR__ . '/react-admin.php';

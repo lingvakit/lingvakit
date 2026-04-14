@@ -389,23 +389,23 @@ class Course extends Model
         return false;
     }
 
-    public function getPublishDateAttribute($date) : string
-    {
-        if (!$date) { return false; }
-        return Carbon::createFromFormat('Y-m-d', $date)->format('d/m/Y');
-    }
-
-    public function setPublishDateAttribute($date)
-    {
-        $publishDate = Carbon::createFromFormat('d/m/Y', $date)->format('Y-m-d');
-        $this->attributes['publish_date'] = $publishDate;
-    }
+//    public function getPublishDateAttribute($date) : string
+//    {
+//        if (!$date) { return false; }
+//        return Carbon::createFromFormat('Y-m-d', $date)->format('d/m/Y');
+//    }
+//
+//    public function setPublishDateAttribute($date)
+//    {
+//        $publishDate = Carbon::createFromFormat('d/m/Y', $date)->format('Y-m-d');
+//        $this->attributes['publish_date'] = $publishDate;
+//    }
 
     public function released() : bool
     {
         if($this->publish_date) {
-            $releaseDate = Carbon::parse(Carbon::createFromFormat('d/m/Y', $this->publish_date)->format('Y-m-d'));
-            if ($releaseDate > today()) {
+//            $releaseDate = Carbon::parse(Carbon::createFromFormat('d/m/Y', $this->publish_date)->format('Y-m-d'));
+            if ($this->publish_date > today()) {
                 return false;
             }
         }

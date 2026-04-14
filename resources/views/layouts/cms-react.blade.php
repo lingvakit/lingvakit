@@ -30,5 +30,5 @@
 
 @section('custom-scripts')
     @viteReactRefresh
-    @vite('resources/js/admin/app.tsx')
+    @vite('resources/js/admin/app/app.tsx')
 @endsection

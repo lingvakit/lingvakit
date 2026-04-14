@@ -3,61 +3,19 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use App\Application\Category\ReadModel\CategoryReadRepository;
-use App\Application\Course\ReadModel\CourseReadRepository;
-use App\Infrastructure\Persistence\Eloquent\Category\EloquentCategoryReadRepository;
-use App\Infrastructure\Persistence\Eloquent\Course\EloquentCourseReadRepository;
-use App\Kafka\Producer\BaseProducer;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
-use Psr\Log\LoggerInterface;
-use RdKafka\Conf;
-use RdKafka\Producer;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     *
-     * @return void
-     */
     public function register()
     {
         VerifyEmail::toMailUsing(function ($notifiable, $url) {
             return null;
         });
-
-        // Kafka producer
-        $this->app->singleton(BaseProducer::class, function ($app) {
-            $topicsConfig = config('kafka.topics');
-
-            $conf = new Conf();
-            $conf->set('metadata.broker.list', env('KAFKA'));
-
-            $producer = new Producer($conf);
-
-            $logger = $app->make(LoggerInterface::class);
-
-            return new BaseProducer($producer, $topicsConfig, $logger);
-        });
-
-        $this->app->bind(
-            abstract: CourseReadRepository::class,
-            concrete: EloquentCourseReadRepository::class
-        );
-
-        $this->app->bind(
-            abstract: CategoryReadRepository::class,
-            concrete: EloquentCategoryReadRepository::class
-        );
     }
 
-    /**
-     * Bootstrap any application services.
-     *
-     * @return void
-     */
     public function boot()
     {
         view()->composer([
