@@ -21,19 +21,20 @@
                     </div>
                     <div class="widget-body">
 
+                        {{-- TODO: Remove after react UI will be done --}}
                         {{-- Course Publish Date --}}
-                        <div class="form-group row d-flex align-items-center mb-5">
-                            <label class="col-lg-3 form-control-label">{{ __("cms-pages.publish-date") }}</label>
-                            <div class="col-lg-9">
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="la la-calendar"></i></span>
-                                        <input type="text" name="publish_date" class="form-control" id="date"
-                                               value="{{$course->publish_date}}">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+{{--                        <div class="form-group row d-flex align-items-center mb-5">--}}
+{{--                            <label class="col-lg-3 form-control-label">{{ __("cms-pages.publish-date") }}</label>--}}
+{{--                            <div class="col-lg-9">--}}
+{{--                                <div class="form-group">--}}
+{{--                                    <div class="input-group">--}}
+{{--                                        <span class="input-group-addon"><i class="la la-calendar"></i></span>--}}
+{{--                                        <input type="text" name="publish_date" class="form-control" id="date"--}}
+{{--                                               value="{{$course->publish_date}}">--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
                         {{-- Course Language --}}
                         <div class="form-group row d-flex align-items-center mb-5">
                             <label class="col-lg-3 form-control-label">{{ __("cms-pages.language") }}</label>
