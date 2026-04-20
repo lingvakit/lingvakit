@@ -14,6 +14,7 @@ use App\UI\Http\Api\Admin\Controllers\Media\MediaFileListController;
 use App\UI\Http\Api\Admin\Controllers\Module\ModuleCreateController;
 use App\UI\Http\Api\Admin\Controllers\Module\ModuleShowController;
 use App\UI\Http\Api\Admin\Controllers\Module\ModuleUpdateController;
+use App\UI\Http\Api\Admin\Controllers\Quiz\QuizCreateController;
 
 // React admin
 // TODO: add auth middleware !!!
@@ -41,6 +42,11 @@ Route::middleware(['web'])->prefix('react/api')->group(function () {
         Route::post('/', LessonCreateController::class);
         Route::put('{id}', LessonUpdateController::class);
         Route::delete('{id}', LessonDeleteController::class);
+    });
+
+    /* quizzes */
+    Route::prefix('quizzes')->group(function () {
+        Route::post('/', QuizCreateController::class);
     });
 
     Route::get('media', MediaFileListController::class)

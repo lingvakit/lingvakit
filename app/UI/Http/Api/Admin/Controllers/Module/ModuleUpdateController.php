@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\UI\Http\Api\Admin\Controllers\Module;
 
-use App\Application\Module\Commands\UpdateModuleHandlerInterface;
+use App\Application\Module\Handlers\UpdateModuleHandlerInterface;
 use App\Http\Controllers\Controller;
 use App\UI\Http\Api\Admin\Requests\Module\ModuleUpdateRequest;
 use Symfony\Component\HttpFoundation\JsonResponse;

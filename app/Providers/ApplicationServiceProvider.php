@@ -3,30 +3,32 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use App\Application\Course\Commands\CreateCourseHandler;
-use App\Application\Course\Commands\CreateCourseHandlerInterface;
-use App\Application\Course\Commands\ShowCourseHandler;
-use App\Application\Course\Commands\ShowCourseHandlerInterface;
-use App\Application\Course\Commands\ShowCoursesListHandler;
-use App\Application\Course\Commands\ShowCoursesListHandlerInterface;
-use App\Application\Course\Commands\UpdateCourseHandler;
-use App\Application\Course\Commands\UpdateCourseHandlerInterface;
-use App\Application\Lesson\Commands\CreateLessonHandler;
-use App\Application\Lesson\Commands\CreateLessonHandlerInterface;
-use App\Application\Lesson\Commands\DeleteLessonHandler;
-use App\Application\Lesson\Commands\DeleteLessonHandlerInterface;
-use App\Application\Lesson\Commands\ShowLessonHandler;
-use App\Application\Lesson\Commands\ShowLessonHandlerInterface;
-use App\Application\Lesson\Commands\UpdateLessonHandler;
-use App\Application\Lesson\Commands\UpdateLessonHandlerInterface;
+use App\Application\Course\Handlers\CreateCourseHandler;
+use App\Application\Course\Handlers\CreateCourseHandlerInterface;
+use App\Application\Course\Handlers\ShowCourseHandler;
+use App\Application\Course\Handlers\ShowCourseHandlerInterface;
+use App\Application\Course\Handlers\ShowCoursesListHandler;
+use App\Application\Course\Handlers\ShowCoursesListHandlerInterface;
+use App\Application\Course\Handlers\UpdateCourseHandler;
+use App\Application\Course\Handlers\UpdateCourseHandlerInterface;
+use App\Application\Lesson\Handlers\CreateLessonHandler;
+use App\Application\Lesson\Handlers\CreateLessonHandlerInterface;
+use App\Application\Lesson\Handlers\DeleteLessonHandler;
+use App\Application\Lesson\Handlers\DeleteLessonHandlerInterface;
+use App\Application\Lesson\Handlers\ShowLessonHandler;
+use App\Application\Lesson\Handlers\ShowLessonHandlerInterface;
+use App\Application\Lesson\Handlers\UpdateLessonHandler;
+use App\Application\Lesson\Handlers\UpdateLessonHandlerInterface;
 use App\Application\Media\Handlers\ShowMediaFilesListHandler;
 use App\Application\Media\Handlers\ShowMediaFilesListHandlerInterface;
-use App\Application\Module\Commands\CreateModuleHandler;
-use App\Application\Module\Commands\CreateModuleHandlerInterface;
-use App\Application\Module\Commands\ShowModuleHandler;
-use App\Application\Module\Commands\ShowModuleHandlerInterface;
-use App\Application\Module\Commands\UpdateModuleHandler;
-use App\Application\Module\Commands\UpdateModuleHandlerInterface;
+use App\Application\Module\Handlers\CreateModuleHandler;
+use App\Application\Module\Handlers\CreateModuleHandlerInterface;
+use App\Application\Module\Handlers\ShowModuleHandler;
+use App\Application\Module\Handlers\ShowModuleHandlerInterface;
+use App\Application\Module\Handlers\UpdateModuleHandler;
+use App\Application\Module\Handlers\UpdateModuleHandlerInterface;
+use App\Application\Quiz\Handlers\CreateQuizHandler;
+use App\Application\Quiz\Handlers\CreateQuizHandlerInterface;
 use Illuminate\Support\ServiceProvider;
 
 class ApplicationServiceProvider extends ServiceProvider
@@ -91,6 +93,11 @@ class ApplicationServiceProvider extends ServiceProvider
         $this->app->bind(
             abstract: DeleteLessonHandlerInterface::class,
             concrete: DeleteLessonHandler::class
+        );
+
+        $this->app->bind(
+            abstract: CreateQuizHandlerInterface::class,
+            concrete: CreateQuizHandler::class
         );
     }
 }

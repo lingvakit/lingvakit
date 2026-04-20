@@ -2,7 +2,7 @@
 
 namespace App\UI\Http\Api\Admin\Controllers\Module;
 
-use App\Application\Module\Commands\CreateModuleHandlerInterface;
+use App\Application\Module\Handlers\CreateModuleHandlerInterface;
 use App\Http\Controllers\Controller;
 use App\UI\Http\Api\Admin\Requests\Module\ModuleCreateRequest;
 use App\UI\Http\Api\Admin\Resources\Module\ModuleDetailsResource;

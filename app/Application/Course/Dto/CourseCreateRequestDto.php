@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace App\Application\Course\Dto;
 
-use App\Application\Course\Enum\CoursePaidTypeEnum;
-use App\Application\Course\Enum\DifficultyLevelEnum;
+use App\Domain\Course\Enum\CoursePaidTypeEnum;
+use App\Domain\Course\Enum\DifficultyLevelEnum;
 use DateTimeImmutable;
 
 final readonly class CourseCreateRequestDto

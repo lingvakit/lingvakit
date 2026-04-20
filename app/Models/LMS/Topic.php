@@ -12,7 +12,13 @@ class Topic extends Model
 
     protected $table = 'lms_topics';
 
-    protected $fillable = ['name', 'stage_id', 'index_number', 'passed_topics'];
+    protected $fillable = [
+        'entity_id',
+        'index_number',
+        'name',
+        'stage_id',
+        'passed_topics'
+    ];
 
     public function stage()
     {
@@ -34,6 +40,9 @@ class Topic extends Model
         return $this->hasMany(TopicComment::class);
     }
 
+    /**
+     * @deprecated
+     */
     public function getTitle(): string
     {
         if ($this->lesson) {
@@ -43,6 +52,9 @@ class Topic extends Model
         return $this->quiz->title;
     }
 
+    /**
+     * @deprecated
+     */
     public function getType(): string
     {
         if ($this->lesson) {
@@ -52,6 +64,9 @@ class Topic extends Model
         return 'Тест';
     }
 
+    /**
+     * @deprecated
+     */
     public function getImageUrl(): string
     {
         if ($this->lesson) {

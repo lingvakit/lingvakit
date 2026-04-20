@@ -2,7 +2,7 @@
 
 namespace App\UI\Http\Api\Admin\Controllers\Module;
 
-use App\Application\Module\Commands\ShowModuleHandlerInterface;
+use App\Application\Module\Handlers\ShowModuleHandlerInterface;
 use App\Http\Controllers\Controller;
 use App\UI\Http\Api\Admin\Resources\Module\ModuleDetailsResource;
 use Symfony\Component\HttpFoundation\JsonResponse;

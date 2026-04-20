@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\UI\Http\Api\Admin\Controllers\Lesson;
 
-use App\Application\Lesson\Commands\ShowLessonHandlerInterface;
+use App\Application\Lesson\Handlers\ShowLessonHandlerInterface;
 use App\Http\Controllers\Controller;
 use App\UI\Http\Api\Admin\Resources\Lesson\LessonDetailsResource;
 use Symfony\Component\HttpFoundation\JsonResponse;

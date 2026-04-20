@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Feature\UI\Controllers\Module;
 
-use App\Application\Module\Commands\CreateModuleHandlerInterface;
+use App\Application\Module\Handlers\CreateModuleHandlerInterface;
 use Mockery;
 use Tests\TestCase;
 

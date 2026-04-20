@@ -2,9 +2,11 @@
 
 ---
 
-## [unreleased] - 2026-04-14
-### Fixed:
-* Field 'imageUrl' returns image path instead media file id
+## [unreleased] - 2026-04-20
+### Refactoring:
+* Backend API for React UI
+###
+* Add form for creating quiz in react UI
 
 ---
 
