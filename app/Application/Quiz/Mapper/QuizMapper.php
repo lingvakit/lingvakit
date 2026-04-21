@@ -50,7 +50,7 @@ final readonly class QuizMapper
     private function getOrderIndex(string $uuid): ?int
     {
         return $this->topicRepository
-            ->getByEntityId($uuid)
+            ->findByEntityId($uuid)
             ?->order_index;
     }
 }

@@ -5,7 +5,7 @@ type QuizStatuses = "deleted" | "draft" | "published";
 export type Quiz = {
     uuid: string;
     title: string;
-    description: string | null;
+    description: string;
     audioFile: MediaFile|null;
     imageFile: MediaFile;
     videoFile: MediaFile|null;
@@ -25,4 +25,15 @@ export type QuizStorePayload = {
     timeLimit?: number | null;
     passingScore: number;
     status: QuizStatuses;
+};
+
+export type QuizUpdatePayload = {
+    title?: string;
+    description?: string | null;
+    audioMediaId?: number | null;
+    imageMediaId?: number | null;
+    videoMediaId?: number | null;
+    timeLimit?: number | null;
+    passingScore?: number;
+    status?: QuizStatuses;
 };

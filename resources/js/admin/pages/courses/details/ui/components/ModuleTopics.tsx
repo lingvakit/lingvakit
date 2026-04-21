@@ -104,7 +104,7 @@ export function ModuleTopics({courseId, moduleId, topics, onDeleteTopic}: Props)
 
                                     <div className="col-2 td-actions d-flex justify-content-end">
                                         <Link
-                                            to="#"
+                                            to={`/dashboard/coursesReact/${courseId}/modules/${moduleId}/quizzes/${topic.quiz.uuid}/edit`}
                                         ><i className="la la-edit edit"></i></Link>
 
                                         {topic.quiz && (

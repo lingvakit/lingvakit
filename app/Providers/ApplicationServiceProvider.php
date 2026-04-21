@@ -29,6 +29,10 @@ use App\Application\Module\Handlers\UpdateModuleHandler;
 use App\Application\Module\Handlers\UpdateModuleHandlerInterface;
 use App\Application\Quiz\Handlers\CreateQuizHandler;
 use App\Application\Quiz\Handlers\CreateQuizHandlerInterface;
+use App\Application\Quiz\Handlers\QuizDetailsHandler;
+use App\Application\Quiz\Handlers\QuizDetailsHandlerInterface;
+use App\Application\Quiz\Handlers\UpdateQuizHandler;
+use App\Application\Quiz\Handlers\UpdateQuizHandlerInterface;
 use Illuminate\Support\ServiceProvider;
 
 class ApplicationServiceProvider extends ServiceProvider
@@ -98,6 +102,16 @@ class ApplicationServiceProvider extends ServiceProvider
         $this->app->bind(
             abstract: CreateQuizHandlerInterface::class,
             concrete: CreateQuizHandler::class
+        );
+
+        $this->app->bind(
+            abstract: UpdateQuizHandlerInterface::class,
+            concrete: UpdateQuizHandler::class
+        );
+
+        $this->app->bind(
+            abstract: QuizDetailsHandlerInterface::class,
+            concrete: QuizDetailsHandler::class
         );
     }
 }

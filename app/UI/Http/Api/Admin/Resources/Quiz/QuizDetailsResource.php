@@ -21,6 +21,7 @@ class QuizDetailsResource extends JsonResource
             'timeLimit' => $this->timeLimit,
             'passingScore' => $this->passingScore,
             'orderIndex' => $this->orderIndex,
+            'status' => $this->status,
         ];
     }
 }

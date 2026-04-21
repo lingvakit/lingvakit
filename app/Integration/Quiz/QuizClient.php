@@ -6,6 +6,7 @@ namespace App\Integration\Quiz;
 use App\Domain\Quiz\Enum\QuizStatusEnum;
 use App\Integration\Quiz\Dto\QuizCreateRequestDto;
 use App\Integration\Quiz\Dto\QuizResponseDto;
+use App\Integration\Quiz\Dto\QuizUpdateRequestDto;
 use App\Integration\Quiz\Exception\QuizCreateFailedException;
 use App\Integration\Quiz\Exception\QuizDataFailedException;
 use Illuminate\Support\Facades\Http;
@@ -53,6 +54,31 @@ class QuizClient implements QuizServiceInterface
         }
 
         return $this->mapToDto(json_decode($response->body(), true));
+    }
+
+    public function update(string $uuid, QuizUpdateRequestDto $dto): QuizResponseDto
+    {
+        if (!Uuid::isValid($uuid)) {
+            throw new BadRequestHttpException(
+                "UUID [$uuid] is invalid."
+            );
+        }
+
+        $response = Http::withoutVerifying()->put(
+            url: "{$this->getMsUrl()}/api/v1/quizzes/{$uuid}",
+            data: $dto->convertToArray()
+        );
+
+        if (!$response->successful()) {
+            throw new QuizCreateFailedException(
+                message: 'Quiz API error: ' . $response->body(),
+                code: $response->status()
+            );
+        }
+
+        return $this->mapToDto(
+            json_decode($response->body(), true)
+        );
     }
 
     private function getMsUrl(): string

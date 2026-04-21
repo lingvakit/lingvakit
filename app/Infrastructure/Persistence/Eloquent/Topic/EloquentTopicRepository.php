@@ -13,7 +13,7 @@ class EloquentTopicRepository implements TopicRepositoryInterface
         return Topic::find($id);
     }
 
-    public function getByEntityId(string $entityId): ?Topic
+    public function findByEntityId(string $entityId): ?Topic
     {
         return Topic::where('entity_id', $entityId)->first();
     }
