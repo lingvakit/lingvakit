@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\Persistence\Eloquent\MediaFile;
 
 use App\Application\Media\Dto\MediaFileDto;
-use App\Application\Media\Enum\FileType;
+use App\Domain\Media\Enum\FileType;
 use App\Infrastructure\Persistence\Repository\MediaFileRepositoryInterface;
 use App\Models\MediaFile;
 use App\UI\Exception\FileTypeNotExistsException;

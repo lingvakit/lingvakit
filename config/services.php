@@ -31,6 +31,7 @@ return [
     ],
 
     'ms' => [
-        'media' => env('MS_MEDIA')
+        'media' => env('MS_MEDIA'),
+        'quiz' => env('MS_QUIZ'),
     ]
 ];

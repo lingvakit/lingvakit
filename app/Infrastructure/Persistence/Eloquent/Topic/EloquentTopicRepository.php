@@ -8,6 +8,16 @@ use App\Models\LMS\Topic;
 
 class EloquentTopicRepository implements TopicRepositoryInterface
 {
+    public function findById(int $id): ?Topic
+    {
+        return Topic::find($id);
+    }
+
+    public function findByEntityId(string $entityId): ?Topic
+    {
+        return Topic::where('entity_id', $entityId)->first();
+    }
+
     public function save(array $data): Topic
     {
         return Topic::create($data);

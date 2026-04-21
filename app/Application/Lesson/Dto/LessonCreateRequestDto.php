@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Application\Lesson\Dto;
 
-use App\Application\Topic\Enum\TopicTypeEnum;
+use App\Domain\Topic\Enum\TopicTypeEnum;
 
 final readonly class LessonCreateRequestDto
 {

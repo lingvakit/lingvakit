@@ -3,7 +3,7 @@ declare (strict_types=1);
 
 namespace App\UI\Http\Api\Admin\Controllers\Course;
 
-use App\Application\Course\Commands\CreateCourseHandlerInterface;
+use App\Application\Course\Handlers\CreateCourseHandlerInterface;
 use App\Http\Controllers\Controller;
 use App\UI\Http\Api\Admin\Requests\Course\CourseCreateRequest;
 use App\UI\Http\Api\Admin\Resources\Course\CourseDetailsResource;

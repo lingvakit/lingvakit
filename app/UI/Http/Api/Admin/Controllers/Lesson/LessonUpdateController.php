@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\UI\Http\Api\Admin\Controllers\Lesson;
 
-use App\Application\Lesson\Commands\UpdateLessonHandlerInterface;
+use App\Application\Lesson\Handlers\UpdateLessonHandlerInterface;
 use App\Http\Controllers\Controller;
 use App\UI\Http\Api\Admin\Requests\Lesson\LessonUpdateRequest;
 use App\UI\Http\Api\Admin\Resources\Lesson\LessonDetailsResource;

@@ -1,13 +1,15 @@
-import {Link, useLoaderData} from "react-router-dom";
-import DOMPurify from "dompurify";
+import {useLoaderData} from "react-router-dom";
 import {Course} from "../../../../entities/course/model/types";
 import PageLayout from "../../../../widgets/layout/PageLayout";
 import {formatDate, formatDurationToText} from "../../../../shared/lib/converter";
 import {useState} from "react";
 import {ModuleFormModal} from "../../../../shared/ui/modal/module/ModuleFormModal";
 import {Module} from "../../../../entities/module/model/types";
-import {Lesson} from "../../../../entities/lesson/model/types.ts";
+import {Lesson} from "../../../../entities/lesson/model/types";
 import {useDeleteLesson} from "../../../../entities/lesson/model/hooks";
+import {CourseModules} from "./components/CourseModules";
+import {CourseTag} from "./components/CourseTag";
+import {CourseProperty} from "./components/CourseProperty";
 
 export default function CourseShowPage() {
     const course = useLoaderData() as Course;
@@ -72,72 +74,50 @@ export default function CourseShowPage() {
                                 <div className="col-xl-3">
                                     <div className="about-infos d-flex flex-column mb-3">
                                         <div className="about-image">
-                                            <img src={course.imageUrl} alt={course.title}/>
+                                            <img
+                                                src={course.imageUrl}
+                                                alt={course.title}
+                                            />
                                         </div>
                                     </div>
                                 </div>
 
                                 <div className="col-xl-9">
-                                    <div className="about-infos d-flex flex-column mb-3">
-                                        <div className="about-title">
-                                            <h5>Автор курса:</h5>
-                                        </div>
-                                        <div className="about-text">{course.author}</div>
-                                    </div>
+                                    <CourseProperty
+                                        title="Автор курса"
+                                        description={course.author}
+                                    />
 
-                                    <div className="about-infos d-flex flex-column mb-3">
-                                        <div className="about-title">
-                                            <h5>Дата публикации:</h5>
-                                        </div>
-                                        <div className="about-text">{formatDate(course.createdAt)}</div>
-                                    </div>
+                                    <CourseProperty
+                                        title="Дата публикации"
+                                        description={formatDate(course.createdAt)}
+                                    />
 
-                                    <div className="about-infos d-flex flex-column mb-3">
-                                        <div className="about-title">
-                                            <h5>Наименование:</h5>
-                                        </div>
-                                        <div className="about-text">{course.title}</div>
-                                    </div>
+                                    <CourseProperty
+                                        title="Наименование"
+                                        description={course.title}
+                                    />
 
-                                    <div className="about-infos d-flex flex-column mb-3">
-                                        <div className="about-title">
-                                            <h5>Описание:</h5>
-                                        </div>
-                                        <div
-                                            className="about-text"
-                                            dangerouslySetInnerHTML={{
-                                                __html: DOMPurify.sanitize(course.description ?? ""),
-                                            }}
-                                        />
-                                    </div>
+                                    <CourseProperty
+                                        title="Описание"
+                                        description={course.description}
+                                    />
 
                                     <div className="about-infos d-flex mb-4">
-                                        <button type="button" className="btn btn-outline-primary btn-sm mr-3">
-                                            Китайский
-                                        </button>
-
-                                        <button type="button" className="btn btn-outline-primary btn-sm mr-3">
-                                            Аудирование
-                                        </button>
-
-                                        <button type="button" className="btn btn-outline-primary btn-sm mr-3">
-                                            Beginner
-                                        </button>
+                                        <CourseTag title="Китайский" />
+                                        <CourseTag title="Аудирование" />
+                                        <CourseTag title="Начальный уровень" />
                                     </div>
 
-                                    <div className="about-infos d-flex flex-column mb-3">
-                                        <div className="about-title">
-                                            <h5>Длительность курса:</h5>
-                                        </div>
-                                        <div className="about-text">{formatDurationToText(course.duration)}</div>
-                                    </div>
+                                    <CourseProperty
+                                        title="Длительность курса"
+                                        description={formatDurationToText(course.duration)}
+                                    />
 
-                                    <div className="about-infos d-flex flex-column mb-3">
-                                        <div className="about-title">
-                                            <h5>Стоимость курса:</h5>
-                                        </div>
-                                        <div className="about-text">{course.price}</div>
-                                    </div>
+                                    <CourseProperty
+                                        title="Стоимость курса"
+                                        description={course.price ? String(course.price) : "Бесплатно"}
+                                    />
 
                                     <div className="about-infos d-flex flex-column mb-3">
                                         <div className="text-left">
@@ -161,106 +141,15 @@ export default function CourseShowPage() {
                                 type="button"
                                 className="btn btn-primary mr-1 mb-2"
                                 onClick={handleOpenModuleModal}
-                            >Новый модуль
-                            </button>
+                            >Новый модуль</button>
                         </div>
 
                         <div className="widget-body">
-                            {modules?.map(module => (
-                                <div key={module.id}>
-                                    <div
-                                        className="d-flex justify-content-between align-items-center mt-2 mb-2">
-                                        <div
-                                            className="d-flex justify-content-between align-items-center pl-3 pr-3 text-primary header w-100"
-                                            style={{backgroundColor: "#dedbe2"}}
-                                        >
-                                            <h4 className="mb-0">{module.title}</h4>
-
-                                            <div className="td-actions text-right d-flex justify-content-end">
-                                                <div className="actions dark d-inline-block">
-                                                    <div className="dropdown">
-                                                        <button type="button" data-toggle="dropdown"
-                                                                aria-haspopup="true" aria-expanded="false"
-                                                                className="dropdown-toggle">
-                                                            <i className="la la-plus edit"></i></button>
-
-                                                        <div className="dropdown-menu">
-                                                            <Link
-                                                                to={`/dashboard/coursesReact/${course.id}/modules/${module.id}/lessons/create`}
-                                                                className="dropdown-item"
-                                                            >
-                                                                <i className="la la-plus"></i>Новый урок
-                                                            </Link>
-
-                                                            <a href="#" className="dropdown-item">
-                                                                <i className="la la-plus"></i>Новый тест
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <button type="button" data-toggle="modal" data-target="#modal-stage-1">
-                                                    <i className="la la-edit edit"></i>
-                                                </button>
-                                                <a href="">
-                                                    <i className="la la-close delete"></i>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {module.topics ? (
-                                        <div id="stage_1" className="stage-topics" data-id="1">
-                                            {module.topics.map((topic) => (
-                                                <div
-                                                    key={topic.id}
-                                                    className="stage-topic d-flex justify-content-between align-items-center mt-3 mb-3"
-                                                >
-                                                    {topic.lesson && (
-                                                        <>
-                                                            <div className="col-xl-2">
-                                                                <div className="table-img">
-                                                                    {topic.lesson.imageFile && (
-                                                                        <img
-                                                                            src={topic.lesson.imageFile.url}
-                                                                            style={{width: 100}}
-                                                                            alt={topic.lesson.title}
-                                                                        />
-                                                                    )}
-                                                                </div>
-                                                            </div>
-
-                                                            <div className="col-xl-2">
-                                                                <div className="badge badge-dark">
-                                                                    Урок
-                                                                </div>
-                                                            </div>
-                                                            <div className="col-xl-3">
-                                                                {topic.lesson.title}
-                                                            </div>
-
-                                                            <div className="col-xl-2">
-                                                                {formatDurationToText(topic.lesson.duration)}
-                                                            </div>
-
-                                                            <div className="col-2 td-actions d-flex justify-content-end">
-                                                                <Link
-                                                                    to={`/dashboard/coursesReact/${course.id}/modules/${module.id}/lessons/${topic.lesson.id}/edit`}
-                                                                ><i className="la la-edit edit"></i></Link>
-
-                                                                {topic.lesson && (
-                                                                    <button
-                                                                        onClick={() => handleDeleteLesson(topic.lesson)}
-                                                                    ><i className="la la-close delete"></i></button>
-                                                                )}
-                                                            </div>
-                                                        </>
-                                                    )}
-                                                </div>
-                                            ))}
-                                        </div>
-                                    ) : null}
-                                </div>
-                            ))}
+                            <CourseModules
+                                courseId={course.id}
+                                modules={modules}
+                                onDeleteTopic={handleDeleteLesson}
+                            />
                         </div>
                     </div>
                 </div>

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Application\Media\Dto;
 
-use App\Application\Media\Enum\FileType;
+use App\Domain\Media\Enum\FileType;
 
 final readonly class MediaFileDto
 {

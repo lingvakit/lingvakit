@@ -4,8 +4,8 @@ declare (strict_types=1);
 namespace App\UI\Http\Api\Admin\Requests\Course;
 
 use App\Application\Course\Dto\CourseCreateRequestDto;
-use App\Application\Course\Enum\CoursePaidTypeEnum;
-use App\Application\Course\Enum\DifficultyLevelEnum;
+use App\Domain\Course\Enum\CoursePaidTypeEnum;
+use App\Domain\Course\Enum\DifficultyLevelEnum;
 use App\UI\Http\Api\Admin\Requests\AbstractFormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;

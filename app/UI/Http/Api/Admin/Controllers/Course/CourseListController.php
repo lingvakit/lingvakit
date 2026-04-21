@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\UI\Http\Api\Admin\Controllers\Course;
 
-use App\Application\Course\Commands\ShowCoursesListHandlerInterface;
+use App\Application\Course\Handlers\ShowCoursesListHandlerInterface;
 use App\Http\Controllers\Controller;
 use App\UI\Http\Api\Admin\Requests\Course\CourseListRequest;
 use App\UI\Http\Api\Admin\Resources\Course\CourseListItemResource;

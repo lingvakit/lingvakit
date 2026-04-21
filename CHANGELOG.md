@@ -2,6 +2,15 @@
 
 ---
 
+## [1.23.0] - 2026-04-21
+### Refactoring:
+* Backend API for React UI
+### Added:
+* Add form for creating quiz in react UI
+* Add form for updating quiz in react UI
+
+---
+
 ## [1.22.1] - 2026-04-19
 ### Fixed:
 * Field 'imageUrl' returns image path instead media file id
