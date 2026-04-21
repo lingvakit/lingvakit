@@ -11,6 +11,13 @@
 
 ---
 
+## [1.22.1] - 2026-04-19
+### Fixed:
+* Field 'imageUrl' returns image path instead media file id
+* Publish date field runs error with carbon date
+
+---
+
 ## [1.22.0] - 2026-04-14
 ### Added:
 #### Functionality for courses
