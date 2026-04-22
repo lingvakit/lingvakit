@@ -2,6 +2,12 @@
 
 ---
 
+## [1.24.0] - 2026-04-22
+### Removed:
+* Validator for email domain for register new users
+
+---
+
 ## [1.23.0] - 2026-04-21
 ### Refactoring:
 * Backend API for React UI
