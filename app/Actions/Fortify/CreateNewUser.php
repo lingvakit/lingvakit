@@ -91,7 +91,7 @@ class CreateNewUser implements CreatesNewUsers
 
         $validator->after(function ($validator) use ($input) {
             $this->validateCaptcha($input, $validator);
-            $this->validateEmailDomain($input['email'], $validator);
+//            $this->validateEmailDomain($input['email'], $validator);
         });
 
         $validator->validate();
