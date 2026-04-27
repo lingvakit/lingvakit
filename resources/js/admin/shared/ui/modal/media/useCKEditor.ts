@@ -1,6 +1,7 @@
-import { Editor } from "ckeditor5";
-import {MediaFile, MediaType} from "../../../../entities/media/model/types.ts";
+import { Editor } from "@ckeditor/ckeditor5-core";
+import {MediaFile, MediaType} from "../../../../entities/media/model/types";
 import {useRef, useState} from "react";
+import {MediaTarget} from "./types";
 
 export function useCKEditor() {
     const editorRef = useRef<Editor | null>(null);
@@ -11,7 +12,10 @@ export function useCKEditor() {
         editorRef.current = editor;
     };
 
-    const handleOpenMediaModal = (type: MediaType): void => {
+    const handleOpenMediaModal = (
+        target: MediaTarget,
+        type: MediaType
+    ): void => {
         setMediaType(type);
         setIsMediaModalOpen(true);
     };
@@ -25,8 +29,11 @@ export function useCKEditor() {
             return;
         }
 
-        editorRef.current.execute("insertImage", {
-            source: file.url
+        editorRef.current.execute('insertMedia', {
+            type: file.type,
+            src: file.url,
+            alt: file.fileName,
+            name: file.fileName,
         });
 
         setIsMediaModalOpen(false);

@@ -2,6 +2,12 @@
 
 ---
 
+## [1.25.0] - 2026-04-27
+### Added:
+* Media types for attaching files to CKEditor
+
+---
+
 ## [1.24.0] - 2026-04-22
 ### Removed:
 * Validator for email domain for register new users
