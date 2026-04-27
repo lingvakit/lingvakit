@@ -86,7 +86,7 @@ export default function LessonForm({ckEditor, isSavingProgress, onSubmit, openMe
                                     <TextareaEditor
                                         value={form.fields.description ?? ""}
                                         onChange={form.handlers.setDescription}
-                                        onOpenMediaModal={() => {openMediaModal("editor", "image")}}
+                                        onOpenMediaModal={openMediaModal}
                                         setEditorRef={ckEditor.setEditorRef}
                                     />
                                 </div>

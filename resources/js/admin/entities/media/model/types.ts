@@ -1,4 +1,4 @@
-export type MediaType = "audio" | "image" | "video";
+export type MediaType = "audio" | "image" | "video" | "file";
 
 export type MediaFile = {
     id: number;

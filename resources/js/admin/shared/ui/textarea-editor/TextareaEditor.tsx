@@ -1,36 +1,37 @@
-import type {Editor, EditorConfig} from "ckeditor5";
+import { ClassicEditor } from "@ckeditor/ckeditor5-editor-classic";
+import { Essentials } from "@ckeditor/ckeditor5-essentials";
 import {CKEditor} from "@ckeditor/ckeditor5-react";
+import {Paragraph} from "@ckeditor/ckeditor5-paragraph";
 import {
-    ClassicEditor,
-    Essentials,
-    Paragraph,
     Bold,
     Italic,
-    Underline,
     Strikethrough,
-    Heading,
-    List,
-    Link,
-    BlockQuote,
+    Underline
+} from "@ckeditor/ckeditor5-basic-styles";
+import {Heading} from "@ckeditor/ckeditor5-heading";
+import {List} from "@ckeditor/ckeditor5-list";
+import {Link} from "@ckeditor/ckeditor5-link";
+import {BlockQuote} from "@ckeditor/ckeditor5-block-quote";
+import {
     Image,
-    ImageToolbar,
     ImageCaption,
+    ImageResize, ImageResizeButtons,
+    ImageResizeEditing, ImageResizeHandles,
     ImageStyle,
-    ImageResize,
-    ImageResizeEditing,
-    ImageResizeHandles,
-    ImageResizeButtons,
-    ImageUpload,
-    SimpleUploadAdapter,
-    MediaEmbed,
-    FontColor,
-    FontBackgroundColor,
-    Undo
-} from 'ckeditor5';
-import {MediaType} from "../../../entities/media/model/types.ts";
-import InsertMediaButton from "../../lib/ckeditor/plugins/InsertMediaButton.ts";
-import InsertMediaPlugin from "../../lib/ckeditor/plugins/InsertMediaPlugin.ts";
-import {MediaTarget} from "../modal/media/types.ts";
+    ImageToolbar,
+    ImageUpload
+} from "@ckeditor/ckeditor5-image";
+import {SimpleUploadAdapter} from "@ckeditor/ckeditor5-upload";
+import {MediaEmbed} from "@ckeditor/ckeditor5-media-embed";
+import {FontBackgroundColor, FontColor} from "@ckeditor/ckeditor5-font";
+import {Undo} from "@ckeditor/ckeditor5-undo";
+import {MediaTarget} from "../modal/media/types";
+import {MediaType} from "../../../entities/media/model/types";
+import {Editor, EditorConfig} from "@ckeditor/ckeditor5-core";
+import InsertMediaPlugin from "../../lib/ckeditor/plugins/InsertMediaPlugin/InsertMediaPlugin";
+import { Widget } from '@ckeditor/ckeditor5-widget';
+import { WidgetToolbarRepository } from '@ckeditor/ckeditor5-widget';
+
 
 type ExtendedEditorConfig = EditorConfig & {
     mediaModal?: {
@@ -77,8 +78,9 @@ export default function TextareaEditor({value, onChange, onOpenMediaModal, setEd
                     FontColor,
                     FontBackgroundColor,
                     Undo,
+                    Widget,
+                    WidgetToolbarRepository,
                     InsertMediaPlugin,
-                    InsertMediaButton,
                 ],
                 toolbar: [
                     'undo',
@@ -99,10 +101,8 @@ export default function TextareaEditor({value, onChange, onOpenMediaModal, setEd
                     '|',
                     'link',
                     'blockQuote',
-                    'insertImage',
-                    'mediaEmbed',
                     '|',
-                    'insertMediaButton',
+                    'insertMediaDropdown',
                 ],
                 image: {
                     toolbar: [
