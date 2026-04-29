@@ -1,40 +1,35 @@
-import {useCallback, useState} from "react";
-import {Module, ModuleCreatePayload, UseModuleCreateResult} from "./types";
+import {Module, ModuleCreatePayload, ModuleUpdatePayload} from "./types";
 import {createModule} from "../api/mutation/createModule";
+import {useParams} from "react-router-dom";
+import {useEntityMutation} from "../../../shared/model/useEntityMutation";
+import {updateModule} from "../api/mutation/updateModule";
 
-export function useCreateModule(): UseModuleCreateResult {
-    const [isSaving, setIsSaving] = useState(false);
-    const [error, setError] = useState<string | null>(null);
+export function useCreateModule() {
+    const {courseId} = useParams<{ courseId: string }>();
 
-    const create = useCallback(
-        async (
-            payload: ModuleCreatePayload
-        ): Promise<Module | null> => {
-            try {
-                setIsSaving(true);
-                setError(null);
+    return useEntityMutation<ModuleCreatePayload, Module>({
+        mutationFn: createModule,
+        onSuccessNavigateTo: courseId
+            ? `/dashboard/coursesReact/${courseId}`
+            : "/dashboard/coursesReact",
+        errorMessage: "Ошибка создания модуля",
+    });
+}
 
-                const result = await createModule(payload);
+export function useUpdateModule(moduleId: number) {
+    const {courseId} = useParams<{ courseId: string }>();
 
-                return result.data;
-            } catch (error: unknown) {
-                setError(
-                    error instanceof Error
-                        ? error.message
-                        : 'Не удалось сохранить модуль.'
-                );
-
-                return null;
-            } finally {
-                setIsSaving(false);
+    return useEntityMutation<ModuleUpdatePayload, Module>({
+        mutationFn: (payload) => {
+            if (!moduleId) {
+                return Promise.reject(new Error("moduleId is required"));
             }
-        },
-        []
-    );
 
-    return {
-        create,
-        isSaving,
-        error
-    };
+            return updateModule(moduleId, payload);
+        },
+        onSuccessNavigateTo: courseId
+            ? `/dashboard/coursesReact/${courseId}`
+            : "/dashboard/coursesReact",
+        errorMessage: "Ошибка обновления названия модуля"
+    });
 }

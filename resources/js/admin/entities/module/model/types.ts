@@ -11,14 +11,10 @@ export type ModuleCreatePayload = {
     title: string;
 };
 
-export type ModuleCreateResponse = {
-    data: Module
+export type ModuleUpdatePayload = {
+    title: string;
 };
 
-export type UseModuleCreateResult = {
-    create: (
-        payload: ModuleCreatePayload
-    ) => Promise<Module | null>,
-    isSaving: boolean,
-    error: string | null
+export type ModuleCreateResponse = {
+    data: Module
 };
