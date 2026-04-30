@@ -15,16 +15,21 @@ export function CreateModuleModal({
     courseId,
     isOpen,
     onClose,
+    onCreated
 }: Props) {
     const {execute, isSavingProcess, error} = useCreateModule();
 
     const form = useModuleForm();
 
     const handleSubmit = async (): Promise<void> => {
-        await execute({
+        const createdModule = await execute({
             courseId: courseId,
             title: form.fields.title,
         });
+
+        if (createdModule) {
+            onCreated?.(createdModule.data);
+        }
 
         onClose();
     };

@@ -6,6 +6,10 @@ export type Module = {
     topics?: Topic[] | null;
 };
 
+export type ModuleResponse = {
+    data: Module
+};
+
 export type ModuleCreatePayload = {
     courseId: number;
     title: string;
@@ -13,8 +17,4 @@ export type ModuleCreatePayload = {
 
 export type ModuleUpdatePayload = {
     title: string;
-};
-
-export type ModuleCreateResponse = {
-    data: Module
 };

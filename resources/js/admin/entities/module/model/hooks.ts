@@ -1,4 +1,4 @@
-import {Module, ModuleCreatePayload, ModuleUpdatePayload} from "./types";
+import {ModuleCreatePayload, ModuleResponse, ModuleUpdatePayload} from "./types";
 import {createModule} from "../api/mutation/createModule";
 import {useParams} from "react-router-dom";
 import {useEntityMutation} from "../../../shared/model/useEntityMutation";
@@ -7,7 +7,7 @@ import {updateModule} from "../api/mutation/updateModule";
 export function useCreateModule() {
     const {courseId} = useParams<{ courseId: string }>();
 
-    return useEntityMutation<ModuleCreatePayload, Module>({
+    return useEntityMutation<ModuleCreatePayload, ModuleResponse>({
         mutationFn: createModule,
         onSuccessNavigateTo: courseId
             ? `/dashboard/coursesReact/${courseId}`
@@ -19,7 +19,7 @@ export function useCreateModule() {
 export function useUpdateModule(moduleId: number) {
     const {courseId} = useParams<{ courseId: string }>();
 
-    return useEntityMutation<ModuleUpdatePayload, Module>({
+    return useEntityMutation<ModuleUpdatePayload, ModuleResponse>({
         mutationFn: (payload) => {
             if (!moduleId) {
                 return Promise.reject(new Error("moduleId is required"));

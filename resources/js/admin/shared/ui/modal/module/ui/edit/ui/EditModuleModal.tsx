@@ -8,12 +8,14 @@ type Props = {
     module: Module,
     isOpen: boolean;
     onClose: () => void;
+    onUpdated?: (module: Module | null) => void,
 };
 
 export function EditModuleModal({
     module,
     isOpen,
-    onClose
+    onClose,
+    onUpdated
 }: Props) {
     const {execute, isSavingProcess, error} = useUpdateModule(module.id);
 
@@ -22,7 +24,11 @@ export function EditModuleModal({
     });
 
     const handleSubmit = async (): Promise<void> => {
-        await execute(form.fields);
+        const updatedModule = await execute(form.fields);
+
+        if (updatedModule) {
+            onUpdated?.(updatedModule.data);
+        }
 
         onClose();
     };

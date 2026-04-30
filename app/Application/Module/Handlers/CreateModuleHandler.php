@@ -5,6 +5,7 @@ namespace App\Application\Module\Handlers;
 
 use App\Application\Module\Dto\ModuleDto;
 use App\Application\Module\Dto\RequestCreateModuleDto;
+use App\Application\Module\Mapper\ModuleMapper;
 use App\Infrastructure\Persistence\Repository\ModuleRepositoryInterface;
 use Illuminate\Support\Facades\DB;
 
@@ -12,6 +13,7 @@ final readonly class CreateModuleHandler implements CreateModuleHandlerInterface
 {
     public function __construct(
         private ModuleRepositoryInterface $repository,
+        private ModuleMapper $mapper
     ) {}
 
     public function handle(RequestCreateModuleDto $dto): ModuleDto
@@ -21,11 +23,7 @@ final readonly class CreateModuleHandler implements CreateModuleHandlerInterface
                 $dto->toArray()
             );
 
-            return new ModuleDto(
-                id: $stage->id,
-                title: $stage->name,
-                topics: null,
-            );
+            return $this->mapper->fromModel($stage);
         });
     }
 }

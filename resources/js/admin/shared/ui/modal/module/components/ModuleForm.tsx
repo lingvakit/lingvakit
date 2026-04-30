@@ -1,4 +1,5 @@
 import {useModuleForm} from "../../../../../entities/module/model/useModuleForm";
+import {FormEvent} from "react";
 
 type Props = {
     form: ReturnType<typeof useModuleForm>;
@@ -13,7 +14,10 @@ export function ModuleForm({
     error,
     onSubmit,
 }: Props) {
-    const handleSubmit = async () => {
+    const handleSubmit = async (
+        e: FormEvent
+    ) => {
+        e.preventDefault();
         await onSubmit();
     };
 

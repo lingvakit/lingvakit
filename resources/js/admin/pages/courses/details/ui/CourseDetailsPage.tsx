@@ -36,6 +36,18 @@ export default function CourseShowPage() {
         setModules(prev => [...prev, newModule])
     };
 
+    const handleModuleUpdated = (updatedModule: Module | null) => {
+        if (!updatedModule) return;
+
+        setModules(prev =>
+            prev.map(module =>
+                module.id === updatedModule.id
+                    ? updatedModule
+                    : module
+            )
+        );
+    };
+
     const handleEditModule = (module: Module): void => {
         setEditingModule(module);
         setIsModuleModalOpen(true);
@@ -168,12 +180,14 @@ export default function CourseShowPage() {
                     courseId={course.id}
                     isOpen={isModuleModalOpen}
                     onClose={handleCloseModuleModal}
+                    onCreated={handleModuleCreated}
                 />
             ) : (
                 <EditModuleModal
                     module={editingModule}
                     isOpen={isModuleModalOpen}
                     onClose={handleCloseModuleModal}
+                    onUpdated={handleModuleUpdated}
                 />
             )}
         </PageLayout>

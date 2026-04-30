@@ -5,6 +5,7 @@ namespace App\Application\Module\Handlers;
 
 use App\Application\Module\Dto\ModuleDto;
 use App\Application\Module\Dto\RequestUpdateModuleDto;
+use App\Application\Module\Mapper\ModuleMapper;
 use App\Exceptions\ModuleNotExistsException;
 use App\Infrastructure\Persistence\Repository\ModuleRepositoryInterface;
 use Illuminate\Support\Facades\DB;
@@ -13,6 +14,7 @@ final readonly class UpdateModuleHandler implements UpdateModuleHandlerInterface
 {
     public function __construct(
         private ModuleRepositoryInterface $repository,
+        private ModuleMapper $mapper
     ) {}
 
     public function handle(int $moduleId, RequestUpdateModuleDto $dto): ModuleDto
@@ -31,11 +33,7 @@ final readonly class UpdateModuleHandler implements UpdateModuleHandlerInterface
                 data: $dto->toArray()
             );
 
-            return new ModuleDto(
-                id: $stage->id,
-                title: $stage->name,
-                topics: null,
-            );
+            return $this->mapper->fromModel($stage);
         });
     }
 }
