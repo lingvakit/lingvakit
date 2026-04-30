@@ -3,22 +3,24 @@ import {Course} from "../../../../entities/course/model/types";
 import PageLayout from "../../../../widgets/layout/PageLayout";
 import {formatDate, formatDurationToText} from "../../../../shared/lib/converter";
 import {useState} from "react";
-import {ModuleFormModal} from "../../../../shared/ui/modal/module/ModuleFormModal";
 import {Module} from "../../../../entities/module/model/types";
 import {Lesson} from "../../../../entities/lesson/model/types";
 import {useDeleteLesson} from "../../../../entities/lesson/model/hooks";
 import {CourseModules} from "./components/CourseModules";
 import {CourseTag} from "./components/CourseTag";
 import {CourseProperty} from "./components/CourseProperty";
-
+import {CreateModuleModal} from "../../../../shared/ui/modal/module/ui/create/ui/CreateModuleModal";
+import {EditModuleModal} from "../../../../shared/ui/modal/module/ui/edit/ui/EditModuleModal";
 export default function CourseShowPage() {
     const course = useLoaderData() as Course;
     const {execute} = useDeleteLesson();
 
     const [isModuleModalOpen, setIsModuleModalOpen] = useState(false);
+    const [editingModule, setEditingModule] = useState<Module|null>(null);
     const [modules, setModules] = useState(course.modules ?? []);
 
     const handleOpenModuleModal = (): void => {
+        setEditingModule(null);
         setIsModuleModalOpen(true);
     };
 
@@ -32,6 +34,23 @@ export default function CourseShowPage() {
         if (!newModule) return;
 
         setModules(prev => [...prev, newModule])
+    };
+
+    const handleModuleUpdated = (updatedModule: Module | null) => {
+        if (!updatedModule) return;
+
+        setModules(prev =>
+            prev.map(module =>
+                module.id === updatedModule.id
+                    ? updatedModule
+                    : module
+            )
+        );
+    };
+
+    const handleEditModule = (module: Module): void => {
+        setEditingModule(module);
+        setIsModuleModalOpen(true);
     };
 
     const handleDeleteLesson = async (
@@ -148,6 +167,7 @@ export default function CourseShowPage() {
                             <CourseModules
                                 courseId={course.id}
                                 modules={modules}
+                                onEditModule={handleEditModule}
                                 onDeleteTopic={handleDeleteLesson}
                             />
                         </div>
@@ -155,12 +175,21 @@ export default function CourseShowPage() {
                 </div>
             </div>
 
-            <ModuleFormModal
-                courseId={course.id}
-                isOpen={isModuleModalOpen}
-                onClose={handleCloseModuleModal}
-                onCreated={handleModuleCreated}
-            />
+            {!editingModule ? (
+                <CreateModuleModal
+                    courseId={course.id}
+                    isOpen={isModuleModalOpen}
+                    onClose={handleCloseModuleModal}
+                    onCreated={handleModuleCreated}
+                />
+            ) : (
+                <EditModuleModal
+                    module={editingModule}
+                    isOpen={isModuleModalOpen}
+                    onClose={handleCloseModuleModal}
+                    onUpdated={handleModuleUpdated}
+                />
+            )}
         </PageLayout>
     );
 }

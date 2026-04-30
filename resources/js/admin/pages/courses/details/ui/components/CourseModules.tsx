@@ -6,10 +6,11 @@ import {ModuleTopics} from "./ModuleTopics";
 type Props = {
     courseId: number;
     modules: Module[];
+    onEditModule: (module: Module) => void;
     onDeleteTopic: (lesson: Lesson | null) => Promise<void>;
 };
 
-export function CourseModules({courseId, modules, onDeleteTopic}: Props) {
+export function CourseModules({courseId, modules, onEditModule, onDeleteTopic}: Props) {
     return (
         <>
             {modules?.map(module => (
@@ -47,7 +48,10 @@ export function CourseModules({courseId, modules, onDeleteTopic}: Props) {
                                         </div>
                                     </div>
                                 </div>
-                                <button type="button" data-toggle="modal" data-target="#modal-stage-1">
+                                <button
+                                    type="button"
+                                    onClick={() => onEditModule(module)}
+                                >
                                     <i className="la la-edit edit"></i>
                                 </button>
                                 <a href="">
@@ -61,7 +65,7 @@ export function CourseModules({courseId, modules, onDeleteTopic}: Props) {
                         topics={module.topics}
                         courseId={courseId}
                         moduleId={module.id}
-                        onDeleteTopic={() => onDeleteTopic}
+                        onDeleteTopic={onDeleteTopic}
                     />
                 </div>
             ))}

@@ -6,6 +6,7 @@ namespace App\UI\Http\Api\Admin\Controllers\Module;
 use App\Application\Module\Handlers\UpdateModuleHandlerInterface;
 use App\Http\Controllers\Controller;
 use App\UI\Http\Api\Admin\Requests\Module\ModuleUpdateRequest;
+use App\UI\Http\Api\Admin\Resources\Module\ModuleDetailsResource;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -20,12 +21,14 @@ class ModuleUpdateController extends Controller
         ModuleUpdateRequest $request,
         int $moduleId
     ): JsonResponse {
-        $module = $this->handler->handle($moduleId, $request->dto());
+        $module = $this->handler->handle(
+            $moduleId, $request->dto()
+        );
 
         return response()->json(
-            data: ['data' => [
-                "message" => "Module with id: {$module->id} successfully updated."
-            ]],
+            data: [
+                'data' => new ModuleDetailsResource($module)
+            ],
             status: Response::HTTP_OK
         );
     }

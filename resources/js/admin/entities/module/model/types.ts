@@ -6,19 +6,15 @@ export type Module = {
     topics?: Topic[] | null;
 };
 
+export type ModuleResponse = {
+    data: Module
+};
+
 export type ModuleCreatePayload = {
     courseId: number;
     title: string;
 };
 
-export type ModuleCreateResponse = {
-    data: Module
-};
-
-export type UseModuleCreateResult = {
-    create: (
-        payload: ModuleCreatePayload
-    ) => Promise<Module | null>,
-    isSaving: boolean,
-    error: string | null
+export type ModuleUpdatePayload = {
+    title: string;
 };

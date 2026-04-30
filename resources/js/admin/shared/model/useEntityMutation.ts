@@ -5,7 +5,7 @@ type MutationFn<T, R> = (data: T) => Promise<R>;
 
 type Options<T, R> = {
     mutationFn: MutationFn<T, R>;
-    onSuccessNavigateTo: string;
+    onSuccessNavigateTo?: string;
     errorMessage: string;
     onSuccess?: (response: R) => void;
 };
@@ -22,7 +22,7 @@ export function useEntityMutation<T, R>({
     const [error, setError] = useState<string | null>(null);
 
     const execute = useCallback(
-        async (data: T): Promise<void> => {
+        async (data: T): Promise<R | null> => {
             try {
                 setIsSavingProcess(true);
                 setError(null);
@@ -30,11 +30,18 @@ export function useEntityMutation<T, R>({
                 const response = await mutationFn(data);
 
                 onSuccess?.(response);
-                navigate(onSuccessNavigateTo);
+
+                if (onSuccessNavigateTo) {
+                    navigate(onSuccessNavigateTo);
+                }
+
+                return response;
             } catch (e: any) {
                 setError(
                     e instanceof Error ? e.message : errorMessage
                 );
+
+                return null;
             } finally {
                 setIsSavingProcess(false);
             }

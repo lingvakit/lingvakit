@@ -2,6 +2,12 @@
 
 ---
 
+## [1.26.0] - 2026-04-30
+### Added:
+* Updating modules via modal window
+
+---
+
 ## [1.25.0] - 2026-04-27
 ### Added:
 * Media types for attaching files to CKEditor
