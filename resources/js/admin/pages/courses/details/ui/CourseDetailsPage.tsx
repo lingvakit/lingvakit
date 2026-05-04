@@ -8,9 +8,9 @@ import {Lesson} from "../../../../entities/lesson/model/types";
 import {useDeleteLesson} from "../../../../entities/lesson/model/hooks";
 import {CourseModules} from "./components/CourseModules";
 import {CourseTag} from "./components/CourseTag";
-import {CourseProperty} from "./components/CourseProperty";
 import {CreateModuleModal} from "../../../../shared/ui/modal/module/ui/create/ui/CreateModuleModal";
 import {EditModuleModal} from "../../../../shared/ui/modal/module/ui/edit/ui/EditModuleModal";
+import {PropertyBlock} from "../../../../shared/ui/blocks/PropertyBlock";
 export default function CourseShowPage() {
     const course = useLoaderData() as Course;
     const {execute} = useDeleteLesson();
@@ -102,22 +102,22 @@ export default function CourseShowPage() {
                                 </div>
 
                                 <div className="col-xl-9">
-                                    <CourseProperty
+                                    <PropertyBlock
                                         title="Автор курса"
                                         description={course.author}
                                     />
 
-                                    <CourseProperty
+                                    <PropertyBlock
                                         title="Дата публикации"
                                         description={formatDate(course.createdAt)}
                                     />
 
-                                    <CourseProperty
+                                    <PropertyBlock
                                         title="Наименование"
                                         description={course.title}
                                     />
 
-                                    <CourseProperty
+                                    <PropertyBlock
                                         title="Описание"
                                         description={course.description}
                                     />
@@ -128,12 +128,12 @@ export default function CourseShowPage() {
                                         <CourseTag title="Начальный уровень" />
                                     </div>
 
-                                    <CourseProperty
+                                    <PropertyBlock
                                         title="Длительность курса"
                                         description={formatDurationToText(course.duration)}
                                     />
 
-                                    <CourseProperty
+                                    <PropertyBlock
                                         title="Стоимость курса"
                                         description={course.price ? String(course.price) : "Бесплатно"}
                                     />
