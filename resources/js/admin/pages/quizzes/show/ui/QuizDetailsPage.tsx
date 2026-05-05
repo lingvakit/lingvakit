@@ -3,11 +3,13 @@ import {useLoaderData} from "react-router-dom";
 import {Quiz} from "../../../../entities/quiz/model/types";
 import {PropertyBlock} from "../../../../shared/ui/blocks/PropertyBlock";
 import {formatDurationToText} from "../../../../shared/lib/converter";
+import {useState} from "react";
+import {noImageLink} from "../../../../shared/constants/links";
 
 export function QuizDetailsPage() {
     const quiz = useLoaderData() as Quiz;
 
-    console.log(quiz);
+    const [isOpenDropdownMenu, setIsOpenDropdownMenu] = useState(false);
 
     return (
         <PageLayout title={quiz.title}>
@@ -31,10 +33,17 @@ export function QuizDetailsPage() {
                                 <div className="col-xl-3">
                                     <div className="about-infos d-flex flex-column mb-3">
                                         <div className="about-image">
-                                            <img
-                                                src={quiz.imageFile.url}
-                                                alt={quiz.title}
-                                            />
+                                            {quiz.imageFile ? (
+                                                <img
+                                                    src={quiz.imageFile.url}
+                                                    alt={quiz.title}
+                                                />
+                                            ) : (
+                                                <img
+                                                    src={noImageLink}
+                                                    alt=''
+                                                />
+                                            )}
                                         </div>
                                     </div>
                                 </div>
@@ -70,14 +79,12 @@ export function QuizDetailsPage() {
                                 <div className="actions dark">
                                     <div className="dropdown">
                                         <button type="button"
-                                                className="btn btn-primary mr-1 mb-2 dropdown-toggle"
-                                                data-toggle="dropdown"
-                                                aria-haspopup="true"
-                                                aria-expanded="false"
+                                                className="btn btn-primary mr-1 mb-2"
+                                                onClick={() => setIsOpenDropdownMenu(!isOpenDropdownMenu)}
                                         >+ Добавить
                                         </button>
 
-                                        <div className="dropdown-menu">
+                                        <div className={`dropdown-menu ${isOpenDropdownMenu ? 'show' : ''}`}>
                                             <a href="#" className="dropdown-item">
                                                 <i className="la la-plus"></i>
                                                 Одиночный ответ

@@ -2,6 +2,12 @@
 
 ---
 
+## [unreleased] - 2026-05-05
+### Added:
+* Page with quiz common details
+
+---
+
 ## [1.26.0] - 2026-04-30
 ### Added:
 * Updating modules via modal window
