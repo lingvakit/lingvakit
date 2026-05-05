@@ -5,7 +5,7 @@ type Props = {
     description?: string | null;
 };
 
-export function CourseProperty({title, description}: Props) {
+export function PropertyBlock({title, description}: Props) {
     return (
         <div className="about-infos d-flex flex-column mb-3">
             <div className="about-title">

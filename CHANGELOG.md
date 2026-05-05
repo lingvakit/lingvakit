@@ -2,6 +2,12 @@
 
 ---
 
+## [unreleased] - 2026-05-05
+### Added:
+* Page with quiz common details
+
+---
+
 ## [1.27.0] - 2026-05-04
 ### Style:
 * Update style for quizzes grid
