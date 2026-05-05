@@ -53,6 +53,13 @@ Route::middleware(['web'])->prefix('react/api')->group(function () {
         Route::put('{uuid}', QuizUpdateController::class);
     });
 
+    /* group of questions */
+    Route::prefix('questionGroups')->group(function () {
+        Route::post('/', );
+    });
+
+    Route::prefix('questions')->group(function () {});
+
     Route::get('media', MediaFileListController::class)
         ->name('admin.react.media.list');
 });
