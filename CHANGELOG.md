@@ -8,6 +8,12 @@
 
 ---
 
+## [1.27.0] - 2026-05-04
+### Style:
+* Update style for quizzes grid
+
+---
+
 ## [1.26.0] - 2026-04-30
 ### Added:
 * Updating modules via modal window
