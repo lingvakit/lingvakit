@@ -1,22 +1,22 @@
 <?php
-declare (strict_types=1);
+declare(strict_types=1);
 
-namespace App\Integration\Quiz\Dto;
+namespace App\Integration\Quiz\Dto\QuestionsGroup\Response;
 
 use App\Domain\Quiz\Enum\QuestionTypeEnum;
-use Symfony\Component\Uid\Uuid;
 
-class QuestionsGroupCreateRequestDto
+class QuestionsGroupDto
 {
     public function __construct(
-        public Uuid $quizUuid,
-        public Uuid $uuid,
+        public string $uuid,
         public string $title,
         public ?string $description = null,
-        public ?int $orderIndex = null,
         public QuestionTypeEnum $questionType,
-        public ?array $meta = null,
+        public ?int $orderIndex = null,
         public ?array $mediaFiles = null,
+        public ?array $meta = null,
+
+        /** @var QuestionDto[] */
         public array $questions,
     ) {}
 }

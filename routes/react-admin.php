@@ -14,6 +14,7 @@ use App\UI\Http\Api\Admin\Controllers\Media\MediaFileListController;
 use App\UI\Http\Api\Admin\Controllers\Module\ModuleCreateController;
 use App\UI\Http\Api\Admin\Controllers\Module\ModuleShowController;
 use App\UI\Http\Api\Admin\Controllers\Module\ModuleUpdateController;
+use App\UI\Http\Api\Admin\Controllers\QuestionsGroup\QuestionsGroupCreateController;
 use App\UI\Http\Api\Admin\Controllers\Quiz\QuizCreateController;
 use App\UI\Http\Api\Admin\Controllers\Quiz\QuizDetailsController;
 use App\UI\Http\Api\Admin\Controllers\Quiz\QuizUpdateController;
@@ -55,7 +56,7 @@ Route::middleware(['web'])->prefix('react/api')->group(function () {
 
     /* group of questions */
     Route::prefix('questionGroups')->group(function () {
-        Route::post('/', );
+        Route::post('/', QuestionsGroupCreateController::class);
     });
 
     Route::prefix('questions')->group(function () {});

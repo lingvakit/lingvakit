@@ -27,6 +27,8 @@ use App\Application\Module\Handlers\ShowModuleHandler;
 use App\Application\Module\Handlers\ShowModuleHandlerInterface;
 use App\Application\Module\Handlers\UpdateModuleHandler;
 use App\Application\Module\Handlers\UpdateModuleHandlerInterface;
+use App\Application\Quiz\Handlers\CreateQuestionsGroupHandler;
+use App\Application\Quiz\Handlers\CreateQuestionsGroupHandlerInterface;
 use App\Application\Quiz\Handlers\CreateQuizHandler;
 use App\Application\Quiz\Handlers\CreateQuizHandlerInterface;
 use App\Application\Quiz\Handlers\QuizDetailsHandler;
@@ -112,6 +114,11 @@ class ApplicationServiceProvider extends ServiceProvider
         $this->app->bind(
             abstract: QuizDetailsHandlerInterface::class,
             concrete: QuizDetailsHandler::class
+        );
+
+        $this->app->bind(
+            abstract: CreateQuestionsGroupHandlerInterface::class,
+            concrete: CreateQuestionsGroupHandler::class
         );
     }
 }

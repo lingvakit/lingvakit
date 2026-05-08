@@ -9,7 +9,7 @@ use App\Application\Topic\Mapper\TopicQuizMapper;
 use App\Domain\Topic\Enum\TopicTypeEnum;
 use App\Exceptions\TopicNotExistsException;
 use App\Infrastructure\Persistence\Repository\TopicRepositoryInterface;
-use App\Integration\Quiz\QuizClient;
+use App\Integration\Quiz\Client\QuizClient;
 use App\Models\LMS\Topic;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Uid\Uuid;

@@ -1,19 +1,18 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Integration\Quiz;
+namespace App\Integration\Quiz\Client;
 
 use App\Domain\Quiz\Enum\QuizStatusEnum;
 use App\Integration\Quiz\Dto\QuizCreateRequestDto;
 use App\Integration\Quiz\Dto\QuizResponseDto;
 use App\Integration\Quiz\Dto\QuizUpdateRequestDto;
 use App\Integration\Quiz\Exception\QuizCreateFailedException;
-use App\Integration\Quiz\Exception\QuizDataFailedException;
 use Illuminate\Support\Facades\Http;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Uid\Uuid;
 
-class QuizClient implements QuizServiceInterface
+class QuizClient extends BaseClient implements QuizServiceInterface
 {
     public function getDataByUuid(string $uuid): QuizResponseDto
     {
@@ -23,37 +22,27 @@ class QuizClient implements QuizServiceInterface
             );
         }
 
-        $response = Http::withoutVerifying()->get(
-            "{$this->getMsUrl()}/api/v1/quizzes/{$uuid}",
+        $response = $this->http()->get(
+            "{$this->getMsUrl()}/api/v1/quizzes/{$uuid}"
         );
 
-        if (!$response->successful()) {
-            throw new QuizDataFailedException(
-                message: 'Quiz API error: ' . $response->body(),
-                code: $response->status()
-            );
-        }
-
-        return $this->mapToDto(
-            json_decode($response->body(), true)
+        return $this->handleResponse(
+            $response,
+            fn(array $data) => $this->mapToDto($data)
         );
     }
 
     public function create(QuizCreateRequestDto $dto): QuizResponseDto
     {
-        $response = Http::withoutVerifying()->post(
+        $response = $this->http()->post(
             url: "{$this->getMsUrl()}/api/v1/quizzes",
             data: $dto->convertToArray()
         );
 
-        if (!$response->successful()) {
-            throw new QuizCreateFailedException(
-                message: 'Quiz API error: ' . $response->body(),
-                code: $response->status()
-            );
-        }
-
-        return $this->mapToDto(json_decode($response->body(), true));
+        return $this->handleResponse(
+            $response,
+            fn(array $data) => $this->mapToDto($data)
+        );
     }
 
     public function update(string $uuid, QuizUpdateRequestDto $dto): QuizResponseDto
@@ -81,11 +70,7 @@ class QuizClient implements QuizServiceInterface
         );
     }
 
-    private function getMsUrl(): string
-    {
-        return config('app.url') . config('services.ms.quiz');
-    }
-
+    // TODO: Remove after relocate method
     private function mapToDto(array $data): QuizResponseDto
     {
         return new QuizResponseDto(
