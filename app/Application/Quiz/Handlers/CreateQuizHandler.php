@@ -5,10 +5,10 @@ namespace App\Application\Quiz\Handlers;
 
 use App\Application\Quiz\Mapper\QuizMapper;
 use App\Infrastructure\Persistence\Repository\TopicRepositoryInterface;
+use App\Integration\Quiz\Client\QuizClient;
 use App\Integration\Quiz\Dto\QuizCreateRequestDto;
 use App\Integration\Quiz\Dto\QuizDto;
 use App\Integration\Quiz\Exception\QuizCreateFailedException;
-use App\Integration\Quiz\QuizClient;
 use Illuminate\Support\Facades\DB;
 
 final readonly class CreateQuizHandler implements CreateQuizHandlerInterface
