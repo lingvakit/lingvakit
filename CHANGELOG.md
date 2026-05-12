@@ -5,6 +5,7 @@
 ## [unreleased] - 2026-05-05
 ### Added:
 * Page with quiz common details
+* Endpoint for creating question's group
 
 ---
 

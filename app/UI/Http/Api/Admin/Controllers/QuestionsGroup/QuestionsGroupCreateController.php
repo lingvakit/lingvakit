@@ -17,6 +17,9 @@ class QuestionsGroupCreateController extends Controller
     ) {
     }
 
+    /**
+     * TODO: Create unit tests for the endpoint
+     */
     public function __invoke(QuestionsGroupRequest $request): JsonResponse
     {
         $questionsGroupDto = $this->handler->handle(
