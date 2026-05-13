@@ -1,0 +1,1 @@
+export type QuestionTypes = "single_choice" | "multiple_choice";

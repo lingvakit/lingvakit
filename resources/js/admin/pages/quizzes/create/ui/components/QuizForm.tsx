@@ -7,8 +7,8 @@ import {TextareaCKEditorField} from "../../../../../shared/ui/form/TextareaCKEdi
 import {MediaTarget} from "../../../../../shared/ui/modal/media/types";
 import {MediaType} from "../../../../../entities/media/model/types";
 import {useCKEditor} from "../../../../../shared/ui/modal/media/useCKEditor";
-import {LessonInputMedia} from "../../../../lessons/create/ui/components/Form/LessonInputMedia";
 import {FormEvent} from "react";
+import {InputMediaFiles} from "../../../../../shared/ui/form/InputMediaFiles";
 
 type Props = {
     form: ReturnType<typeof useQuizForm>,
@@ -88,7 +88,7 @@ export function QuizForm({
                                 setEditorRef={ckEditor.setEditorRef}
                             />
 
-                            <LessonInputMedia
+                            <InputMediaFiles
                                 mediaFiles={form.fields.mediaFiles}
                                 onOpenMediaModal={handleOpenMediaModal}
                             />
