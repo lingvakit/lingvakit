@@ -114,7 +114,7 @@ export function useGenerateLessonContent(): UseAiLessonGeneratedResult {
 
                 const response = await generateAiLessonContent(payload);
 
-                return response.data;
+                return response.choices?.[0].message.content;
             } catch (error: unknown) {
                 setError(
                     error instanceof Error

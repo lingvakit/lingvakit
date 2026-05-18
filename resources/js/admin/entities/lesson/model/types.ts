@@ -1,4 +1,5 @@
 import {MediaFile} from "../../media/model/types";
+import {Message} from "../../ai/model/types";
 
 // TODO: Sync level with backend
 export type DifficultyLevel = "hsk1" | "hsk2" | "hsk3" | "hard";
@@ -37,12 +38,7 @@ export type LessonUpdatePayload = {
 };
 
 export type AiLessonGeneratePayload = {
-    topic: string;
-    level: DifficultyLevel
-};
-
-export type AiLessonGeneratedResponse = {
-    data: string | null
+    messages: Message[]
 };
 
 export type UseAiLessonGeneratedResult = {
