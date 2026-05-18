@@ -2,10 +2,11 @@
 
 ---
 
-## [unreleased] - 2026-05-05
+## [1.28.0] - 2026-05-18
 ### Added:
 * Page with quiz common details
 * Endpoint for creating question's group
+* Add UI modal window for generating lesson content from gigachat
 
 ---
 

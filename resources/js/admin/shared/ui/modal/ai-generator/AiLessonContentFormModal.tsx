@@ -28,16 +28,22 @@ export function AiLessonContentFormModal({lessonTheme, isOpen, onClose, form}: P
 
     const {
         execute,
-    } = useGenerateLessonContent()
+    } = useGenerateLessonContent();
 
-    const handelSubmit = async (
+    const handleSubmit = async (
         e: FormEvent<HTMLFormElement>,
     ): Promise<void> => {
         e.preventDefault();
 
+        const prompt = `Подготовь контент для урока по китайскому языку на тему "${title}". Уровень сложности - HSK-1. Раздели урок на небольшие абзацы, по 2-3 предложения. Общий объем контента должен быть примерно на 2000 символов.`;
+
         const response = await execute({
-            topic: title,
-            level: difficultyLevel,
+            messages: [
+                {
+                    content: prompt,
+                    role: "user"
+                }
+            ]
         });
 
         setLessonContent(response);
@@ -59,7 +65,7 @@ export function AiLessonContentFormModal({lessonTheme, isOpen, onClose, form}: P
         >
             <form
                 className="form-horizontal"
-                onSubmit={handelSubmit}
+                onSubmit={handleSubmit}
             >
                 <div className="form-group">
                     <div className="col-12 mb-3">
@@ -108,8 +114,7 @@ export function AiLessonContentFormModal({lessonTheme, isOpen, onClose, form}: P
                     <div className="form-group">
                         <div className="col-12 mb-3">
                             <label className="form-control-label">
-                                Тема урока
-                                <span className="text-danger ml-2">*</span>
+                                ИИ контент
                             </label>
 
                             <textarea
