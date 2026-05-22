@@ -22,7 +22,9 @@ abstract class AbstractFormRequest extends FormRequest
 
     protected function fieldInt(string $key): ?int
     {
-        return $this->has($key) ? $this->integer($key) : null;
+        return $this->has($key) && $this->field($key) !== null
+            ? $this->integer($key)
+            : null;
     }
 
     protected function fieldFloat(string $key): ?float

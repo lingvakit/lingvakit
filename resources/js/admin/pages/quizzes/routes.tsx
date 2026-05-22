@@ -5,6 +5,7 @@ import {BreadcrumbHandle} from "../../shared/ui/breadcrumbs/types";
 import {getQuiz} from "../../entities/quiz/queries/getQuiz";
 import {QuizEditPage} from "./edit/ui/QuizEditPage";
 import {QuizDetailsPage} from "./show/ui/QuizDetailsPage";
+import {questionGroupRoutes} from "../questionGroups/routes";
 
 export const quizRoutes: RouteObject[] = [
     {
@@ -69,7 +70,9 @@ export const quizRoutes: RouteObject[] = [
                 path: ":quizUuid",
                 element: <QuizDetailsPage />,
                 loader: getQuiz
-            }
+            },
+
+            ...questionGroupRoutes,
         ]
     },
 ];

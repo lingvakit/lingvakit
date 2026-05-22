@@ -55,7 +55,9 @@ class QuestionsGroupRequest extends AbstractFormRequest
                     text: $question['text'],
                     explanation: $question['explanation'] ?? null,
                     points: $this->fieldInt((string)$question['points']),
-                    orderIndex: $question['orderIndex'] ?? null,
+                    orderIndex: isset($question['orderIndex'])
+                        ? $this->fieldInt($question['orderIndex'])
+                        : null,
                     type: $this->fieldEnum('questionType', QuestionTypeEnum::class),
                     settings: null, // TODO: change to dynamic data
                     options: array_map(
