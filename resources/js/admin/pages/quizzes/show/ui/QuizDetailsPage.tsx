@@ -1,13 +1,21 @@
 import PageLayout from "../../../../widgets/layout/PageLayout";
-import {useLoaderData} from "react-router-dom";
+import {Link, useLoaderData, useParams} from "react-router-dom";
 import {Quiz} from "../../../../entities/quiz/model/types";
 import {PropertyBlock} from "../../../../shared/ui/blocks/PropertyBlock";
 import {formatDurationToText} from "../../../../shared/lib/converter";
 import {useState} from "react";
 import {noImageLink} from "../../../../shared/constants/links";
+import {QuestionType} from "../../../../entities/question/model/types";
 
 export function QuizDetailsPage() {
     const quiz = useLoaderData() as Quiz;
+
+    const {courseId, moduleId} = useParams();
+
+    const questionTypes: QuestionType[] = [
+        'single_choice',
+        'multiple_choice'
+    ];
 
     const [isOpenDropdownMenu, setIsOpenDropdownMenu] = useState(false);
 
@@ -85,14 +93,13 @@ export function QuizDetailsPage() {
                                         </button>
 
                                         <div className={`dropdown-menu ${isOpenDropdownMenu ? 'show' : ''}`}>
-                                            <a href="#" className="dropdown-item">
-                                                <i className="la la-plus"></i>
-                                                Одиночный ответ
-                                            </a>
-                                            <a href="#" className="dropdown-item">
-                                                <i className="la la-plus"></i>
-                                                Множественный ответ
-                                            </a>
+                                            {questionTypes.map((questionType, i) => (
+                                                <Link
+                                                    key={i}
+                                                    to={`/dashboard/coursesReact/${courseId}/modules/${moduleId}/quizzes/${quiz.uuid}/questionGroups/create?type=${questionType}`}
+                                                    className="dropdown-item"
+                                                ><i className="la la-plus"></i>{questionType}</Link>
+                                            ))}
                                         </div>
                                     </div>
                                 </div>
@@ -118,15 +125,15 @@ export function QuizDetailsPage() {
 
                                         <td className="td-actions">
                                             <a href="">
-                                                <i className="la la-eye edit"></i>
+                                                <i className="la la-eye edit" />
                                             </a>
 
                                             <a href="">
-                                                <i className="la la-edit edit"></i>
+                                                <i className="la la-edit edit" />
                                             </a>
 
                                             <a href="#">
-                                                <i className="la la-close delete"></i>
+                                                <i className="la la-close delete" />
                                             </a>
                                         </td>
                                     </tr>
