@@ -1,12 +1,15 @@
 import {ChangeEvent} from "react";
+import {VerticalTextField} from "./components/vertical/VerticalTextField";
+import {HorizontalTextField} from "./components/horizontal/HorizontalTextField";
 
 type Props = {
-    label: string;
-    name: string;
-    value: string;
-    onChange: (e: ChangeEvent<HTMLInputElement>) => void
-    isRequired?: boolean;
-    placeholder?: string;
+    label: string,
+    name: string,
+    value: string,
+    onChange: (e: ChangeEvent<HTMLInputElement>) => void,
+    isRequired?: boolean,
+    placeholder?: string,
+    isVertical?: boolean,
 };
 
 export function InputTextField({
@@ -16,23 +19,28 @@ export function InputTextField({
     onChange,
     isRequired,
     placeholder,
+    isVertical = false,
 }: Props) {
+
     return (
-        <div className="form-group row d-flex align-items-center mb-5">
-            <label className="col-lg-3 form-control-label">
-                {label}
-                {isRequired && <span className="text-danger ml-2">*</span>}
-            </label>
-            <div className="col-lg-9">
-                <input
-                    type="text"
-                    name={name}
-                    className="form-control"
-                    placeholder={placeholder}
-                    value={value}
-                    onChange={onChange}
-                />
-            </div>
-        </div>
+        isVertical ? (
+            <VerticalTextField
+                label={label}
+                name={name}
+                value={value}
+                onChange={onChange}
+                isRequired={isRequired}
+                placeholder={placeholder}
+            />
+        ): (
+            <HorizontalTextField
+                label={label}
+                name={name}
+                value={value}
+                onChange={onChange}
+                isRequired={isRequired}
+                placeholder={placeholder}
+            />
+        )
     );
 }
