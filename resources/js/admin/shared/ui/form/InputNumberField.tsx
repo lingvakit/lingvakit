@@ -1,14 +1,17 @@
 import {ChangeEvent} from "react";
+import {VerticalNumberField} from "./components/vertical/VerticalNumberField";
+import {HorizontalNumberField} from "./components/horizontal/HorizontalNumberField";
 
 type Props = {
-    label: string;
-    name: string;
-    value: number;
-    onChange: (e: ChangeEvent<HTMLInputElement>) => void
-    isRequired?: boolean;
-    placeholder?: string;
-    minDigit?: number;
-    maxDigit?: number;
+    label: string,
+    name: string,
+    value: number,
+    onChange: (e: ChangeEvent<HTMLInputElement>) => void,
+    isRequired?: boolean,
+    placeholder?: string,
+    minDigit?: number,
+    maxDigit?: number,
+    isVertical?: boolean,
 };
 
 export function InputNumberField({
@@ -20,25 +23,31 @@ export function InputNumberField({
     placeholder,
     minDigit,
     maxDigit,
+    isVertical = false,
 }: Props) {
     return (
-        <div className="form-group row d-flex align-items-center mb-5">
-            <label className="col-lg-3 form-control-label">
-                {label}
-                {isRequired && <span className="text-danger ml-2">*</span>}
-            </label>
-            <div className="col-lg-9">
-                <input
-                    type="number"
-                    name={name}
-                    className="form-control"
-                    placeholder={placeholder ?? undefined}
-                    value={value}
-                    onChange={onChange}
-                    min={minDigit ?? undefined}
-                    max={maxDigit ?? undefined}
-                />
-            </div>
-        </div>
+        isVertical ? (
+            <VerticalNumberField
+                label={label}
+                name={name}
+                value={value}
+                onChange={onChange}
+                isRequired={isRequired}
+                placeholder={placeholder}
+                maxDigit={minDigit}
+                minDigit={maxDigit}
+            />
+        ) : (
+            <HorizontalNumberField
+                label={label}
+                name={name}
+                value={value}
+                onChange={onChange}
+                isRequired={isRequired}
+                placeholder={placeholder}
+                minDigit={minDigit}
+                maxDigit={maxDigit}
+            />
+        )
     );
 }

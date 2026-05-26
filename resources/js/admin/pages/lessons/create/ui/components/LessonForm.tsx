@@ -3,8 +3,8 @@ import {FormEvent} from "react";
 import {useCKEditor} from "../../../../../shared/ui/modal/media/useCKEditor";
 import {MediaTarget} from "../../../../../shared/ui/modal/media/types";
 import {MediaType} from "../../../../../entities/media/model/types";
-import {LessonInputMedia} from "./Form/LessonInputMedia";
 import {useLessonForm} from "../../../../../features/lesson/create/model/useLessonForm";
+import {InputMediaFiles} from "../../../../../shared/ui/form/InputMediaFiles";
 
 type Props = {
     ckEditor: ReturnType<typeof useCKEditor>
@@ -92,7 +92,7 @@ export default function LessonForm({ckEditor, isSavingProgress, onSubmit, openMe
                                 </div>
                             </div>
 
-                            <LessonInputMedia
+                            <InputMediaFiles
                                 mediaFiles={form.fields.mediaFiles}
                                 onOpenMediaModal={handleOpenMediaModal}
                             />

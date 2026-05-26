@@ -1,5 +1,5 @@
-import {MediaFile, MediaType} from "../../../../../../entities/media/model/types";
-import {MediaTarget} from "../../../../../../shared/ui/modal/media/types";
+import {MediaFile, MediaType} from "../../../entities/media/model/types";
+import {MediaTarget} from "../modal/media/types";
 
 type Props = {
     mediaFiles: {
@@ -10,7 +10,10 @@ type Props = {
     onOpenMediaModal: (target: MediaTarget, type: MediaType) => void;
 };
 
-export function LessonInputMedia({mediaFiles, onOpenMediaModal}: Props) {
+export function InputMediaFiles({
+    mediaFiles,
+    onOpenMediaModal
+}: Props) {
     return (
         <div className="form-group row d-flex align-items-center mb-5">
             <label className="col-lg-3 form-control-label">
@@ -29,7 +32,7 @@ export function LessonInputMedia({mediaFiles, onOpenMediaModal}: Props) {
                         />
                     </div>
                 )}
-                
+
                 {mediaFiles.image && (
                     <div className="form-group preview">
                         <div className="current-item">

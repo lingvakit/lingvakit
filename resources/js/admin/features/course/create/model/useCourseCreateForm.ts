@@ -26,6 +26,7 @@ const mediaFieldByType = {
     image: "image",
     video: "video",
     audio: "audio",
+    file: "file"
 } as const;
 
 const numberFields = [
@@ -49,7 +50,7 @@ export function useCourseCreateForm() {
 
         const newValue =
             type === "checkbox"
-                ? (e.target as HTMLInputElement).checked // 👈 ключ
+                ? (e.target as HTMLInputElement).checked
                 : numberFields.includes(name)
                     ? value === "" ? 0 : Number(value)
                     : value;
