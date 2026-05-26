@@ -2,11 +2,9 @@
 
 ---
 
-## [1.29.0] - 2026-05-26
+## [1.29.1] - 2026-05-26
 ### Added:
 * Make page for creating questions group in React UI
-
----
 
 ---
 
