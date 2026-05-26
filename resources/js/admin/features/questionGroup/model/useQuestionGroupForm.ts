@@ -1,8 +1,9 @@
 import {ChangeEvent, useState} from "react";
 import {MediaFile} from "../../../entities/media/model/types";
 import {FontSize} from "./types";
-import {QuestionType} from "../../../entities/question/model/types";
+import {QuestionPayload, QuestionType} from "../../../entities/question/model/types";
 
+/* TODO: Check if need to remove it */
 export type OptionValues = {
     uuid: string,
     text?: string | null,
@@ -11,6 +12,7 @@ export type OptionValues = {
     settings?: {} | null,
 };
 
+/* TODO: Check if need to remove it */
 export type QuestionValues = {
     uuid: string,
     text: string,
@@ -36,7 +38,7 @@ type FormValues = {
         image: MediaFile | null,
         video: MediaFile | null,
     },
-    questions: QuestionValues[],
+    questions: QuestionPayload[],
 };
 
 export function useQuestionGroupForm(initial?: Partial<FormValues>) {
@@ -55,13 +57,14 @@ export function useQuestionGroupForm(initial?: Partial<FormValues>) {
             {
                 uuid: crypto.randomUUID(),
                 text: '',
+                type: "single_choice",
                 explanation: '',
                 points: 10,
                 orderIndex: null,
                 settings: null,
                 answer: {
                     type: 'single_choice',
-                    value: ''
+                    value: ['']
                 },
                 options: [
                     {
@@ -123,13 +126,14 @@ export function useQuestionGroupForm(initial?: Partial<FormValues>) {
                 {
                     uuid: crypto.randomUUID(),
                     text: '',
+                    type: 'single_choice',
                     explanation: '',
                     points: 10,
                     orderIndex: null,
                     settings: null,
                     answer: {
                         type: 'single_choice',
-                        value: '',
+                        value: [''],
                     },
                     options: [
                         {
@@ -186,6 +190,7 @@ export function useQuestionGroupForm(initial?: Partial<FormValues>) {
         }))
     };
 
+    /* TODO: Make UI page */
     const updateOption = <
         K extends keyof OptionValues
     >(
@@ -228,7 +233,7 @@ export function useQuestionGroupForm(initial?: Partial<FormValues>) {
                         ...question,
                         answer: {
                             type: 'single_choice',
-                            value: optionUuid
+                            value: [optionUuid]
                         },
                     }
                     : question

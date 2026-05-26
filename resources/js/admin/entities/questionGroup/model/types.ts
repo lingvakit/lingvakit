@@ -1,6 +1,18 @@
-import {QuestionPayload, QuestionType} from "../../question/model/types";
+import {Question, QuestionPayload, QuestionType} from "../../question/model/types";
+import {FontSize} from "../../../features/questionGroup/model/types";
 
-/* TODO: Remove this */
+export type QuestionGroup = {
+    uuid: string,
+    title: string,
+    questionType: QuestionType,
+    description: string | null,
+    orderIndex: number | null,
+    meta: {
+        fontSize?: FontSize
+    } | null,
+    questions: Question[],
+};
+
 export type QuestionGroupPayload = {
     uuid: string,
     quizUuid: string,
@@ -9,7 +21,7 @@ export type QuestionGroupPayload = {
     description?: string | null,
     orderIndex?: number | null,
     meta?: {
-        fontSize?: number,
+        fontSize?: FontSize,
     },
     questions: QuestionPayload[],
 }

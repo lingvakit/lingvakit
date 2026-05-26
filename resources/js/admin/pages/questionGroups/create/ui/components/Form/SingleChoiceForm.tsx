@@ -7,18 +7,28 @@ import {TextareaField} from "../../../../../../shared/ui/form/TextareaField";
 import {InputRadioField} from "../../../../../../shared/ui/form/InputRadioField";
 import {InputNumberField} from "../../../../../../shared/ui/form/InputNumberField";
 import {OptionField} from "./OptionField";
+import {FormEvent} from "react";
 
 type Props = {
     form: ReturnType<typeof useQuestionGroupForm>,
     isSavingProgress: boolean,
+    onSubmit: () => Promise<void>,
     openMediaModal: (target: MediaTarget, type: MediaType) => void,
 };
 
 export function SingleChoiceForm({
     form,
     isSavingProgress,
+    onSubmit,
     openMediaModal,
 }: Props) {
+    const handleSubmit = async (
+        e: FormEvent<HTMLFormElement>
+    ): Promise<void> => {
+        e.preventDefault();
+        await onSubmit();
+    };
+
     const handleOpenMediaModal = (
         target: MediaTarget,
         type: MediaType
@@ -27,7 +37,10 @@ export function SingleChoiceForm({
     };
 
     return (
-        <form>
+        <form
+            className="form-horizontal"
+            onSubmit={handleSubmit}
+        >
             <div className="row flex-row">
                 <div className="col-12">
                     <div className="widget has-shadow">
@@ -155,7 +168,7 @@ export function SingleChoiceForm({
 
                                                     value={option.text ?? ''}
 
-                                                    checked={question.answer.value === option.uuid}
+                                                    checked={question.answer.value[0] === option.uuid}
 
                                                     onTextChange={(optionUuid, value) => form.handlers.updateOption(
                                                         question.uuid,
