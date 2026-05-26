@@ -2,6 +2,14 @@
 
 ---
 
+## [1.29.0] - 2026-05-26
+### Added:
+* Make page for creating questions group in React UI
+
+---
+
+---
+
 ## [1.28.0] - 2026-05-18
 ### Added:
 * Page with quiz common details
