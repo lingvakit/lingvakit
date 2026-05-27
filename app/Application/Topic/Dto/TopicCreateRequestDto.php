@@ -5,7 +5,7 @@ namespace App\Application\Topic\Dto;
 
 use App\Application\Lesson\Dto\LessonCreateRequestDto;
 use App\Domain\Topic\Enum\TopicTypeEnum;
-use App\Integration\Quiz\Dto\QuizCreateRequestDto;
+use App\Integration\Quiz\Dto\Request\Quiz\QuizCreateRequestDto;
 
 class TopicCreateRequestDto
 {

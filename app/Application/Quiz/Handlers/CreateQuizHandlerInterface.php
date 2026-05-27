@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace App\Application\Quiz\Handlers;
 
-use App\Integration\Quiz\Dto\QuizCreateRequestDto;
-use App\Integration\Quiz\Dto\QuizDto;
+use App\Application\Quiz\Dto\Response\QuizDto;
+use App\Integration\Quiz\Dto\Request\Quiz\QuizCreateRequestDto;
 
 interface CreateQuizHandlerInterface
 {

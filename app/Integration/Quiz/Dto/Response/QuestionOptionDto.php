@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Integration\Quiz\Dto\QuestionsGroup\Response\Question;
+namespace App\Integration\Quiz\Dto\Response;
 
 class QuestionOptionDto
 {

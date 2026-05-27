@@ -1,9 +1,10 @@
 <?php
+declare(strict_types=1);
 
 namespace App\UI\Http\Api\Admin\Requests\Quiz;
 
 use App\Domain\Quiz\Enum\QuizStatusEnum;
-use App\Integration\Quiz\Dto\QuizCreateRequestDto;
+use App\Integration\Quiz\Dto\Request\Quiz\QuizCreateRequestDto;
 use App\UI\Http\Api\Admin\Requests\AbstractFormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;

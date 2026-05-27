@@ -2,6 +2,12 @@
 
 ---
 
+## [1.32.0] - 2026-05-27
+### Added:
+* Display question group on quiz page in react ui
+
+---
+
 ## [1.31.0] - 2026-05-27
 ### Changed:
 * Rename main branch to "main"

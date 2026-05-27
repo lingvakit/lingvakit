@@ -3,18 +3,23 @@ declare(strict_types=1);
 
 namespace App\Integration\Quiz\Client;
 
-use App\Domain\Quiz\Enum\QuizStatusEnum;
-use App\Integration\Quiz\Dto\QuizCreateRequestDto;
-use App\Integration\Quiz\Dto\QuizResponseDto;
-use App\Integration\Quiz\Dto\QuizUpdateRequestDto;
+use App\Integration\Quiz\Dto\Request\Quiz\QuizCreateRequestDto;
+use App\Integration\Quiz\Dto\Request\Quiz\QuizUpdateRequestDto;
+use App\Integration\Quiz\Dto\Response\QuizDto;
 use App\Integration\Quiz\Exception\QuizCreateFailedException;
+use App\Integration\Quiz\Mapper\QuizMapper;
 use Illuminate\Support\Facades\Http;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Uid\Uuid;
 
 class QuizClient extends BaseClient implements QuizServiceInterface
 {
-    public function getDataByUuid(string $uuid): QuizResponseDto
+    public function __construct(
+        private readonly QuizMapper $mapper,
+    ) {
+    }
+
+    public function getDataByUuid(string $uuid): QuizDto
     {
         if (!$this->validateUuid($uuid)) {
             throw new BadRequestHttpException(
@@ -28,11 +33,11 @@ class QuizClient extends BaseClient implements QuizServiceInterface
 
         return $this->handleResponse(
             $response,
-            fn(array $data) => $this->mapToDto($data)
+            fn(array $responseData) => $this->mapper->fromResponseDataToDto($responseData)
         );
     }
 
-    public function create(QuizCreateRequestDto $dto): QuizResponseDto
+    public function create(QuizCreateRequestDto $dto): QuizDto
     {
         $response = $this->http()->post(
             url: "{$this->getMsUrl()}/api/v1/quizzes",
@@ -41,11 +46,11 @@ class QuizClient extends BaseClient implements QuizServiceInterface
 
         return $this->handleResponse(
             $response,
-            fn(array $data) => $this->mapToDto($data)
+            fn(array $responseData) => $this->mapper->fromResponseDataToDto($responseData)
         );
     }
 
-    public function update(string $uuid, QuizUpdateRequestDto $dto): QuizResponseDto
+    public function update(string $uuid, QuizUpdateRequestDto $dto): QuizDto
     {
         if (!Uuid::isValid($uuid)) {
             throw new BadRequestHttpException(
@@ -65,24 +70,9 @@ class QuizClient extends BaseClient implements QuizServiceInterface
             );
         }
 
-        return $this->mapToDto(
-            json_decode($response->body(), true)
-        );
-    }
-
-    // TODO: Remove after relocate method
-    private function mapToDto(array $data): QuizResponseDto
-    {
-        return new QuizResponseDto(
-            uuid: $data['uuid'],
-            title: $data['title'],
-            description: $data['description'] ?? null,
-            imageId: $data['imageId'] ?? null,
-            audioId: $data['audioId'] ?? null,
-            videoId: $data['videoId'] ?? null,
-            timeLimit: $data['timeLimit'],
-            passingScore: $data['passingScore'],
-            status: QuizStatusEnum::from($data['status']),
+        return $this->handleResponse(
+            $response,
+            fn(array $responseData) => $this->mapper->fromResponseDataToDto($responseData)
         );
     }
 

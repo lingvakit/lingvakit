@@ -5,17 +5,13 @@ import {PropertyBlock} from "../../../../shared/ui/blocks/PropertyBlock";
 import {formatDurationToText} from "../../../../shared/lib/converter";
 import {useState} from "react";
 import {noImageLink} from "../../../../shared/constants/links";
-import {QuestionType} from "../../../../entities/question/model/types";
+import {QuestionGroup} from "../../../../entities/questionGroup/model/types";
+import {questionTypeDictionary, questionTypeOptions} from "../../../../entities/question/model/constants";
 
 export function QuizDetailsPage() {
     const quiz = useLoaderData() as Quiz;
 
     const {courseId, moduleId} = useParams();
-
-    const questionTypes: QuestionType[] = [
-        'single_choice',
-        'multiple_choice'
-    ];
 
     const [isOpenDropdownMenu, setIsOpenDropdownMenu] = useState(false);
 
@@ -93,12 +89,12 @@ export function QuizDetailsPage() {
                                         </button>
 
                                         <div className={`dropdown-menu ${isOpenDropdownMenu ? 'show' : ''}`}>
-                                            {questionTypes.map((questionType, i) => (
+                                            {questionTypeOptions.map((questionType, i) => (
                                                 <Link
                                                     key={i}
-                                                    to={`/dashboard/coursesReact/${courseId}/modules/${moduleId}/quizzes/${quiz.uuid}/questionGroups/create?type=${questionType}`}
+                                                    to={`/dashboard/coursesReact/${courseId}/modules/${moduleId}/quizzes/${quiz.uuid}/questionGroups/create?type=${questionType.value}`}
                                                     className="dropdown-item"
-                                                ><i className="la la-plus"></i>{questionType}</Link>
+                                                ><i className="la la-plus"></i>{questionType.label}</Link>
                                             ))}
                                         </div>
                                     </div>
@@ -107,39 +103,43 @@ export function QuizDetailsPage() {
                         </div>
 
                         <div className="widget-body">
-                            <div className="table-responsive">
-                                <table id="sorting-table" className="table mb-0">
-                                    <thead>
-                                    <tr>
-                                        <th>Вопрос</th>
-                                        <th>Тип вопроса</th>
-                                        <th>Действия</th>
-                                    </tr>
-                                    </thead>
+                            {quiz.questionGroups && (
+                                <div className="table-responsive">
+                                    <table id="sorting-table" className="table mb-0">
+                                        <thead>
+                                        <tr>
+                                            <th>Группа вопросов</th>
+                                            <th>Тип вопросов</th>
+                                            <th>Действия</th>
+                                        </tr>
+                                        </thead>
 
-                                    <tbody>
+                                        <tbody>
+                                        {quiz.questionGroups.map((questionGroup: QuestionGroup)=> (
+                                            <tr key={questionGroup.uuid}>
+                                                <td className="text-primary">{questionGroup.title}</td>
 
-                                    <tr>
-                                        <td className="text-primary">question title</td>
-                                        <td>question type</td>
+                                                <td>{questionTypeDictionary[questionGroup.questionType]}</td>
 
-                                        <td className="td-actions">
-                                            <a href="">
-                                                <i className="la la-eye edit" />
-                                            </a>
+                                                <td className="td-actions">
+                                                    <a href="">
+                                                        <i className="la la-eye edit" />
+                                                    </a>
 
-                                            <a href="">
-                                                <i className="la la-edit edit" />
-                                            </a>
+                                                    <a href="">
+                                                        <i className="la la-edit edit" />
+                                                    </a>
 
-                                            <a href="#">
-                                                <i className="la la-close delete" />
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                                                    <a href="#">
+                                                        <i className="la la-close delete" />
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>

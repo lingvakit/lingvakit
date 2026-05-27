@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Application\Quiz\Handlers;
 
-use App\Integration\Quiz\Dto\QuizDto;
+use App\Application\Quiz\Dto\Response\QuizDto;
 
 interface QuizDetailsHandlerInterface
 {

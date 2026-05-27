@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Integration\Quiz\Dto;
+namespace App\Integration\Quiz\Dto\Response;
 
 use App\Domain\Quiz\Enum\QuizStatusEnum;
 
-class QuizResponseDto
+class QuizDto
 {
     public function __construct(
         public string $uuid,
@@ -17,6 +17,9 @@ class QuizResponseDto
         public int $timeLimit,
         public int $passingScore,
         public QuizStatusEnum $status,
+
+        /** @var QuestionsGroupDto[] */
+        public array $questionGroups = [],
     ) {
     }
 }

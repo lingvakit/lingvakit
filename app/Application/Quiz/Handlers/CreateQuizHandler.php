@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 namespace App\Application\Quiz\Handlers;
 
+use App\Application\Quiz\Dto\Response\QuizDto;
 use App\Application\Quiz\Mapper\QuizMapper;
 use App\Infrastructure\Persistence\Repository\TopicRepositoryInterface;
 use App\Integration\Quiz\Client\QuizClient;
-use App\Integration\Quiz\Dto\QuizCreateRequestDto;
-use App\Integration\Quiz\Dto\QuizDto;
+use App\Integration\Quiz\Dto\Request\Quiz\QuizCreateRequestDto;
 use App\Integration\Quiz\Exception\QuizCreateFailedException;
 use Illuminate\Support\Facades\DB;
 
