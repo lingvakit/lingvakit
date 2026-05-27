@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\UI\Http\Api\Admin\Resources\Quiz;
 
-use App\Integration\Quiz\Dto\QuizDto;
+use App\Application\Quiz\Dto\Response\QuizDto;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class QuizDetailsResource extends JsonResource
@@ -22,6 +22,7 @@ class QuizDetailsResource extends JsonResource
             'passingScore' => $this->passingScore,
             'orderIndex' => $this->orderIndex,
             'status' => $this->status,
+            'questionGroups' => $this->questionGroups,
         ];
     }
 }

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Integration\Quiz\Dto\QuestionsGroup\Response;
+namespace App\Integration\Quiz\Dto\Response;
 
 use App\Domain\Quiz\Enum\QuestionTypeEnum;
 
@@ -13,7 +13,9 @@ class QuestionsGroupDto
         public ?string $description = null,
         public QuestionTypeEnum $questionType,
         public ?int $orderIndex = null,
-        public ?array $mediaFiles = null,
+
+        /** @var MediaFileDto[] */
+        public ?array $media = null,
         public ?array $meta = null,
 
         /** @var QuestionDto[] */

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Integration\Quiz\Dto\QuestionsGroup\Request;
+namespace App\Integration\Quiz\Dto\Request\Question;
 
 use App\Application\Quiz\Dto\QuestionsGroup\Request\QuestionCreateDto as AppQuestionCreateDto;
 

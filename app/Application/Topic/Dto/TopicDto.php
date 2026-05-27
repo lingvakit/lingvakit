@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace App\Application\Topic\Dto;
 
 use App\Application\Lesson\Dto\LessonDto;
+use App\Application\Quiz\Dto\Response\QuizDto;
 use App\Domain\Topic\Enum\TopicTypeEnum;
-use App\Integration\Quiz\Dto\QuizDto;
 
 class TopicDto
 {

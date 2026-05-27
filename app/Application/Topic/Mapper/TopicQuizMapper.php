@@ -6,7 +6,7 @@ namespace App\Application\Topic\Mapper;
 use App\Application\Quiz\Mapper\QuizMapper;
 use App\Application\Topic\Dto\TopicDto;
 use App\Domain\Topic\Enum\TopicTypeEnum;
-use App\Integration\Quiz\Dto\QuizResponseDto;
+use App\Integration\Quiz\Dto\Response\QuizDto;
 use App\Models\LMS\Topic;
 
 final readonly class TopicQuizMapper
@@ -16,7 +16,7 @@ final readonly class TopicQuizMapper
     ) {
     }
 
-    public function fromModel(Topic $topic, QuizResponseDto $quizResponseDto): TopicDto
+    public function fromModel(Topic $topic, QuizDto $quizResponseDto): TopicDto
     {
         return new TopicDto(
             id: $topic->id,

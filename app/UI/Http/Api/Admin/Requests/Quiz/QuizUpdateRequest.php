@@ -3,7 +3,7 @@
 namespace App\UI\Http\Api\Admin\Requests\Quiz;
 
 use App\Domain\Quiz\Enum\QuizStatusEnum;
-use App\Integration\Quiz\Dto\QuizUpdateRequestDto;
+use App\Integration\Quiz\Dto\Request\Quiz\QuizUpdateRequestDto;
 use App\UI\Http\Api\Admin\Requests\AbstractFormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Integration\Quiz\Dto;
+namespace App\Integration\Quiz\Dto\Request\Quiz;
 
 use App\Domain\Quiz\Enum\QuizStatusEnum;
 

@@ -1,10 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Integration\Quiz\Dto;
+namespace App\Application\Quiz\Dto\Response;
 
 use App\Application\Media\Dto\MediaFileDto;
 use App\Domain\Quiz\Enum\QuizStatusEnum;
+use App\Integration\Quiz\Dto\Response\QuestionsGroupDto;
 use Symfony\Component\Uid\Uuid;
 
 final readonly class QuizDto
@@ -20,6 +21,9 @@ final readonly class QuizDto
         public int $passingScore,
         public QuizStatusEnum $status,
         public ?int $orderIndex = null,
+
+        /** @var QuestionsGroupDto[] */
+        public array $questionGroups = [],
     ) {
     }
 }

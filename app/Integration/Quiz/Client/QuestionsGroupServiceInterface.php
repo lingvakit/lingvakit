@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Integration\Quiz\Client;
 
 use App\Application\Quiz\Dto\QuestionsGroup\Request\QuestionsGroupCreateDto;
-use App\Integration\Quiz\Dto\QuestionsGroup\Response\QuestionsGroupDto;
+use App\Integration\Quiz\Dto\Response\QuestionsGroupDto;
 
 interface QuestionsGroupServiceInterface
 {
