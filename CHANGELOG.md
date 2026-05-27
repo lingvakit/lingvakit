@@ -2,6 +2,12 @@
 
 ---
 
+## [1.31.0] - 2026-05-27
+### Changed:
+* Rename main branch to "main"
+
+---
+
 ## [1.30.1] - 2026-05-26
 ### Added:
 * Make page for creating questions group in React UI
