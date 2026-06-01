@@ -2,6 +2,12 @@
 
 ---
 
+## [1.33.0] - 2026-06-02
+### Added:
+* Upload media files via modal window
+
+---
+
 ## [1.32.0] - 2026-05-27
 ### Added:
 * Display question group on quiz page in react ui

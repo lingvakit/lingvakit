@@ -9,4 +9,14 @@ enum FileType: string
     case File = 'file';
     case Image = 'image';
     case Video = 'video';
+
+    public static function fromExtension(string $extension): self
+    {
+        return match (strtolower($extension)) {
+            'jpg', 'jpeg', 'png', 'gif' => self::Image,
+            'mp3', 'wav' => self::Audio,
+            'mp4' => self::Video,
+            'doc', 'docx', 'xls', 'xlsx', 'pdf' => self::File,
+        };
+    }
 }

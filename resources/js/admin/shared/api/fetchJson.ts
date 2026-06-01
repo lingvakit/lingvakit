@@ -1,3 +1,5 @@
+import {handleResponse} from "./utils/handleResponse";
+
 type FetchJsonOptions = {
     method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
     signal?: AbortSignal;
@@ -23,16 +25,5 @@ export async function fetchJson<T>(
         body: body ? JSON.stringify(body) : undefined,
     });
 
-    const data = await response.json().catch(() => null);
-
-    if (!response.ok) {
-        const error: any = new Error(data?.message || `HTTP ${response.status}`);
-
-        error.status = response.status;
-        error.errors = data?.errors || {};
-
-        throw error;
-    }
-
-    return await data as Promise<T>;
+    return handleResponse<T>(response);
 }

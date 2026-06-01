@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Domain\Media\Enum\FileType;
 use App\Models\LMS\Conformity;
 use App\Models\LMS\Course;
 use App\Models\LMS\Lesson;
@@ -15,11 +16,28 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 
+/**
+ * App\Models\MediaFile
+ *
+ * @property int $id
+ * @property string $filename
+ * @property string $path
+ * @property string $alt
+ * @property FileType $type
+ * @property float $size
+ * @property float $duration
+ * @property int $author_id
+ * @property string|null $title
+ */
 class MediaFile extends Model
 {
     use HasFactory;
 
     protected $fillable = ['title', 'filename', 'path', 'alt', 'type', 'size', 'duration', 'author_id'];
+
+    protected $casts = [
+        'type' => FileType::class,
+    ];
 
     /**
      * @throws Exception
