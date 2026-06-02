@@ -11,6 +11,7 @@ use App\UI\Http\Api\Admin\Controllers\Lesson\LessonDeleteController;
 use App\UI\Http\Api\Admin\Controllers\Lesson\LessonShowController;
 use App\UI\Http\Api\Admin\Controllers\Lesson\LessonUpdateController;
 use App\UI\Http\Api\Admin\Controllers\Media\MediaFileListController;
+use App\UI\Http\Api\Admin\Controllers\Media\MediaFileUploadController;
 use App\UI\Http\Api\Admin\Controllers\Module\ModuleCreateController;
 use App\UI\Http\Api\Admin\Controllers\Module\ModuleShowController;
 use App\UI\Http\Api\Admin\Controllers\Module\ModuleUpdateController;
@@ -22,6 +23,12 @@ use App\UI\Http\Api\Admin\Controllers\Quiz\QuizUpdateController;
 // React admin
 // TODO: add auth middleware !!!
 Route::middleware(['web'])->prefix('react/api')->group(function () {
+    /* media files */
+    Route::prefix('media')->group(function () {
+        Route::get('/', MediaFileListController::class);
+        Route::post('/upload', MediaFileUploadController::class);
+    });
+
     Route::get('categories', CategoryListController::class);
 
     /* courses */
@@ -58,9 +65,4 @@ Route::middleware(['web'])->prefix('react/api')->group(function () {
     Route::prefix('questionGroups')->group(function () {
         Route::post('/', QuestionsGroupCreateController::class);
     });
-
-    Route::prefix('questions')->group(function () {});
-
-    Route::get('media', MediaFileListController::class)
-        ->name('admin.react.media.list');
 });

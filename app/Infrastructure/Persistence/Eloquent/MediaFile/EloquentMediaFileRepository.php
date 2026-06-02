@@ -17,6 +17,19 @@ class EloquentMediaFileRepository implements MediaFileRepositoryInterface
         return MediaFile::find($id);
     }
 
+    public function findByFilenameAndPath(string $filename, string $path): ?MediaFile
+    {
+        return MediaFile::query()
+            ->where('filename', $filename)
+            ->where('path', $path)
+            ->first();
+    }
+
+    public function save(array $data): MediaFile
+    {
+        return MediaFile::create($data);
+    }
+
     public function paginate(int $perPage = 20, string $search = '', string $type = ''): AbstractPaginator
     {
         $query = MediaFile::query()
@@ -45,7 +58,7 @@ class EloquentMediaFileRepository implements MediaFileRepositoryInterface
                 id: $mediaFile->id,
                 fileName: $mediaFile->filename,
                 url: $mediaFile->getPath(),
-                type: FileType::from($mediaFile->type),
+                type: $mediaFile->type,
             )
         );
     }

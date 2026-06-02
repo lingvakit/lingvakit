@@ -21,6 +21,8 @@ use App\Application\Lesson\Handlers\UpdateLessonHandler;
 use App\Application\Lesson\Handlers\UpdateLessonHandlerInterface;
 use App\Application\Media\Handlers\ShowMediaFilesListHandler;
 use App\Application\Media\Handlers\ShowMediaFilesListHandlerInterface;
+use App\Application\Media\Handlers\UploadMediaFileHandler;
+use App\Application\Media\Handlers\UploadMediaFileHandlerInterface;
 use App\Application\Module\Handlers\CreateModuleHandler;
 use App\Application\Module\Handlers\CreateModuleHandlerInterface;
 use App\Application\Module\Handlers\ShowModuleHandler;
@@ -44,6 +46,11 @@ class ApplicationServiceProvider extends ServiceProvider
         $this->app->bind(
             abstract: ShowMediaFilesListHandlerInterface::class,
             concrete: ShowMediaFilesListHandler::class
+        );
+
+        $this->app->bind(
+            abstract: UploadMediaFileHandlerInterface::class,
+            concrete: UploadMediaFileHandler::class
         );
 
         $this->app->bind(

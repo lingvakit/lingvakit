@@ -174,6 +174,7 @@ return [
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
+        App\Providers\IntegrationServiceProvider::class,
         App\Providers\KafkaServiceProvider::class,
         App\Providers\RepositoryServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
