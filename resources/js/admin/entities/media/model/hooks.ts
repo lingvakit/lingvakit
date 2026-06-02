@@ -13,7 +13,8 @@ export function useMediaList(mediaType: MediaType) {
 
     const result = usePaginatedList<MediaFile, {fileType: MediaType}>({
         fetcher: getMediaList,
-        filters
+        filters,
+        appendMode: true
     });
 
     return {

@@ -1,7 +1,7 @@
-import {MediaFile, MediaType} from "../../../../../../entities/media/model/types";
+import { MediaFile, MediaType } from "../../../../../../entities/media/model/types";
 import MediaList from "../MediaList";
-import {useState} from "react";
-import {useMediaList} from "../../../../../../entities/media/model/hooks";
+import { useState } from "react";
+import { useMediaList } from "../../../../../../entities/media/model/hooks";
 
 type Props = {
     mediaType: MediaType,
@@ -13,52 +13,82 @@ export function FileSelectionContent({
     onSelect
 }: Props) {
     const [currentMediaType, setCurrentMediaType] = useState<MediaType>(mediaType);
-    const {mediaFiles} = useMediaList(currentMediaType);
+
+    const {
+        mediaFiles,
+        loading,
+        page,
+        setPage,
+        paginatorMeta
+    } = useMediaList(currentMediaType);
+
+    const handleLoadMoreFiles = (): void => {
+        if (!loading) {
+            setPage(page + 1);
+        }
+    };
+
+    const handleTabChange = (type: MediaType) => {
+        setCurrentMediaType(type);
+        setPage(1);
+    };
+
+    const hasMorePages = paginatorMeta ? page < paginatorMeta.last_page : false;
+
+    const isInitialLoading = loading && page === 1;
+    const isAppending = loading && page > 1;
 
     return (
         <div className="tab-pane fade show active">
-
             <div className="mt-1 mb-4 btn-group">
                 <button
                     type="button"
                     className={`mr-1 btn btn-sm btn-square ${currentMediaType === "image" ? 'btn-dark' : 'btn-outline-secondary'}`}
-                    onClick={() => setCurrentMediaType('image' as MediaType)}
+                    onClick={() => handleTabChange('image')}
                 >Изображения</button>
 
                 <button
                     type="button"
                     className={`mr-1 btn btn-sm btn-square ${currentMediaType === "audio" ? 'btn-dark' : 'btn-outline-secondary'}`}
-                    onClick={() => setCurrentMediaType('audio' as MediaType)}
+                    onClick={() => handleTabChange('audio')}
                 >Аудио</button>
 
                 <button
                     type="button"
                     className={`mr-1 btn btn-sm btn-square ${currentMediaType === "video" ? 'btn-dark' : 'btn-outline-secondary'}`}
-                    onClick={() => setCurrentMediaType('video' as MediaType)}
+                    onClick={() => handleTabChange('video')}
                 >Видео</button>
-            </div>
-
-            <div
-                id="media-loader"
-                className="text-center py-4"
-                style={{display: 'none'}}
-            >
-                <div className="spinner-border text-primary"></div>
-                <div className="mt-2">Загрузка файлов…</div>
             </div>
 
             <MediaList
                 mediaFiles={mediaFiles}
                 onSelect={onSelect}
+                isLoading={isInitialLoading}
             />
 
-            <div className="text-center mt-3">
-                <button
-                    id="load-more"
-                    className="btn btn-outline-primary"
-                    style={{display: 'none'}}
-                >Загрузить ещё</button>
-            </div>
+            {hasMorePages && (
+                <div className="text-center mt-3 pb-3">
+                    <button
+                        id="load-more"
+                        className="btn btn-outline-primary"
+                        onClick={handleLoadMoreFiles}
+                        disabled={loading}
+                    >
+                        {isAppending ? (
+                            <>
+                                <span
+                                    className="spinner-border spinner-border-sm mr-2"
+                                    role="status"
+                                    aria-hidden="true"
+                                ></span>
+                                Загрузка...
+                            </>
+                        ) : (
+                            "Загрузить еще"
+                        )}
+                    </button>
+                </div>
+            )}
         </div>
     );
 }
