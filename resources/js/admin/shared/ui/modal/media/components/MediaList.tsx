@@ -1,11 +1,21 @@
 import { MediaFile } from "../../../../../entities/media/model/types";
+import {SkeletonMediaList} from "./SkeletonMediaList";
 
 type Props = {
-    mediaFiles: MediaFile[];
-    onSelect: (mediaFile: MediaFile) => void;
+    mediaFiles: MediaFile[],
+    onSelect: (mediaFile: MediaFile) => void,
+    isLoading: boolean
 }
 
-export default function MediaList({mediaFiles, onSelect}: Props) {
+export default function MediaList({
+    mediaFiles,
+    onSelect,
+    isLoading
+}: Props) {
+    if (isLoading) {
+        return <SkeletonMediaList />
+    }
+
     if (!mediaFiles.length) {
         return <div className="text-center py-4">Файлы не найдены</div>;
     }

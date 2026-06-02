@@ -2,6 +2,13 @@
 
 ---
 
+## [1.34.0] - 2026-06-02
+### Added:
+* Display skeleton in modal window while files uploading
+* Button "Load more" for uploading more files
+
+---
+
 ## [1.33.0] - 2026-06-02
 ### Added:
 * Upload media files via modal window

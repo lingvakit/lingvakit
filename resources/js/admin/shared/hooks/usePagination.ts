@@ -6,13 +6,14 @@ export function usePaginatedList<
     TItem,
     TFilters extends Record<string, unknown> = {}
 >({
-    fetcher,
-    initialItemsPerPage = 10,
-    filters,
-}: UsePaginatedListParams<TItem, TFilters>
+      fetcher,
+      initialItemsPerPage = 10,
+      filters,
+      appendMode = false,
+  }: UsePaginatedListParams<TItem, TFilters> & { appendMode?: boolean }
 ): UsePaginatedListResult<TItem> {
     const [query, setQuery] = useState("");
-    const queryDebounced = useDebounce(query, 500);
+    const [queryDebounced] = useDebounce(query, 500);
 
     const [itemsPerPage, setItemsPerPage] = useState(initialItemsPerPage);
     const [page, setPage] = useState(1);
@@ -43,7 +44,14 @@ export function usePaginatedList<
                     ...(filters ?? ({} as TFilters)),
                 });
 
-                setItems(response.data ?? []);
+                const newItems = response.data ?? [];
+
+                if (appendMode && page > 1) {
+                    setItems(prevItems => [...prevItems, ...newItems]);
+                } else {
+                    setItems(newItems);
+                }
+
                 setPaginatorMeta(response.meta ?? null);
             } catch (e: unknown) {
                 if (e instanceof Error && e.name !== "AbortError") {
@@ -57,7 +65,14 @@ export function usePaginatedList<
         })();
 
         return () => abortController.abort();
-    }, [fetcher, page, itemsPerPage, queryDebounced, filters]);
+    }, [
+        fetcher,
+        page,
+        itemsPerPage,
+        queryDebounced,
+        filters,
+        appendMode
+    ]);
 
     return {
         items,

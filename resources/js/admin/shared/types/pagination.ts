@@ -23,9 +23,10 @@ export type GetPaginateParams = {
 };
 
 export type UsePaginatedListParams<TItem, TFilters extends Record<string, unknown> = {}> = {
-    fetcher: (params: GetPaginateParams & TFilters) => Promise<Paginated<TItem>>;
-    initialItemsPerPage?: number;
-    filters?: TFilters;
+    fetcher: (params: GetPaginateParams & TFilters) => Promise<Paginated<TItem>>,
+    initialItemsPerPage?: number,
+    filters?: TFilters,
+    appendMode?: boolean
 };
 
 export type UsePaginatedListResult<TItem> = {
