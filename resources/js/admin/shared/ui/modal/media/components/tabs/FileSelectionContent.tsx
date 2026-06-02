@@ -19,7 +19,9 @@ export function FileSelectionContent({
         loading,
         page,
         setPage,
-        paginatorMeta
+        paginatorMeta,
+        query,
+        setQuery
     } = useMediaList(currentMediaType);
 
     const handleLoadMoreFiles = (): void => {
@@ -40,6 +42,16 @@ export function FileSelectionContent({
 
     return (
         <div className="tab-pane fade show active">
+            <div className="mb-3">
+                <input
+                    type="search"
+                    className="form-control"
+                    placeholder="Поиск по названию файла..."
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                />
+            </div>
+
             <div className="mt-1 mb-4 btn-group">
                 <button
                     type="button"

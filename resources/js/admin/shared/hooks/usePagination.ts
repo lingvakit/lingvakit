@@ -13,7 +13,7 @@ export function usePaginatedList<
   }: UsePaginatedListParams<TItem, TFilters> & { appendMode?: boolean }
 ): UsePaginatedListResult<TItem> {
     const [query, setQuery] = useState("");
-    const [queryDebounced] = useDebounce(query, 500);
+    const queryDebounced = useDebounce(query, 500);
 
     const [itemsPerPage, setItemsPerPage] = useState(initialItemsPerPage);
     const [page, setPage] = useState(1);

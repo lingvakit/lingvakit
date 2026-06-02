@@ -2,6 +2,12 @@
 
 ---
 
+## [1.35.0] - 2026-06-02
+### Added:
+* Search media files in modal window
+
+---
+
 ## [1.34.0] - 2026-06-02
 ### Added:
 * Display skeleton in modal window while files uploading

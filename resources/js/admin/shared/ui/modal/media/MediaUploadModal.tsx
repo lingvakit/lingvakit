@@ -45,14 +45,6 @@ export default function MediaUploadModal({isOpen, mediaType, onClose, onSelect}:
             title={modalTitle}
             onClose={onClose}
         >
-            <input
-                id="search"
-                className="form-control mb-3"
-                type="search"
-                name="search"
-                placeholder="Поиск файла по названию"
-            />
-
             <ul className="nav nav-tabs">
                 <li className="nav-item">
                     <a
