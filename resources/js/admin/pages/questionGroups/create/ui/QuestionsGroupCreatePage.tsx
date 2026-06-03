@@ -73,7 +73,6 @@ export function QuestionsGroupCreatePage() {
                 theme={form.fields.title}
                 isOpen={isAiModalOpen}
                 onClose={() => setIsAiModalOpen(false)}
-                isGeneratingProcess={false}
             />
         </PageLayout>
     );

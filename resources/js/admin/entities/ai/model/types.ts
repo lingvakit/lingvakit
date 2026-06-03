@@ -18,10 +18,22 @@ export type Message = {
     role: Role,
 };
 
-export type ChatResponse = {
+export type AiChatPayload = {
+    messages: Message[],
+}
+
+export type AiChatResponse = {
     choices: Choice[],
     created: number,
     model: string,
     object: string,
     usage: Usage
+};
+
+export type UseAiGenerateQuestions = {
+    execute: (
+        payload: AiChatPayload
+    ) => Promise<string | null>,
+    isProcessing: boolean,
+    error: string | null,
 };

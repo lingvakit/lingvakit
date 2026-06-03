@@ -10,7 +10,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import {storeLesson} from "../../topic/api/mutation/storeLesson";
 import {updateLesson} from "../../topic/api/mutation/updateLesson";
 import {deleteLesson} from "../../topic/api/mutation/deleteLesson";
-import {generateAiLessonContent} from "../api/generateAiLessonContent";
+import {generateChatCompletions} from "../../ai/api/generateChatCompletions";
 
 type MutationFn<T, R> = (data: T) => Promise<R>;
 
@@ -112,7 +112,7 @@ export function useGenerateLessonContent(): UseAiLessonGeneratedResult {
                 setIsProcessing(true);
                 setError(null);
 
-                const response = await generateAiLessonContent(payload);
+                const response = await generateChatCompletions(payload);
 
                 return response.choices?.[0].message.content;
             } catch (error: unknown) {
