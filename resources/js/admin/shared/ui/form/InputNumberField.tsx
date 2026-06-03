@@ -34,8 +34,8 @@ export function InputNumberField({
                 onChange={onChange}
                 isRequired={isRequired}
                 placeholder={placeholder}
-                maxDigit={minDigit}
-                minDigit={maxDigit}
+                minDigit={minDigit}
+                maxDigit={maxDigit}
             />
         ) : (
             <HorizontalNumberField

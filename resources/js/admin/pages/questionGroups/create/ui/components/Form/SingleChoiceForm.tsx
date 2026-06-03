@@ -14,6 +14,7 @@ type Props = {
     isSavingProgress: boolean,
     onSubmit: () => Promise<void>,
     openMediaModal: (target: MediaTarget, type: MediaType) => void,
+    openAiModal: () => void,
 };
 
 export function SingleChoiceForm({
@@ -21,6 +22,7 @@ export function SingleChoiceForm({
     isSavingProgress,
     onSubmit,
     openMediaModal,
+    openAiModal
 }: Props) {
     const handleSubmit = async (
         e: FormEvent<HTMLFormElement>
@@ -104,9 +106,14 @@ export function SingleChoiceForm({
                 <div className="col-12">
                     <div className="widget has-shadow">
                         <div
-                            className="widget-header bordered no-actions d-flex align-items-center"
+                            className="widget-header bordered no-actions d-flex justify-content-between align-items-center"
                         >
                             <h4>Вопросы</h4>
+                            <button
+                                className="btn btn-gradient-04"
+                                type="button"
+                                onClick={openAiModal}
+                            >ИИ-генерация вопросов</button>
                         </div>
 
                         <div className="widget-body">
