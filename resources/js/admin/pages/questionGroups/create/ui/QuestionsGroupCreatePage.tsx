@@ -7,6 +7,8 @@ import {useQuestionGroupForm} from "../../../../features/questionGroup/model/use
 import {SingleChoiceForm} from "./components/Form/SingleChoiceForm";
 import {useCreateQuestionGroup} from "../../../../entities/questionGroup/model/hooks";
 import {useParams} from "react-router-dom";
+import {AiQuestionGeneratorFormModal} from "../../../../shared/ui/modal/ai-generator/AiQuestionGeneratorFormModal";
+import {useState} from "react";
 
 export function QuestionsGroupCreatePage() {
     const {quizUuid} = useParams();
@@ -14,6 +16,8 @@ export function QuestionsGroupCreatePage() {
     if (!quizUuid) {
         throw new Error('Quiz UUID is required');
     }
+
+    const [isAiModalOpen, setIsAiModalOpen] = useState(false);
 
     const {
         execute,
@@ -55,6 +59,7 @@ export function QuestionsGroupCreatePage() {
                 isSavingProgress={isSavingProcess}
                 onSubmit={handleSubmit}
                 openMediaModal={mediaModal.open}
+                openAiModal={() => setIsAiModalOpen(true)}
             />
 
             <MediaUploadModal
@@ -62,6 +67,13 @@ export function QuestionsGroupCreatePage() {
                 mediaType={mediaModal.mediaType}
                 onClose={mediaModal.close}
                 onSelect={mediaModal.handleSelect}
+            />
+
+            <AiQuestionGeneratorFormModal
+                theme={form.fields.title}
+                isOpen={isAiModalOpen}
+                onClose={() => setIsAiModalOpen(false)}
+                isGeneratingProcess={false}
             />
         </PageLayout>
     );
