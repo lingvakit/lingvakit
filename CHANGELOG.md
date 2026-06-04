@@ -2,6 +2,12 @@
 
 ---
 
+## [1.36.0] - 2026-06-04
+### Added:
+* Generate questions in question group create form with GigaChat
+
+---
+
 ## [1.35.0] - 2026-06-02
 ### Added:
 * Search media files in modal window

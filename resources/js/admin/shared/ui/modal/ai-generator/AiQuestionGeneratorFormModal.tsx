@@ -50,9 +50,6 @@ export function AiQuestionGeneratorFormModal({
                 form.fields.questionOptionsQty
             );
 
-            // TODO: Remove this after code will be tested
-            // const response = "{\"topic\": \"Веселый китайский язык для детей от 7 лет\", \"questions\": [{\"id\": 1, \"question\": \"zhī zhū zuò shénme？(Что делает обезьяна?)\", \"options\": [{\"id\": \"A\", \"text\": \"chī jiǎo 吃糍饨(есть цзяньао)\"}, {\"id\": \"B\", \"text\": \"wán yóuyǒu 玩游圈(играть с мячиком)\"}, {\"id\": \"C\", \"text\": \"pāi shēnggān 拍棕肩(бить по плечу)\"}, {\"id\": \"D\", \"text\": \"zài shùshāng 在树上(сидеть на дереве)\"}], \"correct_answer_id\": \"D\", \"explanation\": \"Правильный ответ D, потому что 'zài shùshang' означает 'на дереве', а обезьяны часто изображаются сидящими на деревьях.\"}, {\"id\": 2, \"question\": \"māma shuō nǐ hěn dàojiàng. (Мама сказала, что ты очень...)\", \"options\": [{\"id\": \"A\", \"text\": \"xiǎoxìng 小心翼翼(осторожный)\"}, {\"id\": \"B\", \"text\": \"yǒuxiǎn 愚钝(глупый)\"}, {\"id\": \"C\", \"text\": \"dàojiàng 勇敢(смелый)\"}, {\"id\": \"D\", \"text\": \"guāngjìng 光荣(гордый)\"}], \"correct_answer_id\": \"C\", \"explanation\": \"Правильный ответ C, так как 'dàojiàng' означает 'смелый'. Мама обычно хвалит ребенка за смелость.\"}]}";
-
             const response = await execute({
                 messages: [
                     { content: systemPrompt, role: "system" },
