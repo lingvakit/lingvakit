@@ -2,6 +2,7 @@ import {ChangeEvent, useState} from "react";
 import {MediaFile} from "../../../entities/media/model/types";
 import {FontSize} from "./types";
 import {QuestionPayload, QuestionType} from "../../../entities/question/model/types";
+import {AiGeneratedQuestionsGroupPayload} from "../../../entities/questionGroup/model/types";
 
 /* TODO: Check if need to remove it */
 export type OptionValues = {
@@ -241,6 +242,55 @@ export function useQuestionGroupForm(initial?: Partial<FormValues>) {
         }))
     };
 
+    const applyAiData = (aiData: AiGeneratedQuestionsGroupPayload) => {
+        const generatedQuestions: QuestionPayload[] = aiData.questions.map((aiQ) => {
+            const questionUuid = crypto.randomUUID();
+
+            const optionsWithUuid = aiQ.options.map(opt => ({
+                uuid: crypto.randomUUID(),
+                text: opt.text,
+                _originalAiId: opt.id
+            }));
+
+            const correctOption = optionsWithUuid.find(
+                opt => opt._originalAiId === aiQ.correct_answer_id
+            );
+
+            const cleanOptions: OptionValues[] = optionsWithUuid.map(
+                ({ uuid, text }) => ({ uuid, text })
+            );
+
+            return {
+                uuid: questionUuid,
+                text: aiQ.question,
+                type: "single_choice",
+                explanation: aiQ.explanation,
+                points: 10,
+                orderIndex: null,
+                settings: null,
+                answer: {
+                    type: 'single_choice',
+                    value: [correctOption ? correctOption.uuid : '']
+                },
+                options: cleanOptions
+            };
+        });
+
+        setForm(prev => {
+            const isInitialEmpty = prev.questions.length === 1
+                && !prev.questions[0].text
+                && prev.questions[0].options.every(o => !o.text);
+
+            const existingQuestions = isInitialEmpty ? [] : prev.questions;
+
+            return {
+                ...prev,
+                title: prev.title.trim() === '' ? aiData.topic : prev.title,
+                questions: [...existingQuestions, ...generatedQuestions]
+            };
+        });
+    };
+
     return {
         fields: form,
         handlers: {
@@ -251,7 +301,8 @@ export function useQuestionGroupForm(initial?: Partial<FormValues>) {
             addOption,
             updateQuestion,
             updateOption,
-            setCorrectOption
+            setCorrectOption,
+            applyAiData
         }
     };
 }

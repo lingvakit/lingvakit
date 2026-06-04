@@ -1,8 +1,8 @@
-import BaseModal from "../BaseModal.tsx";
+import BaseModal from "../BaseModal";
 import {FormEvent, useEffect, useState} from "react";
-import {useGenerateLessonContent} from "../../../../entities/lesson/model/hooks";
 import {useLessonForm} from "../../../../features/lesson/create/model/useLessonForm";
 import {DifficultyLevel} from "../../../../entities/lesson/model/types";
+import {useAiGenerateMessage} from "../../../../entities/ai/model/hooks";
 
 type Props = {
     lessonTheme: string;
@@ -11,7 +11,12 @@ type Props = {
     form: ReturnType<typeof useLessonForm>
 };
 
-export function AiLessonContentFormModal({lessonTheme, isOpen, onClose, form}: Props) {
+export function AiLessonContentFormModal({
+    lessonTheme,
+    isOpen,
+    onClose,
+    form
+}: Props) {
     const [title, setTitle] = useState('');
     const [difficultyLevel, setDifficultyLevel] = useState<DifficultyLevel>('hard');
     const difficultyLevelOptions = [
@@ -28,7 +33,7 @@ export function AiLessonContentFormModal({lessonTheme, isOpen, onClose, form}: P
 
     const {
         execute,
-    } = useGenerateLessonContent();
+    } = useAiGenerateMessage();
 
     const handleSubmit = async (
         e: FormEvent<HTMLFormElement>,

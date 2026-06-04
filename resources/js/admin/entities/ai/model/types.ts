@@ -1,39 +1,31 @@
-type Role = "assistant" | "system" | "user";
+type AiRole = "assistant" | "system" | "user";
 
-type Usage = {
+type AiUsage = {
     promptTokens: number,
     completionTokens: number,
     totalTokens: number,
     precachedPromptTokens: number
 };
 
-type Choice = {
-    message: Message,
+export type AiMessage = {
+    content: string,
+    role: AiRole,
+};
+
+type AiChoice = {
+    message: AiMessage,
     index: number,
     finishReason: string
 };
 
-export type Message = {
-    content: string,
-    role: Role,
+export type AiChatPayload = {
+    messages: AiMessage[],
 };
 
-export type AiChatPayload = {
-    messages: Message[],
-}
-
-export type AiChatResponse = {
-    choices: Choice[],
+export type AiChatResponseDto = {
+    choices: AiChoice[],
     created: number,
     model: string,
     object: string,
-    usage: Usage
-};
-
-export type UseAiGenerateQuestions = {
-    execute: (
-        payload: AiChatPayload
-    ) => Promise<string | null>,
-    isProcessing: boolean,
-    error: string | null,
+    usage: AiUsage
 };

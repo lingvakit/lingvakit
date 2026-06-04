@@ -25,3 +25,21 @@ export type QuestionGroupPayload = {
     },
     questions: QuestionPayload[],
 }
+
+type AiOptionPayload = {
+    id: string,
+    text: string
+};
+
+type AiQuestionPayload = {
+    id: number,
+    question: string,
+    options: AiOptionPayload[],
+    correct_answer_id: string,
+    explanation: string
+};
+
+export type AiGeneratedQuestionsGroupPayload = {
+    topic: string,
+    questions: AiQuestionPayload[]
+};

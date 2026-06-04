@@ -1,15 +1,21 @@
 import {useCallback, useState} from "react";
-import {AiChatPayload, UseAiGenerateQuestions} from "./types";
+import {AiChatPayload} from "./types";
 import {generateChatCompletions} from "../api/generateChatCompletions";
 
-export function useAiGenerateQuestions(): UseAiGenerateQuestions {
+type UseAiGenerateMessageReturn = {
+    execute: (payload: AiChatPayload) => Promise<string|null>,
+    isProcessing: boolean,
+    error: string|null,
+};
+
+export function useAiGenerateMessage(): UseAiGenerateMessageReturn {
     const [isProcessing, setIsProcessing] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
     const execute = useCallback(
         async (
             payload: AiChatPayload
-        ): Promise<string | null> => {
+        ): Promise<string|null> => {
             try {
                 setIsProcessing(true);
                 setError(null);
@@ -31,7 +37,6 @@ export function useAiGenerateQuestions(): UseAiGenerateQuestions {
         },
         []
     );
-
 
     return {
         execute,

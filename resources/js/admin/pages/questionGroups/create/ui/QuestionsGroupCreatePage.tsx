@@ -9,6 +9,7 @@ import {useCreateQuestionGroup} from "../../../../entities/questionGroup/model/h
 import {useParams} from "react-router-dom";
 import {AiQuestionGeneratorFormModal} from "../../../../shared/ui/modal/ai-generator/AiQuestionGeneratorFormModal";
 import {useState} from "react";
+import {AiGeneratedQuestionsGroupPayload} from "../../../../entities/questionGroup/model/types";
 
 export function QuestionsGroupCreatePage() {
     const {quizUuid} = useParams();
@@ -48,6 +49,13 @@ export function QuestionsGroupCreatePage() {
         });
     };
 
+    const handleAiGenerateSuccess = (
+        payload: AiGeneratedQuestionsGroupPayload
+    ) => {
+        form.handlers.applyAiData(payload);
+        setIsAiModalOpen(false);
+    };
+
     if (error) {
         return <>Ошибка: {error}</>
     }
@@ -73,6 +81,7 @@ export function QuestionsGroupCreatePage() {
                 theme={form.fields.title}
                 isOpen={isAiModalOpen}
                 onClose={() => setIsAiModalOpen(false)}
+                onSuccess={handleAiGenerateSuccess}
             />
         </PageLayout>
     );
