@@ -4,18 +4,26 @@ import {InputTextField} from "../../form/InputTextField";
 import {InputNumberField} from "../../form/InputNumberField";
 import {TextareaField} from "../../form/TextareaField";
 import {useAiQuestionForm} from "../../../hooks/useAiQuestionForm";
-import {useAiGenerateQuestions} from "../../../../entities/ai/model/hooks";
+import {useAiGenerateMessage} from "../../../../entities/ai/model/hooks";
+import {AiGeneratedQuestionsGroupPayload} from "../../../../entities/questionGroup/model/types";
+import {
+    getQuizSystemPrompt,
+    getQuizUserPrompt,
+    parseAiQuizResponse
+} from "../../../../features/questionGroup/utils/ai-quiz-helpers";
 
 type Props = {
     theme: string,
     isOpen: boolean,
     onClose: () => void,
+    onSuccess: (data: AiGeneratedQuestionsGroupPayload) => void
 };
 
 export function AiQuestionGeneratorFormModal({
     theme,
     isOpen,
-    onClose
+    onClose,
+    onSuccess
 }: Props) {
     const form = useAiQuestionForm({theme});
 
@@ -26,35 +34,39 @@ export function AiQuestionGeneratorFormModal({
     const {
         execute,
         isProcessing
-    } = useAiGenerateQuestions();
+    } = useAiGenerateMessage();
 
     const handleSubmit = async (
         e: FormEvent<HTMLFormElement>,
     ): Promise<void> => {
         e.preventDefault();
 
-        /* TODO: Open this code after response will be tested */
-        // const systemPrompt = `Ты — профессиональный преподаватель китайского языка и составитель тестов. Твоя задача — генерировать проверочные вопросы. Твой ответ должен быть ИСКЛЮЧИТЕЛЬНО в формате валидного JSON. Никакого приветствия, текста до или после JSON. Не используй markdown-разметку, возвращай только чистый JSON-объект.`;
-        // const userPrompt = `Сгенерируй 2 вопроса по китайскому языку на тему: \\"Веселый китайский язык для детей от 7 лет\\".\\n\\nТребования к вопросам:\\n1. Каждый вопрос должен содержать сам вопрос (иероглифы + пиньинь + перевод на русский).\\n2. У каждого вопроса должно быть ровно 4 варианта ответа.\\n3. Только один вариант должен быть правильным.\\n4. Для каждого вопроса добавь краткое объяснение правильного ответа.\\n\\nОтвет должен строго соответствовать следующей JSON-структуре:\\n{\\n \\"topic\\": \\"{ТЕМА_ДЛЯ_ГЕНЕРАЦИИ}\\",\\n \\"questions\\": [\\n {\\n \\"id\\": 1,\\n \\"question\\": \\"Текст вопроса (иероглифы + пиньинь + русский)\\",\\n \\"options\\": [\\n {\\"id\\": \\"A\\", \\"text\\": \\"Вариант ответа 1\\"},\\n {\\"id\\": \\"B\\", \\"text\\": \\"Вариант ответа 2\\"},\\n {\\"id\\": \\"C\\", \\"text\\": \\"Вариант ответа 3\\"},\\n {\\"id\\": \\"D\\", \\"text\\": \\"Вариант ответа 4\\"}\\n ],\\n \\"correct_answer_id\\": \\"A\\",\\n \\"explanation\\": \\"Объяснение правильного ответа...\\"\\n }\\n ]\\n}`;
+        try {
+            const systemPrompt = getQuizSystemPrompt();
+            const userPrompt = getQuizUserPrompt(
+                form.fields.theme,
+                form.fields.description,
+                form.fields.questionsQty,
+                form.fields.questionOptionsQty
+            );
 
-        // const response = await execute({
-        //     messages: [
-        //         {
-        //             content: systemPrompt,
-        //             role: "system"
-        //         },
-        //         {
-        //             content: userPrompt,
-        //             role: "user"
-        //         }
-        //     ]
-        // });
+            // TODO: Remove this after code will be tested
+            // const response = "{\"topic\": \"Веселый китайский язык для детей от 7 лет\", \"questions\": [{\"id\": 1, \"question\": \"zhī zhū zuò shénme？(Что делает обезьяна?)\", \"options\": [{\"id\": \"A\", \"text\": \"chī jiǎo 吃糍饨(есть цзяньао)\"}, {\"id\": \"B\", \"text\": \"wán yóuyǒu 玩游圈(играть с мячиком)\"}, {\"id\": \"C\", \"text\": \"pāi shēnggān 拍棕肩(бить по плечу)\"}, {\"id\": \"D\", \"text\": \"zài shùshāng 在树上(сидеть на дереве)\"}], \"correct_answer_id\": \"D\", \"explanation\": \"Правильный ответ D, потому что 'zài shùshang' означает 'на дереве', а обезьяны часто изображаются сидящими на деревьях.\"}, {\"id\": 2, \"question\": \"māma shuō nǐ hěn dàojiàng. (Мама сказала, что ты очень...)\", \"options\": [{\"id\": \"A\", \"text\": \"xiǎoxìng 小心翼翼(осторожный)\"}, {\"id\": \"B\", \"text\": \"yǒuxiǎn 愚钝(глупый)\"}, {\"id\": \"C\", \"text\": \"dàojiàng 勇敢(смелый)\"}, {\"id\": \"D\", \"text\": \"guāngjìng 光荣(гордый)\"}], \"correct_answer_id\": \"C\", \"explanation\": \"Правильный ответ C, так как 'dàojiàng' означает 'смелый'. Мама обычно хвалит ребенка за смелость.\"}]}";
 
+            const response = await execute({
+                messages: [
+                    { content: systemPrompt, role: "system" },
+                    { content: userPrompt, role: "user" }
+                ]
+            });
 
-        const responseExample = "{\"topic\": \"Веселый китайский язык для детей от 7 лет\", \"questions\": [{\"id\": 1, \"question\": \"zhī zhū zuò shénme？(Что делает обезьяна?)\", \"options\": [{\"id\": \"A\", \"text\": \"chī jiǎo 吃糍饨(есть цзяньао)\"}, {\"id\": \"B\", \"text\": \"wán yóuyǒu 玩游圈(играть с мячиком)\"}, {\"id\": \"C\", \"text\": \"pāi shēnggān 拍棕肩(бить по плечу)\"}, {\"id\": \"D\", \"text\": \"zài shùshāng 在树上(сидеть на дереве)\"}], \"correct_answer_id\": \"D\", \"explanation\": \"Правильный ответ D, потому что 'zài shùshang' означает 'на дереве', а обезьяны часто изображаются сидящими на деревьях.\"}, {\"id\": 2, \"question\": \"māma shuō nǐ hěn dàojiàng. (Мама сказала, что ты очень...)\", \"options\": [{\"id\": \"A\", \"text\": \"xiǎoxìng 小心翼翼(осторожный)\"}, {\"id\": \"B\", \"text\": \"yǒuxiǎn 愚钝(глупый)\"}, {\"id\": \"C\", \"text\": \"dàojiàng 勇敢(смелый)\"}, {\"id\": \"D\", \"text\": \"guāngjìng 光荣(гордый)\"}], \"correct_answer_id\": \"C\", \"explanation\": \"Правильный ответ C, так как 'dàojiàng' означает 'смелый'. Мама обычно хвалит ребенка за смелость.\"}]}";
-        const data = JSON.parse(responseExample);
-
-        console.log(data);
+            if (response) {
+                const data = parseAiQuizResponse(response);
+                onSuccess(data);
+            }
+        } catch (error) {
+            console.error("Failed to parse AI response:", error);
+        }
     }
 
     return (
