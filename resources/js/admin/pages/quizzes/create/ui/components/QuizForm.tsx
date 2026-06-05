@@ -91,6 +91,7 @@ export function QuizForm({
                             <InputMediaFiles
                                 mediaFiles={form.fields.mediaFiles}
                                 onOpenMediaModal={handleOpenMediaModal}
+                                onRemoveMediaFile={form.handlers.removeMediaFile}
                             />
 
                             <InputNumberField

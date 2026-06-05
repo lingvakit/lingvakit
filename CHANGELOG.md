@@ -2,6 +2,12 @@
 
 ---
 
+## [1.36.1] - 2026-06-05
+### Fixed:
+* Impossible unattach file after media file was attached in any place of form
+
+---
+
 ## [1.36.0] - 2026-06-04
 ### Added:
 * Generate questions in question group create form with GigaChat

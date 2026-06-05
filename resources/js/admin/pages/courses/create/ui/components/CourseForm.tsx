@@ -2,12 +2,12 @@ import {FormEvent} from "react";
 import { Category } from "../../../../../entities/category/model/types";
 import { useCourseCreateForm } from "../../../../../features/course/create/model/useCourseCreateForm";
 import TextareaEditor from "../../../../../shared/ui/textarea-editor/TextareaEditor";
-import InputMedia from "../../../../../shared/ui/input-media/InputMedia";
 import SelectDifficulty from "../../../../../shared/ui/select-difficulty/SelectDifficulty";
 import {useCKEditor} from "../../../../../shared/ui/modal/media/useCKEditor";
 import SelectPaidTypeField from "../../../../../shared/ui/select-paid-type/SelectPaidTypeField";
 import IsNewCheckbox from "./Form/IsNewCheckbox.tsx";
 import IsPublishedCheckbox from "./Form/IsPublishedCheckbox";
+import {InputMediaFiles} from "../../../../../shared/ui/form/InputMediaFiles";
 
 type Props = {
     categoryList: Category[];
@@ -69,8 +69,8 @@ export default function CourseForm(
                                                 id="category_select"
                                                 name="categoryId"
                                                 className="custom-select form-control"
-                                                value={form.categoryId}
-                                                onChange={form.handleInputChange}
+                                                value={form.fields.categoryId}
+                                                onChange={form.handlers.changeInput}
                                             >
                                                 <option value="" disabled>
                                                     Категория
@@ -112,8 +112,8 @@ export default function CourseForm(
                                         name="title"
                                         className="form-control"
                                         placeholder="Наименование"
-                                        value={form.title}
-                                        onChange={form.handleInputChange}
+                                        value={form.fields.title}
+                                        onChange={form.handlers.changeInput}
                                     />
 
                                     {fieldErrors?.title && (
@@ -128,32 +128,31 @@ export default function CourseForm(
                                 <label className="col-lg-3 form-control-label">Описание</label>
                                 <div className="col-lg-9">
                                     <TextareaEditor
-                                        value={form.description}
-                                        onChange={form.setDescription}
-                                        onOpenMediaModal={form.handleOpenMediaModal}
+                                        value={form.fields.description}
+                                        onChange={form.handlers.setDescription}
+                                        onOpenMediaModal={form.handlers.openMediaModal}
                                         setEditorRef={ck.setEditorRef}
                                     />
                                 </div>
                             </div>
 
-                            <InputMedia
-                                image={form.image}
-                                video={form.video}
-                                audio={form.audio}
-                                onOpenMediaModal={form.handleOpenMediaModal}
+                            <InputMediaFiles
+                                mediaFiles={form.fields.media}
+                                onOpenMediaModal={form.handlers.openMediaModal}
+                                onRemoveMediaFile={form.handlers.removeMediaFile}
                             />
 
                             <SelectDifficulty
-                                value={form.difficultyLevel}
-                                onChange={form.handleInputChange}
+                                value={form.fields.difficultyLevel}
+                                onChange={form.handlers.changeInput}
                             />
 
                             <SelectPaidTypeField
-                                value={form.paidType}
-                                onChange={form.handleInputChange}
+                                value={form.fields.paidType}
+                                onChange={form.handlers.changeInput}
                             />
 
-                            {form.paidType === "paid" && (
+                            {form.fields.paidType === "paid" && (
                                 <>
                                     <div id="price" className="form-group row align-items-center mb-5">
                                         <label className="col-lg-3 form-control-label">Цена</label>
@@ -163,8 +162,8 @@ export default function CourseForm(
                                                 name="price"
                                                 className="form-control"
                                                 placeholder="100"
-                                                value={form.price}
-                                                onChange={form.handleInputChange}
+                                                value={form.fields.price}
+                                                onChange={form.handlers.changeInput}
                                             />
                                         </div>
                                     </div>
@@ -177,8 +176,8 @@ export default function CourseForm(
                                                 name="salePrice"
                                                 className="form-control"
                                                 placeholder="100"
-                                                value={form.salePrice}
-                                                onChange={form.handleInputChange}
+                                                value={form.fields.salePrice}
+                                                onChange={form.handlers.changeInput}
                                             />
                                         </div>
                                     </div>
@@ -186,13 +185,13 @@ export default function CourseForm(
                             )}
 
                             <IsNewCheckbox
-                                value={form.isNew}
-                                onChange={form.handleInputChange}
+                                value={form.fields.isNew}
+                                onChange={form.handlers.changeInput}
                             />
 
                             <IsPublishedCheckbox
-                                value={form.isPublished}
-                                onChange={form.handleInputChange}
+                                value={form.fields.isPublished}
+                                onChange={form.handlers.changeInput}
                             />
 
                             <div className="form-group row align-items-center mb-5">
@@ -205,8 +204,8 @@ export default function CourseForm(
                                         name="duration"
                                         className="form-control"
                                         placeholder="100"
-                                        value={form.duration}
-                                        onChange={form.handleInputChange}
+                                        value={form.fields.duration}
+                                        onChange={form.handlers.changeInput}
                                     />
                                 </div>
                             </div>
