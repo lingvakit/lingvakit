@@ -2,6 +2,7 @@ import {type ChangeEvent, useState} from "react";
 import { CourseCreateFormState } from "./types.ts";
 import { MediaFile, MediaType } from "../../../../entities/media/model/types";
 import {MediaTarget} from "../../../../shared/ui/modal/media/types";
+import {MEDIA_FIELD_BY_TYPE} from "../../../../entities/media/model/constants";
 
 const initialFormState: CourseCreateFormState = {
     title: "",
@@ -21,13 +22,6 @@ const initialFormState: CourseCreateFormState = {
         audio: null,
     },
 };
-
-const mediaFieldByType = {
-    image: "image",
-    video: "video",
-    audio: "audio",
-    file: "file"
-} as const;
 
 const numberFields = [
     "duration",
@@ -79,7 +73,7 @@ export function useCourseCreateForm() {
     };
 
     const handleSelectMediaFile = (file: MediaFile): void => {
-        const field = mediaFieldByType[file.type];
+        const field = MEDIA_FIELD_BY_TYPE[file.type];
 
         setForm((prev) => ({
             ...prev,
@@ -92,27 +86,30 @@ export function useCourseCreateForm() {
         setIsMediaModalOpen(false);
     };
 
+    const handleRemoveMediaFile = (type: MediaType): void => {
+        const field = MEDIA_FIELD_BY_TYPE[type];
+
+        setForm((prev) => ({
+            ...prev,
+            media: {
+                ...prev.media,
+                [field]: null,
+            },
+        }));
+    };
+
     return {
-        title: form.title,
-        description: form.description,
-        difficultyLevel: form.difficultyLevel,
-        duration: form.duration,
-        price: form.price,
-        salePrice: form.salePrice,
-        categoryId: form.categoryId,
-        image: form.media.image,
-        video: form.media.video,
-        audio: form.media.audio,
-        paidType: form.paidType,
-        isNew: form.isNew,
-        isPublished: form.isPublished,
-        isMediaModalOpen,
-        mediaTarget,
-        mediaType,
-        setDescription,
-        handleInputChange,
-        handleOpenMediaModal,
-        handleCloseMediaModal,
-        handleSelectMediaFile,
+        fields: form,
+        handlers: {
+            isMediaModalOpen,
+            mediaTarget,
+            mediaType,
+            setDescription,
+            changeInput: handleInputChange,
+            openMediaModal: handleOpenMediaModal,
+            closeMediaModal: handleCloseMediaModal,
+            selectMediaFile: handleSelectMediaFile,
+            removeMediaFile: handleRemoveMediaFile
+        },
     };
 }

@@ -95,6 +95,7 @@ export default function LessonForm({ckEditor, isSavingProgress, onSubmit, openMe
                             <InputMediaFiles
                                 mediaFiles={form.fields.mediaFiles}
                                 onOpenMediaModal={handleOpenMediaModal}
+                                onRemoveMediaFile={form.handlers.removeMediaFile}
                             />
 
                             <div className="form-group row align-items-center mb-5">

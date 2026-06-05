@@ -1,19 +1,30 @@
 import {MediaFile, MediaType} from "../../../entities/media/model/types";
 import {MediaTarget} from "../modal/media/types";
+import {MouseEvent} from "react";
 
 type Props = {
     mediaFiles: {
-        audio: MediaFile | null;
-        image: MediaFile | null;
-        video: MediaFile | null;
-    };
-    onOpenMediaModal: (target: MediaTarget, type: MediaType) => void;
+        audio: MediaFile|null,
+        image: MediaFile|null,
+        video: MediaFile|null,
+    },
+    onOpenMediaModal: (target: MediaTarget, type: MediaType) => void,
+    onRemoveMediaFile: (type: MediaType) => void,
 };
 
 export function InputMediaFiles({
     mediaFiles,
-    onOpenMediaModal
+    onOpenMediaModal,
+    onRemoveMediaFile
 }: Props) {
+    const removeMediaFileHandler = (
+        e: MouseEvent<HTMLAnchorElement>,
+        type: MediaType
+    ): void => {
+        e.preventDefault();
+        onRemoveMediaFile(type);
+    };
+
     return (
         <div className="form-group row d-flex align-items-center mb-5">
             <label className="col-lg-3 form-control-label">
@@ -30,6 +41,13 @@ export function InputMediaFiles({
                             name="audio"
                             value={mediaFiles.audio.id}
                         />
+                        <div>
+                            <a
+                                href="#"
+                                className="small"
+                                onClick={(e) => removeMediaFileHandler(e, 'audio')}
+                            >Удалить</a>
+                        </div>
                     </div>
                 )}
 
@@ -43,6 +61,13 @@ export function InputMediaFiles({
                             name="image"
                             value={mediaFiles.image.id}
                         />
+                        <div>
+                            <a
+                                href="#"
+                                className="small"
+                                onClick={(e) => removeMediaFileHandler(e, 'image')}
+                            >Удалить</a>
+                        </div>
                     </div>
                 )}
 
@@ -58,6 +83,13 @@ export function InputMediaFiles({
                             name="video"
                             value={mediaFiles.video.id}
                         />
+                        <div>
+                            <a
+                                href="#"
+                                className="small"
+                                onClick={(e) => removeMediaFileHandler(e, 'video')}
+                            >Удалить</a>
+                        </div>
                     </div>
                 )}
 

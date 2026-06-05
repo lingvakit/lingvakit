@@ -1,8 +1,9 @@
 import {ChangeEvent, useState} from "react";
-import {MediaFile} from "../../../entities/media/model/types";
+import {MediaFile, MediaType} from "../../../entities/media/model/types";
 import {FontSize} from "./types";
 import {QuestionPayload, QuestionType} from "../../../entities/question/model/types";
 import {AiGeneratedQuestionsGroupPayload} from "../../../entities/questionGroup/model/types";
+import {MEDIA_FIELD_BY_TYPE} from "../../../entities/media/model/constants";
 
 /* TODO: Check if need to remove it */
 export type OptionValues = {
@@ -291,11 +292,24 @@ export function useQuestionGroupForm(initial?: Partial<FormValues>) {
         });
     };
 
+    const handleRemoveMediaFile = (type: MediaType): void => {
+        const field = MEDIA_FIELD_BY_TYPE[type];
+
+        setForm((prev) => ({
+            ...prev,
+            media: {
+                ...prev.mediaFiles,
+                [field]: null,
+            },
+        }));
+    };
+
     return {
         fields: form,
         handlers: {
             changeText: handleTextChange,
             setMediaFile,
+            removeMediaFile: handleRemoveMediaFile,
             setMetaValue,
             addQuestion,
             addOption,

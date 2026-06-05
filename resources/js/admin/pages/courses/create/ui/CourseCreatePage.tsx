@@ -15,17 +15,17 @@ export default function CourseCreatePage() {
 
     const handleSubmit = async (): Promise<void> => {
         await create({
-            title: form.title.trim(),
-            description: form.description,
-            price: form.price,
-            duration: form.duration,
-            difficultyLevel: form.difficultyLevel,
-            paidType: form.paidType,
-            isNew: form.isNew,
+            title: form.fields.title.trim(),
+            description: form.fields.description,
+            price: form.fields.price,
+            duration: form.fields.duration,
+            difficultyLevel: form.fields.difficultyLevel,
+            paidType: form.fields.paidType,
+            isNew: form.fields.isNew,
             isAllowed: true,
-            categoryId: form.categoryId,
-            image: form.image?.id,
-            video: form.video?.id,
+            categoryId: form.fields.categoryId,
+            image: form.fields.media.image?.id,
+            video: form.fields.media.video?.id,
         });
     };
 
@@ -50,17 +50,17 @@ export default function CourseCreatePage() {
             />
 
             <MediaUploadModal
-                isOpen={form.isMediaModalOpen}
-                mediaType={form.mediaType}
-                onClose={form.handleCloseMediaModal}
+                isOpen={form.handlers.isMediaModalOpen}
+                mediaType={form.handlers.mediaType}
+                onClose={form.handlers.closeMediaModal}
                 onSelect={(file) => {
-                    if (form.mediaTarget === "editor") {
+                    if (form.handlers.mediaTarget === "editor") {
                         ck.handleSelectMediaFile(file);
                     } else {
-                        form.handleSelectMediaFile(file);
+                        form.handlers.selectMediaFile(file);
                     }
 
-                    form.handleCloseMediaModal();
+                    form.handlers.closeMediaModal();
                 }}
             />
         </PageLayout>

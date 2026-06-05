@@ -97,6 +97,7 @@ export function SingleChoiceForm({
                             <InputMediaFiles
                                 mediaFiles={form.fields.mediaFiles}
                                 onOpenMediaModal={handleOpenMediaModal}
+                                onRemoveMediaFile={form.handlers.removeMediaFile}
                             />
                         </div>
                     </div>
@@ -144,6 +145,7 @@ export function SingleChoiceForm({
                                             <InputMediaFiles
                                                 mediaFiles={form.fields.mediaFiles}
                                                 onOpenMediaModal={handleOpenMediaModal}
+                                                onRemoveMediaFile={form.handlers.removeMediaFile}
                                             />
 
                                             <InputNumberField
