@@ -2,6 +2,12 @@
 
 ---
 
+## [1.37.0] - 2026-06-08
+### Optimized:
+* Display image thumbnail relevant for block container in modal window
+
+---
+
 ## [1.36.1] - 2026-06-05
 ### Fixed:
 * Impossible unattach file after media file was attached in any place of form

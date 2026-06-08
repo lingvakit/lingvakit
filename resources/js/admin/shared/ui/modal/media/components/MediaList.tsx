@@ -1,5 +1,6 @@
 import { MediaFile } from "../../../../../entities/media/model/types";
 import {SkeletonMediaList} from "./SkeletonMediaList";
+import {MODAL_IMAGE_THUMB_SIZE} from "../../../../../entities/media/model/constants";
 
 type Props = {
     mediaFiles: MediaFile[],
@@ -33,7 +34,7 @@ export default function MediaList({
                     >
                         {mediaFile.type === "image" && (
                             <img
-                                src={mediaFile.url}
+                                src={`${mediaFile.url}?w=${MODAL_IMAGE_THUMB_SIZE}`}
                                 alt={mediaFile.fileName ?? "image"}
                                 loading="lazy"
                             />
