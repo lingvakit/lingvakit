@@ -2,6 +2,12 @@
 
 ---
 
+## [1.37.1] - 2026-06-09
+### Fixed:
+* Attach media file to relevant place of form
+
+---
+
 ## [1.37.0] - 2026-06-08
 ### Optimized:
 * Display image thumbnail relevant for block container in modal window

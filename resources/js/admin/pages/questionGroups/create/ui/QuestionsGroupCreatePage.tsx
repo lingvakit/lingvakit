@@ -10,6 +10,7 @@ import {useParams} from "react-router-dom";
 import {AiQuestionGeneratorFormModal} from "../../../../shared/ui/modal/ai-generator/AiQuestionGeneratorFormModal";
 import {useState} from "react";
 import {AiGeneratedQuestionsGroupPayload} from "../../../../entities/questionGroup/model/types";
+import {MediaTarget} from "../../../../shared/ui/modal/media/types";
 
 export function QuestionsGroupCreatePage() {
     const {quizUuid} = useParams();
@@ -31,8 +32,8 @@ export function QuestionsGroupCreatePage() {
 
     const mediaModal = useMediaModalManager({
         onCKEditorSelect: ckEditor.handleSelectMediaFile,
-        onFormSelect: (file: MediaFile) => {
-            form.handlers.setMediaFile(file)
+        onFormSelect: (target: MediaTarget, file: MediaFile) => {
+            form.handlers.setMediaFile(target, file)
         }
     });
 

@@ -95,6 +95,7 @@ export function SingleChoiceForm({
                             />
 
                             <InputMediaFiles
+                                target="form"
                                 mediaFiles={form.fields.mediaFiles}
                                 onOpenMediaModal={handleOpenMediaModal}
                                 onRemoveMediaFile={form.handlers.removeMediaFile}
@@ -143,7 +144,8 @@ export function SingleChoiceForm({
                                             />
 
                                             <InputMediaFiles
-                                                mediaFiles={form.fields.mediaFiles}
+                                                target={question.uuid}
+                                                mediaFiles={question.mediaFiles}
                                                 onOpenMediaModal={handleOpenMediaModal}
                                                 onRemoveMediaFile={form.handlers.removeMediaFile}
                                             />

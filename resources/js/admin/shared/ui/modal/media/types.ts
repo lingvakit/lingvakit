@@ -1,1 +1,1 @@
-export type MediaTarget = "editor" | "form";
+export type MediaTarget = "editor" | "form" | string;

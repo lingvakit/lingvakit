@@ -4,7 +4,7 @@ import {MediaTarget} from "./types";
 
 type UseMediaManagerOptions = {
     onCKEditorSelect?: (media: MediaFile) => void;
-    onFormSelect?: (media: MediaFile) => void;
+    onFormSelect?: (target: MediaTarget, media: MediaFile) => void;
 };
 
 export function useMediaModalManager(options?: UseMediaManagerOptions) {
@@ -28,12 +28,10 @@ export function useMediaModalManager(options?: UseMediaManagerOptions) {
     const handleSelect = (
         file: MediaFile
     ) => {
-        if (mediaTarget === "form") {
-            options?.onFormSelect?.(file);
-        }
-
         if (mediaTarget === "editor") {
             options?.onCKEditorSelect?.(file);
+        } else {
+            options?.onFormSelect?.(mediaTarget, file);
         }
 
         close();

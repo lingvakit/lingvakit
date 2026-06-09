@@ -1,11 +1,12 @@
 import {ChangeEvent, useState} from "react";
 import {MediaFile, MediaType} from "../../../entities/media/model/types";
 import {FontSize} from "./types";
-import {QuestionPayload, QuestionType} from "../../../entities/question/model/types";
+import {QuestionType} from "../../../entities/question/model/types";
 import {AiGeneratedQuestionsGroupPayload} from "../../../entities/questionGroup/model/types";
 import {MEDIA_FIELD_BY_TYPE} from "../../../entities/media/model/constants";
+import {MediaTarget} from "../../../shared/ui/modal/media/types";
+import {MediaFields} from "../../../shared/types/form";
 
-/* TODO: Check if need to remove it */
 export type OptionValues = {
     uuid: string,
     text?: string | null,
@@ -14,17 +15,18 @@ export type OptionValues = {
     settings?: {} | null,
 };
 
-/* TODO: Check if need to remove it */
 export type QuestionValues = {
     uuid: string,
     text: string,
+    type: QuestionType,
     explanation?: string | null,
     points: number,
     orderIndex?: number | null,
     settings?: {} | null,
+    mediaFiles: MediaFields,
     answer: {
         type: QuestionType,
-        value: string,
+        value: string[],
     },
     options: OptionValues[],
 };
@@ -35,12 +37,8 @@ type FormValues = {
     meta: {
         fontSize: FontSize
     },
-    mediaFiles: {
-        audio: MediaFile | null,
-        image: MediaFile | null,
-        video: MediaFile | null,
-    },
-    questions: QuestionPayload[],
+    mediaFiles: MediaFields,
+    questions: QuestionValues[],
 };
 
 export function useQuestionGroupForm(initial?: Partial<FormValues>) {
@@ -64,6 +62,11 @@ export function useQuestionGroupForm(initial?: Partial<FormValues>) {
                 points: 10,
                 orderIndex: null,
                 settings: null,
+                mediaFiles: {
+                    audio: null,
+                    image: null,
+                    video: null,
+                },
                 answer: {
                     type: 'single_choice',
                     value: ['']
@@ -94,15 +97,31 @@ export function useQuestionGroupForm(initial?: Partial<FormValues>) {
     };
 
     const setMediaFile = (
+        target: MediaTarget,
         file: MediaFile
-    ) => {
-        setForm(prev => ({
-            ...prev,
-            mediaFiles: {
-                ...prev.mediaFiles,
-                [file.type]: file
+    ): void => {
+        const field = MEDIA_FIELD_BY_TYPE[file.type];
+
+        setForm(prev => {
+            if (target === 'form') {
+                return {
+                    ...prev,
+                    mediaFiles: { ...prev.mediaFiles, [field]: file }
+                };
             }
-        }));
+
+            return {
+                ...prev,
+                questions: prev.questions.map(question =>
+                    question.uuid === target
+                        ? {
+                            ...question,
+                            mediaFiles: { ...question.mediaFiles, [field]: file }
+                        }
+                        : question
+                )
+            };
+        });
     };
 
     const setMetaValue = <
@@ -133,6 +152,11 @@ export function useQuestionGroupForm(initial?: Partial<FormValues>) {
                     points: 10,
                     orderIndex: null,
                     settings: null,
+                    mediaFiles: {
+                        audio: null,
+                        image: null,
+                        video: null
+                    },
                     answer: {
                         type: 'single_choice',
                         value: [''],
@@ -244,7 +268,7 @@ export function useQuestionGroupForm(initial?: Partial<FormValues>) {
     };
 
     const applyAiData = (aiData: AiGeneratedQuestionsGroupPayload) => {
-        const generatedQuestions: QuestionPayload[] = aiData.questions.map((aiQ) => {
+        const generatedQuestions: QuestionValues[] = aiData.questions.map((aiQ) => {
             const questionUuid = crypto.randomUUID();
 
             const optionsWithUuid = aiQ.options.map(opt => ({
@@ -269,6 +293,11 @@ export function useQuestionGroupForm(initial?: Partial<FormValues>) {
                 points: 10,
                 orderIndex: null,
                 settings: null,
+                mediaFiles: {
+                    audio: null,
+                    image: null,
+                    video: null
+                },
                 answer: {
                     type: 'single_choice',
                     value: [correctOption ? correctOption.uuid : '']
@@ -292,16 +321,29 @@ export function useQuestionGroupForm(initial?: Partial<FormValues>) {
         });
     };
 
-    const handleRemoveMediaFile = (type: MediaType): void => {
+    const handleRemoveMediaFile = (target: MediaTarget, type: MediaType): void => {
         const field = MEDIA_FIELD_BY_TYPE[type];
 
-        setForm((prev) => ({
-            ...prev,
-            media: {
-                ...prev.mediaFiles,
-                [field]: null,
-            },
-        }));
+        setForm((prev) => {
+            if (target === 'form') {
+                return {
+                    ...prev,
+                    mediaFiles: { ...prev.mediaFiles, [field]: null }
+                };
+            }
+
+            return {
+                ...prev,
+                questions: prev.questions.map(question =>
+                    question.uuid === target
+                        ? {
+                            ...question,
+                            mediaFiles: { ...question.mediaFiles, [field]: null }
+                        }
+                        : question
+                )
+            };
+        });
     };
 
     return {
