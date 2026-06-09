@@ -1,18 +1,18 @@
-import {MediaFile, MediaType} from "../../../entities/media/model/types";
+import {MediaType} from "../../../entities/media/model/types";
 import {MediaTarget} from "../modal/media/types";
 import {MouseEvent} from "react";
+import {MODAL_IMAGE_THUMB_SIZE} from "../../../entities/media/model/constants";
+import {MediaFields} from "../../types/form";
 
 type Props = {
-    mediaFiles: {
-        audio: MediaFile|null,
-        image: MediaFile|null,
-        video: MediaFile|null,
-    },
+    target: MediaTarget,
+    mediaFiles: MediaFields,
     onOpenMediaModal: (target: MediaTarget, type: MediaType) => void,
-    onRemoveMediaFile: (type: MediaType) => void,
+    onRemoveMediaFile: (target: MediaTarget, type: MediaType) => void,
 };
 
 export function InputMediaFiles({
+    target,
     mediaFiles,
     onOpenMediaModal,
     onRemoveMediaFile
@@ -22,7 +22,7 @@ export function InputMediaFiles({
         type: MediaType
     ): void => {
         e.preventDefault();
-        onRemoveMediaFile(type);
+        onRemoveMediaFile(target, type);
     };
 
     return (
@@ -38,7 +38,7 @@ export function InputMediaFiles({
                         </div>
                         <input
                             type="hidden"
-                            name="audio"
+                            name={`audio_${target}`}
                             value={mediaFiles.audio.id}
                         />
                         <div>
@@ -54,11 +54,15 @@ export function InputMediaFiles({
                 {mediaFiles.image && (
                     <div className="form-group preview">
                         <div className="current-item">
-                            <img src={mediaFiles.image.url} style={{width: 240}} alt=""/>
+                            <img
+                                src={`${mediaFiles.image.url}?w=${MODAL_IMAGE_THUMB_SIZE}`}
+                                style={{width: 240}}
+                                alt={mediaFiles.image.fileName}
+                            />
                         </div>
                         <input
                             type="hidden"
-                            name="image"
+                            name={`image_${target}`}
                             value={mediaFiles.image.id}
                         />
                         <div>
@@ -80,7 +84,7 @@ export function InputMediaFiles({
                         />
                         <input
                             type="hidden"
-                            name="video"
+                            name={`video_${target}`}
                             value={mediaFiles.video.id}
                         />
                         <div>
@@ -96,20 +100,8 @@ export function InputMediaFiles({
                 <button
                     type="button"
                     className="btn btn-primary square mr-1 mb-2 btn-attach"
-                    onClick={() => onOpenMediaModal("form", "audio")}
-                >Выбрать аудио файл</button>
-
-                <button
-                    type="button"
-                    className="btn btn-primary square mr-1 mb-2 btn-attach"
-                    onClick={() => onOpenMediaModal("form","image")}
-                >Выбрать изображение</button>
-
-                <button
-                    type="button"
-                    className="btn btn-primary square mr-1 mb-2 btn-attach"
-                    onClick={() => onOpenMediaModal("form","video")}
-                >Выбрать видео</button>
+                    onClick={() => onOpenMediaModal(target, "image")}
+                >Выбрать медиа файл</button>
             </div>
         </div>
     );
