@@ -1,6 +1,7 @@
 import {ChangeEvent, useState} from "react";
 import {MediaFile, MediaType} from "../../../entities/media/model/types";
 import {MEDIA_FIELD_BY_TYPE} from "../../../entities/media/model/constants";
+import {MediaTarget} from "../../../shared/ui/modal/media/types";
 
 type FormValues = {
     categoryId: number;
@@ -72,12 +73,15 @@ export function useQuizForm(initial?: Partial<FormValues>) {
         }));
     };
 
-    const handleRemoveMediaFile = (type: MediaType): void => {
+    const handleRemoveMediaFile = (
+        target: MediaTarget,
+        type: MediaType
+    ): void => {
         const field = MEDIA_FIELD_BY_TYPE[type];
 
         setForm((prev) => ({
             ...prev,
-            media: {
+            mediaFiles: {
                 ...prev.mediaFiles,
                 [field]: null,
             },

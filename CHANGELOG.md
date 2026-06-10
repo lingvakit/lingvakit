@@ -2,6 +2,12 @@
 
 ---
 
+## [unreleased] - 2026-06-10
+### Fixed:
+* Attaching media files in lesson and quiz forms
+
+---
+
 ## [1.37.1] - 2026-06-09
 ### Fixed:
 * Attach media file to relevant place of form

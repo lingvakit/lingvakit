@@ -9,6 +9,7 @@ import {QuizForm} from "../../create/ui/components/QuizForm";
 import MediaUploadModal from "../../../../shared/ui/modal/media/MediaUploadModal";
 import {useCategoryList} from "../../../../entities/category/model/hooks";
 import {useUpdateQuiz} from "../../../../entities/quiz/model/hooks";
+import {MediaTarget} from "../../../../shared/ui/modal/media/types";
 
 export function QuizEditPage() {
     const quiz = useLoaderData() as Quiz;
@@ -30,7 +31,7 @@ export function QuizEditPage() {
 
     const mediaModal = useMediaModalManager({
         onCKEditorSelect: ckEditor.handleSelectMediaFile,
-        onFormSelect: (file: MediaFile) => {
+        onFormSelect: (target: MediaTarget, file: MediaFile) => {
             form.handlers.setMediaFile(file)
         }
     });

@@ -8,6 +8,7 @@ import {MediaFile} from "../../../../entities/media/model/types";
 import MediaUploadModal from "../../../../shared/ui/modal/media/MediaUploadModal";
 import {useCreateQuiz} from "../../../../entities/quiz/model/hooks";
 import {useParams} from "react-router-dom";
+import {MediaTarget} from "../../../../shared/ui/modal/media/types";
 
 export function QuizCreatePage() {
     const { moduleId } = useParams();
@@ -23,7 +24,7 @@ export function QuizCreatePage() {
 
     const mediaModal = useMediaModalManager({
         onCKEditorSelect: ckEditor.handleSelectMediaFile,
-        onFormSelect: (file: MediaFile) => {
+        onFormSelect: (target: MediaTarget, file: MediaFile) => {
             form.handlers.setMediaFile(file)
         }
     });
