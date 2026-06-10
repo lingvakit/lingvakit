@@ -1,6 +1,7 @@
 import {MediaFile, MediaType} from "../../../../entities/media/model/types";
 import {ChangeEvent, useState} from "react";
 import {MEDIA_FIELD_BY_TYPE} from "../../../../entities/media/model/constants";
+import {MediaTarget} from "../../../../shared/ui/modal/media/types";
 
 type LessonFormValues = {
     title: string;
@@ -47,7 +48,7 @@ export function useLessonForm(initial?: Partial<LessonFormValues>) {
 
     const setMediaFile = (
         file: MediaFile
-    ) => {
+    ): void => {
         setForm(prev => ({
             ...prev,
             mediaFiles: {
@@ -57,14 +58,17 @@ export function useLessonForm(initial?: Partial<LessonFormValues>) {
         }));
     };
 
-    const handleRemoveMediaFile = (type: MediaType): void => {
+    const handleRemoveMediaFile = (
+        target: MediaTarget,
+        type: MediaType
+    ): void => {
         const field = MEDIA_FIELD_BY_TYPE[type];
 
         setForm((prev) => ({
             ...prev,
-            media: {
+            mediaFiles: {
                 ...prev.mediaFiles,
-                [field]: null,
+                [type]: null,
             },
         }));
     };

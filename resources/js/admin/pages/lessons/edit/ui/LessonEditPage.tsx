@@ -10,6 +10,7 @@ import {useLessonForm} from "../../../../features/lesson/create/model/useLessonF
 import MediaUploadModal from "../../../../shared/ui/modal/media/MediaUploadModal";
 import {AiLessonContentFormModal} from "../../../../shared/ui/modal/ai-generator/AiLessonContentFormModal";
 import {useState} from "react";
+import {MediaTarget} from "../../../../shared/ui/modal/media/types";
 
 export function LessonEditPage() {
     const [isAiModalOpen, setIsAiModalOpen] = useState(false);
@@ -31,7 +32,7 @@ export function LessonEditPage() {
 
     const mediaModal = useMediaModalManager({
         onCKEditorSelect: ckEditor.handleSelectMediaFile,
-        onFormSelect: (file: MediaFile) => {
+        onFormSelect: (target: MediaTarget, file: MediaFile) => {
             form.handlers.setMediaFile(file)
         }
     });
