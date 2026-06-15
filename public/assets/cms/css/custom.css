@@ -359,3 +359,13 @@ tr.header-danger {
 .modal-dialog {
     max-width: 1600px;
 }
+
+img.image_resized {
+    height: auto !important;
+}
+
+.ck-content img,
+.ck-content video {
+    max-width: 100%;
+    object-fit: contain;
+}

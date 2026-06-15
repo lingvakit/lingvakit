@@ -2,9 +2,10 @@
 
 ---
 
-## [unreleased] - 2026-06-10
+## [1.37.2] - 2026-06-15
 ### Fixed:
 * Attaching media files in lesson and quiz forms
+* Fix ratio for images and video if added via CKEditor
 
 ---
 
