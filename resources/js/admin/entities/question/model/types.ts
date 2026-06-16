@@ -12,7 +12,7 @@ export type Question = {
     settings?: {} | null,
     options: QuestionOption[]
     answer: {
-        type: QuestionType,
+        questionType: QuestionType,
         value: string[],
     },
 };
@@ -26,7 +26,7 @@ export type QuestionPayload = {
     orderIndex?: number | null,
     settings?: {} | null,
     answer: {
-        type: QuestionType,
+        questionType: QuestionType,
         value: string[],
     },
     options: QuestionOptionPayload[]
