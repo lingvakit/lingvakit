@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace App\Integration\Quiz\Mapper;
 
+use App\Domain\Media\Enum\FileType;
 use App\Domain\Quiz\Enum\QuestionTypeEnum;
 use App\Integration\Quiz\Dto\Response\MediaFileDto;
 use App\Integration\Quiz\Dto\Response\QuestionAnswerDto;
@@ -23,7 +24,7 @@ class QuestionsGroupMapper
             media: array_map(
                 fn($mediaFileData) => new MediaFileDto(
                     mediaId: $mediaFileData['mediaId'],
-                    type: $mediaFileData['type'],
+                    type: FileType::from($mediaFileData['type']),
                     altText: $mediaFileData['alt'],
                 ),
                 $data['media'] ?? []
@@ -39,8 +40,8 @@ class QuestionsGroupMapper
                     orderIndex: $questionData['orderIndex'] ?? null,
                     settings: $questionData['settings'] ?? null,
                     answer: new QuestionAnswerDto(
-                        $questionData['answer']['value'],
-                        QuestionTypeEnum::from($questionData['answer']['questionType']),
+                        value: $questionData['answer']['value'],
+                        questionType: QuestionTypeEnum::from($questionData['answer']['questionType']),
                     ),
                     options: array_map(
                         fn($optionData) => new QuestionOptionDto(

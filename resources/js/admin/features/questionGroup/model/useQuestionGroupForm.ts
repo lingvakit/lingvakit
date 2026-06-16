@@ -25,7 +25,7 @@ export type QuestionValues = {
     settings?: {} | null,
     mediaFiles: MediaFields,
     answer: {
-        type: QuestionType,
+        questionType: QuestionType,
         value: string[],
     },
     options: OptionValues[],
@@ -68,7 +68,7 @@ export function useQuestionGroupForm(initial?: Partial<FormValues>) {
                     video: null,
                 },
                 answer: {
-                    type: 'single_choice',
+                    questionType: 'single_choice',
                     value: ['']
                 },
                 options: [
@@ -158,7 +158,7 @@ export function useQuestionGroupForm(initial?: Partial<FormValues>) {
                         video: null
                     },
                     answer: {
-                        type: 'single_choice',
+                        questionType: 'single_choice',
                         value: [''],
                     },
                     options: [
@@ -258,7 +258,7 @@ export function useQuestionGroupForm(initial?: Partial<FormValues>) {
                     ? {
                         ...question,
                         answer: {
-                            type: 'single_choice',
+                            questionType: 'single_choice',
                             value: [optionUuid]
                         },
                     }
@@ -299,7 +299,7 @@ export function useQuestionGroupForm(initial?: Partial<FormValues>) {
                     video: null
                 },
                 answer: {
-                    type: 'single_choice',
+                    questionType: 'single_choice',
                     value: [correctOption ? correctOption.uuid : '']
                 },
                 options: cleanOptions
