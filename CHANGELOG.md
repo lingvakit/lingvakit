@@ -2,6 +2,12 @@
 
 ---
 
+## [unreleased] - 2026-06-16
+### Fixed:
+* Fix payload data from React UI for store questions group
+
+---
+
 ## [1.37.2] - 2026-06-15
 ### Fixed:
 * Attaching media files in lesson and quiz forms
