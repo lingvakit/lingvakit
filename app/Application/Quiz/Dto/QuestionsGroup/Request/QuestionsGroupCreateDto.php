@@ -16,10 +16,10 @@ class QuestionsGroupCreateDto
         public ?int $orderIndex = null,
         public QuestionTypeEnum $questionType,
         public ?array $meta = null,
-        public ?array $mediaFiles = null,
+        public ?array $media = null,
 
         /** @var QuestionCreateDto[] */
-        public array $questions,
+        public array            $questions,
     ) {}
 
     public function convertToArray(): array
@@ -32,6 +32,7 @@ class QuestionsGroupCreateDto
             'description' => $this->description,
             'orderIndex' => $this->orderIndex,
             'meta' => $this->meta,
+            'media' => !empty($this->media) ? $this->media : null,
             'questions' => $this->questions,
         ];
     }

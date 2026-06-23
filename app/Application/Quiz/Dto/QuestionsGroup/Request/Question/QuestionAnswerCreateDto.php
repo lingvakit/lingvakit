@@ -10,6 +10,6 @@ class QuestionAnswerCreateDto
 
     public function __construct(
         public QuestionTypeEnum $questionType,
-        public array $value = [],
+        public mixed $value = null,
     ) {}
 }

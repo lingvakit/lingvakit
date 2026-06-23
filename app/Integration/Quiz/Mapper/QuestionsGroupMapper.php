@@ -40,8 +40,8 @@ class QuestionsGroupMapper
                     orderIndex: $questionData['orderIndex'] ?? null,
                     settings: $questionData['settings'] ?? null,
                     answer: new QuestionAnswerDto(
-                        value: $questionData['answer']['value'],
                         questionType: QuestionTypeEnum::from($questionData['answer']['questionType']),
+                        value: $questionData['answer']['value'],
                     ),
                     options: array_map(
                         fn($optionData) => new QuestionOptionDto(

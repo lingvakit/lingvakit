@@ -4,29 +4,33 @@ declare(strict_types=1);
 namespace App\Application\Topic\Service;
 
 use App\Application\Topic\Dto\TopicDto;
-use App\Application\Topic\Mapper\TopicLessonMapper;
-use App\Application\Topic\Mapper\TopicQuizMapper;
-use App\Domain\Topic\Enum\TopicTypeEnum;
+use App\Application\Topic\Mapper\TopicMapper;
+use App\Domain\Lesson\Repository\LessonRepositoryInterface;
+use App\Domain\Quiz\Repository\QuizRepositoryInterface;
+use App\Domain\Topic\Entity\TopicEntity;
+use App\Domain\Topic\Repository\TopicRepositoryInterface;
 use App\Exceptions\TopicNotExistsException;
-use App\Infrastructure\Persistence\Repository\TopicRepositoryInterface;
 use App\Integration\Quiz\Client\QuizClient;
-use App\Models\LMS\Topic;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\Uid\Uuid;
 
 readonly class TopicContentResolver
 {
     public function __construct(
-        private TopicRepositoryInterface $repository,
-        private TopicLessonMapper $lessonMapper,
-        private TopicQuizMapper $quizMapper,
+        private TopicRepositoryInterface $topicRepository,
+        private LessonRepositoryInterface $lessonRepository,
+        private QuizRepositoryInterface $quizRepository,
+        private TopicMapper $topicMapper,
         private QuizClient $quizClient,
     ) {
     }
 
+    /**
+     * @throws TopicNotExistsException
+     * @throws \Exception
+     */
     public function resolveContent(int $topicId): TopicDto
     {
-        $topic = $this->repository->findById($topicId);
+        $topic = $this->topicRepository->findById($topicId);
 
         if ($topic === null) {
             throw new TopicNotExistsException(
@@ -34,25 +38,29 @@ readonly class TopicContentResolver
             );
         }
 
-        if ($topic->name === TopicTypeEnum::Quiz->value) {
-            return $this->getTopicQuizDto($topic);
+        if ($topic->getEntityId()) {
+            return $this->getTopicQuizDtoFromMs($topic);
         }
 
-        return $this->lessonMapper->fromModel($topic);
+        return $this->topicMapper->fromEntity(
+            topic: $topic,
+            lesson: $this->lessonRepository->findByTopicId($topic->getId()),
+            quiz: $this->quizRepository->findByTopicId($topic->getId()),
+        );
     }
 
-    private function getTopicQuizDto(Topic $topic): TopicDto
+    private function getTopicQuizDtoFromMs(TopicEntity $topic): TopicDto
     {
-        if ($topic->entity_id === null || !Uuid::isValid($topic->entity_id)) {
+        if ($topic->getEntityId() === null) {
             throw new BadRequestHttpException(
-                "UUID [$topic->entity_id] is invalid."
+                "UUID [{$topic->getEntityId()->toRfc4122()}] is invalid."
             );
         }
 
         $quizResponseDto = $this->quizClient->getDataByUuid(
-            $topic->entity_id
+            $topic->getEntityId()->toRfc4122()
         );
 
-        return $this->quizMapper->fromModel($topic, $quizResponseDto);
+        return $this->topicMapper->fromMs($topic, $quizResponseDto);
     }
 }

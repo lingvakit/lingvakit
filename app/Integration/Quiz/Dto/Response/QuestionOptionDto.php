@@ -8,7 +8,7 @@ class QuestionOptionDto
     public function __construct(
         public string $uuid,
         public ?string $text = null,
-        public ?int $matchKey = null,
+        public ?string $matchKey = null,
         public ?int $orderIndex = null,
         public ?array $settings = null,
     ) {}

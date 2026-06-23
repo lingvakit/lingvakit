@@ -48,7 +48,7 @@ class QuestionsGroupRequest extends AbstractFormRequest
             orderIndex: $this->fieldInt('orderIndex'),
             questionType: $this->fieldEnum('questionType', QuestionTypeEnum::class),
             meta: null, // TODO: change to dynamic data
-            mediaFiles: null, // TODO: change to dynamic data
+            media: null, // TODO: change to dynamic data
             questions: array_map(
                 callback: fn($question) => new QuestionCreateDto(
                     uuid: Uuid::fromString($question['uuid']),
@@ -70,7 +70,7 @@ class QuestionsGroupRequest extends AbstractFormRequest
                             orderIndex: isset($option['orderIndex'])
                                 ? $this->fieldInt($option['orderIndex'])
                                 : null,
-                            settings: null, // TODO: change to dynamic data
+                            settings: null,
                         ),
                         array: $question['options']
                     ),

@@ -3,14 +3,15 @@ declare(strict_types=1);
 
 namespace App\Application\Lesson\Handlers;
 
+use App\Domain\Lesson\Repository\LessonRepositoryInterface;
+use App\Domain\Topic\Repository\TopicRepositoryInterface;
 use App\Exceptions\LessonNotExistsException;
-use App\Infrastructure\Persistence\Repository\LessonRepositoryInterface;
-use App\Infrastructure\Persistence\Repository\TopicRepositoryInterface;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\DatabaseManager;
 
 final readonly class DeleteLessonHandler implements DeleteLessonHandlerInterface
 {
     public function __construct(
+        private DatabaseManager $db,
         private TopicRepositoryInterface $topicRepository,
         private LessonRepositoryInterface $lessonRepository,
     ) {
@@ -18,7 +19,7 @@ final readonly class DeleteLessonHandler implements DeleteLessonHandlerInterface
 
     public function handle(int $lessonId): void
     {
-        DB::transaction(function () use ($lessonId) {
+        $this->db->transaction(function () use ($lessonId) {
             $lesson = $this->lessonRepository->findById($lessonId);
 
             if ($lesson === null) {
@@ -27,8 +28,8 @@ final readonly class DeleteLessonHandler implements DeleteLessonHandlerInterface
                 );
             }
 
-            $this->topicRepository->delete($lesson->topic);
-            $this->lessonRepository->delete($lesson);
+            $this->lessonRepository->delete($lesson->getId());
+            $this->topicRepository->delete($lesson->getTopicId());
         });
     }
 }

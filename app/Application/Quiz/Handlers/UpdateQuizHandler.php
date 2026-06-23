@@ -5,7 +5,7 @@ namespace App\Application\Quiz\Handlers;
 
 use App\Application\Quiz\Dto\Response\QuizDto;
 use App\Application\Quiz\Mapper\QuizMapper;
-use App\Infrastructure\Persistence\Repository\TopicRepositoryInterface;
+use App\Domain\Topic\Repository\TopicRepositoryInterface;
 use App\Integration\Quiz\Client\QuizClient;
 use App\Integration\Quiz\Dto\Request\Quiz\QuizUpdateRequestDto;
 use App\Integration\Quiz\Exception\QuizUpdateFailedException;

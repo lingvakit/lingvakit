@@ -2,9 +2,10 @@
 
 ---
 
-## [unreleased] - 2026-06-16
-### Fixed:
-* Fix payload data from React UI for store questions group
+## [2.0.0] - 2026-07-06
+### Added:
+* Created a command for migration all quizzes to microservice "php artisan quiz:migrate"
+* Code refactoring
 
 ---
 

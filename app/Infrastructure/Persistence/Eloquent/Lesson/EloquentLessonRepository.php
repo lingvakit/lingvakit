@@ -3,30 +3,47 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Persistence\Eloquent\Lesson;
 
-use App\Infrastructure\Persistence\Repository\LessonRepositoryInterface;
+use App\Domain\Lesson\Entity\LessonEntity;
+use App\Domain\Lesson\Repository\LessonRepositoryInterface;
+use App\Infrastructure\Persistence\Trait\LessonDatabaseMapperTrait;
 use App\Models\LMS\Lesson;
 
 class EloquentLessonRepository implements LessonRepositoryInterface
 {
-    public function findById(int $id): ?Lesson
+    use LessonDatabaseMapperTrait;
+
+    public function findById(int $id): ?LessonEntity
     {
-        return Lesson::find($id);
+        $lesson = Lesson::find($id);
+
+        return $lesson ? $this->mapToEntity($lesson) : null;
     }
 
-    public function save(array $data): Lesson
+    public function findByTopicId(int $topicId): ?LessonEntity
     {
-        return Lesson::create($data);
+        $lesson = Lesson::where('topic_id', $topicId)->first();
+
+        return $lesson ? $this->mapToEntity($lesson) : null;
     }
 
-    public function update(Lesson $lesson, array $data): Lesson
+    public function save(LessonEntity $lesson): LessonEntity
     {
-        $lesson->update($data);
+        $data = $this->mapToArray($lesson);
+        $lessonModel = Lesson::create($data);
+
+        return $this->mapToEntity($lessonModel);
+    }
+
+    public function update(LessonEntity $lesson): LessonEntity
+    {
+        $data = $this->mapToArray($lesson);
+        Lesson::find($lesson->getId())?->update($data);
 
         return $lesson;
     }
 
-    public function delete(Lesson $lesson): void
+    public function delete(int $id): void
     {
-        $lesson->delete();
+        Lesson::find($id)?->delete();
     }
 }

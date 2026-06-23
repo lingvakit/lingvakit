@@ -5,19 +5,21 @@ namespace App\Application\Lesson\Handlers;
 
 use App\Application\Lesson\Dto\LessonDto;
 use App\Application\Lesson\Mapper\LessonMapper;
+use App\Domain\Lesson\Repository\LessonRepositoryInterface;
+use App\Domain\Topic\Repository\TopicRepositoryInterface;
 use App\Exceptions\LessonNotExistsException;
-use App\Infrastructure\Persistence\Repository\LessonRepositoryInterface;
 
 final readonly class ShowLessonHandler implements ShowLessonHandlerInterface
 {
     public function __construct(
-        private LessonRepositoryInterface $repository,
+        private LessonRepositoryInterface $lessonRepository,
+        private TopicRepositoryInterface $topicRepository,
         private LessonMapper $lessonMapper
     ) {}
 
     public function handle(int $lessonId): LessonDto
     {
-        $lesson = $this->repository->findById($lessonId);
+        $lesson = $this->lessonRepository->findById($lessonId);
 
         if ($lesson === null) {
             throw new LessonNotExistsException(
@@ -25,6 +27,8 @@ final readonly class ShowLessonHandler implements ShowLessonHandlerInterface
             );
         }
 
-        return $this->lessonMapper->fromModel($lesson);
+        $topic = $this->topicRepository->findById($lesson->getTopicId());
+
+        return $this->lessonMapper->fromEntity($lesson, $topic);
     }
 }
