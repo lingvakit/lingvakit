@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace App\Application\Lesson\Dto;
 
-use App\Domain\Topic\Enum\TopicTypeEnum;
-
 final readonly class LessonCreateRequestDto
 {
     public function __construct(
@@ -16,29 +14,7 @@ final readonly class LessonCreateRequestDto
         public ?int $audioMediaId = null,
         public ?int $videoMediaId = null,
         public ?int $orderIndex = null,
+        public ?array $passedTopics = null,
     ) {
-    }
-
-    public function convertToArray(int $topicId): array
-    {
-        return [
-            'title' => $this->title,
-            'description' => $this->description,
-            'image' => $this->imageMediaId,
-            'audio' => $this->audioMediaId,
-            'video' => $this->videoMediaId,
-            'duration' => $this->duration,
-            'topic_id' => $topicId
-        ];
-    }
-
-    public function convertToArrayForTopic(): array
-    {
-        return [
-            'index_number' => $this->orderIndex,
-            'name' => TopicTypeEnum::Lesson->value,
-            'stage_id' => $this->moduleId,
-            'passed_topics' => null
-        ];
     }
 }

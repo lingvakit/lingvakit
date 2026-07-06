@@ -5,9 +5,8 @@ namespace App\Application\Topic\Mapper;
 
 use App\Application\Quiz\Mapper\QuizMapper;
 use App\Application\Topic\Dto\TopicDto;
-use App\Domain\Topic\Enum\TopicTypeEnum;
+use App\Domain\Topic\Entity\TopicQuizEntity;
 use App\Integration\Quiz\Dto\Response\QuizDto;
-use App\Models\LMS\Topic;
 
 final readonly class TopicQuizMapper
 {
@@ -16,12 +15,12 @@ final readonly class TopicQuizMapper
     ) {
     }
 
-    public function fromModel(Topic $topic, QuizDto $quizResponseDto): TopicDto
+    public function fromEntity(TopicQuizEntity $topic, QuizDto $quizResponseDto): TopicDto
     {
         return new TopicDto(
-            id: $topic->id,
-            type: TopicTypeEnum::from($topic->name),
-            orderIndex: $topic->index_number,
+            id: $topic->getId(),
+            type: $topic->getType(),
+            orderIndex: $topic->getOrderIndex(),
             quiz: $this->quizMapper->fromMsResponse($quizResponseDto)
         );
     }

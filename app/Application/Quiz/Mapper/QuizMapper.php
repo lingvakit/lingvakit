@@ -6,8 +6,14 @@ namespace App\Application\Quiz\Mapper;
 use App\Application\Media\Dto\MediaFileDto;
 use App\Application\Media\Mapper\MediaFileMapper;
 use App\Application\Quiz\Dto\Response\QuizDto;
+use App\Domain\Quiz\Entity\QuizEntity;
+use App\Domain\Quiz\Enum\QuizStatusEnum;
+use App\Domain\Quiz\ValueObject\MediaFile\AudioFileVO;
+use App\Domain\Quiz\ValueObject\MediaFile\ImageFileVO;
+use App\Domain\Quiz\ValueObject\MediaFile\VideoFileVO;
+use App\Domain\Topic\Repository\TopicRepositoryInterface;
 use App\Infrastructure\Persistence\Repository\MediaFileRepositoryInterface;
-use App\Infrastructure\Persistence\Repository\TopicRepositoryInterface;
+use App\Integration\Quiz\Dto\Request\Quiz\QuizCreateRequestDto;
 use App\Integration\Quiz\Dto\Response\QuestionDto;
 use App\Integration\Quiz\Dto\Response\QuestionOptionDto;
 use App\Integration\Quiz\Dto\Response\QuestionsGroupDto;
@@ -21,6 +27,39 @@ final readonly class QuizMapper
         private MediaFileRepositoryInterface $mediaFileRepository,
         private TopicRepositoryInterface $topicRepository,
     ) {
+    }
+
+    public function toMsPayload(QuizEntity $quiz): QuizCreateRequestDto
+    {
+        $media = [
+            'audio' => null,
+            'image' => null,
+            'video' => null,
+        ];
+
+        foreach ($quiz->getMedia() ?? [] as $mediaFile) {
+            if ($mediaFile instanceof AudioFileVO) {
+                $media['audio'] = $mediaFile->getMediaId();
+            } elseif ($mediaFile instanceof ImageFileVO) {
+                $media['image'] = $mediaFile->getMediaId();
+            } elseif ($mediaFile instanceof VideoFileVO) {
+                $media['video'] = $mediaFile->getMediaId();
+            }
+        }
+
+        return new QuizCreateRequestDto(
+            moduleId: $quiz->getModuleId(),
+            uuid: Uuid::v4(),
+            title: $quiz->getTitle(),
+            description: $quiz->getDescription(),
+            imageMediaId: $media['image'],
+            audioMediaId: $media['audio'],
+            videoMediaId: $media['video'],
+            timeLimit: $quiz->getTimeLimit(),
+            passingScore: $quiz->getPassingScore(),
+            status: QuizStatusEnum::Published,
+            orderIndex: $quiz->getOrderIndex(),
+        );
     }
 
     public function fromMsResponse(QuizMsDto $dto): QuizDto
@@ -92,6 +131,6 @@ final readonly class QuizMapper
     {
         return $this->topicRepository
             ->findByEntityId($uuid)
-            ?->order_index;
+            ?->getOrderIndex();
     }
 }

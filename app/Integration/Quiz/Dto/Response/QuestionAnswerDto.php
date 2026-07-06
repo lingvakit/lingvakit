@@ -8,8 +8,9 @@ use App\Domain\Quiz\Enum\QuestionTypeEnum;
 class QuestionAnswerDto
 {
     public function __construct(
-        public array $value,
         public QuestionTypeEnum $questionType,
+        public ?array $value = null,
+        public ?bool $boolean = null,
     ) {
     }
 }

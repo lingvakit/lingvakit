@@ -4,17 +4,21 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Application\Category\ReadModel\CategoryReadRepository;
+use App\Domain\Lesson\Repository\LessonRepositoryInterface;
+use App\Domain\Quiz\Repository\LegacyQuestionGroupRepositoryInterface;
+use App\Domain\Quiz\Repository\QuizRepositoryInterface;
+use App\Domain\Topic\Repository\TopicRepositoryInterface;
 use App\Infrastructure\Persistence\Eloquent\Category\EloquentCategoryReadRepository;
 use App\Infrastructure\Persistence\Eloquent\Course\EloquentCourseRepository;
 use App\Infrastructure\Persistence\Eloquent\Lesson\EloquentLessonRepository;
 use App\Infrastructure\Persistence\Eloquent\MediaFile\EloquentMediaFileRepository;
 use App\Infrastructure\Persistence\Eloquent\Module\EloquentModuleRepository;
 use App\Infrastructure\Persistence\Eloquent\Topic\EloquentTopicRepository;
+use App\Infrastructure\Persistence\QueryBuilder\LegacyQuestionGroupRepository;
+use App\Infrastructure\Persistence\QueryBuilder\QuizRepository;
 use App\Infrastructure\Persistence\Repository\CourseRepositoryInterface;
-use App\Infrastructure\Persistence\Repository\LessonRepositoryInterface;
 use App\Infrastructure\Persistence\Repository\MediaFileRepositoryInterface;
 use App\Infrastructure\Persistence\Repository\ModuleRepositoryInterface;
-use App\Infrastructure\Persistence\Repository\TopicRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -49,6 +53,16 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(
             abstract: LessonRepositoryInterface::class,
             concrete: EloquentLessonRepository::class
+        );
+
+        $this->app->bind(
+            abstract: QuizRepositoryInterface::class,
+            concrete: QuizRepository::class
+        );
+
+        $this->app->bind(
+            abstract: LegacyQuestionGroupRepositoryInterface::class,
+            concrete: LegacyQuestionGroupRepository::class
         );
     }
 }

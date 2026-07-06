@@ -11,6 +11,7 @@ use Symfony\Component\Uid\Uuid;
 class QuestionCreateDto
 {
     public function __construct(
+        public ?Uuid $groupUuid = null,
         public Uuid $uuid,
         public string $text,
         public ?string $explanation = null,
