@@ -2,6 +2,12 @@
 
 ---
 
+## [2.0.1] - 2026-07-07
+### Fixed:
+* Added authentification for quiz:migrate command script 
+
+---
+
 ## [2.0.0] - 2026-07-06
 ### Added:
 * Created a command for migration all quizzes to microservice "php artisan quiz:migrate"

@@ -33,5 +33,6 @@ return [
     'ms' => [
         'media' => env('MS_MEDIA'),
         'quiz' => env('MS_QUIZ'),
+        'quiz_sync_token' => env('MS_QUIZ_SYNC_TOKEN'),
     ]
 ];
