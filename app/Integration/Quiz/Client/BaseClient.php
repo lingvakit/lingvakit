@@ -12,9 +12,16 @@ abstract class BaseClient
 {
     protected function http(): PendingRequest
     {
-        return Http::withoutVerifying()
+        $client = Http::withoutVerifying()
             ->baseUrl($this->getMsUrl())
             ->acceptJson();
+
+        $token = config('services.ms.quiz_sync_token');
+        if ($token) {
+            $client->withToken($token);
+        }
+
+        return $client;
     }
 
     protected function handleResponse(Response $response, callable $mapper)
