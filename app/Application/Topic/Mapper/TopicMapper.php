@@ -9,7 +9,10 @@ use App\Application\Topic\Dto\TopicDto;
 use App\Domain\Lesson\Entity\LessonEntity;
 use App\Domain\Quiz\Entity\QuizEntity;
 use App\Domain\Topic\Entity\TopicEntity;
+use App\Domain\Topic\Enum\TopicTypeEnum;
 use App\Integration\Quiz\Dto\Response\QuizDto;
+use App\Models\LMS\Topic;
+use Symfony\Component\Uid\Uuid;
 
 readonly class TopicMapper
 {
@@ -17,6 +20,18 @@ readonly class TopicMapper
         private LessonMapper $lessonMapper,
         private QuizMapper $quizMapper,
     ) {
+    }
+
+    public function fromModel(Topic $topic): ?TopicEntity
+    {
+        return new TopicEntity(
+            id: $topic->id,
+            entityId: $topic->entity_id ? Uuid::fromString($topic->entity_id) : null,
+            orderIndex: $topic->index_number,
+            type: TopicTypeEnum::from($topic->name),
+            moduleId: $topic->stage_id,
+            passedTopics: $topic->passed_topics ? explode(',', $topic->passed_topics) : null,
+        );
     }
 
     public function fromEntity(

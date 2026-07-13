@@ -15,7 +15,7 @@ final readonly class CourseMapper
     ) {
     }
 
-    public function fromModel(Course $course): CourseDto
+    public function fromModel(Course $course, array $lessons, array $quizzes): CourseDto
     {
         return new CourseDto(
             id: $course->id,
@@ -28,8 +28,9 @@ final readonly class CourseMapper
             imageUrl: $course->getImage(),
             author: $course->author->getFullName(),
             modules: $course->stages
-                ->map(fn(Stage $stage) => $this->moduleMapper->fromModel($stage))
-                ->toArray(),
+                ->map(
+                    fn(Stage $stage) => $this->moduleMapper->fromModel($stage, $lessons, $quizzes)
+                )->toArray(),
         );
     }
 }

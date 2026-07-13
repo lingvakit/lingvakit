@@ -15,16 +15,24 @@ final readonly class ModuleMapper
     ) {
     }
 
-    public function fromModel(Stage $stage): ModuleDto
+    public function fromModel(Stage $stage, array $lessons, array $quizzes): ModuleDto
     {
+        $validTopics = $stage->topics->filter(function (Topic $topic) use ($lessons, $quizzes) {
+            $hasLesson = isset($lessons[$topic->id]);
+            $hasQuiz = isset($quizzes[$topic->id]);
+
+            return $hasLesson || $hasQuiz;
+        });
+
         return new ModuleDto(
             id: $stage->id,
             title: $stage->name,
-            topics: $stage->topics
-                ->map(function(Topic $topic) {
-                    return $this->topicResolver->resolveContent($topic->id);
-                })
-                ->toArray()
+            topics: $validTopics
+                ->map(fn(Topic $topic) => $this->topicResolver->resolveContent(
+                    topic: $topic,
+                    lessonsLookUp: $lessons,
+                    quizzesLookUp: $quizzes)
+                )->toArray()
         );
     }
 }

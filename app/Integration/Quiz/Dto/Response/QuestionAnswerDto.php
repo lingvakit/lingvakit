@@ -11,6 +11,10 @@ class QuestionAnswerDto
         public QuestionTypeEnum $questionType,
         public ?array $value = null,
         public ?bool $boolean = null,
+        public ?array $blanks = null,
+        public ?array $pairs = null,
+        public ?array $sequence = null,
+        public ?string $text = null,
     ) {
     }
 }
