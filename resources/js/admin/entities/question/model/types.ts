@@ -1,6 +1,6 @@
 import {QuestionOption, QuestionOptionPayload} from "../../questionOption/model/types";
 
-export type QuestionType = "single_choice" | "multiple_choice";
+export type QuestionType = "single_choice" | "multiple_choice" | "boolean" | "fill_in_blank" | "match" | "sentence_build" | "free_text";
 
 export type Question = {
     uuid: string,
