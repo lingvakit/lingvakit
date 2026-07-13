@@ -26,6 +26,22 @@ class EloquentLessonRepository implements LessonRepositoryInterface
         return $lesson ? $this->mapToEntity($lesson) : null;
     }
 
+    public function findByTopicIds(array $topicIds): array
+    {
+        if (empty($topicIds)) {
+            return [];
+        }
+
+        $lessons = Lesson::whereIn('topic_id', $topicIds)->get();
+
+        $result = [];
+        foreach ($lessons as $lesson) {
+            $result[(int)$lesson->topic_id] = $this->mapToEntity($lesson);
+        }
+
+        return $result;
+    }
+
     public function save(LessonEntity $lesson): LessonEntity
     {
         $data = $this->mapToArray($lesson);

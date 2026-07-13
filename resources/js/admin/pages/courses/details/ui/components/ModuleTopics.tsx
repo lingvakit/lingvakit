@@ -17,8 +17,7 @@ export function ModuleTopics({courseId, moduleId, topics, onDeleteTopic}: Props)
 
     return (
         <div className="stage-topics">
-            {topics.map(topic => {
-
+            {Object.values(topics).map(topic => {
                 if (topic.lesson) {
                     return (
                         <div

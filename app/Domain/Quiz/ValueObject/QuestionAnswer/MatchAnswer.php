@@ -32,7 +32,7 @@ readonly class MatchAnswer implements AnswerValueObject
     {
         return [
             'questionType' => $this->getQuestionType()->value,
-            'blanks' => $this->getValue(),
+            'pairs' => $this->getValue(),
         ];
     }
 }

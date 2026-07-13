@@ -2,6 +2,12 @@
 
 ---
 
+## [2.0.2] - 2026-07-13
+### Fixed:
+* Optimize database requests for getting course details
+
+---
+
 ## [2.0.1] - 2026-07-07
 ### Fixed:
 * Added authentification for quiz:migrate command script 

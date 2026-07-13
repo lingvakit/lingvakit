@@ -11,6 +11,7 @@ use App\Domain\Topic\Entity\TopicEntity;
 use App\Domain\Topic\Repository\TopicRepositoryInterface;
 use App\Exceptions\TopicNotExistsException;
 use App\Integration\Quiz\Client\QuizClient;
+use App\Models\LMS\Topic;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 readonly class TopicContentResolver
@@ -28,24 +29,25 @@ readonly class TopicContentResolver
      * @throws TopicNotExistsException
      * @throws \Exception
      */
-    public function resolveContent(int $topicId): TopicDto
-    {
-        $topic = $this->topicRepository->findById($topicId);
+    public function resolveContent(
+        Topic $topic,
+        array $lessonsLookUp = [],
+        array $quizzesLookUp = []
+    ): TopicDto {
+        $topicEntity = $this->topicMapper->fromModel($topic);
 
-        if ($topic === null) {
-            throw new TopicNotExistsException(
-                message: "Topic with id {$topicId} not found"
-            );
+        if ($topicEntity->getEntityId()) {
+            return $this->getTopicQuizDtoFromMs($topicEntity);
         }
 
-        if ($topic->getEntityId()) {
-            return $this->getTopicQuizDtoFromMs($topic);
-        }
+        $topicId = $topic->id;
+        $lessonEntity = $lessonsLookUp[$topicId] ?? null;
+        $quizEntity = $quizzesLookUp[$topicId] ?? null;
 
         return $this->topicMapper->fromEntity(
-            topic: $topic,
-            lesson: $this->lessonRepository->findByTopicId($topic->getId()),
-            quiz: $this->quizRepository->findByTopicId($topic->getId()),
+            topic: $topicEntity,
+            lesson: $lessonEntity,
+            quiz: $quizEntity,
         );
     }
 
