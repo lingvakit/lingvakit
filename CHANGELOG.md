@@ -2,6 +2,12 @@
 
 ---
 
+## [unreleased] - 2026-07-13
+### Fixed:
+* Display question type on quiz page in admin panel
+
+---
+
 ## [2.0.2] - 2026-07-13
 ### Fixed:
 * Optimize database requests for getting course details
