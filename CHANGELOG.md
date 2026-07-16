@@ -2,6 +2,12 @@
 
 ---
 
+## [unreleased] - 2026-07-16
+### Fixed:
+*  Fix error on create question group form
+
+---
+
 ## [2.0.3] - 2026-07-16
 ### Fixed:
 * Display question type on quiz page in admin panel
