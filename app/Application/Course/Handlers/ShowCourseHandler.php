@@ -9,6 +9,7 @@ use App\Domain\Lesson\Repository\LessonRepositoryInterface;
 use App\Domain\Quiz\Repository\QuizRepositoryInterface;
 use App\Exceptions\CourseNotExistsException;
 use App\Infrastructure\Persistence\Repository\CourseRepositoryInterface;
+use App\Integration\Quiz\Client\QuizClient;
 use Illuminate\Database\DatabaseManager;
 
 final readonly class ShowCourseHandler implements ShowCourseHandlerInterface
@@ -18,6 +19,7 @@ final readonly class ShowCourseHandler implements ShowCourseHandlerInterface
         private CourseRepositoryInterface $repository,
         private LessonRepositoryInterface $lessonRepository,
         private QuizRepositoryInterface $quizRepository,
+        private QuizClient $client,
         private CourseMapper $mapper
     ) {}
 
@@ -33,16 +35,32 @@ final readonly class ShowCourseHandler implements ShowCourseHandlerInterface
             }
 
             $topicIds = [];
+            $topicEntityUuids = [];
+
             foreach ($course->stages as $stage) {
                 foreach ($stage->topics as $topic) {
                     $topicIds[] = (int)$topic->id;
+
+                    if ($topic->entity_id !== null) {
+                        $topicEntityUuids[] = $topic->entity_id;
+                    }
                 }
             }
 
             $lessonsLookUp = $this->lessonRepository->findByTopicIds($topicIds);
             $quizzesLookUp = $this->quizRepository->findByTopicIds($topicIds);
 
-            return $this->mapper->fromModel($course, $lessonsLookUp, $quizzesLookUp);
+            $msQuizzesLookUp = [];
+            if (!empty($topicEntityUuids)) {
+                $msQuizzesLookUp = $this->client->getBatchDataByUuids($topicEntityUuids);
+            }
+
+            return $this->mapper->fromModel(
+                $course,
+                $lessonsLookUp,
+                $quizzesLookUp,
+                $msQuizzesLookUp
+            );
         });
     }
 }

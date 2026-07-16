@@ -26,7 +26,7 @@ trait TopicDatabaseMapperTrait
     protected function mapToArray(TopicEntity $lesson): array
     {
         return [
-            'entity_id' => $lesson->getEntityId(),
+            'entity_id' => $lesson->getEntityId()?->toRfc4122(),
             'index_number' => $lesson->getOrderIndex(),
             'name' => $lesson->getType()->value,
             'stage_id' => $lesson->getModuleId(),

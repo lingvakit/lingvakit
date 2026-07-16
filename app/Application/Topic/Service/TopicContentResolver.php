@@ -26,13 +26,16 @@ readonly class TopicContentResolver
     }
 
     /**
+     * TODO: Remove param $quizzesLookUp after quizzes will be transferred to microservice
+     *
      * @throws TopicNotExistsException
      * @throws \Exception
      */
     public function resolveContent(
         Topic $topic,
         array $lessonsLookUp = [],
-        array $quizzesLookUp = []
+        array $quizzesLookUp = [], // TODO: Remove this
+        array $msQuizzesLookUp = [],
     ): TopicDto {
         $topicEntity = $this->topicMapper->fromModel($topic);
 
@@ -41,8 +44,14 @@ readonly class TopicContentResolver
         }
 
         $topicId = $topic->id;
+        $topicEntityId = $topic->entity_id;
+
         $lessonEntity = $lessonsLookUp[$topicId] ?? null;
         $quizEntity = $quizzesLookUp[$topicId] ?? null;
+
+        if ($topicEntityId) {
+            $quizEntity = $msQuizzesLookUp[$topicEntityId] ?? null;
+        }
 
         return $this->topicMapper->fromEntity(
             topic: $topicEntity,
@@ -55,7 +64,7 @@ readonly class TopicContentResolver
     {
         if ($topic->getEntityId() === null) {
             throw new BadRequestHttpException(
-                "UUID [{$topic->getEntityId()->toRfc4122()}] is invalid."
+                "UUID is invalid."
             );
         }
 

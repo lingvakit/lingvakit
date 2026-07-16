@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Integration\Quiz\Dto\Request\Quiz;
 
 use App\Domain\Quiz\Enum\QuizStatusEnum;
-use App\Domain\Topic\Enum\TopicTypeEnum;
 use Symfony\Component\Uid\Uuid;
 
 class QuizCreateRequestDto
@@ -21,6 +20,7 @@ class QuizCreateRequestDto
         public int $passingScore,
         public QuizStatusEnum $status,
         public ?int $orderIndex = null,
+        public ?array $passedTopics = null,
     ) {}
 
     public function convertToArray(): array
@@ -35,17 +35,6 @@ class QuizCreateRequestDto
             'timeLimit' => $this->timeLimit,
             'passingScore' => $this->passingScore,
             'status' => $this->status,
-        ];
-    }
-
-    public function convertToArrayForTopic(): array
-    {
-        return [
-            'entity_id' => $this->uuid->toRfc4122(),
-            'index_number' => $this->orderIndex,
-            'name' => TopicTypeEnum::Quiz->value,
-            'stage_id' => $this->moduleId,
-            'passed_topics' => null
         ];
     }
 }

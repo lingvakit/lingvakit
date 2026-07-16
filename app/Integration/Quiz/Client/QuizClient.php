@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Integration\Quiz\Client;
 
+use App\Domain\Quiz\Entity\QuizEntity;
 use App\Integration\Quiz\Dto\Request\Quiz\QuizCreateRequestDto;
 use App\Integration\Quiz\Dto\Request\Quiz\QuizUpdateRequestDto;
 use App\Integration\Quiz\Dto\Response\QuizDto;
@@ -34,6 +35,27 @@ class QuizClient extends BaseClient implements QuizServiceInterface
         return $this->handleResponse(
             $response,
             fn(array $responseData) => $this->mapper->fromResponseDataToDto($responseData)
+        );
+    }
+
+    /**
+     * @param string[] $topicEntityIds
+     * @return array<string, QuizEntity>
+     */
+    public function getBatchDataByUuids(array $topicEntityIds): array
+    {
+        if (empty($topicEntityIds)) {
+            return [];
+        }
+
+        $response = $this->http()->post(
+            url: "{$this->getMsUrl()}/api/v1/quizzes/batch",
+            data: ["uuids" => $topicEntityIds],
+        );
+
+        return $this->handleResponse(
+            $response,
+            fn(array $responseData) => $this->mapper->fromResponseDataToDtoArray($responseData)
         );
     }
 

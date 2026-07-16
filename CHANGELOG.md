@@ -2,9 +2,10 @@
 
 ---
 
-## [unreleased] - 2026-07-13
+## [2.0.3] - 2026-07-16
 ### Fixed:
 * Display question type on quiz page in admin panel
+* Display quizzes on course page in admin panel
 
 ---
 
