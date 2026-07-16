@@ -32,7 +32,7 @@ class QuizCreateRequest extends AbstractFormRequest
     {
         return new QuizCreateRequestDto(
             moduleId: $this->fieldInt('moduleId'),
-            uuid: Uuid::fromString($this->fieldString('uuid')),
+            uuid: Uuid::fromString($this->fieldString('uuid')) ,
             title: $this->fieldString('title'),
             description: $this->fieldString('description'),
             imageMediaId: $this->fieldInt('imageMediaId'),

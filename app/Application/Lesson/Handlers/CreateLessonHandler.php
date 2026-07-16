@@ -65,6 +65,7 @@ final readonly class CreateLessonHandler implements CreateLessonHandlerInterface
             id: null,
             title: $dto->title,
             description: $dto->description,
+            media: null,
             duration: $dto->duration,
             topicId: $topicId,
             createdAt: new DateTimeImmutable(),

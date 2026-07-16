@@ -63,7 +63,7 @@ class TopicEntity
         return $this->passedTopics;
     }
 
-    public function setPassedTopics(array $passedTopics): self
+    public function setPassedTopics(?array $passedTopics): self
     {
         $this->passedTopics = $passedTopics;
         return $this;

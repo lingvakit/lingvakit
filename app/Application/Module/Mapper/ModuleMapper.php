@@ -7,6 +7,7 @@ use App\Application\Module\Dto\ModuleDto;
 use App\Application\Topic\Service\TopicContentResolver;
 use App\Models\LMS\Stage;
 use App\Models\LMS\Topic;
+use Symfony\Component\Uid\Uuid;
 
 final readonly class ModuleMapper
 {
@@ -15,13 +16,26 @@ final readonly class ModuleMapper
     ) {
     }
 
-    public function fromModel(Stage $stage, array $lessons, array $quizzes): ModuleDto
-    {
-        $validTopics = $stage->topics->filter(function (Topic $topic) use ($lessons, $quizzes) {
+    /**
+     * TODO: Remove $quizzes param after all of quizzes will be migrated to microservice
+     */
+    public function fromModel(
+        Stage $stage,
+        array $lessons,
+        array $quizzes, // TODO: Remove this
+        array $msQuizzes
+    ): ModuleDto {
+        $validTopics = $stage->topics->filter(function (Topic $topic) use ($lessons, $quizzes, $msQuizzes) {
             $hasLesson = isset($lessons[$topic->id]);
             $hasQuiz = isset($quizzes[$topic->id]);
 
-            return $hasLesson || $hasQuiz;
+            $hasMsQuiz = false;
+            if ($topic->entity_id !== null) {
+                $normalizedUuid = Uuid::fromString((string) $topic->entity_id)->toRfc4122();
+                $hasMsQuiz = isset($msQuizzes[$normalizedUuid]);
+            }
+
+            return $hasLesson || $hasQuiz || $hasMsQuiz;
         });
 
         return new ModuleDto(
@@ -31,8 +45,9 @@ final readonly class ModuleMapper
                 ->map(fn(Topic $topic) => $this->topicResolver->resolveContent(
                     topic: $topic,
                     lessonsLookUp: $lessons,
-                    quizzesLookUp: $quizzes)
-                )->toArray()
+                    quizzesLookUp: $quizzes,
+                    msQuizzesLookUp: $msQuizzes
+                ))->toArray()
         );
     }
 }

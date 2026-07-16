@@ -31,4 +31,18 @@ readonly class QuizMapper
             ),
         );
     }
+
+    /**
+     * @param array $dataList
+     * @return array<string, QuizDto>
+     */
+    public function fromResponseDataToDtoArray(array $dataList): array
+    {
+        $list = [];
+        foreach ($dataList as $data) {
+            $list[$data['uuid']] = $this->fromResponseDataToDto($data);
+        }
+
+        return $list;
+    }
 }
