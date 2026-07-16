@@ -40,9 +40,11 @@ class QuestionsGroupRequest extends AbstractFormRequest
 
     public function dto(): QuestionsGroupCreateDto
     {
+        $groupUuid = Uuid::fromString($this->fieldString('uuid'));
+
         return new QuestionsGroupCreateDto(
             quizUuid: Uuid::fromString($this->fieldString('quizUuid')),
-            uuid: Uuid::fromString($this->fieldString('uuid')),
+            uuid: $groupUuid,
             title: $this->fieldString('title'),
             description: $this->fieldString('description'),
             orderIndex: $this->fieldInt('orderIndex'),
@@ -51,6 +53,7 @@ class QuestionsGroupRequest extends AbstractFormRequest
             media: null, // TODO: change to dynamic data
             questions: array_map(
                 callback: fn($question) => new QuestionCreateDto(
+                    groupUuid: $groupUuid,
                     uuid: Uuid::fromString($question['uuid']),
                     text: $question['text'],
                     explanation: $question['explanation'] ?? null,
@@ -62,6 +65,7 @@ class QuestionsGroupRequest extends AbstractFormRequest
                     settings: null, // TODO: change to dynamic data
                     options: array_map(
                         callback: fn($option) => new QuestionOptionCreateDto(
+                            questionUuid: Uuid::fromString($question['uuid']),
                             uuid: Uuid::fromString($option['uuid']),
                             text: $this->fieldString($option['text']),
                             matchKey: isset($option['matchKey'])
