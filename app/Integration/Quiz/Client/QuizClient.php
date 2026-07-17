@@ -7,9 +7,7 @@ use App\Domain\Quiz\Entity\QuizEntity;
 use App\Integration\Quiz\Dto\Request\Quiz\QuizCreateRequestDto;
 use App\Integration\Quiz\Dto\Request\Quiz\QuizUpdateRequestDto;
 use App\Integration\Quiz\Dto\Response\QuizDto;
-use App\Integration\Quiz\Exception\QuizCreateFailedException;
 use App\Integration\Quiz\Mapper\QuizMapper;
-use Illuminate\Support\Facades\Http;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Uid\Uuid;
 
@@ -80,17 +78,10 @@ class QuizClient extends BaseClient implements QuizServiceInterface
             );
         }
 
-        $response = Http::withoutVerifying()->put(
+        $response = $this->http()->put(
             url: "{$this->getMsUrl()}/api/v1/quizzes/{$uuid}",
             data: $dto->convertToArray()
         );
-
-        if (!$response->successful()) {
-            throw new QuizCreateFailedException(
-                message: 'Quiz API error: ' . $response->body(),
-                code: $response->status()
-            );
-        }
 
         return $this->handleResponse(
             $response,

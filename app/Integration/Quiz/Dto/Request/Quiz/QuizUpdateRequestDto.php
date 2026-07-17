@@ -18,6 +18,7 @@ class QuizUpdateRequestDto
         public ?int $passingScore,
         public ?QuizStatusEnum $status,
         public ?int $orderIndex = null,
+        public ?array $passedTopics = null,
     ) {}
 
     public function convertToArray(): array
@@ -32,18 +33,6 @@ class QuizUpdateRequestDto
                 'timeLimit' => $this->timeLimit,
                 'passingScore' => $this->passingScore,
                 'status' => $this->status,
-            ],
-            callback: fn ($value) => $value !== null
-        );
-    }
-
-    public function convertToArrayForTopic(): array
-    {
-        return array_filter(
-            array: [
-                'index_number' => $this->orderIndex,
-                'stage_id' => $this->moduleId,
-                'passed_topics' => null
             ],
             callback: fn ($value) => $value !== null
         );

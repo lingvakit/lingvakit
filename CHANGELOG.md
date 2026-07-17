@@ -2,9 +2,10 @@
 
 ---
 
-## [unreleased] - 2026-07-16
+## [2.0.4] - 2026-07-17
 ### Fixed:
 *  Fix error on create question group form
+*  Fix 401 error while updating quiz via React UI
 
 ---
 
