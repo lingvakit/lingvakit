@@ -25,8 +25,11 @@ export function QuizDetailsPage() {
                             <h4>Описание теста</h4>
 
                             <div className="form-group">
-                                <a href="#" type="button"
-                                   className="btn btn-primary btn-square mr-1 mb-2">Редактировать</a>
+                                <Link
+                                    to={`/dashboard/coursesReact/${courseId}/modules/${moduleId}/quizzes/${quiz.uuid}/edit`}
+                                    className="btn btn-primary btn-square mr-1 mb-2"
+                                >Редактировать</Link>
+
                                 <a href="#" type="button"
                                    className="btn btn-danger btn-square mr-1 mb-2">Удалить</a>
                             </div>

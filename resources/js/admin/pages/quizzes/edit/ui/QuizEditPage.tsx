@@ -45,7 +45,7 @@ export function QuizEditPage() {
     }
 
     return (
-        <PageLayout title="Новый тест">
+        <PageLayout title={`${quiz.title} (ред.)`}>
             <QuizForm
                 form={form}
                 ckEditor={ckEditor}
