@@ -24,6 +24,11 @@ export async function fetchLoaderData<T>(
         throw new Response(text || "Request failed", { status: res.status });
     }
 
-    const json = (await res.json()) as ApiResponse<T>;
-    return json.data;
+    const json = await res.json() as ApiResponse<T>;
+
+    if (json && typeof json === 'object' && 'data' in json) {
+        return json.data as T;
+    }
+
+    return json as T;
 }

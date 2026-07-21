@@ -2,6 +2,8 @@ import {RouteObject} from "react-router-dom";
 import {getQuiz} from "../../entities/quiz/queries/getQuiz";
 import {BreadcrumbHandle} from "../../shared/ui/breadcrumbs/types";
 import {QuestionsGroupCreatePage} from "./create/ui/QuestionsGroupCreatePage";
+import QuestionGroupDetailsPage from "./details/ui/QuestionGroupDetailsPage";
+import {getQuestionGroup} from "../../entities/questionGroup/api/queries/getQuestionGroup";
 
 export const questionGroupRoutes: RouteObject[] = [
     {
@@ -32,6 +34,21 @@ export const questionGroupRoutes: RouteObject[] = [
 
                 path: "create",
                 element: <QuestionsGroupCreatePage />
+            },
+
+            {
+                handle: {
+                    title: "Группа вопросов",
+                    breadcrumb: () => {
+                        return {
+                            label: "Группа вопросов",
+                        };
+                    }
+                } satisfies BreadcrumbHandle,
+
+                path: ":questionGroupUuid",
+                element: <QuestionGroupDetailsPage />,
+                loader: getQuestionGroup,
             }
         ]
     }

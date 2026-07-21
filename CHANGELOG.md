@@ -2,6 +2,12 @@
 
 ---
 
+## [unreleased] - 2026-07-21
+### Added:
+*  Display questions group details page
+
+---
+
 ## [2.0.4] - 2026-07-17
 ### Fixed:
 *  Fix error on create question group form

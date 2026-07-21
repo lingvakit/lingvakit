@@ -25,6 +25,8 @@ class QuestionsGroupRequest extends AbstractFormRequest
             'questionType' => ['required', new Enum(QuestionTypeEnum::class)],
             'meta' => ['nullable', 'array'],
             'mediaFiles' => ['nullable', 'array'],
+
+            // Questions validation
             'questions' => ['required', 'array'],
             'questions.*.uuid' => ['required', 'uuid'],
             'questions.*.text' => ['required', 'string', 'max:255'],
@@ -33,14 +35,26 @@ class QuestionsGroupRequest extends AbstractFormRequest
             'questions.*.orderIndex' => ['nullable', 'integer'],
             'questions.*.type' => ['required', new Enum(QuestionTypeEnum::class)],
             'questions.*.settings' => ['nullable', 'array'],
+
+            // Strict validation of options
             'questions.*.options' => ['required', 'array'],
+            'questions.*.options.*.uuid' => ['required', 'uuid'],
+            'questions.*.options.*.text' => ['required', 'string', 'max:255'],
+            'questions.*.options.*.matchKey' => ['nullable', 'uuid'],
+            'questions.*.options.*.orderIndex' => ['nullable', 'integer'],
+
+            // Answer validation
             'questions.*.answer' => ['required', 'array'],
+            'questions.*.answer.questionType' => ['required', new Enum(QuestionTypeEnum::class)],
+            'questions.*.answer.value' => ['required', 'array'],
+            'questions.*.answer.value.*' => ['required', 'uuid'],
         ];
     }
 
     public function dto(): QuestionsGroupCreateDto
     {
         $groupUuid = Uuid::fromString($this->fieldString('uuid'));
+        $questions = $this->field('questions');
 
         return new QuestionsGroupCreateDto(
             quizUuid: Uuid::fromString($this->fieldString('quizUuid')),
@@ -49,44 +63,38 @@ class QuestionsGroupRequest extends AbstractFormRequest
             description: $this->fieldString('description'),
             orderIndex: $this->fieldInt('orderIndex'),
             questionType: $this->fieldEnum('questionType', QuestionTypeEnum::class),
-            meta: null, // TODO: change to dynamic data
-            media: null, // TODO: change to dynamic data
+            meta: null,
+            media: null,
             questions: array_map(
-                callback: fn($question) => new QuestionCreateDto(
+                callback: fn(array $question) => new QuestionCreateDto(
                     groupUuid: $groupUuid,
                     uuid: Uuid::fromString($question['uuid']),
                     text: $question['text'],
                     explanation: $question['explanation'] ?? null,
-                    points: $this->fieldInt((string)$question['points']),
-                    orderIndex: isset($question['orderIndex'])
-                        ? $this->fieldInt($question['orderIndex'])
-                        : null,
-                    type: $this->fieldEnum('questionType', QuestionTypeEnum::class),
-                    settings: null, // TODO: change to dynamic data
+                    points: (int) $question['points'],
+                    orderIndex: isset($question['orderIndex']) ? (int) $question['orderIndex'] : null,
+                    type: QuestionTypeEnum::from($question['type']),
+                    settings: null,
                     options: array_map(
-                        callback: fn($option) => new QuestionOptionCreateDto(
+                        callback: fn(array $option) => new QuestionOptionCreateDto(
                             questionUuid: Uuid::fromString($question['uuid']),
                             uuid: Uuid::fromString($option['uuid']),
-                            text: $this->fieldString($option['text']),
-                            matchKey: isset($option['matchKey'])
-                                ? Uuid::fromString($option['matchKey'])
-                                : null,
-                            orderIndex: isset($option['orderIndex'])
-                                ? $this->fieldInt($option['orderIndex'])
-                                : null,
+                            text: (string) $option['text'],
+                            matchKey: isset($option['matchKey']) ? Uuid::fromString($option['matchKey']) : null,
+                            orderIndex: isset($option['orderIndex']) ? (int) $option['orderIndex'] : null,
                             settings: null,
                         ),
-                        array: $question['options']
+                        array: $question['options'] ?? []
                     ),
                     answer: new QuestionAnswerCreateDto(
-                        questionType: $this->fieldEnum('questionType', QuestionTypeEnum::class),
+                        questionType: QuestionTypeEnum::from($question['answer']['questionType']),
                         value: array_map(
-                            callback: fn($value) => Uuid::fromString($value),
-                            array: $question['answer']['value']
+                            callback: fn(string $value) => Uuid::fromString($value),
+                            array: $question['answer']['value'] ?? []
                         )
                     ),
                 ),
-                array: $this->field('questions')
+                array: $questions
             ),
         );
     }

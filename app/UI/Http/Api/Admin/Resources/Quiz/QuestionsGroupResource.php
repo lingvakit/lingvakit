@@ -2,6 +2,7 @@
 
 namespace App\UI\Http\Api\Admin\Resources\Quiz;
 
+use App\Application\Quiz\Dto\Question\QuestionDto;
 use App\Application\Quiz\Dto\QuestionsGroup\Response\QuestionsGroupDto;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -16,6 +17,12 @@ class QuestionsGroupResource extends JsonResource
             'description' => $this->description,
             'orderIndex' => $this->orderIndex,
             'questionType' => $this->questionType,
+            'media' => $this->media,
+            'meta' => $this->meta,
+            'questions' => array_map(
+                fn(QuestionDto $question) => $question->toArray(),
+                $this->questions
+            )
         ];
     }
 }
