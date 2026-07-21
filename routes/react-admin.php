@@ -16,6 +16,7 @@ use App\UI\Http\Api\Admin\Controllers\Module\ModuleCreateController;
 use App\UI\Http\Api\Admin\Controllers\Module\ModuleShowController;
 use App\UI\Http\Api\Admin\Controllers\Module\ModuleUpdateController;
 use App\UI\Http\Api\Admin\Controllers\QuestionsGroup\QuestionsGroupCreateController;
+use App\UI\Http\Api\Admin\Controllers\QuestionsGroup\QuestionsGroupDetailsController;
 use App\UI\Http\Api\Admin\Controllers\Quiz\QuizCreateController;
 use App\UI\Http\Api\Admin\Controllers\Quiz\QuizDetailsController;
 use App\UI\Http\Api\Admin\Controllers\Quiz\QuizUpdateController;
@@ -63,6 +64,7 @@ Route::middleware(['web'])->prefix('react/api')->group(function () {
 
     /* group of questions */
     Route::prefix('questionGroups')->group(function () {
+        Route::get('{uuid}', QuestionsGroupDetailsController::class);
         Route::post('/', QuestionsGroupCreateController::class);
     });
 });

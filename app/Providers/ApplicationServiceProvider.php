@@ -33,6 +33,8 @@ use App\Application\Quiz\Handlers\CreateQuestionsGroupHandler;
 use App\Application\Quiz\Handlers\CreateQuestionsGroupHandlerInterface;
 use App\Application\Quiz\Handlers\CreateQuizHandler;
 use App\Application\Quiz\Handlers\CreateQuizHandlerInterface;
+use App\Application\Quiz\Handlers\QuestionsGroup\QuestionsGroupDetailsHandler;
+use App\Application\Quiz\Handlers\QuestionsGroup\QuestionsGroupDetailsHandlerInterface;
 use App\Application\Quiz\Handlers\QuizDetailsHandler;
 use App\Application\Quiz\Handlers\QuizDetailsHandlerInterface;
 use App\Application\Quiz\Handlers\UpdateQuizHandler;
@@ -126,6 +128,11 @@ class ApplicationServiceProvider extends ServiceProvider
         $this->app->bind(
             abstract: CreateQuestionsGroupHandlerInterface::class,
             concrete: CreateQuestionsGroupHandler::class
+        );
+
+        $this->app->bind(
+            abstract: QuestionsGroupDetailsHandlerInterface::class,
+            concrete: QuestionsGroupDetailsHandler::class
         );
     }
 }

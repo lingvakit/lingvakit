@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace App\Application\Quiz\Mapper;
 
+use App\Application\Quiz\Dto\Question\QuestionDto;
+use App\Application\Quiz\Dto\QuestionAnswer\QuestionAnswerDto;
+use App\Application\Quiz\Dto\QuestionOption\QuestionOptionDto;
 use App\Application\Quiz\Dto\QuestionsGroup\Request\Question\QuestionAnswerCreateDto;
 use App\Application\Quiz\Dto\QuestionsGroup\Request\Question\QuestionOptionCreateDto;
 use App\Application\Quiz\Dto\QuestionsGroup\Request\QuestionCreateDto;
@@ -20,7 +23,7 @@ class QuestionsGroupMapper
     ): QuestionsGroupCreateDto {
         return new QuestionsGroupCreateDto(
             quizUuid: $quizUuid,
-            uuid:$questionGroup->getUuid(),
+            uuid: $questionGroup->getUuid(),
             title: $questionGroup->getTitle(),
             description: $questionGroup->getDescription(),
             orderIndex: $questionGroup->getOrderIndex(),
@@ -65,6 +68,40 @@ class QuestionsGroupMapper
             description: $responseDto->description,
             orderIndex: $responseDto->orderIndex,
             questionType: $responseDto->questionType,
+            media: $responseDto->media,
+            meta: $responseDto->meta,
+            questions: array_map(fn($question) => new QuestionDto(
+                uuid: $question->uuid,
+                text: $question->text,
+                type: $question->type,
+                explanation: $question->explanation,
+                points: $question->points,
+                orderIndex: $question->orderIndex,
+                media: null,
+                settings: $question->settings,
+                answer: new QuestionAnswerDto(
+                    questionType: $question->answer->questionType,
+                    value: $question->answer->value,
+                    boolean: $question->answer->boolean,
+                    blanks: $question->answer->blanks,
+                    pairs: $question->answer->pairs,
+                    sequence: $question->answer->sequence,
+                    text: $question->answer->text,
+                ),
+                options: array_map(
+                    fn($option) => new QuestionOptionDto(
+                        uuid: $option->uuid,
+                        text: $option->text,
+                        matchKey: $option->matchKey,
+                        orderIndex: $option->orderIndex,
+                        media: null,
+                        settings: $option->settings,
+                    ),
+                    $question->options
+                ),
+            ),
+                $responseDto->questions
+            ),
         );
     }
 }

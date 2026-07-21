@@ -125,9 +125,9 @@ export function QuizDetailsPage() {
                                                 <td>{questionTypeDictionary[questionGroup.questionType]}</td>
 
                                                 <td className="td-actions">
-                                                    <a href="">
-                                                        <i className="la la-eye edit" />
-                                                    </a>
+                                                    <Link
+                                                        to={`/dashboard/coursesReact/${courseId}/modules/${moduleId}/quizzes/${quiz.uuid}/questionGroups/${questionGroup.uuid}`}
+                                                    ><i className="la la-eye edit" /></Link>
 
                                                     <a href="">
                                                         <i className="la la-edit edit" />

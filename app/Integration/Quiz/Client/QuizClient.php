@@ -6,7 +6,9 @@ namespace App\Integration\Quiz\Client;
 use App\Domain\Quiz\Entity\QuizEntity;
 use App\Integration\Quiz\Dto\Request\Quiz\QuizCreateRequestDto;
 use App\Integration\Quiz\Dto\Request\Quiz\QuizUpdateRequestDto;
+use App\Integration\Quiz\Dto\Response\QuestionsGroupDto;
 use App\Integration\Quiz\Dto\Response\QuizDto;
+use App\Integration\Quiz\Mapper\QuestionsGroupMapper;
 use App\Integration\Quiz\Mapper\QuizMapper;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Uid\Uuid;
@@ -14,8 +16,27 @@ use Symfony\Component\Uid\Uuid;
 class QuizClient extends BaseClient implements QuizServiceInterface
 {
     public function __construct(
-        private readonly QuizMapper $mapper,
+        private readonly QuizMapper $quizMapper,
+        private readonly QuestionsGroupMapper $groupMapper,
     ) {
+    }
+
+    public function getQuestionsGroupDataByUuid(string $uuid): QuestionsGroupDto
+    {
+        if (!$this->validateUuid($uuid)) {
+            throw new BadRequestHttpException(
+                "UUID [$uuid] is invalid."
+            );
+        }
+
+        $response = $this->http()->get(
+            "{$this->getMsUrl()}/api/v1/questionGroups/{$uuid}"
+        );
+
+        return $this->handleResponse(
+            $response,
+            fn(array $responseData) => $this->groupMapper->fromResponseDataToDto($responseData)
+        );
     }
 
     public function getDataByUuid(string $uuid): QuizDto
@@ -32,7 +53,7 @@ class QuizClient extends BaseClient implements QuizServiceInterface
 
         return $this->handleResponse(
             $response,
-            fn(array $responseData) => $this->mapper->fromResponseDataToDto($responseData)
+            fn(array $responseData) => $this->quizMapper->fromResponseDataToDto($responseData)
         );
     }
 
@@ -53,7 +74,7 @@ class QuizClient extends BaseClient implements QuizServiceInterface
 
         return $this->handleResponse(
             $response,
-            fn(array $responseData) => $this->mapper->fromResponseDataToDtoArray($responseData)
+            fn(array $responseData) => $this->quizMapper->fromResponseDataToDtoArray($responseData)
         );
     }
 
@@ -66,7 +87,7 @@ class QuizClient extends BaseClient implements QuizServiceInterface
 
         return $this->handleResponse(
             $response,
-            fn(array $responseData) => $this->mapper->fromResponseDataToDto($responseData)
+            fn(array $responseData) => $this->quizMapper->fromResponseDataToDto($responseData)
         );
     }
 
@@ -85,7 +106,7 @@ class QuizClient extends BaseClient implements QuizServiceInterface
 
         return $this->handleResponse(
             $response,
-            fn(array $responseData) => $this->mapper->fromResponseDataToDto($responseData)
+            fn(array $responseData) => $this->quizMapper->fromResponseDataToDto($responseData)
         );
     }
 
