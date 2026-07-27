@@ -82,11 +82,6 @@ class QuestionsGroupMapper
                 answer: new QuestionAnswerDto(
                     questionType: $question->answer->questionType,
                     value: $question->answer->value,
-                    boolean: $question->answer->boolean,
-                    blanks: $question->answer->blanks,
-                    pairs: $question->answer->pairs,
-                    sequence: $question->answer->sequence,
-                    text: $question->answer->text,
                 ),
                 options: array_map(
                     fn($option) => new QuestionOptionDto(

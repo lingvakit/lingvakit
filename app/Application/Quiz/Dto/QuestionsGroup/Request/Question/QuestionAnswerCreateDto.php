@@ -7,9 +7,16 @@ use App\Domain\Quiz\Enum\QuestionTypeEnum;
 
 class QuestionAnswerCreateDto
 {
-
     public function __construct(
         public QuestionTypeEnum $questionType,
         public mixed $value = null,
     ) {}
+
+    public function convertToArray(): array
+    {
+        return [
+            'questionType' => $this->questionType,
+            'value' => $this->value,
+        ];
+    }
 }

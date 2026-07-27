@@ -9,12 +9,7 @@ class QuestionAnswerDto
 {
     public function __construct(
         public QuestionTypeEnum $questionType,
-        public ?array $value = null,
-        public ?bool $boolean = null,
-        public ?array $blanks = null,
-        public ?array $pairs = null,
-        public ?array $sequence = null,
-        public ?string $text = null,
+        public mixed $value = null,
     ) {}
 
     public function toArray(): array
@@ -22,11 +17,6 @@ class QuestionAnswerDto
         return [
             'questionType' => $this->questionType->value,
             'value' => $this->value,
-            'boolean' => $this->boolean,
-            'blanks' => $this->blanks,
-            'pairs' => $this->pairs,
-            'sequence' => $this->sequence,
-            'text' => $this->text,
         ];
     }
 }
