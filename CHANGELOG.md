@@ -2,9 +2,11 @@
 
 ---
 
-## [unreleased] - 2026-07-21
+## [2.1.0] - 2026-07-28
 ### Added:
-*  Display questions group details page
+* Display questions group details page
+* Endpoint for changing correct question answer
+* Change question answers (for single choice) on React page in admin dashboard
 
 ---
 

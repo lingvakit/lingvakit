@@ -1,31 +1,43 @@
 import PageLayout from "../../../../widgets/layout/PageLayout";
-import {useLoaderData, useParams} from "react-router-dom";
+import {useLoaderData} from "react-router-dom";
 import {QuestionGroup} from "../../../../entities/questionGroup/model/types";
 import {questionTypeDictionary} from "../../../../entities/question/model/constants";
 import {Question} from "../../../../entities/question/model/types";
 import QuestionRow from "./components/QuestionRow";
 import {useState} from "react";
+import {usePatchQuestionAnswer} from "../../../../entities/question/model/hooks";
 
 export default function QuestionGroupDetailsPage() {
     const initialQuestionGroup = useLoaderData() as QuestionGroup;
-
     const [questionGroup, setQuestionGroup] = useState<QuestionGroup>(initialQuestionGroup);
-    const [isUpdating, setIsUpdating] = useState<boolean>(false);
 
-    /* TODO: ...*/
+    const {execute, isSavingProcess} = usePatchQuestionAnswer();
+
     const handleOptionChange = async (
         questionUuid: string,
         optionUuid: string
     ): Promise<void> => {
-        if (isUpdating) return;
+        if (isSavingProcess) return;
 
-        setIsUpdating(true);
         try {
-            console.log("Успешно сохранено!");
+            await execute({
+                questionUuid: questionUuid,
+                payload: {
+                    questionType: questionGroup.questionType,
+                    value: [optionUuid]
+                }
+            });
+
+            setQuestionGroup(prev => ({
+                ...prev,
+                questions: prev.questions.map(q =>
+                    q.uuid === questionUuid
+                        ? { ...q, answer: { questionType: prev.questionType, value: [optionUuid] } }
+                        : q
+                )
+            }));
         } catch (error) {
             console.error("Ошибка при сохранении ответа", error);
-        } finally {
-            setIsUpdating(false);
         }
     }
 
@@ -90,7 +102,7 @@ export default function QuestionGroupDetailsPage() {
                                             <QuestionRow
                                                 key={question.uuid}
                                                 question={question}
-                                                isUpdating={false}
+                                                isUpdating={isSavingProcess}
                                                 onChangeCorrectOption={handleOptionChange}
                                             />
                                         ))}

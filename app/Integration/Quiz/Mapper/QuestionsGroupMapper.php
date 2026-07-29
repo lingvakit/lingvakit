@@ -6,12 +6,15 @@ namespace App\Integration\Quiz\Mapper;
 use App\Domain\Media\Enum\FileType;
 use App\Domain\Quiz\Enum\QuestionTypeEnum;
 use App\Integration\Quiz\Dto\Response\MediaFileDto;
-use App\Integration\Quiz\Dto\Response\QuestionDto;
-use App\Integration\Quiz\Dto\Response\QuestionOptionDto;
 use App\Integration\Quiz\Dto\Response\QuestionsGroupDto;
 
-class QuestionsGroupMapper
+readonly class QuestionsGroupMapper
 {
+    public function __construct(
+        private QuestionMapper $questionMapper,
+    ){
+    }
+
     public function fromResponseDataToDto(array $data): QuestionsGroupDto
     {
         return new QuestionsGroupDto(
@@ -30,26 +33,7 @@ class QuestionsGroupMapper
             ),
             meta: $data['meta'] ?? null,
             questions: array_map(
-                fn($questionData) => new QuestionDto(
-                    uuid: $questionData['uuid'],
-                    text: $questionData['text'],
-                    type: QuestionTypeEnum::from($questionData['type']),
-                    explanation: $questionData['explanation'] ?? null,
-                    points: $questionData['points'] ?? null,
-                    orderIndex: $questionData['orderIndex'] ?? null,
-                    settings: $questionData['settings'] ?? null,
-                    answer: QuestionTypeEnum::getAnswerDto($questionData['answer']),
-                    options: array_map(
-                        fn($optionData) => new QuestionOptionDto(
-                            uuid: $optionData['uuid'],
-                            text: $optionData['text'] ?? null,
-                            matchKey: $optionData['matchKey'] ?? null,
-                            orderIndex: $optionData['orderIndex'] ?? null,
-                            settings: $optionData['settings'] ?? null,
-                        ),
-                        $questionData['options'] ?? []
-                    ),
-                ),
+                fn($questionData) => $this->questionMapper->fromResponseDataToDto($questionData),
                 $data['questions'] ?? []
             ),
         );
