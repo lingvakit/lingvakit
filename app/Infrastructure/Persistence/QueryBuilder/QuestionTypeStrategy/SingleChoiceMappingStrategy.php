@@ -5,6 +5,7 @@ namespace App\Infrastructure\Persistence\QueryBuilder\QuestionTypeStrategy;
 
 use App\Domain\Quiz\Enum\LegacyQuestionTypeEnum;
 use App\Domain\Quiz\ValueObject\AnswerValueObject;
+use App\Domain\Quiz\ValueObject\QuestionAnswer\MultipleChoiceAnswer;
 use App\Domain\Quiz\ValueObject\QuestionAnswer\SingleChoiceAnswer;
 
 class SingleChoiceMappingStrategy extends AbstractQuestionMapping
@@ -28,7 +29,8 @@ class SingleChoiceMappingStrategy extends AbstractQuestionMapping
     protected function buildAnswer(
         object $conformity,
         array $currentOptions,
-        array $optionUuids
+        array $optionUuids,
+        LegacyQuestionTypeEnum $questionType
     ): AnswerValueObject
     {
         $correctOptionUuids = [];
@@ -39,6 +41,10 @@ class SingleChoiceMappingStrategy extends AbstractQuestionMapping
             }
         }
 
-        return new SingleChoiceAnswer($correctOptionUuids);
+        if ($questionType === LegacyQuestionTypeEnum::MultipleChoice) {
+            return new MultipleChoiceAnswer($correctOptionUuids);
+        }
+
+        return new SingleChoiceAnswer([$correctOptionUuids[0]]);
     }
 }

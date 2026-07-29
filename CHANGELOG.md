@@ -2,6 +2,12 @@
 
 ---
 
+## [2.1.1] - 2026-07-29
+### Fixed:
+* Quiz migration to microservice rules
+
+---
+
 ## [2.1.0] - 2026-07-28
 ### Added:
 * Display questions group details page

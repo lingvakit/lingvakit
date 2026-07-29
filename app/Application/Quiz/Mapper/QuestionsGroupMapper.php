@@ -52,7 +52,7 @@ class QuestionsGroupMapper
                     settings: $option->getSettings()?->toArray(),
                 ), $question->getOptions()),
                 answer: new QuestionAnswerCreateDto(
-                    questionType: $question->getAnswer()->getQuestionType(),
+                    questionType: $question->getType(),
                     value: $question->getAnswer()->getValue(),
                 ),
             ), $questionGroup->getQuestions()),
