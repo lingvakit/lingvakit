@@ -60,7 +60,8 @@ class SentenceBuildMappingStrategy extends AbstractQuestionMapping
     protected function buildAnswer(
         object $conformity,
         array $currentOptions,
-        array $optionUuids
+        array $optionUuids,
+        LegacyQuestionTypeEnum $questionType
     ): AnswerValueObject
     {
         $sequenceUuids = [];

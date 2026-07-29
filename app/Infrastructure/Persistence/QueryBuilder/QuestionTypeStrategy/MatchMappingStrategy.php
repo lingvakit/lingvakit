@@ -205,7 +205,8 @@ class MatchMappingStrategy extends AbstractQuestionMapping
     protected function buildAnswer(
         object $conformity,
         array $currentOptions,
-        array $optionUuids
+        array $optionUuids,
+        LegacyQuestionTypeEnum $questionType
     ): AnswerValueObject  {
         throw new LogicException('Method buildAnswer is not used in MatchMappingStrategy');
     }

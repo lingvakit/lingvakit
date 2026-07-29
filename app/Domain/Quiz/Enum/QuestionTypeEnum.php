@@ -28,7 +28,7 @@ enum QuestionTypeEnum: string
 
         return match ($answer['questionType']) {
             self::SingleChoice->value,
-            self::MultipleChoice->value=> new QuestionAnswerDto(
+            self::MultipleChoice->value => new QuestionAnswerDto(
                 questionType: $questionType,
                 value: $answer['value'],
             ),

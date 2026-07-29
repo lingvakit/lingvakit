@@ -118,7 +118,7 @@ abstract class AbstractQuestionMapping implements QuestionMappingStrategyInterfa
             $optionUuids[$option->id] = $optionUuid;
         }
 
-        $answerVO = $this->buildAnswer($conformity, $currentOptions, $optionUuids);
+        $answerVO = $this->buildAnswer($conformity, $currentOptions, $optionUuids, $questionType);
         $questionText = $customQuestionText ?? $this->resolveQuestionText($conformity);
 
         $question = new QuestionEntity(
@@ -191,10 +191,12 @@ abstract class AbstractQuestionMapping implements QuestionMappingStrategyInterfa
      * @param object $conformity
      * @param object[] $currentOptions
      * @param array<int, Uuid> $optionUuids
+     * @param LegacyQuestionTypeEnum $questionType
      */
     abstract protected function buildAnswer(
         object $conformity,
         array $currentOptions,
-        array $optionUuids
+        array $optionUuids,
+        LegacyQuestionTypeEnum $questionType
     ): AnswerValueObject;
 }
