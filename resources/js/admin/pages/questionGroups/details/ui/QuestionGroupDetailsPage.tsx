@@ -6,12 +6,35 @@ import {Question} from "../../../../entities/question/model/types";
 import QuestionRow from "./components/QuestionRow";
 import {useState} from "react";
 import {usePatchQuestionAnswer} from "../../../../entities/question/model/hooks";
+import {CreateQuestionModal} from "../../../../shared/ui/modal/question/ui/CreateQuestionModal";
 
 export default function QuestionGroupDetailsPage() {
     const initialQuestionGroup = useLoaderData() as QuestionGroup;
+
     const [questionGroup, setQuestionGroup] = useState<QuestionGroup>(initialQuestionGroup);
 
+    const [isNewQuestionModalOpen, setIsNewQuestionModalOpen] = useState(false);
+
     const {execute, isSavingProcess} = usePatchQuestionAnswer();
+
+    const handleOpenNewQuestionFormModal = (): void => {
+        setIsNewQuestionModalOpen(true);
+    };
+
+    const handleCloseNewQuestionFormModal = (): void => {
+        setIsNewQuestionModalOpen(false);
+    };
+
+    const handleQuestionCreated = (
+        newQuestion: Question | null
+    ): void => {
+        if (!newQuestion) return;
+
+        setQuestionGroup(prev => ({
+            ...prev,
+            questions: [...(prev.questions ?? []), newQuestion]
+        }));
+    }
 
     const handleOptionChange = async (
         questionUuid: string,
@@ -80,10 +103,11 @@ export default function QuestionGroupDetailsPage() {
                                 className="widget-header bordered no-actions d-flex align-items-center justify-content-between">
                                 <h4>Вопросы</h4>
 
-                                <a href="#"
-                                   type="button"
-                                   className="btn btn-primary mr-1 mb-2"
-                                >Добавить вопрос</a>
+                                <button
+                                    type="button"
+                                    className="btn btn-primary mr-1 mb-2"
+                                    onClick={handleOpenNewQuestionFormModal}
+                                >Добавить вопрос</button>
                             </div>
 
                             <div className="widget-body">
@@ -98,7 +122,7 @@ export default function QuestionGroupDetailsPage() {
 
                                         <tbody>
 
-                                        {questionGroup.questions.map((question: Question) => (
+                                        {(questionGroup.questions ?? []).map((question: Question) => (
                                             <QuestionRow
                                                 key={question.uuid}
                                                 question={question}
@@ -115,6 +139,13 @@ export default function QuestionGroupDetailsPage() {
                     </div>
                 </div>
             </div>
+
+            <CreateQuestionModal
+                questionGroupUuid={initialQuestionGroup.uuid}
+                isOpen={isNewQuestionModalOpen}
+                onClose={handleCloseNewQuestionFormModal}
+                onCreated={handleQuestionCreated}
+            />
         </PageLayout>
     );
 }

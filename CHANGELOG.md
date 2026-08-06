@@ -2,6 +2,12 @@
 
 ---
 
+## [2.2.0] - 2026-08-07
+### Added:
+* Create and add new question to questions group via modal window form
+
+---
+
 ## [2.1.1] - 2026-07-29
 ### Fixed:
 * Quiz migration to microservice rules
