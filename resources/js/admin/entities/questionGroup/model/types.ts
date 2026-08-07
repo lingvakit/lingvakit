@@ -1,5 +1,6 @@
-import {Question, QuestionPayload, QuestionType} from "../../question/model/types";
+import {Question, QuestionType} from "../../question/model/types";
 import {FontSize} from "../../../features/questionGroup/model/types";
+import {QuestionValues} from "../../../features/questionGroup/model/useQuestionGroupForm";
 
 export type QuestionGroup = {
     uuid: string,
@@ -23,7 +24,7 @@ export type QuestionGroupPayload = {
     meta?: {
         fontSize?: FontSize,
     },
-    questions: QuestionPayload[],
+    questions: QuestionValues[],
 }
 
 type AiOptionPayload = {

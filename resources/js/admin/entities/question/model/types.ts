@@ -16,6 +16,7 @@ export type Question = {
 };
 
 export type QuestionPayload = {
+    questionGroupUuid: string|null,
     uuid: string,
     text: string,
     type: QuestionType,
