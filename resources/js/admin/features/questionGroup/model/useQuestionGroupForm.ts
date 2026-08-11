@@ -33,7 +33,7 @@ export type QuestionValues = {
 
 type FormValues = {
     title: string,
-    description: string,
+    description: string | null,
     meta: {
         fontSize: FontSize
     },

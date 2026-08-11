@@ -5,7 +5,7 @@ namespace App\Integration\Quiz\Exception;
 
 use Throwable;
 
-class QuestionsGroupCreateFailedException extends QuizClientException
+class QuestionsGroupException extends QuizClientException
 {
     public function __construct(
         string $message = "Questions group creation failed",

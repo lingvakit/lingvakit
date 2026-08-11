@@ -27,6 +27,15 @@ export type QuestionGroupPayload = {
     questions: QuestionValues[],
 }
 
+export type QuestionGroupUpdatePayload = {
+    title: string,
+    description?: string | null,
+    orderIndex?: number | null,
+    meta?: {
+        fontSize?: FontSize,
+    }
+}
+
 type AiOptionPayload = {
     id: string,
     text: string

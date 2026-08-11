@@ -5,8 +5,6 @@ import {baseApiUrl} from "../../../shared/constants/api";
 export async function storeQuestionGroup(
     data: QuestionGroupPayload
 ): Promise<QuestionGroup> {
-    console.log(`Payload: ${data}`);
-
     return fetchJson<QuestionGroup>(`${baseApiUrl}/questionGroups`, {
         method: "POST",
         body: data,

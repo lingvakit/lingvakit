@@ -2,6 +2,12 @@
 
 ---
 
+## [2.3.0] - 2026-08-12
+### Added:
+* Editing questions group (main info) via react ui
+
+---
+
 ## [2.2.0] - 2026-08-07
 ### Added:
 * Create and add new question to questions group via modal window form

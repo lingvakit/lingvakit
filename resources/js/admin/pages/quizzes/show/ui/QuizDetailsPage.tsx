@@ -129,9 +129,9 @@ export function QuizDetailsPage() {
                                                         to={`/dashboard/coursesReact/${courseId}/modules/${moduleId}/quizzes/${quiz.uuid}/questionGroups/${questionGroup.uuid}`}
                                                     ><i className="la la-eye edit" /></Link>
 
-                                                    <a href="">
-                                                        <i className="la la-edit edit" />
-                                                    </a>
+                                                    <Link
+                                                        to={`/dashboard/coursesReact/${courseId}/modules/${moduleId}/quizzes/${quiz.uuid}/questionGroups/${questionGroup.uuid}/edit`}
+                                                    ><i className="la la-edit edit" /></Link>
 
                                                     <a href="#">
                                                         <i className="la la-close delete" />

@@ -12,7 +12,7 @@ use App\UI\Http\Api\Admin\Requests\AbstractFormRequest;
 use Illuminate\Validation\Rules\Enum;
 use Symfony\Component\Uid\Uuid;
 
-class QuestionsGroupRequest extends AbstractFormRequest
+class QuestionsGroupCreateRequest extends AbstractFormRequest
 {
     public function rules(): array
     {

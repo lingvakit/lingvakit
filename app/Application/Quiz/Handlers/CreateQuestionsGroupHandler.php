@@ -7,7 +7,7 @@ use App\Application\Quiz\Dto\QuestionsGroup\Request\QuestionsGroupCreateDto;
 use App\Application\Quiz\Dto\QuestionsGroup\Response\QuestionsGroupDto;
 use App\Application\Quiz\Mapper\QuestionsGroupMapper;
 use App\Integration\Quiz\Client\QuestionsGroupClient;
-use App\Integration\Quiz\Exception\QuestionsGroupCreateFailedException;
+use App\Integration\Quiz\Exception\QuestionsGroupException;
 
 final readonly class CreateQuestionsGroupHandler implements CreateQuestionsGroupHandlerInterface
 {
@@ -21,8 +21,8 @@ final readonly class CreateQuestionsGroupHandler implements CreateQuestionsGroup
     {
         try {
             $responseDto = $this->client->create($requestDto);
-        } catch (QuestionsGroupCreateFailedException $e) {
-            throw new QuestionsGroupCreateFailedException(
+        } catch (QuestionsGroupException $e) {
+            throw new QuestionsGroupException(
                 message: "Failed to create questions group",
                 previous: $e->getPrevious(),
             );
