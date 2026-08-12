@@ -39,14 +39,32 @@ class QuestionGroupEntity
         return $this->title;
     }
 
+    public function setTitle(?string $title): self
+    {
+        $this->title = $title;
+        return $this;
+    }
+
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+        return $this;
+    }
+
     public function getOrderIndex(): ?int
     {
         return $this->orderIndex;
+    }
+
+    public function setOrderIndex(?int $orderIndex): self
+    {
+        $this->orderIndex = $orderIndex;
+        return $this;
     }
 
     public function getQuestionType(): QuestionTypeEnum
@@ -75,9 +93,16 @@ class QuestionGroupEntity
         return $this->media;
     }
 
-    public function addMedia(MediaValueObject $mediaFile): void
+    public function addMedia(MediaValueObject $mediaFile): self
     {
         $this->media[] = $mediaFile;
+        return $this;
+    }
+
+    public function unsetMedia(): self
+    {
+        $this->media = [];
+        return $this;
     }
 
     public function getMeta(): ?MetaValueObject

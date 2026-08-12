@@ -39,6 +39,8 @@ use App\Application\Quiz\Handlers\Question\PatchQuestionAnswerHandler;
 use App\Application\Quiz\Handlers\Question\PatchQuestionAnswerHandlerInterface;
 use App\Application\Quiz\Handlers\QuestionsGroup\QuestionsGroupDetailsHandler;
 use App\Application\Quiz\Handlers\QuestionsGroup\QuestionsGroupDetailsHandlerInterface;
+use App\Application\Quiz\Handlers\QuestionsGroup\UpdateQuestionsGroupHandler;
+use App\Application\Quiz\Handlers\QuestionsGroup\UpdateQuestionsGroupHandlerInterface;
 use App\Application\Quiz\Handlers\QuizDetailsHandler;
 use App\Application\Quiz\Handlers\QuizDetailsHandlerInterface;
 use App\Application\Quiz\Handlers\UpdateQuizHandler;
@@ -132,6 +134,11 @@ class ApplicationServiceProvider extends ServiceProvider
         $this->app->bind(
             abstract: CreateQuestionsGroupHandlerInterface::class,
             concrete: CreateQuestionsGroupHandler::class
+        );
+
+        $this->app->bind(
+            abstract: UpdateQuestionsGroupHandlerInterface::class,
+            concrete: UpdateQuestionsGroupHandler::class
         );
 
         $this->app->bind(

@@ -4,13 +4,13 @@ import {MediaFile} from "../../../../entities/media/model/types";
 import {useCKEditor} from "../../../../shared/ui/modal/media/useCKEditor";
 import MediaUploadModal from "../../../../shared/ui/modal/media/MediaUploadModal";
 import {useQuestionGroupForm} from "../../../../features/questionGroup/model/useQuestionGroupForm";
-import {SingleChoiceForm} from "./components/Form/SingleChoiceForm";
 import {useCreateQuestionGroup} from "../../../../entities/questionGroup/model/hooks";
 import {useParams} from "react-router-dom";
 import {AiQuestionGeneratorFormModal} from "../../../../shared/ui/modal/ai-generator/AiQuestionGeneratorFormModal";
 import {useState} from "react";
 import {AiGeneratedQuestionsGroupPayload} from "../../../../entities/questionGroup/model/types";
 import {MediaTarget} from "../../../../shared/ui/modal/media/types";
+import {QuestionGroupForm} from "./components/Form/QuestionGroupForm";
 
 export function QuestionsGroupCreatePage() {
     const {quizUuid} = useParams();
@@ -63,7 +63,7 @@ export function QuestionsGroupCreatePage() {
 
     return (
         <PageLayout title="Новая группа вопросов">
-            <SingleChoiceForm
+            <QuestionGroupForm
                 form={form}
                 isSavingProgress={isSavingProcess}
                 onSubmit={handleSubmit}

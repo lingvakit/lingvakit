@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Integration\Quiz\Client;
 
 use App\Application\Quiz\Dto\QuestionsGroup\Request\QuestionsGroupCreateDto;
+use App\Application\Quiz\Dto\QuestionsGroup\Request\QuestionsGroupUpdateDto;
 use App\Integration\Quiz\Dto\Response\QuestionsGroupDto;
 use App\Integration\Quiz\Mapper\QuestionsGroupMapper;
 
@@ -19,6 +20,21 @@ class QuestionsGroupClient extends BaseClient implements QuestionsGroupServiceIn
     ): QuestionsGroupDto {
         $response = $this->http()->post(
             url: "{$this->getMsUrl()}/api/v1/questionGroups",
+            data: $requestDto->convertToArray()
+        );
+
+        return $this->handleResponse(
+            $response,
+            fn(array $responseData) => $this->mapper->fromResponseDataToDto($responseData)
+        );
+    }
+
+    public function update(
+        string $uuid,
+        QuestionsGroupUpdateDto $requestDto
+    ): QuestionsGroupDto {
+        $response = $this->http()->put(
+            url: "{$this->getMsUrl()}/api/v1/questionGroups/$uuid",
             data: $requestDto->convertToArray()
         );
 

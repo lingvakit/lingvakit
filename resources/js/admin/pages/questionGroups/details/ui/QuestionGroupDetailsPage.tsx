@@ -1,5 +1,5 @@
 import PageLayout from "../../../../widgets/layout/PageLayout";
-import {useLoaderData} from "react-router-dom";
+import {Link, useLoaderData, useParams} from "react-router-dom";
 import {QuestionGroup} from "../../../../entities/questionGroup/model/types";
 import {questionTypeDictionary} from "../../../../entities/question/model/constants";
 import {Question} from "../../../../entities/question/model/types";
@@ -10,6 +10,8 @@ import {CreateQuestionModal} from "../../../../shared/ui/modal/question/ui/Creat
 
 export default function QuestionGroupDetailsPage() {
     const initialQuestionGroup = useLoaderData() as QuestionGroup;
+
+    const {courseId, moduleId, quizUuid} = useParams();
 
     const [questionGroup, setQuestionGroup] = useState<QuestionGroup>(initialQuestionGroup);
 
@@ -72,8 +74,10 @@ export default function QuestionGroupDetailsPage() {
                         <div
                             className="widget-header bordered no-actions d-flex align-items-center justify-content-between">
                             <h4>Тип вопросов: {questionTypeDictionary[questionGroup.questionType]}</h4>
-                            <a href="https://lingvakit.local/dashboard/courses/4/stage-3/quizzes/14/questions/16/edit"
-                               type="button" className="btn btn-primary mr-1 mb-2">Редактирование</a>
+                            <Link
+                                to={`/dashboard/coursesReact/${courseId}/modules/${moduleId}/quizzes/${quizUuid}/questionGroups/${initialQuestionGroup.uuid}/edit`}
+                                className="btn btn-primary mr-1 mb-2"
+                            >Редактирование</Link>
                         </div>
                         <div className="widget-body">
                             <div className="row flex-row">

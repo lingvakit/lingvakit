@@ -4,6 +4,7 @@ import {BreadcrumbHandle} from "../../shared/ui/breadcrumbs/types";
 import {QuestionsGroupCreatePage} from "./create/ui/QuestionsGroupCreatePage";
 import QuestionGroupDetailsPage from "./details/ui/QuestionGroupDetailsPage";
 import {getQuestionGroup} from "../../entities/questionGroup/api/queries/getQuestionGroup";
+import {QuestionGroupEditPage} from "./edit/ui/QuestionGroupEditPage";
 
 export const questionGroupRoutes: RouteObject[] = [
     {
@@ -38,6 +39,23 @@ export const questionGroupRoutes: RouteObject[] = [
 
             {
                 handle: {
+                    title: "Редактирование группы вопросов",
+                    breadcrumb: ({ data }) => {
+                        const questionGroup = data as Awaited<ReturnType<typeof getQuestionGroup>>;
+
+                        return {
+                            label: questionGroup.title
+                        };
+                    }
+                } satisfies BreadcrumbHandle,
+
+                path: ":questionGroupUuid/edit",
+                element: <QuestionGroupEditPage />,
+                loader: getQuestionGroup
+            },
+
+            {
+                handle: {
                     title: "Группа вопросов",
                     breadcrumb: () => {
                         return {
@@ -49,7 +67,7 @@ export const questionGroupRoutes: RouteObject[] = [
                 path: ":questionGroupUuid",
                 element: <QuestionGroupDetailsPage />,
                 loader: getQuestionGroup,
-            }
+            },
         ]
     }
 ];
