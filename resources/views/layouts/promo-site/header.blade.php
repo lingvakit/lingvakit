@@ -42,16 +42,13 @@
             <div id="navbar-collapse-grid" class="navbar-collapse collapse pull-right">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="/#about" class="">О нас</a>
+                        <a href="{{route('site.about')}}">Обо мне</a>
+                    </li>
+                    <li>
+                        <a href="{{route('site.reviews')}}">Отзывы</a>
                     </li>
                     <li>
                         <a href="{{route('site.learning')}}" class="dropdown-toggle">Курсы</a>
-                    </li>
-                    <li>
-                        <a href="#" class="">Тесты</a>
-                    </li>
-                    <li>
-                        <a href="https://taplink.cc/lingvakit" target="_blank">Контакты</a>
                     </li>
                 </ul>
             </div>

@@ -45,6 +45,11 @@ class SiteController extends Controller
         return view('reviews');
     }
 
+    public function about()
+    {
+        return view('about');
+    }
+
     public function learning(Request $request)
     {
         $courses = Course::where([
