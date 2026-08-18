@@ -2,6 +2,12 @@
 
 ---
 
+## [2.4.0] - 2026-08-18
+### Change:
+* Redesign landing page 2026-2027
+
+---
+
 ## [2.3.0] - 2026-08-12
 ### Added:
 * Editing questions group (main info) via react ui

@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [SiteController::class, 'index'])->name('site.index');
 Route::get('/documents-list', [SiteController::class, 'documentList'])->name('site.documents-list');
 Route::get('reviews', [SiteController::class, 'reviewsPage'])->name('site.reviews');
+Route::get('about', [SiteController::class, 'about'])->name('site.about');
 
 
 // Chats

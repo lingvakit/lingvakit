@@ -48,7 +48,7 @@
 @endsection
 
 @section('content')
-    <!-- masterslider -->
+    <!-- Hero -->
     <div class="master-slider ms-skin-default" id="masterslider">
         <div class="ms-slide slide-2" data-delay="9">
             <img src="{{ asset('assets/promo-site/js/masterslider/blank.gif') }}"
@@ -91,360 +91,132 @@
     </div>
     <div class="clearfix"></div>
 
-    <!-- it's easy -->
+
+    {{-- About me --}}
     <section class="sec-padding">
         <div class="container">
             <div class="row">
-                <div class="col-xs-12 text-center">
-                    <h1 class="paddtop1 dosis font-weight-5 lspace-sm">Китайский язык с <span class="text-primary">Лингва&middot;Кит</span>
-                    </h1>
-                    <div class="title-line-4 align-center"></div>
+                <div class="col-md-6 col-sm-12 col-xs-12 bmargin">
+                    <h3 class="uppercase less-mar2">
+                        Меня зовут <span class="text-orange-2">Алёна Пристинская</span>
+                    </h3>
+                    <div class="clearfix"></div><br/>
+
+                    <p>
+                        Я преподаю китайский язык 23 года, дважды становилась «Учителем года», прошла стажировки в
+                        ведущих университетах Китая. Моя онлайн-школа «ЛИНГВАКИТ» — это место, где китайский становится
+                        живым и логичным, а подготовка к экзаменам приносит реальные результаты.
+                    </p><br/>
+
+                    <a href="{{route('site.about')}}" class="btn btn-orange-2 dark btn-round">Обо мне подробнее...</a>
                 </div>
-                <div class="clearfix"></div>
-            </div>
 
-            <div class="content-container">
-                <div class="mid-picture">
-                    <div class="mid-circle">
-                        <p>Это<span>легко</span></p>
-                        <div class="arrows">
-                            <div class="arrow"></div>
-                            <div class="arrow"></div>
-                            <div class="arrow"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="circles">
-                    <div class="bubbles-container">
-                        <div class="bubble">
-                            <div class="iconbox-xtiny"><span class="icon-notebook"></span></div>
-                            <p>Курсы для детей от&nbsp;10 лет и&nbsp;старше</p>
-                        </div>
-                        <div class="bubble">
-                            <div class="iconbox-xtiny"><span class="icon-pencil"></span></div>
-                            <p>Китайский язык «с&nbsp;нуля»</p>
-                        </div>
-                        <div class="bubble">
-                            <div class="iconbox-xtiny"><span class="icon-calendar"></span></div>
-                            <p>Курсы для студентов и взрослых</p>
-                        </div>
-                    </div>
-                    <div class="bubbles-container">
-                        <div class="bubble">
-                            <div class="iconbox-xtiny"><span class="icon-grid"></span></div>
-                            <p>Работа в&nbsp;группах и&nbsp;мини-группах</p>
-                        </div>
-                        <div class="bubble">
-                            <div class="iconbox-xtiny"><span class="icon-tools"></span></div>
-                            <p>Китайский язык для бизнеса и&nbsp;путешествий</p>
-                        </div>
-                        <div class="bubble">
-                            <div class="iconbox-xtiny"><span class="icon-briefcase"></span></div>
-                            <p>Подготовка<br>к HSK</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="buttons">
-                <a href="{{route('login')}}" class="btn btn-primary btn-large dark btn-xround">
-                    Зарегистрироватья
-                </a>
-            </div>
-        </div>
-    </section>
-    <div class="clearfix"></div>
-
-    <!-- features -->
-{{--    <section class="section-light section-side-image clearfix">--}}
-{{--        <div class="img-holder col-md-6 col-sm-3 pull-left">--}}
-{{--            <div class="background-imgholder"--}}
-{{--                 style="background:url({{ asset('assets/promo-site/images/features/features-1.jpg') }});">--}}
-{{--                <img class="nodisplay-image" src="{{ asset('assets/promo-site/images/features/features-1.jpg') }}"--}}
-{{--                     alt=""/>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--        <div class="container-fluid">--}}
-{{--            <div class="row">--}}
-{{--                <div class="col-md-7 col-md-offset-5 col-sm-8 col-sm-offset-2 text-inner clearfix align-left">--}}
-{{--                    <div class="text-box white padding-7">--}}
-{{--                        <div class="col-xs-12 text-left">--}}
-{{--                            <h1 class="paddtop1 dosis font-weight-5 lspace-sm">--}}
-{{--                                Гарантия качества обучения--}}
-{{--                            </h1>--}}
-{{--                            <div class="title-line-4"></div>--}}
-{{--                        </div>--}}
-{{--                        <div class="clearfix"></div>--}}
-{{--                        <ul class="iconlist orange">--}}
-{{--                            <li>--}}
-{{--                                <i class="fa fa-check"></i> Сильные преподаватели, которые имеют богатый стаж и опыт--}}
-{{--                                работы--}}
-{{--                            </li>--}}
-{{--                            <li>--}}
-{{--                                <i class="fa fa-check"></i> Авторская методика прошла несколько лет апробации и--}}
-{{--                                одобрение Центра развития одаренных детей--}}
-{{--                            </li>--}}
-{{--                        </ul>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </section>--}}
-{{--    <div class=" clearfix"></div>--}}
-
-{{--    <section class="section-light section-side-image clearfix">--}}
-{{--        <div class="img-holder col-md-6 col-sm-3 col-md-offset-6 pull-right">--}}
-{{--            <div class="background-imgholder"--}}
-{{--                 style="background:url({{ asset('assets/promo-site/images/features/features-2.jpg') }});">--}}
-{{--                <img class="nodisplay-image" src="{{ asset('assets/promo-site/images/features/features-2.jpg') }}"--}}
-{{--                     alt=""/>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--        <div class="container-fluid">--}}
-{{--            <div class="row">--}}
-{{--                <div class="col-md-7 col-sm-8 text-inner inner-left clearfix align-left">--}}
-{{--                    <div class="text-box white padding-7">--}}
-{{--                        <div class="col-xs-12 text-left">--}}
-{{--                            <h1 class="paddtop1 dosis font-weight-5 lspace-sm">--}}
-{{--                                Динамика роста каждого студента--}}
-{{--                            </h1>--}}
-{{--                            <div class="title-line-4"></div>--}}
-{{--                        </div>--}}
-{{--                        <div class="clearfix"></div>--}}
-{{--                        <ul class="iconlist orange">--}}
-{{--                            <li>--}}
-{{--                                <i class="fa fa-check"></i> Рейтинговая система и приятные подарки мотивируют изучать--}}
-{{--                                язык лучше всех--}}
-{{--                            </li>--}}
-{{--                            <li>--}}
-{{--                                <i class="fa fa-check"></i> После прохождения любого теста студенты могут--}}
-{{--                                проанализировать свои ошибки и исправить их--}}
-{{--                            </li>--}}
-{{--                        </ul>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </section>--}}
-{{--    <div class=" clearfix"></div>--}}
-
-{{--    <section id="about" class="section-light section-side-image clearfix">--}}
-{{--        <div class="img-holder col-md-6 col-sm-3 pull-left">--}}
-{{--            <div class="background-imgholder"--}}
-{{--                 style="background:url({{ asset('assets/promo-site/images/features/features-3.jpg') }});">--}}
-{{--                <img class="nodisplay-image" src="{{ asset('assets/promo-site/images/features/features-3.jpg') }}"--}}
-{{--                     alt=""/>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--        <div class="container-fluid">--}}
-{{--            <div class="row">--}}
-{{--                <div class="col-md-7 col-md-offset-5 col-sm-8 col-sm-offset-2 text-inner clearfix align-left">--}}
-{{--                    <div class="text-box white padding-7">--}}
-{{--                        <div class="col-xs-12 text-left">--}}
-{{--                            <h1 class="paddtop1 dosis font-weight-5 lspace-sm">--}}
-{{--                                Комфорт и удобство--}}
-{{--                            </h1>--}}
-{{--                            <div class="title-line-4"></div>--}}
-{{--                        </div>--}}
-{{--                        <div class="clearfix"></div>--}}
-{{--                        <ul class="iconlist orange">--}}
-{{--                            <li>--}}
-{{--                                <i class="fa fa-check"></i> Изучать материал и выполнять задания можно и на компьютере,--}}
-{{--                                и на мобильных устройствах--}}
-{{--                            </li>--}}
-{{--                            <li>--}}
-{{--                                <i class="fa fa-check"></i> Студенты могут самостоятельно моделировать свой учебный--}}
-{{--                                график и получать поддержку от учителя на протяжении всего периода обучения--}}
-{{--                            </li>--}}
-{{--                        </ul>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </section>--}}
-{{--    <div class=" clearfix"></div>--}}
-
-{{--    <section class="section-light section-side-image clearfix">--}}
-{{--        <div class="img-holder col-md-6 col-sm-3 col-md-offset-6 pull-left">--}}
-{{--            <div class="background-imgholder"--}}
-{{--                 style="background:url({{ asset('assets/promo-site/images/features/features-4.jpg') }});">--}}
-{{--                <img class="nodisplay-image" src="{{ asset('assets/promo-site/images/features/features-4.jpg') }}"--}}
-{{--                     alt=""/>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--        <div class="container-fluid">--}}
-{{--            <div class="row">--}}
-{{--                <div class="col-md-7 col-sm-8 text-inner inner-left clearfix align-left">--}}
-{{--                    <div class="text-box white padding-7">--}}
-{{--                        <div class="col-xs-12 text-left">--}}
-{{--                            <h1 class="paddtop1 dosis font-weight-5 lspace-sm">--}}
-{{--                                Бонусы и полезные советы--}}
-{{--                            </h1>--}}
-{{--                            <div class="title-line-4"></div>--}}
-{{--                        </div>--}}
-{{--                        <div class="clearfix"></div>--}}
-{{--                        <ul class="iconlist orange">--}}
-{{--                            <li>--}}
-{{--                                <i class="fa fa-check"></i> После приобретения одного из наших курсов, можно--}}
-{{--                                воспользоваться скидкой на последующее обучение--}}
-{{--                            </li>--}}
-{{--                            <li>--}}
-{{--                                <i class="fa fa-check"></i> Кроме учебных материалов, студенты получают полезную--}}
-{{--                                информацию для развития памяти и речи--}}
-{{--                            </li>--}}
-{{--                        </ul>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </section>--}}
-{{--    <div class=" clearfix"></div>--}}
-
-    <!-- teachers -->
-    <section class="sec-padding" style="background-color:#f6f6f6">
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-12 text-center">
-                    <h1 class="paddtop1 dosis font-weight-5 lspace-sm">Наши преподаватели</h1>
-                    <p class="sub-title">Прогресс, мотивация и сроки обучения зависят от преподавателя. Не теряйте
-                        время, доверьте свой китайский нашим экспертам.</p>
-                </div>
-                <div class="col-md-4 offset-md-4 col-12">
-                    <div class="one bmargin">
-                        <div class="team-member">
-                            <a href="{{route('app.teacher-info')}}">
-                                <img src="{{ asset('assets/promo-site/images/teachers/teacher1.jpg') }}" alt=""
-                                     class="img-responsive"/>
-                            </a>
-                        </div>
-                        <div class="info-box text-center" style="background-color: inherit">
-                            <a href="{{route('app.teacher-info')}}">
-                                <h4 class="uppercase oswald font-weight-3 less-mar2">Алена Пристинская</h4>
-                            </a>
-                            <span class="text-primary">Китайский язык</span> <br/>
-                            <br/>
-                            <p>В 2005 году закончила Педагогический Университет в г. Благовещенск, который находится
-                                на самой северной границе с Китаем.</p>
-                        </div>
-                    </div>
+                <div class="col-md-6 col-sm-12 col-xs-12 bmargin">
+                    <img src="{{ asset('assets/promo-site/images/teachers/teacher1.jpg') }}"
+                         alt="Преподаватель китайского языка - Алёна Пристинская"
+                         class="img-responsive"
+                    />
                 </div>
             </div>
         </div>
     </section>
     <div class="clearfix"></div>
 
+    {{-- Reviews --}}
     <section class="sec-padding testimonials" id="testimonials">
         <div class="container">
             <div class="row">
                 <div class="col-xs-12 text-center">
-                    <h1 class="paddtop1 dosis font-weight-5 lspace-sm">Отзывы наших клиентов</h1>
+                    <h1 class="paddtop1 dosis font-weight-5 lspace-sm">Отзывы наших студентов</h1>
                     <div class="title-line-4 align-center"></div>
                 </div>
+
                 <div class="col-md-4 col-sm-6 mb-5">
                     <div class="item">
                         <div class="text-box" style="height: auto">
-                            <p class="collapsed">Мой ребенок с 2019 года занимается китайским языком. Почему именно
-                                китайским, ведь я сама учитель английского и французского языков???
-                                Потому что начертание иероглифов ребенку казалось совсем неординарным делом, это ведь
-                                "не просто буквы". Начали с малого, просто для того, чтобы поддерживать интерес к
-                                изучению языков, о потом по-тихоньку, малыми шагами, мы дошли и до экзамена HSK1.<br>
+                            <p class="collapsed">
+                                Дочь в этом году закончила первый год обучения в школе «ЛИНГВАКИТ» и сдала экзамен HSK1
+                                на максимальные 200 баллов. Всё благодаря профессиональному, творческому и
+                                индивидуальному подходу преподавателя Алёны Алексеевны. Наши дети не только учат язык,но
+                                и погружаются в культуру Китая, ее особенности, праздники, обычаи. Обучение не
+                                постоянная скучная зубрежка, а интересное увлечение.<br>
 
-                                Было нелегко - пандемия, перенос экзаменов, но мы справились. Дочь на первом экзамене
-                                получила 200 баллов из 200. Вот это была радость и мотивация продолжать дальше!
-                                Затем второй экзамен, HSK 2. Потом устный экзамен HSKK1 - и тоже успех. И вот в начале
-                                2022 года сдавали HSK 3.<br>
+                                В мае этого года моя дочь ездила в составе учебного лагеря Алёны Алексеевны в Сиань.
+                                Ребята получили возможность прикоснуться к живому китайскому языку и своими глазами
+                                увидеть другой мир. Тут не передать словами эмоции наши и ребенка. Поездка включала не
+                                только обучение и живое общение с китайскими преподавателями в университете, а так же
+                                посещение достопримечательностей, китайскую кухню, театр теней, центр изучения панд и
+                                многое другое. После поездки дочь постоянно говорит, что хочет вновь посетить Китай.<br>
 
-                                Каждый раз, когда забираем сертификат, это все больше и больше мотивирует ребенка
-                                двигаться дальше. Пусть невсегда легко, а иногда и трудно, она все равно идет
-                                вперед.<br>
+                                В конце учебного года в школе «ЛИНГВАКИТ» по традиции выпускной с интересными заданиями,
+                                конкурсами, сладким столом, а так же вручение сертификатов.<br>
 
-                                Волшебный китайский язык? Нет. Это педагог, который нашел подход к моему сложному уже
-                                подростку. Алена Алексеевна, спасибо Вам!</p>
+                                Алёна Алексеевна, спасибо Вам большое за то, что вкладываете душу в свою работу,
+                                бесконечную любовь к детям и к своему делу!!!
+                            </p>
                             <a href="#" class="text-orange-2 read-more">Показать больше</a>
                         </div>
 
                         <div class="image">
-                            <img src="{{asset('assets/promo-site/images/reviews/review1.jpg')}}" alt/>
+                            <img src="{{asset('assets/promo-site/images/reviews/review26.jpg')}}" alt/>
                         </div>
                         <div class="info">
-                            <h5 class="less-mar1">Инна Русецкая</h5>
+                            <h5 class="less-mar1">Ольга Сергеевна Бирюкова и ее дочь Александра (12 лет)</h5>
                         </div>
-
                     </div>
                 </div>
+
                 <div class="col-md-4 col-sm-6 mb-5">
                     <div class="item">
-                        <div class="text-box">
-                            <p class="collapsed">Хотела бы рассказать о нашем пути в изучении китайского языка. А
-                                точнее, о том, как его
-                                изучает моя дочь Маша. Изначально тема китайского языка привлекала своей необычностью и
-                                уникальностью (все-таки в основной массе дети учат английский и другие европейские
-                                языки). Но китайский язык в сочетании с культурой и традициями вызывал определенный
-                                трепет и желание изучить и познать нечто непохожее на все остальное. Ну и не будем
-                                лукавить, тенденции современных мировых течений политики и экономики кричат нам о том,
-                                что китайское доминирование - это будущее всего мирового сообщества.<br>
+                        <div class="text-box" style="height: auto">
+                            <p class="collapsed">
+                                Уважаемая Алёна Алексеевна! Наша семья хочет выразить Вам благодарность за обучение
+                                китайскому языку нашего сына — Цепелева Дмитрия. Мы с Вами уже 2 года, два успешно
+                                сданных теста HSK.
+                                Программа выстроена логично — от простого к сложному, нет ощущения "сухости" — много
+                                практики, диалогов, прививается любовь к иероглифам через каллиграфию, приятные сюрпризы
+                                и подарки детям из Китая.<br>
 
-                                И вот, вооружившись такими настроениями, около 3 лет назад моя дочь ступила на путь
-                                познания и изучения китайского языка. И благодаря нашему замечательному педагогу Алене
-                                Алексеевне Пристинской, ее занятия не ограничиваются только языком. В конву занятий
-                                тесно вплетена информация об истории, культурных традициях, ценностях, обычаях и
-                                настроениях Китая. Алена Алексеевна следит за интересными событиями Поднебесной,
-                                праздниками. Угощала лунными пряниками). Ой, как это вкусно. А как приятно!<br>
-
-                                Но вернусь к обучению. Начинали в буквальном смысле с нуля. Маше на тот момент было 12
-                                лет. Очень интересно. Но и сразу стало понятно, что будет непросто. Расслабляться
-                                нельзя. Много информации нужно было усваивать. Тяжело моментами. Но в любом деле главное
-                                - желание и труд. Труд обоюдный - и педагога и ученика!<br>
-
-                                Дочка очень старалась и через год был преодолен первый рубеж - экзамен HSK1. Сдавали в
-                                институте Конфуция при МГЛУ. Остоженка, настоящий большой серьезный университет,
-                                педагоги-китайцы, много соискателей! Все очень ответственно и волнительно! Но наш
-                                педагог был с нами в этот день. И это было важно! Остальное в руках ученика, главное
-                                быть уверенным в знаниях. А они (знания) были!! Итог порадовал - 190 баллов из 200
-                                возможных! И это твердая пятерка! Успех важен, т.к. дает импульс к дальнейшему труду и
-                                развитию. Дальше больше. Рука об руку с Аленой Алексеевной были взяты HSK2, HSKK, HSK3…
-                                и мы ни в коем случае не останавливаемся).<br>
-
-                                Небольшая передышка на лето и двигаемся дальше 😁! Хотим выразить огромную благодарность
-                                Алене Алексеевне за знания, которыми она делится со своими учениками, за терпение, за
-                                веру и профессионализм!!!</p>
+                                Отдельная благодарность Вам за организацию поездки в Китай, где дети жили и общались с
+                                носителями языка, узнали много о культуре и традициях Китая, научились разным приёмам в
+                                изучении языка. С абсолютной уверенностью и легкостью, мне как родителю, было несложно
+                                доверить Вам сына, зная то, что поездка будет для него мега-увлекательной и
+                                познавательной и послужит мотивацией для дальнейшего изучения языка.
+                            </p>
                             <a href="#" class="text-orange-2 read-more">Показать больше</a>
                         </div>
 
                         <div class="image">
-                            <img src="{{asset('assets/promo-site/images/reviews/review2.jpg')}}" alt=""/>
+                            <img src="{{asset('assets/promo-site/images/reviews/review27.jpg')}}" alt/>
                         </div>
                         <div class="info">
-                            <h5 class="less-mar1">Ирина Урядченко</h5>
+                            <h5 class="less-mar1">Виктория Валерьевна Цепелева и ее сын Дмитрий (13 лет)</h5>
                         </div>
-
                     </div>
                 </div>
+
                 <div class="col-md-4 col-sm-6 mb-5">
                     <div class="item">
-                        <div class="text-box">
-                            <p class="collapsed">«Предложила сыну начать учить китайский язык, в шутку! А он согласился)
-                                Нам посоветовали обратиться к Алене Алексеевне.<br>
+                        <div class="text-box" style="height: auto">
+                            <p class="collapsed">
+                                Я благодарна, за Ваш креативный подход к обучению. Ребёнку, очень интересно изучать
+                                китайский язык. Вы погружаете детей в Китайскую культуру, организовывая поездки в
+                                языковой лагерь, организовывая занятия в интересных форматах.<br>
 
-                                Она предложила ознакомительный курс, который позволил понять: «Что такое китайский
-                                язык?» и «Хочу ли я стать носителем одного из древнейших языков?»
-                                Не знаю как, но после 8 занятий у сына желание не только не пропало, НО ребёнок поставил
-                                себе ЦЕЛЬ: выучить язык и поступить в китайский вуз!<br>
-
-                                Грамотно разработанная программа, дисциплина и главное «контакт» с ребёнком, умение
-                                замотивировать и заинтересовать дали свой результат уже через 8 мес! Первый экзамен 200
-                                баллов из 200!<br>
-
-                                Ждём через 3 месяца следующий экзамен и уверены в аналогичном результате! Спасибо Алене
-                                Алексеевне! Не каждый учитель является педагогом!</p>
+                                Ребёнок не просто изучает китайский язык, а знакомиться с культурой, поездка в Сиань
+                                оставила очень приятные воспоминания. Понравилось, что ребёнок мог практиковать свои
+                                знания с носителями языка, понравилось посещение достопримечательностей города, особенно
+                                экскурсия в музей Терракотовой армии, также интересно было попробовать традиционную
+                                китайскую кухню.
+                            </p>
                             <a href="#" class="text-orange-2 read-more">Показать больше</a>
                         </div>
 
                         <div class="image">
-                            <img src="{{asset('assets/promo-site/images/reviews/review3.jpg')}}" alt=""/>
+                            <img src="{{asset('assets/promo-site/images/reviews/review28.jpg')}}" alt/>
                         </div>
                         <div class="info">
-                            <h5 class="less-mar1">Наталья Манжелли</h5>
+                            <h5 class="less-mar1">Майя Мусаева и ее дочь Сабина (16 лет)</h5>
                         </div>
                     </div>
                 </div>
@@ -458,100 +230,85 @@
     </section>
     <div class="clearfix"></div>
 
-    <section class="sec-padding">
+    <section class="sec-tpadding-2">
         <div class="container">
             <div class="row">
-                <div class="col-xs-12 text-center">
-                    <h1 class="paddtop1 dosis font-weight-5 lspace-sm">Как учиться в ЛИНГВАКИТ</h1>
-                    <div class="title-line-4 align-center"></div>
+                <div class="col-md-7">
+                    <h2 class="section-title">Как я учу?</h2>
+                    <p class="sub-title-left">
+                        Главное, что отличает мои занятия, — <span class="text-orange-2">это опора на понимание</span>,
+                        а не на заучивание.
+                    </p>
+                    <div class="clearfix"></div>
+                    <div class="feature-box9 text-center active">
+                        <div class="iconbox-smedium round left grayoutline2"><span class="icon-piechart"></span></div>
+                        <div class="text-box-right">
+                            <h4>Иероглифы с историей</h4>
+                            <p>
+                                Вместо заучивания иероглифов — я объясняю их происхождение, ключи и эволюцию, чтобы
+                                каждый знак становился не набором чёрточек, а историей.
+                            </p>
+                        </div>
+                    </div>
+                    <br/>
+                    <br/>
+
+                    <div class="feature-box9 text-center active">
+                        <div class="iconbox-smedium round left grayoutline2"><span class="icon-piechart"></span></div>
+                        <div class="text-box-right">
+                            <h4>Грамматика в контексте</h4>
+                            <p>
+                                Вместо сухих правил — я вплетаю грамматику в реальные диалоги и культурные контексты,
+                                чтобы ученик не просто знал правило, а чувствовал, как и когда его применять.
+                            </p>
+                        </div>
+                    </div>
+                    <br/>
+                    <br/>
+
+                    <div class="feature-box9 text-center active">
+                        <div class="iconbox-smedium round left grayoutline2"><span class="icon-piechart"></span></div>
+                        <div class="text-box-right">
+                            <h4>Запоминание через игру</h4>
+                            <p>
+                                Вместо механических упражнений — я использую ассоциации, мнемотехники и игры, которые
+                                делают запоминание естественным и долгосрочным.
+                            </p>
+                        </div>
+                    </div>
+                    <br/>
+                    <br/>
+
+                    <div class="feature-box9 text-center active">
+                        <div class="iconbox-smedium round left grayoutline2"><span class="icon-piechart"></span></div>
+                        <div class="text-box-right">
+                            <h4>Индивидуальный подход</h4>
+                            <p>
+                                Для каждого ученика — я подбираю темп и материал, потому что взрослые и дети, начинающие
+                                и продолжающие требуют разного подхода. У меня есть программы для всех возрастов и
+                                уровней.
+                            </p>
+                        </div>
+                    </div>
+                    <br/>
+                    <br/>
+
+                    <p>
+                        Такой подход даёт результат: ученики не боятся говорить, сдают экзамены с высокими баллами и
+                        продолжают учиться дальше уже с интересом, а не потому что их заставляют.
+                    </p>
+
+                    <br/>
+                    <br/>
+                    <div class="clearfix"></div>
                 </div>
-                <div class="clearfix"></div>
-
-                <div class="col-md-4">
-                    <div class="col-md-12 col-sm-12 col-xs-12 nopadding">
-                        <div class="feature-box19 bmargin number">
-                            <div class="iconbox-small round grayoutline2 orange2 left">1</div>
-                            <div class="text-box-right">
-                                <h4 class="less-mar3">Регистрация</h4>
-                                <p>Пройдите процесс регистрации на сайте</p>
-                            </div>
-                        </div>
+                <div class="col-md-5 col-sm-12 col-xs-12">
+                    <div class="img-holder">
+                        <img src="{{asset('assets/promo-site/images/ch_teacher1.jpg')}}"
+                             alt=""
+                             class="img-responsive"/>
                     </div>
-                    <!--end item-->
-
-                    <div class="col-md-12 col-sm-12 col-xs-12 nopadding">
-                        <div class="feature-box19 bmargin number">
-                            <div class="iconbox-small round grayoutline2 orange2 left">2</div>
-                            <div class="text-box-right">
-                                <h4 class="less-mar3">Выбор курса</h4>
-                                <p>Выберите курс и оплатите его картой онлайн</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!--end item-->
-
-                    <div class="col-md-12 col-sm-12 col-xs-12 nopadding">
-                        <div class="feature-box19 bmargin number">
-                            <div class="iconbox-small round grayoutline2 orange2 left">3</div>
-                            <div class="text-box-right">
-                                <h4 class="less-mar3">Изучение материала</h4>
-                                <p>Приступите к изучению материала</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!--end item-->
-
                 </div>
-                <!--end item-->
-
-                <div class="col-md-4 col-sm-12 col-xs-12">
-                    <div class="feature-box19 bmargin number">
-                        <div class="image-holder">
-                            <img src="{{ asset('assets/promo-site/images/how-to.jpg') }}" alt=""
-                                 class="img-responsive"/>
-                        </div>
-                    </div>
-
-                </div>
-                <!--end item-->
-
-                <div class="col-md-4 col-sm-12 col-xs-12">
-
-                    <div class="col-md-12 col-sm-12 col-xs-12 nopadding">
-                        <div class="feature-box19 bmargin number">
-                            <div class="iconbox-small round grayoutline2 orange2 left">4</div>
-                            <div class="text-box-right">
-                                <h4 class="less-mar3">Тестирование</h4>
-                                <p>Пройдите тестирование по изученному материалу</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!--end item-->
-
-                    <div class="col-md-12 col-sm-12 col-xs-12 nopadding">
-                        <div class="feature-box19 bmargin number">
-                            <div class="iconbox-small round grayoutline2 orange2 left">5</div>
-                            <div class="text-box-right">
-                                <h4 class="less-mar3">Сертификат</h4>
-                                <p>По окончании обучения получите сертификат</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!--end item-->
-
-                    <div class="col-md-12 col-sm-12 col-xs-12 nopadding">
-                        <div class="feature-box19 bmargin number">
-                            <div class="iconbox-small round grayoutline2 orange2 left">6</div>
-                            <div class="text-box-right">
-                                <h4 class="less-mar3">Получите бонус</h4>
-                                <p>Посоветуйте нас друзьям и получите бонус</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!--end item-->
-
-                </div>
-                <!--end item-->
             </div>
         </div>
     </section>
@@ -559,167 +316,264 @@
 
     <section class="sec-padding testimonials">
         <div class="container">
+            <div class="row">
+
+                <div class="col-xs-12 text-center">
+                    <h1 class="paddtop1 dosis font-weight-5 lspace-sm">Мои курсы</h1>
+                    <div class="title-line-4 align-center"></div>
+                </div>
+
+
+                <div class="col-md-8">
+                    <h3 class="section-title">Вводный фонетический курс</h3>
+                    <p>Для тех, кто совсем с нуля. 8 занятий, на которых мы ставим произношение, разбираем тоны и
+                        осваиваем первые слова и фразы. Это база, без которой двигаться дальше невозможно.</p>
+                    <br/>
+                    <br/>
+                    <a class="btn btn-border orange-2 btn-round" href="{{route('site.learning')}}">Еще больше здесь</a>
+                </div>
+                <br/><br/>
+
+                <div class="col-md-4">
+                    <img src="{{asset('assets/promo-site/images/courses/01.jpeg')}}" alt="" class="img-responsive"/>
+                </div>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <div class="clearfix"></div>
+                <div class="divider-line2"></div>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+
+                <div class="col-md-4">
+                    <img src="{{asset('assets/promo-site/images/courses/02.jpeg')}}" alt="" class="img-responsive"/>
+                </div>
+                <div class="col-md-8">
+                    <h3 class="section-title">Основные курсы HSK‑1, HSK‑2, HSK‑3, HSK-4.</h3>
+                    <p>Программы, полностью соответствующие новому формату экзамена. Каждый курс включает видеолекции с
+                        моими подробными разборами, живые онлайн‑уроки в мини‑группах (до 7 человек), интерактивные
+                        задания и проверку домашних работ. Доступ к материалам сохраняется навсегда.</p>
+                    <br/>
+                    <br/>
+                    <a class="btn btn-border orange-2 btn-round" href="{{route('site.learning')}}">Еще больше здесь</a>
+                </div>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <div class="clearfix"></div>
+                <div class="divider-line2"></div>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+
+                <div class="col-md-8">
+                    <h3 class="section-title">Курс «Пишу иероглифы красиво»</h3>
+                    <p>Это мой авторский мини‑курс для тех, кто хочет разобраться с логикой иероглифов. 6 уроков, в
+                        которых я рассказываю истории ключей, показываю, как менялись знаки на протяжении тысячелетий, и
+                        даю простые приёмы для их запоминания.</p>
+                    <br/>
+                    <br/>
+                    <a class="btn btn-border orange-2 btn-round" href="{{route('site.learning')}}">Еще больше здесь</a>
+                </div>
+                <br/><br/>
+
+                <div class="col-md-4">
+                    <img src="{{asset('assets/promo-site/images/courses/03.jpeg')}}" alt="" class="img-responsive"/>
+                </div>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <div class="clearfix"></div>
+                <div class="divider-line2"></div>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+
+                <div class="col-md-4">
+                    <img src="http://placehold.it/300x300" alt="" class="img-responsive"/>
+                </div>
+                <div class="col-md-8">
+                    <h3 class="section-title">Что дальше?</h3>
+                    <p>Если вы хотите попробовать, познакомиться с моим подходом и понять, подходит ли он вам или вашему
+                        ребёнку — напишите мне. Я отвечу на все вопросы, расскажу о ближайших группах и наборах</p>
+                    <br/>
+                    <br/>
+                    <a class="btn btn-border orange-2 btn-round"
+                       href="mailto:info@lingva-kit.ru"
+                       target="_blank"
+                    >Написать</a>
+                </div>
+                <br/>
+            </div>
+        </div>
+    </section>
+    <!--end section -->
+    <div class="clearfix"></div>
+
+
+    {{-- Documents --}}
+    <section class="sec-padding testimonials">
+        <div class="container">
             <div class="col-12 text-center">
                 <h1 class="paddtop1 dosis font-weight-5 lspace-sm">Документы</h1>
                 <div class="title-line-4 align-center"></div>
 
                 <h4>
-                    <a href="{{asset("documents/01-dogovor-oferta.pdf")}}"
+                    <a href="{{asset("documents/2026-2027/01 Договор-оферта ЛИНГВАКИТ 2026.docx")}}"
                        style="color: #0d75c1"
                        target="_blank">
-                        Договор-оферта ЛингваКит
+                        Договор-оферта ЛИНГВАКИТ 2026
                     </a>
                 </h4>
 
                 <h4>
-                    <a href="{{asset("documents/02-politika-v-oblasti-personalnyh-dannyh.pdf")}}"
+                    <a href="{{asset("documents/2026-2027/02 РП ЛИНГВАКИТ-2026.pdf")}}"
                        style="color: #0d75c1"
                        target="_blank">
-                        Политика в области персональных данных
+                        РП ЛИНГВАКИТ 2026
                     </a>
                 </h4>
 
                 <h4>
-                    <a href="{{asset("documents/03-rp.pdf")}}"
+                    <a href="{{asset("documents/2026-2027/03-Политика в области персональных данных 2026.pdf")}}"
                        style="color: #0d75c1"
                        target="_blank">
-                        РП ЛингваКит
+                        Политика в области персональных данных 2026
                     </a>
                 </h4>
 
                 <h4>
-                    <a href="{{asset("documents/04-pravila-vnutrennego-rasporyadka-obuchayushchegosya.pdf")}}"
+                    <a href="{{asset("documents/2026-2027/04-Правила внутреннего распорядка обучающегося 2026.pdf")}}"
                        style="color: #0d75c1"
                        target="_blank">
-                        Правила внутреннего распорядка обучающегося (лингвакит)
+                        Правила внутреннего распорядка обучающегося 2026
                     </a>
                 </h4>
 
                 <h4>
-                    <a href="{{asset("documents/05-pravila-vnutrennego-trudovogo-rasporyadka-dlya-rabotnikov-individualnogo-predprinimatelya.pdf")}}"
+                    <a href="{{asset("documents/2026-2027/05-Правила внутреннего трудового распорядка для работников ИП 2026.pdf")}}"
                        style="color: #0d75c1"
                        target="_blank">
-                        Правила внутреннего трудового распорядка для работников индивидуального предпринимателя
+                        Правила внутреннего трудового распорядка для работников ИП 2026
                     </a>
                 </h4>
 
                 <h4>
-                    <a href="{{asset("documents/06-otchet-o-rezultatah-samoobsledovaniya-individualnogo-predprinimatelya-pristinskoĭ-aa.pdf")}}"
+                    <a href="{{asset("documents/2026-2027/06-Положение о режиме занятий обучающихся 2026.pdf")}}"
                        style="color: #0d75c1"
                        target="_blank">
-                        Отчет о результатах самообследования Индивидуального предпринимателя Пристинской А.А.
+                        Положение о режиме занятий обучающихся 2026
                     </a>
                 </h4>
 
                 <h4>
-                    <a href="{{asset("documents/07-polozhenie-o-rezhime-zanyatiĭ-obuchayushchihsya.pdf")}}"
+                    <a href="{{asset("documents/2026-2027/07-Формы, периодичность и порядок текущего контроля успеваемости и промежуточной аттестации обучающихся 2026 .pdf")}}"
                        style="color: #0d75c1"
                        target="_blank">
-                        Положение о режиме занятий обучающихся
+                        Формы, периодичность и порядок текущего контроля успеваемости и промежуточной аттестации обучающихся 2026
                     </a>
                 </h4>
 
                 <h4>
-                    <a href="{{asset("documents/08-formy-periodichnost-i-poryadok-tekushchego-kontrolya-uspevaemosti-i-promezhutochnoĭ-attestacii-obuchayushchihsya.pdf")}}"
+                    <a href="{{asset("documents/2026-2027/08-Положение о порядке и основаниях перевода, отчисления и восстановления обучающихся 2026.pdf")}}"
                        style="color: #0d75c1"
                        target="_blank">
-                        Формы, периодичность и порядок текущего контроля успеваемости и промежуточной аттестации обучающихся
+                        Положение о порядке и основаниях перевода, отчисления и восстановления обучающихся 2026
                     </a>
                 </h4>
 
                 <h4>
-                    <a href="{{asset("documents/09-polozhenie-o-poryadke-i-osnovaniyah-perevoda-otchisleniya-i-vosstanovleniya-obuchayushchihsya.pdf")}}"
+                    <a href="{{asset("documents/2026-2027/09-Правила приема на обучение по программам дополнительного образования 2026.pdf")}}"
                        style="color: #0d75c1"
                        target="_blank">
-                        Положение о порядке и основаниях перевода, отчисления и восстановления обучающихся
+                        Правила приема на обучение по программам дополнительного образования 2026
                     </a>
                 </h4>
 
                 <h4>
-                    <a href="{{asset("documents/10-pravila-priema-na-obuchenie-po-programmam-dopolnitelnogo-obrazovaniya.pdf")}}"
+                    <a href="{{asset("documents/2026-2027/10-Положение о порядке и основаниях перевода, отчисления и восстановления обучающихся 2026.pdf")}}"
                        style="color: #0d75c1"
                        target="_blank">
-                        Правила приема на обучение по программам дополнительного образования
+                        Положение о порядке и основаниях перевода, отчисления и восстановления обучающихся 2026
                     </a>
                 </h4>
 
                 <h4>
-                    <a href="{{asset("documents/11-polozhenie-o-poryadke-i-osnovaniyah-perevoda-otchisleniya-i-vosstanovleniya-obuchayushchihsya.pdf")}}"
+                    <a href="{{asset("documents/2026-2027/11-Правила оказания платных образовательных услуг 2026.pdf")}}"
                        style="color: #0d75c1"
                        target="_blank">
-                        Положение о порядке и основаниях перевода, отчисления и восстановления обучающихся
+                        Правила оказания платных образовательных услуг 2026
                     </a>
                 </h4>
 
                 <h4>
-                    <a href="{{asset("documents/12-pravila-okazaniya-platnyh-obrazovatelnyh-uslug.pdf")}}"
+                    <a href="{{asset("documents/2026-2027/12-Об утверждении стоимости обучения 2026.pdf")}}"
                        style="color: #0d75c1"
                        target="_blank">
-                        Правила оказания платных образовательных услуг
+                        Об утверждении стоимости обучения 2026
                     </a>
                 </h4>
 
                 <h4>
-                    <a href="{{asset("documents/13-ob-utverzhdenii-stoimosti-obucheniya.pdf")}}"
+                    <a href="{{asset("documents/2026-2027/13-Договор_Несовершеннолетние оказания_дистанционных_образовательных_услуг_ ИП_Пристинская 2026.pdf")}}"
                        style="color: #0d75c1"
                        target="_blank">
-                        Об утверждении стоимости обучения
+                        Договор "Несовершеннолетние" оказания дистанционных образовательных услуг ИП Пристинская 2026
                     </a>
                 </h4>
 
                 <h4>
-                    <a href="{{asset("documents/14-licenziya.pdf")}}"
+                    <a href="{{asset("documents/2026-2027/14-Договор Совершеннолетние_оказания_дистанционных_образовательных_услуг_ИП_Пристинская 2026.pdf")}}"
                        style="color: #0d75c1"
                        target="_blank">
-                        Лицензия
+                        Договор "Совершеннолетние" оказания дистанционных образовательных услуг ИП Пристинская 2026
                     </a>
                 </h4>
 
                 <h4>
-                    <a href="{{asset("documents/15-reestrovaya-vypiska.pdf")}}"
+                    <a href="{{asset("documents/2026-2027/16-Отчет о результатах самообследования Индивидуального предпринимателя Пристинской А.А. 2026.pdf")}}"
                        style="color: #0d75c1"
                        target="_blank">
-                        Реестровая выписка
+                        Отчет о результатах самообследования Индивидуального предпринимателя Пристинской А.А. 2026
                     </a>
                 </h4>
 
                 <h4>
-                    <a href="{{asset("documents/16-dogovor-okazaniya-distancionnyh-obrazovatelnyh-uslug-ip-pristinskaya.docx")}}"
+                    <a href="{{asset("documents/2026-2027/17-1-приказ об отчислении 2026.docx")}}"
                        style="color: #0d75c1"
                        target="_blank">
-                        Договор оказания дистанционных образовательных услуг ИП Пристинская А.А.
+                        Приказ об отчислении 02.2026 г.
                     </a>
                 </h4>
 
                 <h4>
-                    <a href="{{asset("documents/17-prikaz-ob-otchislenii.docx")}}"
+                    <a href="{{asset("documents/2026-2027/17-2-об отчислении 2026-avg.docx")}}"
                        style="color: #0d75c1"
                        target="_blank">
-                        Приказ об отчислении 8 сентября 2025 г.
+                        Приказ об отчислении 03.2026 г.
                     </a>
                 </h4>
 
                 <h4>
-                    <a href="{{asset("documents/18-prikaz-o-zachislenii.docx")}}"
+                    <a href="{{asset("documents/2026-2027/17-3-об отчислении 2026.docx")}}"
                        style="color: #0d75c1"
                        target="_blank">
-                        Приказ о зачислении 8 сентября 2025 г.
+                        Приказ об отчислении 04.2026 г.
                     </a>
                 </h4>
 
                 <h4>
-                    <a href="{{asset("documents/19-prikaz-o-zachislenii-26-avg.docx")}}"
+                    <a href="{{asset("documents/2026-2027/03-Политика в области персональных данных 2026.pdf")}}"
                        style="color: #0d75c1"
                        target="_blank">
                         Приказ о зачислении от 26 августа 2025 г.
-                    </a>
-                </h4>
-
-                <h4>
-                    <a href="{{asset("documents/20-prikaz-o-zachislenii-ot-01-12.docx")}}"
-                       style="color: #0d75c1"
-                       target="_blank">
-                        Приказ о зачислении от 1 декабря 2025 г.
                     </a>
                 </h4>
 
@@ -753,37 +607,4 @@
         </div>
     </section>
     <div class="clearfix"></div>
-@endsection
-
-@section('modals')
-    {{--    <div class="lk-modal-wrap">--}}
-    {{--        <div class="lk-modal">--}}
-    {{--            <div class="container">--}}
-    {{--                <div class="modal-close-wrap">--}}
-    {{--                    <div class="modal-close"></div>--}}
-    {{--                </div>--}}
-    {{--                <div class="modal-video">--}}
-    {{--                    <video--}}
-    {{--                            id="promo-video"--}}
-    {{--                            class="video-js"--}}
-    {{--                            controls--}}
-    {{--                            preload="auto"--}}
-    {{--                            style="width: 1200px; max-width: 100%;"--}}
-    {{--                            poster="{{asset('assets/promo-site/video-poster.jpg')}}"--}}
-    {{--                            data-setup="{}"--}}
-    {{--                    >--}}
-    {{--                        <source src="{{asset('assets/promo-site/banner_RoK.mp4')}}" type="video/mp4"/>--}}
-    {{--                        <source src="{{asset('assets/promo-site/banner_RoK.webm')}}" type="video/webm"/>--}}
-    {{--                        <p class="vjs-no-js">--}}
-    {{--                            To view this video please enable JavaScript, and consider upgrading to a--}}
-    {{--                            web browser that--}}
-    {{--                            <a href="https://videojs.com/html5-video-support/" target="_blank"--}}
-    {{--                            >supports HTML5 video</a--}}
-    {{--                            >--}}
-    {{--                        </p>--}}
-    {{--                    </video>--}}
-    {{--                </div>--}}
-    {{--            </div>--}}
-    {{--        </div>--}}
-    {{--    </div>--}}
 @endsection
