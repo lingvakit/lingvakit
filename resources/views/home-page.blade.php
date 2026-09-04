@@ -9,6 +9,39 @@
     <link href="{{ asset('assets/promo-site/js/owl-carousel/owl.carousel.css')}}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/promo-site/js/ytplayer/ytplayer.css')}}"/>
     <link href="https://vjs.zencdn.net/8.3.0/video-js.css" rel="stylesheet"/>
+    <style>
+        //* Изолируем флоуты внутри контейнера слайдера */
+        .achievements-slider .owl-stage::after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+
+        /* Растягиваем слайд на весь экран */
+        .achievements-slider .slide-item {
+            height: 100vh;
+            width: 100%;
+            display: flex; /* Flexbox внутри слайда не конфликтует с внешними float */
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #2c3e50; /* Временный фон, заменишь на свой */
+            color: #ffffff;
+            text-align: center;
+            padding: 0 20px; /* Защита от прилипания текста к краям на смартфонах */
+        }
+
+        /* Ограничитель ширины текста для хорошей читаемости */
+        .slide-content {
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .slide-content h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+    </style>
 @endsection
 
 @section('scripts')
@@ -45,6 +78,24 @@
     <script src="{{ asset('assets/promo-site/js/animations/js/appear.min.js')}}" type="text/javascript"></script>
 
     <script src="https://vjs.zencdn.net/8.3.0/video.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#achievements-slider').owlCarousel({
+                items: 1,
+                loop: true,
+                margin: 0,
+                nav: true,
+                dots: true,
+                autoplay: true,
+                autoplayTimeout: 8000,
+                navText: [
+                    '<i class="fa fa-angle-left"></i>',
+                    '<i class="fa fa-angle-right"></i>'
+                ]
+            });
+        });
+    </script>
 @endsection
 
 @section('content')
@@ -309,6 +360,29 @@
                              class="img-responsive"/>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+    <div class="clearfix"></div>
+
+    <section class="sec-tpadding-2" style="padding: 0;">
+        <div class="container-fluid" style="padding: 0;">
+            <div id="achievements-slider" class="owl-carousel owl-theme achievements-slider">
+
+                <div class="item slide-item">
+                    <div class="slide-content">
+                        <h1>Твой Главный Заголовок</h1>
+                        <p>Здесь можно разместить любой текст. Он не сломает верстку.</p>
+                    </div>
+                </div>
+
+                <div class="item slide-item">
+                    <div class="slide-content">
+                        <h1>Второй Заголовок</h1>
+                        <p>И еще немного текста для второго слайда.</p>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
