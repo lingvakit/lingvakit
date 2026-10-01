@@ -2,6 +2,12 @@
 
 ---
 
+## [3.0.0] - 2026-10-01
+### Upgraded:
+* Laravel framework to v.13
+
+---
+
 ## [2.5.1] - 2026-09-07
 ### Fixed:
 * Register user process
