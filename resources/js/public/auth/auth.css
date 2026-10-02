@@ -1,0 +1,214 @@
+:root {
+    --bg: #f3f5fb;
+    --card: #fff;
+    --text: #1b2033;
+    --muted: #6b7390;
+    --border: #d9deee;
+    --primary: #4f46e5;
+    --primary-h: #4338ca;
+    --danger: #dc2626;
+    --ok-bg: #ecfdf3;
+    --ok: #15803d;
+    --err-bg: #fef2f2;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: #0f1220;
+        --card: #181c30;
+        --text: #eceffd;
+        --muted: #98a0c3;
+        --border: #2b3150;
+        --ok-bg: #12301f;
+        --ok: #4ade80;
+        --err-bg: #3a1618;
+    }
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.auth {
+    min-height: 100dvh;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    background: radial-gradient(900px 400px at 50% -10%, color-mix(in srgb, var(--primary) 18%, transparent), transparent);
+}
+
+.auth__card {
+    width: 100%;
+    max-width: 420px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 10px 40px rgba(20, 24, 60, .08);
+}
+
+.auth__title {
+    margin: 0 0 4px;
+    font-size: 1.5rem;
+}
+
+.auth__subtitle {
+    margin: 0 0 20px;
+    color: var(--muted);
+    font-size: .95rem;
+}
+
+.auth__footer {
+    margin-top: 20px;
+    text-align: center;
+    color: var(--muted);
+    font-size: .95rem;
+}
+
+.field {
+    margin-bottom: 16px;
+}
+
+.field label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: .875rem;
+    font-weight: 500;
+}
+
+.field__control {
+    position: relative;
+}
+
+.field input {
+    width: 100%;
+    padding: 11px 14px;
+    font: inherit;
+    color: var(--text);
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    transition: border-color .15s, box-shadow .15s;
+}
+
+.field input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 25%, transparent);
+}
+
+.field--error input {
+    border-color: var(--danger);
+}
+
+.field__error {
+    display: block;
+    margin-top: 4px;
+    color: var(--danger);
+    font-size: .8rem;
+}
+
+.field__toggle {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: 0;
+    color: var(--muted);
+    font-size: .8rem;
+    cursor: pointer;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: .9rem;
+}
+
+.check {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    cursor: pointer;
+}
+
+.btn {
+    width: 100%;
+    padding: 12px;
+    font: inherit;
+    font-weight: 600;
+    color: #fff;
+    background: var(--primary);
+    border: 0;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background .15s, transform .05s;
+}
+
+.btn:hover:not(:disabled) {
+    background: var(--primary-h);
+}
+
+.btn:active:not(:disabled) {
+    transform: translateY(1px);
+}
+
+.btn:disabled {
+    opacity: .6;
+    cursor: wait;
+}
+
+.alert {
+    padding: 10px 14px;
+    margin-bottom: 16px;
+    border-radius: 10px;
+    font-size: .9rem;
+}
+
+.alert--success {
+    background: var(--ok-bg);
+    color: var(--ok);
+}
+
+.alert--error {
+    background: var(--err-bg);
+    color: var(--danger);
+}
+
+.hint {
+    margin: 14px 0 0;
+    text-align: center;
+    color: var(--muted);
+    font-size: .8rem;
+}
+
+/* honeypot: не display:none, чтобы боты не отличали от обычного поля */
+.hp {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+}
+
+.check { margin-bottom: 16px; align-items: flex-start; }
+.check--error { color: var(--danger); }

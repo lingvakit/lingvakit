@@ -11,7 +11,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::prefix('learning')->middleware(['auth', 'locale', 'verified'])->group(function (){
+Route::prefix('learning')->middleware(['auth', 'locale'])->group(function (){
     // Profile Update
     Route::get('/profile', [DashboardController::class, 'profile'])->name('profile.show');
     Route::put('/profile/user-update', [UserController::class, 'infoUpdate'])->name('user-info.update');
