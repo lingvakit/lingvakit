@@ -11,7 +11,10 @@ use App\Infrastructure\Persistence\QueryBuilder\QuestionTypeStrategy\FillInBlank
 use App\Infrastructure\Persistence\QueryBuilder\QuestionTypeStrategy\MatchMappingStrategy;
 use App\Infrastructure\Persistence\QueryBuilder\QuestionTypeStrategy\SingleChoiceMappingStrategy;
 use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -41,6 +44,8 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot()
     {
+        $this->configureRateLimiting();
+
         view()->composer([
             'layouts.cms.sidebar',
             'layouts.site.header',
@@ -72,5 +77,15 @@ class AppServiceProvider extends ServiceProvider
 
             $view->with($params);
         });
+    }
+
+    private function configureRateLimiting(): void
+    {
+        RateLimiter::for('register', fn (Request $request): array => [
+            Limit::perHour(10)->by('register-ip:' . $request->ip()),
+            Limit::perHour(5)->by(
+                'register-email:' . mb_strtolower((string) $request->input('email'))
+            ),
+        ]);
     }
 }

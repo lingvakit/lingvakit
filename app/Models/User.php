@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Models;
 
@@ -9,7 +10,7 @@ use App\Models\LMS\HomeWorkResult;
 use App\Models\LMS\Result;
 use App\Models\LMS\TopicComment;
 use App\Notifications\ResetPassword;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -17,35 +18,33 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable implements MustVerifyEmail
+#[Fillable([
+    'name',
+    'surname',
+    'patronymic',
+    'email',
+    'phone',
+    'passport',
+    'is_staff',
+    'is_dealer',
+    'company_id',
+    'country_id',
+    'state',
+    'city',
+    'address',
+    'zip',
+    'password',
+    'is_active',
+])]
+class User extends Authenticatable
 {
     use HasFactory, Notifiable, SoftDeletes, HasRoles;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'name', 'surname', 'patronymic', 'email', 'phone', 'passport', 'is_staff', 'is_dealer', 'company_id',
-        'country_id', 'state', 'city', 'address', 'zip', 'password', 'is_active',
-    ];
-
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];

@@ -1,8 +1,8 @@
 <?php
+declare(strict_types=1);
 
 use App\Http\Controllers\Admin\MediaFileController;
 use App\Http\Controllers\Admin\PromocodeController;
-use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CKEditorController;
 use App\Http\Controllers\SiteController;
@@ -43,25 +43,11 @@ Route::get('teachers/1', function (){
    return view('about-teacher');
 })->name('app.teacher-info');
 
-Route::post('/email/verification-notification', [AuthController::class, 'sendEmailVerificationNotification'])
-    ->middleware('auth')->name('verification.send');
-Route::get('/email/verify', [AuthController::class, 'verifyEmail'])
-    ->middleware('auth')->name('verification.notice');
-Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'emailVerification'])
-    ->middleware(['auth', 'signed'])->name('verification.verify');
-Route::get('/email/verify/success', [AuthController::class, 'successVerification'])
-    ->middleware(['auth', 'verified'])->name('verification.success');
-
 Route::post('ckeditor/upload', [CKEditorController::class, 'upload'])->name('ckeditor.upload');
 
 /* AJAX */
 Route::get('ajax/files/{fileType}', [MediaFileController::class, 'getFilesByAjax'])->name('ajax.get-files');
 Route::get('ajax/promo/{code}', [PromocodeController::class, 'getPromoCodeData'])->name('ajax.get-promo-code');
-
-
-Route::middleware(['guest'])->group(function (){
-    Route::post('reset-user-password', [AuthController::class, 'resetPassword'])->name('password.update');
-});
 
 // Delete non-existent topics
 Route::prefix('repair')->middleware(['role:superuser'])->group(function (){
@@ -73,5 +59,5 @@ require __DIR__ . '/lk-students.php';
 /* Admins routes */
 require __DIR__ . '/admin.php';
 
-/* React admin API */
+require __DIR__ . '/auth.php';
 require __DIR__ . '/react-admin.php';

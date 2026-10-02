@@ -7,12 +7,15 @@ export default defineConfig(({ mode }) => {
 
     const hmrHost = env.VITE_HMR_HOST;
     const hmrProtocol = env.VITE_HMR_PROTOCOL;
-    const hmrPort = Number(env.VITE_HMR_PORT);
+    const hmrPort = env.VITE_HMR_PORT ? Number(env.VITE_HMR_PORT) : undefined;
 
     return {
         plugins: [
             laravel({
-                input: ["resources/js/admin/app/app.tsx"],
+                input: [
+                    "resources/js/admin/app/app.tsx",
+                    "resources/js/public/auth/app.tsx",
+                ],
                 refresh: true,
             }),
             react(),

@@ -2,6 +2,15 @@
 
 ---
 
+## [3.1.0] - 2026-10-05
+### Refactored:
+* Use React forms for auth templates
+ 
+### Improved:
+* For register new user need to fill two fields: Name and Email
+
+---
+
 ## [3.0.0] - 2026-10-01
 ### Upgraded:
 * Laravel framework to v.13
