@@ -11,7 +11,12 @@ use App\Models\LMS\Result;
 use App\Models\LMS\TopicComment;
 use App\Notifications\ResetPassword;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -25,105 +30,153 @@ use Spatie\Permission\Traits\HasRoles;
     'email',
     'phone',
     'passport',
-    'is_staff',
-    'is_dealer',
-    'company_id',
     'country_id',
     'state',
     'city',
     'address',
     'zip',
-    'password',
-    'is_active',
 ])]
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, SoftDeletes, HasRoles;
+    use HasFactory, Notifiable, SoftDeletes, HasRoles, LegacyUserApi;
 
     protected $hidden = [
         'password',
         'remember_token',
+        'passport'
     ];
 
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+            'is_dealer' => 'boolean',
+            'is_staff' => 'boolean',
+            'is_active' => 'boolean',
+        ];
+    }
 
-    public function session()
+    // ---------- Relations ----------
+
+    public function session(): HasOne
     {
         return $this->hasOne(Session::class);
     }
 
-    public function cart()
+    public function cart(): HasOne
     {
         return $this->hasOne(Cart::class);
     }
 
-    public function orders()
+    public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
     }
 
-    public function setting()
+    public function latestOrder(): HasOne
+    {
+        return $this->hasOne(Order::class)->latestOfMany('created_at');
+    }
+
+    public function setting(): HasOne
     {
         return $this->hasOne(Setting::class);
     }
 
-    public function country()
+    public function country(): BelongsTo
     {
         return $this->belongsTo(Country::class);
     }
 
-    public function courses()
+    public function courses(): BelongsToMany
     {
-        return $this->belongsToMany(Course::class, 'course_user')->withPivot('progress');
+        return $this->belongsToMany(Course::class, 'course_user')
+            ->withPivot('progress');
     }
 
-    public function groups()
-    {
-        return $this->belongsToMany(Group::class, 'group_user');
-    }
-
-    public function ownCourses()
+    public function ownCourses(): HasMany
     {
         return $this->hasMany(Course::class, 'author_id');
     }
 
-    public function results()
+    public function groups(): BelongsToMany
     {
-        return $this->belongsTo(Result::class, 'user_id');
+        return $this->belongsToMany(Group::class, 'group_user');
     }
 
-    public function comments()
+    public function results(): HasMany
+    {
+        return $this->hasMany(Result::class);
+    }
+
+    public function comments(): HasMany
     {
         return $this->hasMany(TopicComment::class);
     }
 
-    public function reviews()
+    public function reviews(): HasMany
     {
         return $this->hasMany(CourseReview::class);
     }
 
-    public function chats()
+    public function chats(): BelongsToMany
     {
         return $this->belongsToMany(Chat::class);
     }
 
-    public static function add($fields)
+    public function chatsByLastMessage(): BelongsToMany
     {
-        $user = new static;
-        $user->fill($fields);
-        $user->password = Hash::make('00000000');
-        $user->save();
-
-        return $user;
+        return $this->chats()
+            ->withMax('messages', 'date')
+            ->orderByRaw('messages_max_date DESC NULLS LAST');
     }
 
-    public function updateUser($fields)
+    // ---------- Accessors ----------
+    protected function fullName(): Attribute
     {
-        $this->fill($fields);
-        $this->save();
+        return Attribute::get(fn(): string => implode(' ', array_filter(
+            [$this->surname, $this->name, $this->patronymic],
+            static fn(?string $part): bool => filled($part),
+        )));
     }
+
+    protected function customerLabel(): Attribute
+    {
+        return Attribute::get(fn(): string => $this->company
+            ? "{$this->full_name} [{$this->company->name}]"
+            : $this->full_name);
+    }
+
+    protected function phoneDigits(): Attribute
+    {
+        return Attribute::get(
+            fn(): string => (string)preg_replace(
+                pattern: '/\D+/',
+                replacement: '',
+                subject: (string)$this->phone
+            )
+        );
+    }
+
+    // ---------- Behavior ----------
+    public function setDealer(bool $value): void
+    {
+        $this->forceFill(['is_dealer' => $value])->save();
+    }
+
+    public function hasCourse(int|Course $course): bool
+    {
+        return $this->courses()
+            ->whereKey($course instanceof Course ? $course->getKey() : $course)
+            ->exists();
+    }
+
+    public function sendPasswordResetNotification($token): void
+    {
+        $this->notify(new ResetPassword(app(BaseProducer::class), $token));
+    }
+
 
     public function getFullName()
     {
@@ -157,11 +210,6 @@ class User extends Authenticatable
             return $this->isNotDealer();
         }
         return $this->isDealer();
-    }
-
-    public function getLastOrder()
-    {
-        return Order::where('user_id', $this->id)->latest()->first();
     }
 
     public function getResultsByCourse($course)
@@ -205,33 +253,13 @@ class User extends Authenticatable
         return false;
     }
 
-    /**
-     * Send the password reset notification.
-     *
-     * @param string $token
-     * @return void
-     */
-    public function sendPasswordResetNotification($token): void
-    {
-        $producer = app(BaseProducer::class);
-        $passwordResetNotification = new ResetPassword($producer, $token);
-
-        $this->notify($passwordResetNotification);
-    }
-
     public function formatPhoneNumber()
     {
         $sym = ['(', ')', '+', '-', ' '];
         return str_replace($sym, '', $this->phone);
     }
 
-    public function hasCourse($course): bool
-    {
-        if ($this->courses->contains($course->id)) {
-            return true;
-        }
-        return false;
-    }
+
 
     public function getMyStudents()
     {
@@ -260,20 +288,12 @@ class User extends Authenticatable
         $teacherIds = array();
 
         foreach ($this->courses as $course) {
-            if (! in_array($course->author->id, $teacherIds)) {
+            if (!in_array($course->author->id, $teacherIds)) {
                 $teacherIds[] = $course->author->id;
             }
         }
 
         return User::whereIn('id', $teacherIds)->get();
-    }
-
-    /*
-     * Teacher
-     */
-    public function hasGroups()
-    {
-        //
     }
 
     public function ownStudents(): array
@@ -315,14 +335,14 @@ class User extends Authenticatable
         $chats = array();
 
         foreach ($this->chats as $chat) {
-            $chatIdsByMsg["chat_".$chat->id] = $chat->messages->sortByDesc('date')->first()->date;
+            $chatIdsByMsg["chat_" . $chat->id] = $chat->messages->sortByDesc('date')->first()->date;
         }
         asort($chatIdsByMsg);
 
         foreach ($chatIdsByMsg as $key => $chatIdByMsg) {
             $chats[] = Chat::find(substr($key, 5));
         }
-        krsort( $chats);
+        krsort($chats);
         return $chats;
     }
 }

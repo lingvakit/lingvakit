@@ -171,7 +171,7 @@ class OrderController extends Controller
         // $client->setAuth('785971', 'test_e31vp0OKw6pXDmAvCk7jvloxc6lWiHS8ZwBeVyAK9tc');
 
         $user = Auth::user();
-        $order = $user->getLastOrder();
+        $order = $user->latestOrder();
         $payment = $order->getCurrentPayment();
         $paymentData = $client->getPaymentInfo($payment->payment_id)->jsonSerialize();
 
