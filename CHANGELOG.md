@@ -2,6 +2,12 @@
 
 ---
 
+## [3.2.0] - 2026-10-06
+### Added:
+* Initialize pest tests
+
+---
+
 ## [3.1.0] - 2026-10-05
 ### Refactored:
 * Use React forms for auth templates
