@@ -2,6 +2,14 @@
 
 ---
 
+## [3.3.0] - 2026-10-07
+### System:
+* Export production database structure to schema/mysqldump.sql as the new baseline
+* Move all historical migration files to the archive directory
+* Clean up the active migration pipeline to speed up fresh installations and test suites
+
+---
+
 ## [3.2.0] - 2026-10-06
 ### Added:
 * Initialize pest tests
