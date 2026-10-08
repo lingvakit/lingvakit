@@ -34,7 +34,6 @@ final class CourseCreateRequest extends AbstractFormRequest
             'isNew' => ['nullable', 'boolean'],
             'isPublished' => ['nullable', 'boolean'],
             'publishDate' => ['nullable', 'date'],
-            'isAllowed' => ['nullable', 'boolean'],
         ];
     }
 
@@ -54,7 +53,6 @@ final class CourseCreateRequest extends AbstractFormRequest
             isNew: $this->fieldBool('isNew') ?? true,
             isPublished: $this->fieldBool('isPublished') ?? false,
             publishDate: $this->fieldDate('publishDate'),
-            isAllowed: $this->fieldBool('isAllowed') ?? true,
         );
     }
 }

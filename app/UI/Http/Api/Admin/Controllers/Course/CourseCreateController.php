@@ -19,7 +19,13 @@ class CourseCreateController extends Controller
 
     public function __invoke(CourseCreateRequest $request): JsonResponse
     {
-        $courseDto = $this->handler->handle($request->dto());
+        $user = $request->user();
+
+        $courseDto = $this->handler->handle(
+            dto: $request->dto(),
+            authorId: $user->id,
+            autoApprove: $user->hasAnyRole(['admin', 'superuser']),
+        );
 
         return response()->json(
             data: ['data' => new CourseDetailsResource($courseDto)],

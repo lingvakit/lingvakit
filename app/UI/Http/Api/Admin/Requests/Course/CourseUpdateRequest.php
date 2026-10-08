@@ -6,12 +6,20 @@ namespace App\UI\Http\Api\Admin\Requests\Course;
 use App\Application\Course\Dto\CourseUpdateRequestDto;
 use App\Domain\Course\Enum\CoursePaidTypeEnum;
 use App\Domain\Course\Enum\DifficultyLevelEnum;
+use App\Models\LMS\Course;
 use App\UI\Http\Api\Admin\Requests\AbstractFormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
 
 final class CourseUpdateRequest extends AbstractFormRequest
 {
+    public function authorize(): bool
+    {
+        $course = Course::query()->findOrFail($this->route('id'));
+
+        return $this->user()?->can('update', $course) ?? false;
+    }
+
     public function rules(): array
     {
         return [

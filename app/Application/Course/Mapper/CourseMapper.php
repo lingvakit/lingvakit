@@ -17,21 +17,23 @@ final readonly class CourseMapper
 
     public function fromModel(
         Course $course,
-        array $lessons,
+        array $lessons = [],
         array $quizzes = [],
         array $msQuizzes = []
     ): CourseDto
     {
+        $course->loadMissing(['category', 'author', 'stages']);
+
         return new CourseDto(
             id: $course->id,
             title: $course->title,
             price: $course->price,
             duration: (int)$course->duration,
-            category: $course->category->name,
-            createdAt: $course->created_at->toImmutable(),
+            category: $course->category?->name ?? '',
+            createdAt: $course->created_at?->toImmutable() ?? new \DateTimeImmutable(),
             description: $course->description,
             imageUrl: $course->getImage(),
-            author: $course->author->getFullName(),
+            author: $course->author?->getFullName() ?? '',
             modules: $course->stages
                 ->map(
                     fn(Stage $stage) => $this->moduleMapper

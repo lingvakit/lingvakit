@@ -23,7 +23,6 @@ final readonly class CourseCreateRequestDto
         public bool $isNew = true,
         public bool $isPublished = false,
         public ?DateTimeImmutable $publishDate = null,
-        public bool $isAllowed = true,
     ) {}
 
     public function toArray(): array
@@ -33,7 +32,6 @@ final readonly class CourseCreateRequestDto
             'description' => $this->description,
             'difficulty_level' => $this->difficultyLevel->value,
             'category_id' => $this->categoryId,
-            'author_id' => auth()->id() ?? 1, // TODO: Remove hardcode
             'type' => $this->paidType->value,
             'price' => $this->price,
             'sale_price' => $this->salePrice,
@@ -43,7 +41,6 @@ final readonly class CourseCreateRequestDto
             'is_new' => $this->isNew,
             'is_published' => $this->isPublished,
             'publish_date' => $this->publishDate,
-            'is_allowed' => $this->isAllowed,
         ];
     }
 }

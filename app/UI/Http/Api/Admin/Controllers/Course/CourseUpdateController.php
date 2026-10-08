@@ -19,13 +19,13 @@ class CourseUpdateController extends Controller
 
     public function __invoke(
         CourseUpdateRequest $request,
-        int $courseId
+        int $id
     ): JsonResponse {
-        $courseDto = $this->handler->handle($courseId, $request->dto());
+        $courseDto = $this->handler->handle($id, $request->dto());
 
         return response()->json(
             data: ['data' => new CourseDetailsResource($courseDto)],
-            status: Response::HTTP_CREATED
+            status: Response::HTTP_OK
         );
     }
 }

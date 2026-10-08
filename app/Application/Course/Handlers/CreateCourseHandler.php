@@ -21,25 +21,25 @@ final readonly class CreateCourseHandler implements CreateCourseHandlerInterface
     ) {
     }
 
-    public function handle(CourseCreateRequestDto $dto): CourseDto
-    {
-        return DB::transaction(function () use ($dto) {
-            $language = Language::where('label', self::LANGUAGE_CHINA_CODE)->first();
-
-            if ($language === null) {
-                throw new LanguageNotExistsException(
-                    message: "Language with label " . self::LANGUAGE_CHINA_CODE . " not found"
+    public function handle(
+        CourseCreateRequestDto $dto,
+        int $authorId,
+        bool $autoApprove
+    ): CourseDto {
+        return DB::transaction(function () use ($dto, $authorId, $autoApprove) {
+            $language = Language::query()->where('label', self::LANGUAGE_CHINA_CODE)->first()
+                ?? throw new LanguageNotExistsException(
+                    message: 'Language with label ' . self::LANGUAGE_CHINA_CODE . ' not found'
                 );
-            }
 
-            $course = $this->repository->save(
-                array_merge(
-                    $dto->toArray(),
-                    ['language_id' => $language->id]
-                )
-            );
+            $course = $this->repository->save([
+                ...$dto->toArray(),
+                'language_id' => $language->id,
+                'author_id' => $authorId,
+                'is_allowed' => $autoApprove,
+            ]);
 
-            return $this->courseMapper->fromModel($course);
+            return $this->courseMapper->fromModel($course->refresh());
         });
     }
 }

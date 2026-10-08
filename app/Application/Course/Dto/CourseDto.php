@@ -11,7 +11,7 @@ final readonly class CourseDto
     public function __construct(
         public int $id,
         public string $title,
-        public float $price,
+        public ?float $price = 0.0,
         public int $duration,
         public string $category,
         public DateTimeImmutable $createdAt,

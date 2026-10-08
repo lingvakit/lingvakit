@@ -26,7 +26,7 @@
             </li>
 
             {{-- Courses --}}
-            @if($currentUser->hasPermissionTo('course manage'))
+            @if($currentUser->can('course manage'))
                 <li>
                     <a href="#dropdown-courses" aria-expanded="false" data-toggle="collapse">
                         <i class="la la-mortar-board"></i>
@@ -40,7 +40,7 @@
                             <li><a href="{{route('reviews.all')}}">{{ __("cms-pages.reviews") }}</a></li>
                         @endif
 
-                        @if($currentUser->hasPermissionTo('promocode manage'))
+                        @if($currentUser->can('promocode manage'))
                             <li><a href="{{ route('promocodes.index') }}">{{ __("cms-pages.promo-codes") }}</a></li>
                         @endif
                     </ul>
@@ -61,7 +61,7 @@
             @endif
 
             {{-- Roles and Permissions --}}
-            @if($currentUser->hasPermissionTo('role manage'))
+            @if($currentUser->can('role manage'))
                 <li><a href="#dropdown-roles" aria-expanded="false" data-toggle="collapse"><i
                                 class="la la-list"></i><span>{{ __("cms-pages.roles-permissions") }}</span></a>
                     <ul id="dropdown-roles" class="collapse list-unstyled pt-0">
@@ -72,7 +72,7 @@
             @endif
 
             {{-- Categories --}}
-            @if($currentUser->hasPermissionTo('category manage'))
+            @if($currentUser->can('category manage'))
                 <li><a href="#dropdown-categories" aria-expanded="false" data-toggle="collapse"><i
                                 class="la la-list"></i><span>{{ __("cms-pages.categories") }}</span></a>
                     <ul id="dropdown-categories" class="collapse list-unstyled pt-0">
@@ -82,7 +82,7 @@
             @endif
 
             {{-- Languages --}}
-            @if($currentUser->hasPermissionTo('category manage'))
+            @if($currentUser->can('category manage'))
                 <li><a href="#dropdown-languages" aria-expanded="false" data-toggle="collapse"><i
                                 class="la la-language"></i><span>{{ __("cms-pages.languages") }}</span></a>
                     <ul id="dropdown-languages" class="collapse list-unstyled pt-0">
@@ -92,7 +92,7 @@
             @endif
 
             {{-- My Students --}}
-            @if($currentUser->hasPermissionTo('student manage'))
+            @if($currentUser->can('student manage'))
                 <li><a href="#dropdown-students" aria-expanded="false" data-toggle="collapse"><i
                                 class="la la-group"></i><span>{{ __("cms-pages.students") }}</span></a>
                     <ul id="dropdown-students" class="collapse list-unstyled pt-0">
@@ -103,7 +103,7 @@
             @endif
         </ul>
 
-        @if($currentUser->hasPermissionTo('user manage'))
+        @if($currentUser->can('user manage'))
             <span class="heading">{{ __("cms-pages.users-management") }}</span>
             <ul class="list-unstyled">
                 {{-- All Users --}}
@@ -112,22 +112,22 @@
                         <i class="la la-user"></i><span>{{ __("cms-pages.users") }}</span>
                     </a>
                     <ul id="dropdown-users" class="collapse list-unstyled pt-0">
-                        @if($currentUser->hasPermissionTo('user manage'))
+                        @if($currentUser->can('user manage'))
                             <li><a href="{{ route('admin.users.index') }}">{{ __("cms-pages.all-users") }}</a></li>
                         @endif
 
-                        @if($currentUser->hasPermissionTo('teacher manage'))
+                        @if($currentUser->can('teacher manage'))
                             <li><a href="{{ route('teachers.index') }}">{{ __("cms-pages.teachers") }}</a></li>
                         @endif
 
-                        @if($currentUser->hasPermissionTo('student manage'))
+                        @if($currentUser->can('student manage'))
                             <li><a href="{{ route('students.index') }}">{{ __("cms-pages.students") }}</a></li>
                         @endif
                     </ul>
                 </li>
 
                 {{-- App settings --}}
-                @if($currentUser->hasPermissionTo('user manage'))
+                @if($currentUser->can('user manage'))
                     <li><a href="#dropdown-settings" aria-expanded="false" data-toggle="collapse"><i
                                     class="la la-gear"></i><span>{{ __("cms-pages.settings") }}</span></a>
                         <ul id="dropdown-settings" class="collapse list-unstyled pt-0">
@@ -139,27 +139,6 @@
                         </ul>
                     </li>
                 @endif
-
-                {{-- Orders --}}
-                {{--            @can('order_management')
-                                <li><a href="#dropdown-orders" aria-expanded="false" data-toggle="collapse"><i
-                                            class="la la-check-square"></i><span>{{ __("cms-pages.orders") }}</span></a>
-                                    <ul id="dropdown-orders" class="collapse list-unstyled pt-0">
-                                        <li><a href="{{ route('orders.index') }}">{{ __("cms-pages.all") }}</a></li>
-                                        <li><a href="{{ route('orders.create') }}">{{ __("cms-pages.add") }}</a></li>
-                                    </ul>
-                                </li>
-                            @endcan--}}
-                {{-- Subscribers --}}
-                {{--            @can('subscriber_management')
-                                <li><a href="#dropdown-subscribers" aria-expanded="false" data-toggle="collapse"><i
-                                            class="la la-envelope"></i><span>{{ __("cms-pages.subscribers") }}</span></a>
-                                    <ul id="dropdown-subscribers" class="collapse list-unstyled pt-0">
-                                        <li><a href="{{ route('subscribers.index') }}">{{ __("cms-pages.all") }}</a></li>
-                                        <li><a href="{{ route('subscribers.create') }}">{{ __("cms-pages.add") }}</a></li>
-                                    </ul>
-                                </li>
-                            @endcan--}}
             </ul>
         @endif
     </nav>

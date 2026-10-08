@@ -20,19 +20,18 @@ final readonly class UpdateCourseHandler implements UpdateCourseHandlerInterface
 
     public function handle(int $courseId, CourseUpdateRequestDto $dto): CourseDto
     {
-        return DB::transaction(function () use ($courseId, $dto) {
-            $course = $this->repository->findById($courseId);
-
-            if ($course === null) {
-                throw new CourseNotExistsException(
-                    message: "Course with id {$courseId} does not found."
+        return DB::transaction(function () use ($courseId, $dto): CourseDto {
+            $course = $this->repository->findById($courseId)
+                ?? throw new CourseNotExistsException(
+                    "Course with id {$courseId} does not found."
                 );
-            }
 
             $this->repository->update(
                 course: $course,
                 data: $dto->toArray()
             );
+
+            $course->load(['category', 'author', 'stages']);
 
             return $this->courseMapper->fromModel($course);
         });

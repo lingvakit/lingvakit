@@ -1,11 +1,11 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Models\LMS;
 
 use App\Models\MediaFile;
 use App\Models\MetaCourse;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -137,12 +137,12 @@ class Course extends Model
         return URL::to('/').'/assets/cms/img/no-image.jpg';
     }
 
-    public function getVideo() : string
+    public function getVideo(): string|false
     {
-        $video = $this->video;
-        if($video && is_numeric($video)) {
-            return $this->video()->first()->getPath();
+        if ($this->video && is_numeric($this->video)) {
+            return $this->video()->first()?->getPath() ?? false;
         }
+
         return false;
     }
 
@@ -155,23 +155,10 @@ class Course extends Model
         return false;
     }
 
-    public static function add($fields, $user)
-    {
-        $course = new static();
-        $course->fill($fields);
-        $course->author_id = $user->id;
-        $course->duration = 0;
-        if ($fields['type'] === 'free') {
-            $course->price = 0;
-        }
-        if ($user->hasRole(['superuser', 'admin'])) {
-            $course->is_allowed = 1;
-        }
-        $course->save();
-
-        return $course;
-    }
-
+    /**
+     * @deprecated
+     * TODO: Remove
+     */
     public function addCategory($category)
     {
         if ($category) {
@@ -206,6 +193,10 @@ class Course extends Model
         return false;
     }
 
+    /**
+     * @deprecated
+     * TODO: Remove
+     */
     public function getImageSize()
     {
         $image = MediaFile::where('filename', $this->image)->first();
@@ -241,6 +232,10 @@ class Course extends Model
         $this->save();
     }
 
+    /**
+     * @deprecated
+     * TODO: Remove
+     */
     public function switchIsNew($value)
     {
         if ($value == null) {
@@ -262,6 +257,10 @@ class Course extends Model
         $this->save();
     }
 
+    /**
+     * @deprecated
+     * TODO: Remove
+     */
     public function switchIsPublished($value)
     {
         if ($value == null) {
@@ -270,11 +269,15 @@ class Course extends Model
         return $this->setPublished();
     }
 
-    public function updateProgress($user)
+    public function updateProgress($user): void
     {
         $totalTopics = 0;
         foreach ($this->stages as $stage) {
             $totalTopics += count($stage->topics);
+        }
+
+        if ($totalTopics === 0) {
+            return;
         }
 
         $passedTopics = Result::where([
@@ -287,37 +290,39 @@ class Course extends Model
         $user->courses()->updateExistingPivot($this->id, ['progress' => round($progress)]);
     }
 
-    public function priceFormat($price) : string
+    public function priceFormat(int|float|string|null $price): string
     {
-        return number_format($price, 0, '.', ' ') . ' ₽';
+        return number_format((float) $price, 0, '.', ' ') . ' ₽';
     }
 
-    public function getDiscount() : int
+    public function getDiscount(): float
     {
         if ($this->sale_price) {
-            return $this->price - $this->sale_price;
+            return (float) $this->price - (float) $this->sale_price;
         }
-        return 0;
+
+        return 0.0;
     }
 
-    public function getTotalPrice() : int
+    public function getTotalPrice(): float
     {
-        return $this->price - $this->getDiscount();
+        return (float) $this->price - $this->getDiscount();
     }
 
-    public function getPrice() : string
+    public function getPrice(): string
     {
+        if ($this->type !== 'paid') {
+            return __('site-pages.free');
+        }
+
         $usualPrice = $this->priceFormat($this->price);
-        $salePrice = $this->priceFormat($this->sale_price);
 
-        if ($this->type === 'paid') {
-            if ($this->sale_price) {
-                return '<span style="text-decoration: line-through">'
-                            .$usualPrice.'</span> <span class="text-danger">'.$salePrice.'</span>';
-            }
+        if (! $this->sale_price) {
             return $usualPrice;
         }
-        return __("site-pages.free");
+
+        return '<span style="text-decoration: line-through">' . $usualPrice
+            . '</span> <span class="text-danger">' . $this->priceFormat($this->sale_price) . '</span>';
     }
 
     public function getCurrentPrice() : string
@@ -379,32 +384,16 @@ class Course extends Model
         return $points;
     }
 
-    public function belongsToCurrentTeacher() : bool
+    public function belongsToCurrentTeacher(): bool
     {
-        $currentUser = Auth::user();
-        if ($this->author_id === $currentUser->id) {
-            return true;
-        }
+        $user = Auth::user();
 
-        return false;
+        return $user !== null && $this->author_id === $user->id;
     }
-
-//    public function getPublishDateAttribute($date) : string
-//    {
-//        if (!$date) { return false; }
-//        return Carbon::createFromFormat('Y-m-d', $date)->format('d/m/Y');
-//    }
-//
-//    public function setPublishDateAttribute($date)
-//    {
-//        $publishDate = Carbon::createFromFormat('d/m/Y', $date)->format('Y-m-d');
-//        $this->attributes['publish_date'] = $publishDate;
-//    }
 
     public function released() : bool
     {
         if($this->publish_date) {
-//            $releaseDate = Carbon::parse(Carbon::createFromFormat('d/m/Y', $this->publish_date)->format('Y-m-d'));
             if ($this->publish_date > today()) {
                 return false;
             }
