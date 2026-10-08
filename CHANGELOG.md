@@ -1,5 +1,13 @@
 # Changelog
 
+---
+
+## [3.4.1] - 2026-10-08
+### Added:
+* add directory "public/build" to gitignore
+
+---
+
 ## [3.4.0] - 2026-10-06
 ### Updated:
 * Code for react course create/update controllers
