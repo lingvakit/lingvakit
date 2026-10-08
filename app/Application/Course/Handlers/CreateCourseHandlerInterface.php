@@ -8,5 +8,9 @@ use App\Application\Course\Dto\CourseDto;
 
 interface CreateCourseHandlerInterface
 {
-    public function handle(CourseCreateRequestDto $dto): CourseDto;
+    public function handle(
+        CourseCreateRequestDto $dto,
+        int $authorId,
+        bool $autoApprove
+    ): CourseDto;
 }

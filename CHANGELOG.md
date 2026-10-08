@@ -1,5 +1,11 @@
 # Changelog
 
+## [3.4.0] - 2026-10-06
+### Updated:
+* Code for react course create/update controllers
+### Added:
+* Pest tests coverage for create/update course controllers for react
+
 ---
 
 ## [3.3.0] - 2026-10-07

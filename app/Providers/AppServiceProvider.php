@@ -10,10 +10,13 @@ use App\Infrastructure\Persistence\QueryBuilder\QuestionTypeStrategy\SentenceBui
 use App\Infrastructure\Persistence\QueryBuilder\QuestionTypeStrategy\FillInBlankMappingStrategy;
 use App\Infrastructure\Persistence\QueryBuilder\QuestionTypeStrategy\MatchMappingStrategy;
 use App\Infrastructure\Persistence\QueryBuilder\QuestionTypeStrategy\SingleChoiceMappingStrategy;
+use App\Models\LMS\Course;
+use App\Policies\CoursePolicy;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 
@@ -21,6 +24,8 @@ class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
+        Gate::policy(Course::class, CoursePolicy::class);
+
         VerifyEmail::toMailUsing(function ($notifiable, $url) {
             return null;
         });
