@@ -2,6 +2,12 @@
 
 ---
 
+## [3.4.2] - 2026-10-23
+### Fixed:
+* Create/update module via react ui
+
+---
+
 ## [3.4.1] - 2026-10-08
 ### Added:
 * add directory "public/build" to gitignore

@@ -1,16 +1,14 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Models\LMS;
 
 use App\Models\MediaFile;
 use Carbon\Carbon;
-use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class Quiz extends Model
 {
@@ -79,7 +77,7 @@ class Quiz extends Model
         return '/assets/cms/img/no-image.jpg';
     }
 
-    public function getAudio() : string
+    public function getAudio() : string|false
     {
         $audio = $this->audio()->first();
         if ($audio) {
@@ -88,7 +86,7 @@ class Quiz extends Model
         return false;
     }
 
-    public function getVideo() : string
+    public function getVideo() : string|false
     {
         $video = $this->video;
         if($video && is_numeric($video)) {
@@ -176,7 +174,7 @@ class Quiz extends Model
             $totalScore = round(($userPoints*100)/$totalPoints);
         }
 
-        return $totalScore;
+        return (int)$totalScore;
     }
 
     public function getUserScore($user) : int
@@ -187,7 +185,7 @@ class Quiz extends Model
         if ($result) {
             $points = $result->points;
         }
-        return round($points);
+        return (int)round($points);
     }
 
     public function showUserScore($user) : string

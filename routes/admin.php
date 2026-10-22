@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ConformityController;
@@ -74,9 +75,14 @@ Route::prefix('dashboard')->middleware(['auth', 'locale', 'role:superuser|admin|
         Route::put('video-remove', [CourseController::class, 'removeVideo'])->name('courses.video.remove');
 
         /* Stages CRUD */
-        Route::post('stages/create', [StageController::class, 'store'])->name('stages.store');
-        Route::put('stages/{stage}/edit', [StageController::class, 'update'])->name('stages.update');
-        Route::delete('stages/{stage}', [StageController::class, 'destroy'])->name('stages.destroy');
+        Route::resource('stages', StageController::class)
+            ->only(['store', 'update', 'destroy'])
+            ->scoped()
+            ->names([
+                'store' => 'stages.store',
+                'update' => 'stages.update',
+                'destroy' => 'stages.destroy',
+            ]);
 
         Route::prefix('stage-{stage}')->group(function (){
             /* Lessons */

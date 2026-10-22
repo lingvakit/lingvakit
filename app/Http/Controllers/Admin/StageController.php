@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Http\Controllers\Admin;
 
@@ -22,10 +23,11 @@ class StageController extends Controller
 
     public function update(Request $request, Course $course, Stage $stage)
     {
-        $request->validate([
-            'name' => 'required|string|max:255'
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
         ]);
-        $stage->update($request->all());
+
+        $stage->update($validated);
 
         return back();
     }

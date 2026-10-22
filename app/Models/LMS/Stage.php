@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Models\LMS;
 
-use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Stage extends Model
@@ -15,17 +17,19 @@ class Stage extends Model
 
     protected $fillable = ['name', 'course_id'];
 
-    public function course()
+    public function course(): BelongsTo
     {
-        return $this->belongsTo(Course::class, 'course_id', 'id', 'lms_courses');
+        return $this->belongsTo(Course::class, 'course_id');
     }
 
-    public function topics()
+    public function topics(): HasMany
     {
-        return $this->hasMany(Topic::class);
+        return $this->hasMany(Topic::class, 'stage_id');
     }
 
-
+    /**
+     * @deprecated Создание модулей идёт через CreateModuleHandler + ModuleRepository.
+     */
     public static function add($fields, $course)
     {
         $stage = new static();
