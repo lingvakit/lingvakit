@@ -5,13 +5,15 @@ namespace App\Application\Module\Dto;
 
 use App\Application\Course\Dto\Course\CourseTopicDto;
 
-final readonly class ModuleDto
+final class ModuleDto
 {
+    /**
+     * @param list<CourseTopicDto> $topics
+     */
     public function __construct(
         public int $id,
         public string $title,
-
-        /** @var array<CourseTopicDto> */
-        public ?array $topics = [],
-    ) {}
+        public array $topics = [],
+    ) {
+    }
 }

@@ -1,9 +1,11 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Models\LMS;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Topic extends Model
@@ -20,9 +22,9 @@ class Topic extends Model
         'passed_topics'
     ];
 
-    public function stage()
+    public function stage(): BelongsTo
     {
-        return $this->belongsTo(Stage::class, 'stage_id', 'id', 'lms_stages');
+        return $this->belongsTo(Stage::class, 'stage_id');
     }
 
     public function lesson()

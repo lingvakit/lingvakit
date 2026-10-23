@@ -7,7 +7,6 @@ use App\Application\Module\Dto\ModuleDto;
 use App\Application\Module\Dto\RequestCreateModuleDto;
 use App\Application\Module\Mapper\ModuleMapper;
 use App\Infrastructure\Persistence\Repository\ModuleRepositoryInterface;
-use Illuminate\Support\Facades\DB;
 
 final readonly class CreateModuleHandler implements CreateModuleHandlerInterface
 {
@@ -18,12 +17,8 @@ final readonly class CreateModuleHandler implements CreateModuleHandlerInterface
 
     public function handle(RequestCreateModuleDto $dto): ModuleDto
     {
-        return DB::transaction(function () use ($dto) {
-            $stage = $this->repository->save(
-                $dto->toArray()
-            );
+        $stage = $this->repository->save($dto->toArray());
 
-            return $this->mapper->fromModel($stage);
-        });
+        return $this->mapper->fromStageSummary($stage);
     }
 }
