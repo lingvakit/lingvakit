@@ -2,6 +2,12 @@
 
 ---
 
+## [3.4.3] - 2026-10-29
+### Fixed:
+* Phpunit config
+
+---
+
 ## [3.4.2] - 2026-10-23
 ### Fixed:
 * Create/update module via react ui
