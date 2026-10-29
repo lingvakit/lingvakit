@@ -80,10 +80,10 @@ Route::middleware(['web', 'auth', 'role:admin|teacher|superuser'])
             Route::post('/', QuizCreateController::class)
                 ->name('store');
             Route::get('{uuid}', QuizDetailsController::class)
-                ->whereUlid('uuid')
+                ->whereUuid('uuid')
                 ->name('show');
             Route::put('{uuid}', QuizUpdateController::class)
-                ->whereUlid('uuid')
+                ->whereUuid('uuid')
                 ->name('update');
         });
 
@@ -91,10 +91,10 @@ Route::middleware(['web', 'auth', 'role:admin|teacher|superuser'])
             Route::post('/', QuestionsGroupCreateController::class)
                 ->name('store');
             Route::get('{uuid}', QuestionsGroupDetailsController::class)
-                ->whereUlid('uuid')
+                ->whereUuid('uuid')
                 ->name('show');
             Route::put('{uuid}', QuestionsGroupUpdateController::class)
-                ->whereUlid('uuid')
+                ->whereUuid('uuid')
                 ->name('update');
         });
 
@@ -102,7 +102,7 @@ Route::middleware(['web', 'auth', 'role:admin|teacher|superuser'])
             Route::post('/', QuestionCreateController::class)
                 ->name('store');
             Route::patch('{uuid}/answer', QuestionAnswerPatchController::class)
-                ->whereUlid('uuid')
+                ->whereUuid('uuid')
                 ->name('patch');
         });
     });

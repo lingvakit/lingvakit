@@ -2,6 +2,12 @@
 
 ---
 
+## [unreleased] - 2026-10-29
+### Fixed:
+* Error on show/edit page for quiz in React UI
+
+---
+
 ## [3.4.3] - 2026-10-29
 ### Fixed:
 * Phpunit config
