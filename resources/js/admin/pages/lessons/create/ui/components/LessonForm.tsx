@@ -13,9 +13,18 @@ type Props = {
     openMediaModal: (target: MediaTarget, type: MediaType) => void;
     openAiModal: () => void;
     form: ReturnType<typeof useLessonForm>
+    validationErrors?: Record<string, string[]>;
 };
 
-export default function LessonForm({ckEditor, isSavingProgress, onSubmit, openMediaModal, openAiModal, form }: Props) {
+export default function LessonForm({
+    ckEditor,
+    isSavingProgress,
+    onSubmit,
+    openMediaModal,
+    openAiModal,
+    form,
+    validationErrors,
+}: Props) {
     const handleSubmit = async (
         e: FormEvent<HTMLFormElement>
     ): Promise<void> => {
@@ -31,23 +40,15 @@ export default function LessonForm({ckEditor, isSavingProgress, onSubmit, openMe
     };
 
     return (
-        <form
-            className="form-horizontal"
-            onSubmit={handleSubmit}
-        >
+        <form className="form-horizontal" onSubmit={handleSubmit}>
             <div className="row flex-row">
                 <div className="col-12">
                     <div className="widget has-shadow">
                         <div
                             className="widget-header bordered no-actions d-flex align-items-center justify-content-between">
                             <h4>Данные о курсе</h4>
-
                             <div className="text-right">
-                                <button
-                                    className="btn btn-primary"
-                                    type="submit"
-                                    disabled={isSavingProgress}
-                                >
+                                <button className="btn btn-primary" type="submit" disabled={isSavingProgress}>
                                     {isSavingProgress ? "Сохранение..." : "Сохранить"}
                                 </button>
                             </div>
@@ -56,24 +57,34 @@ export default function LessonForm({ckEditor, isSavingProgress, onSubmit, openMe
                         <div className="widget-body">
                             <div className="form-group row d-flex align-items-center mb-5">
                                 <label className="col-lg-3 form-control-label">
-                                    Название урока
-                                    <span className="text-danger ml-2">*</span>
+                                    Название урока <span className="text-danger ml-2">*</span>
                                 </label>
                                 <div className="col-lg-9">
                                     <input
                                         type="text"
                                         name="title"
-                                        className="form-control"
+                                        className={
+                                            `form-control ${validationErrors?.title
+                                                ? 'is-invalid border-danger'
+                                                : ''
+                                            }`
+                                        }
                                         placeholder="Наименование"
                                         value={form.fields.title}
                                         onChange={form.handlers.handleChange}
                                     />
 
+                                    {validationErrors?.title && (
+                                        <div className="text-danger mt-1 text-sm">
+                                            {validationErrors.title[0]}
+                                        </div>
+                                    )}
+
                                     {form.fields.title.length > 5 && (
                                         <button
                                             type="button"
                                             title="Геренировать текст курса с помощью ИИ"
-                                            className="btn btn-gradient-04 btn-square btn-sm mt-1"
+                                            className="btn btn-gradient-04 btn-square btn-sm mt-2"
                                             onClick={openAiModal}
                                         >AI помощник</button>
                                     )}
@@ -83,12 +94,20 @@ export default function LessonForm({ckEditor, isSavingProgress, onSubmit, openMe
                             <div className="form-group row d-flex align-items-center mb-5">
                                 <label className="col-lg-3 form-control-label">Описание</label>
                                 <div className="col-lg-9">
-                                    <TextareaEditor
-                                        value={form.fields.description ?? ""}
-                                        onChange={form.handlers.setDescription}
-                                        onOpenMediaModal={openMediaModal}
-                                        setEditorRef={ckEditor.setEditorRef}
-                                    />
+                                    <div className={validationErrors?.description ? 'border border-danger p-1' : ''}>
+                                        <TextareaEditor
+                                            value={form.fields.description ?? ""}
+                                            onChange={form.handlers.setDescription}
+                                            onOpenMediaModal={openMediaModal}
+                                            setEditorRef={ckEditor.setEditorRef}
+                                        />
+                                    </div>
+
+                                    {validationErrors?.description && (
+                                        <div className="text-danger mt-1 text-sm">
+                                            {validationErrors.description[0]}
+                                        </div>
+                                    )}
                                 </div>
                             </div>
 
@@ -100,19 +119,23 @@ export default function LessonForm({ckEditor, isSavingProgress, onSubmit, openMe
                             />
 
                             <div className="form-group row align-items-center mb-5">
-                                <label className="col-lg-3 form-control-label">
-                                    Длительность, мин
-                                </label>
+                                <label className="col-lg-3 form-control-label">Длительность, мин</label>
                                 <div className="col-lg-9">
                                     <input
                                         type="number"
                                         name="duration"
-                                        className="form-control"
+                                        className={`form-control ${validationErrors?.duration ? 'is-invalid border-danger' : ''}`}
                                         placeholder="100"
                                         min={0}
                                         value={form.fields.duration}
                                         onChange={form.handlers.handleChange}
                                     />
+
+                                    {validationErrors?.duration && (
+                                        <div className="text-danger mt-1 text-sm">
+                                            {validationErrors.duration[0]}
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>

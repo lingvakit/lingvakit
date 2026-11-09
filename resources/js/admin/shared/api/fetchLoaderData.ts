@@ -10,7 +10,7 @@ export async function fetchLoaderData<T>(
     url: string,
     options: LoaderJsonOptions = {},
 ): Promise<T> {
-    const res = await fetch(url, {
+    const response = await fetch(url, {
         method: "GET",
         credentials: "include",
         signal: options.signal,
@@ -19,12 +19,12 @@ export async function fetchLoaderData<T>(
         },
     });
 
-    if (!res.ok) {
-        const text = await res.text().catch(() => "");
-        throw new Response(text || "Request failed", { status: res.status });
+    if (!response.ok) {
+        const text = await response.text().catch(() => "");
+        throw new Response(text || "Request failed", { status: response.status });
     }
 
-    const json = await res.json() as ApiResponse<T>;
+    const json = await response.json() as ApiResponse<T>;
 
     if (json && typeof json === 'object' && 'data' in json) {
         return json.data as T;
