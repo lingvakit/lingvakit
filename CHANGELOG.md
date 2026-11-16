@@ -2,6 +2,12 @@
 
 ---
 
+## [unreleased] - 2026-11-16
+### Fixed:
+* Routes for quizzes
+
+---
+
 ## [3.4.3] - 2026-10-29
 ### Fixed:
 * Phpunit config
