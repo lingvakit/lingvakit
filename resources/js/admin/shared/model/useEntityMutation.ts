@@ -20,12 +20,14 @@ export function useEntityMutation<T, R>({
 
     const [isSavingProcess, setIsSavingProcess] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [validationErrors, setValidationErrors] = useState<Record<string, string[]> | undefined>(undefined);
 
     const execute = useCallback(
         async (data: T): Promise<R | null> => {
             try {
                 setIsSavingProcess(true);
                 setError(null);
+                setValidationErrors(undefined);
 
                 const response = await mutationFn(data);
 
@@ -36,22 +38,32 @@ export function useEntityMutation<T, R>({
                 }
 
                 return response;
-            } catch (e: any) {
-                setError(
-                    e instanceof Error ? e.message : errorMessage
-                );
+            }catch (e: any) {
+                if (e?.response?.status === 422 && e?.response?.data?.errors) {
+                    setValidationErrors(e.response.data.errors);
+                    setError("Пожалуйста, проверьте правильность заполнения формы.");
+                } else {
+                    setError(e instanceof Error ? e.message : errorMessage);
+                }
 
                 return null;
             } finally {
                 setIsSavingProcess(false);
             }
         },
-        [mutationFn, navigate, onSuccessNavigateTo]
+        [
+            mutationFn,
+            navigate,
+            onSuccessNavigateTo,
+            errorMessage,
+            onSuccess
+        ]
     );
 
     return {
         execute,
         isSavingProcess,
         error,
+        validationErrors,
     };
 }

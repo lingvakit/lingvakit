@@ -20,7 +20,7 @@ export default function LessonCreatePage() {
 
     const [isAiModalOpen, setIsAiModalOpen] = useState(false);
 
-    const {execute, isSavingProcess, error} = useCreateLesson();
+    const {execute, isSavingProcess, error, validationErrors} = useCreateLesson();
     const ckEditor = useCKEditor();
     const form = useLessonForm();
 
@@ -43,10 +43,6 @@ export default function LessonCreatePage() {
         });
     };
 
-    if (error) {
-        return <>Ошибка: {error}</>
-    }
-
     return (
         <PageLayout title="Новый урок">
             <LessonForm
@@ -56,6 +52,7 @@ export default function LessonCreatePage() {
                 openMediaModal={mediaModal.open}
                 openAiModal={() => setIsAiModalOpen(true)}
                 form={form}
+                validationErrors={validationErrors}
             />
 
             <MediaUploadModal
