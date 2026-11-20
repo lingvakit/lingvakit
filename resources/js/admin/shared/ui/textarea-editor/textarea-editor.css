@@ -1,0 +1,6 @@
+.ck-editor__editable_inline { min-height: 220px; }
+
+.ck-content figure.media { margin: 1em 0; text-align: center; }
+.ck-content figure.media video,
+.ck-content figure.media audio { max-width: 100%; }
+.ck-content figure.media-file a { display: inline-block; padding: 8px 12px; }

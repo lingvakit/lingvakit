@@ -1,22 +1,22 @@
-import {Category} from "../../../../../entities/category/model/types";
-import {useQuizForm} from "../../../../../features/quiz/model/useQuizForm";
-import {SelectCategories} from "./Form/SelectCategories";
-import {InputTextField} from "../../../../../shared/ui/form/InputTextField";
-import {InputNumberField} from "../../../../../shared/ui/form/InputNumberField";
-import {TextareaCKEditorField} from "../../../../../shared/ui/form/TextareaCKEditorField";
-import {MediaTarget} from "../../../../../shared/ui/modal/media/types";
-import {MediaType} from "../../../../../entities/media/model/types";
-import {useCKEditor} from "../../../../../shared/ui/modal/media/useCKEditor";
-import {FormEvent} from "react";
-import {InputMediaFiles} from "../../../../../shared/ui/form/InputMediaFiles";
+import { Category } from "../../../../../entities/category/model/types";
+import { useQuizForm } from "../../../../../features/quiz/model/useQuizForm";
+import { SelectCategories } from "./Form/SelectCategories";
+import { InputTextField } from "../../../../../shared/ui/form/InputTextField";
+import { InputNumberField } from "../../../../../shared/ui/form/InputNumberField";
+import { TextareaCKEditorField } from "../../../../../shared/ui/form/TextareaCKEditorField";
+import { MediaTarget } from "../../../../../shared/ui/modal/media/types";
+import { MediaType } from "../../../../../entities/media/model/types";
+import { useCKEditor } from "../../../../../shared/ui/modal/media/useCKEditor";
+import { FormEvent } from "react";
+import { InputMediaFiles } from "../../../../../shared/ui/form/InputMediaFiles";
 
 type Props = {
-    form: ReturnType<typeof useQuizForm>,
-    ckEditor: ReturnType<typeof useCKEditor>,
-    isSavingProgress: boolean,
-    categoriesList: Category[],
-    openMediaModal: (target: MediaTarget, type: MediaType) => void,
-    onSubmit: () => Promise<void>,
+    form: ReturnType<typeof useQuizForm>;
+    ckEditor: ReturnType<typeof useCKEditor>;
+    isSavingProgress: boolean;
+    categoriesList: Category[];
+    openMediaModal: (target: MediaTarget, type: MediaType) => void;
+    onSubmit: () => Promise<void>;
 };
 
 export function QuizForm({
@@ -29,29 +29,24 @@ export function QuizForm({
 }: Props) {
     const handleOpenMediaModal = (
         target: MediaTarget,
-        type: MediaType
+        type: MediaType,
     ): void => {
         openMediaModal(target, type);
     };
 
     const handleSubmit = async (
-        e: FormEvent<HTMLFormElement>
+        e: FormEvent<HTMLFormElement>,
     ): Promise<void> => {
         e.preventDefault();
         await onSubmit();
-    }
+    };
 
     return (
-        <form
-            className="form-horizontal"
-            onSubmit={handleSubmit}
-        >
+        <form className="form-horizontal" onSubmit={handleSubmit}>
             <div className="row flex-row">
                 <div className="col-12">
                     <div className="widget has-shadow">
-                        <div
-                            className="widget-header bordered no-actions d-flex align-items-center justify-content-between"
-                        >
+                        <div className="widget-header bordered no-actions d-flex align-items-center justify-content-between">
                             <h4>Данные теста</h4>
 
                             <div className="text-right">
@@ -60,7 +55,9 @@ export function QuizForm({
                                     type="submit"
                                     disabled={isSavingProgress}
                                 >
-                                    {isSavingProgress ? "Сохранение..." : "Сохранить"}
+                                    {isSavingProgress
+                                        ? "Сохранение..."
+                                        : "Сохранить"}
                                 </button>
                             </div>
                         </div>
@@ -82,9 +79,9 @@ export function QuizForm({
 
                             <TextareaCKEditorField
                                 label="Описание"
-                                value={form.fields.description!}
+                                value={form.fields.description}
                                 onChange={form.handlers.setDescription}
-                                onOpenMediaModal={() => {openMediaModal("editor", "image")}}
+                                onOpenMediaModal={handleOpenMediaModal}
                                 setEditorRef={ckEditor.setEditorRef}
                             />
 
@@ -92,7 +89,9 @@ export function QuizForm({
                                 target="form"
                                 mediaFiles={form.fields.mediaFiles}
                                 onOpenMediaModal={handleOpenMediaModal}
-                                onRemoveMediaFile={form.handlers.removeMediaFile}
+                                onRemoveMediaFile={
+                                    form.handlers.removeMediaFile
+                                }
                             />
 
                             <InputNumberField
@@ -119,5 +118,5 @@ export function QuizForm({
                 </div>
             </div>
         </form>
-    )
+    );
 }

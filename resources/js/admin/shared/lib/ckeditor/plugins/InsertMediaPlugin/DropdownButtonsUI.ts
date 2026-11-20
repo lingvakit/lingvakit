@@ -1,49 +1,61 @@
-import {Plugin} from "@ckeditor/ckeditor5-core";
-import {ButtonView, createDropdown} from "@ckeditor/ckeditor5-ui";
-import {MediaType} from "../../../../../entities/media/model/types";
+import {
+    Collection,
+    Plugin,
+    ViewModel,
+    addListToDropdown,
+    createDropdown,
+} from "ckeditor5";
+import type { ListDropdownItemDefinition } from "ckeditor5";
+import type { MediaType } from "../../../../../entities/media/model/types";
+
+const ITEMS: ReadonlyArray<{ label: string; type: MediaType }> = [
+    { label: "Изображение", type: "image" },
+    { label: "Видео", type: "video" },
+    { label: "Аудио", type: "audio" },
+    { label: "Файл", type: "file" },
+];
 
 export default class DropdownButtonsUI extends Plugin {
-    init() {
-        const editor = this.editor;
+    static get pluginName() {
+        return "InsertMediaDropdownUI" as const;
+    }
 
-        editor.ui.componentFactory.add('insertMediaDropdown', locale => {
+    init(): void {
+        const { editor } = this;
+
+        editor.ui.componentFactory.add("insertMediaDropdown", (locale) => {
             const dropdown = createDropdown(locale);
 
+            const items = new Collection<ListDropdownItemDefinition>();
+            for (const { label, type } of ITEMS) {
+                items.add({
+                    type: "button",
+                    model: new ViewModel({
+                        label,
+                        withText: true,
+                        commandParam: type,
+                    }),
+                });
+            }
+            addListToDropdown(dropdown, items);
+
             dropdown.buttonView.set({
-                label: 'Вставить файл',
+                label: "Вставить файл",
                 withText: true,
                 tooltip: true,
             });
 
-            const createButton = (
-                label: string,
-                type: MediaType
-            ): ButtonView => {
-                const button = new ButtonView(locale);
+            const command = editor.commands.get("insertMedia");
+            if (command) {
+                dropdown.bind("isEnabled").to(command, "isEnabled");
+            }
 
-                button.set({label, withText: true});
-                button.on('execute', () => {
-                    editor.config.get('mediaModal')?.open('editor', type);
-                });
-
-                return button;
-            };
-
-            dropdown.panelView.children.add(
-                createButton('Изображение', 'image')
-            );
-
-            dropdown.panelView.children.add(
-                createButton('Видео', 'video')
-            );
-
-            dropdown.panelView.children.add(
-                createButton('Аудио', 'audio')
-            );
-
-            dropdown.panelView.children.add(
-                createButton('Файл', 'file')
-            );
+            dropdown.on("execute", (evt) => {
+                const { commandParam } = evt.source as {
+                    commandParam: MediaType;
+                };
+                editor.config.get("mediaModal")?.open("editor", commandParam);
+            });
 
             return dropdown;
         });
