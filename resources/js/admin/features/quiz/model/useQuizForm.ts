@@ -1,101 +1,126 @@
-import {ChangeEvent, useState} from "react";
-import {MediaFile, MediaType} from "../../../entities/media/model/types";
-import {MEDIA_FIELD_BY_TYPE} from "../../../entities/media/model/constants";
-import {MediaTarget} from "../../../shared/ui/modal/media/types";
+import { useCallback, useMemo, useState } from "react";
+import type { ChangeEvent } from "react";
+import type { MediaFile, MediaType } from "../../../entities/media/model/types";
+import { MEDIA_FIELD_BY_TYPE } from "../../../entities/media/model/constants";
+import type { MediaTarget } from "../../../shared/ui/modal/media/types";
 
-type FormValues = {
+type MediaSlot = "audio" | "image" | "video";
+
+export type QuizFormValues = {
     categoryId: number;
     title: string;
-    description?: string;
+    description: string;
     timeLimit: number;
     passingScore: number;
-    mediaFiles: {
-        audio: MediaFile | null;
-        image: MediaFile | null;
-        video: MediaFile | null;
-    };
+    mediaFiles: Record<MediaSlot, MediaFile | null>;
 };
 
-export function useQuizForm(initial?: Partial<FormValues>) {
-    const [form, setForm] = useState<FormValues>({
-        categoryId: initial?.categoryId ?? 1,
-        title: initial?.title ?? '',
-        description: initial?.description ?? '',
+export type QuizFormInitialValues = {
+    categoryId?: number | null;
+    title?: string | null;
+    description?: string | null;
+    timeLimit?: number | null;
+    passingScore?: number | null;
+    mediaFiles?: Partial<Record<MediaSlot, MediaFile | null>>;
+};
+
+const TEXT_FIELDS = ["title"] as const;
+const NUMBER_FIELDS = ["categoryId", "timeLimit", "passingScore"] as const;
+
+function isOneOf<T extends string>(
+    list: readonly T[],
+    value: string,
+): value is T {
+    return (list as readonly string[]).includes(value);
+}
+
+function toNumber(raw: string): number {
+    const parsed = Number(raw);
+    return Number.isFinite(parsed) ? parsed : 0;
+}
+
+export function useQuizForm(initial?: QuizFormInitialValues) {
+    const [form, setForm] = useState<QuizFormValues>(() => ({
+        categoryId: initial?.categoryId ?? 0,
+        title: initial?.title ?? "",
+        description: initial?.description ?? "",
         timeLimit: initial?.timeLimit ?? 5,
         passingScore: initial?.passingScore ?? 50,
         mediaFiles: {
             audio: initial?.mediaFiles?.audio ?? null,
             image: initial?.mediaFiles?.image ?? null,
             video: initial?.mediaFiles?.video ?? null,
-        }
-    });
+        },
+    }));
 
-    const handleTextChange = (
-        e: ChangeEvent<HTMLInputElement|HTMLSelectElement>
-    ): void => {
-        const { name, value } = e.target;
+    const changeText = useCallback(
+        (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
+            const { name, value } = e.target;
+            if (!isOneOf(TEXT_FIELDS, name)) return;
 
-        setForm(prev => ({
-            ...prev,
-            [name]: String(value)
-        }));
-    };
+            setForm((prev) => ({ ...prev, [name]: value }));
+        },
+        [],
+    );
 
-    const handleNumberChange = (
-        e: ChangeEvent<HTMLInputElement|HTMLSelectElement>
-    ): void => {
-        const { name, value } = e.target;
+    const changeNumber = useCallback(
+        (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
+            const { name, value } = e.target;
+            if (!isOneOf(NUMBER_FIELDS, name)) return;
 
-        setForm(prev => ({
-            ...prev,
-            [name]: Number(value)
-        }));
-    };
+            setForm((prev) => ({ ...prev, [name]: toNumber(value) }));
+        },
+        [],
+    );
 
-    const setDescription = (
-        value: string
-    ): void => {
-        setForm(prev => ({
-            ...prev,
-            description: value
-        }));
-    };
+    const setDescription = useCallback((value: string): void => {
+        setForm((prev) =>
+            prev.description === value ? prev : { ...prev, description: value },
+        );
+    }, []);
 
-    const setMediaFile = (
-        file: MediaFile
-    ) => {
-        setForm(prev => ({
-            ...prev,
-            mediaFiles: {
-                ...prev.mediaFiles,
-                [file.type]: file
-            }
-        }));
-    };
-
-    const handleRemoveMediaFile = (
-        target: MediaTarget,
-        type: MediaType
-    ): void => {
-        const field = MEDIA_FIELD_BY_TYPE[type];
+    const setMediaFile = useCallback((file: MediaFile): void => {
+        const slot = MEDIA_FIELD_BY_TYPE[file.type] as MediaSlot | undefined;
+        if (!slot) return;
 
         setForm((prev) => ({
             ...prev,
-            mediaFiles: {
-                ...prev.mediaFiles,
-                [field]: null,
-            },
+            mediaFiles: { ...prev.mediaFiles, [slot]: file },
         }));
-    };
+    }, []);
+
+    const removeMediaFile = useCallback(
+        (_target: MediaTarget, type: MediaType): void => {
+            const slot = MEDIA_FIELD_BY_TYPE[type] as MediaSlot | undefined;
+            if (!slot) return;
+
+            setForm((prev) => ({
+                ...prev,
+                mediaFiles: { ...prev.mediaFiles, [slot]: null },
+            }));
+        },
+        [],
+    );
+
+    const handlers = useMemo(
+        () => ({
+            changeText,
+            changeNumber,
+            setDescription,
+            setMediaFile,
+            removeMediaFile,
+        }),
+        [
+            changeText,
+            changeNumber,
+            setDescription,
+            setMediaFile,
+            removeMediaFile,
+        ],
+    );
 
     return {
         fields: form,
-        handlers: {
-            changeText: handleTextChange,
-            changeNumber: handleNumberChange,
-            setDescription,
-            setMediaFile,
-            removeMediaFile: handleRemoveMediaFile
-        }
+        handlers,
     };
 }

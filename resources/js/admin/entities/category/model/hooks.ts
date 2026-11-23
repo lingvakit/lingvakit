@@ -1,36 +1,60 @@
-import { useEffect, useState } from "react";
-import { Category, UseCategoryListResult } from "./types";
+import { useCallback, useEffect, useState } from "react";
+import type { Category, UseCategoryListResult } from "./types";
 import { getCategoryList } from "../api/getCategoriesList";
+import { isValidationError } from "../../../shared/api/utils/handleResponse";
 
 export function useCategoryList(): UseCategoryListResult {
     const [categoryList, setCategoryList] = useState<Category[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
+    const [reloadToken, setReloadToken] = useState<number>(0);
 
     useEffect(() => {
+        const controller = new AbortController();
+
         const load = async (): Promise<void> => {
+            setIsLoading(true);
+            setError(null);
+
             try {
-                setIsLoading(true);
-                setError(null);
+                const categories = await getCategoryList(controller.signal);
 
-                const categories: Category[] = await getCategoryList();
+                if (!Array.isArray(categories)) {
+                    throw new Error("Некорректный формат ответа API категорий");
+                }
+
                 setCategoryList(categories);
-            } catch (error: unknown) {
-                const message: string = error instanceof Error ? error.message : "Unknown error";
+            } catch (caught: unknown) {
+                if (controller.signal.aborted) return;
 
-                setError(message);
-                console.error("Не удалось загрузить категории", error);
+                setCategoryList([]);
+                setError(
+                    caught instanceof Error
+                        ? caught.message
+                        : isValidationError(caught)
+                          ? (caught.response.data?.message ??
+                            "Ошибка валидации")
+                          : "Unknown error",
+                );
+                console.error("Не удалось загрузить категории", caught);
             } finally {
-                setIsLoading(false);
+                if (!controller.signal.aborted) setIsLoading(false);
             }
         };
 
         void load();
+
+        return () => controller.abort();
+    }, [reloadToken]);
+
+    const reload = useCallback((): void => {
+        setReloadToken((token) => token + 1);
     }, []);
 
     return {
         categoryList,
         isLoading,
-        error
+        error,
+        reload,
     };
 }

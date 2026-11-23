@@ -1,20 +1,21 @@
-import { Category } from "../../../../../entities/category/model/types";
-import { useQuizForm } from "../../../../../features/quiz/model/useQuizForm";
+import { Category } from "../../../../entities/category/model/types";
+import { useQuizForm } from "../../../../features/quiz/model/useQuizForm";
 import { SelectCategories } from "./Form/SelectCategories";
-import { InputTextField } from "../../../../../shared/ui/form/InputTextField";
-import { InputNumberField } from "../../../../../shared/ui/form/InputNumberField";
-import { TextareaCKEditorField } from "../../../../../shared/ui/form/TextareaCKEditorField";
-import { MediaTarget } from "../../../../../shared/ui/modal/media/types";
-import { MediaType } from "../../../../../entities/media/model/types";
-import { useCKEditor } from "../../../../../shared/ui/modal/media/useCKEditor";
+import { InputTextField } from "../../../../shared/ui/form/InputTextField";
+import { InputNumberField } from "../../../../shared/ui/form/InputNumberField";
+import { TextareaCKEditorField } from "../../../../shared/ui/form/TextareaCKEditorField";
+import { MediaTarget } from "../../../../shared/ui/modal/media/types";
+import { MediaType } from "../../../../entities/media/model/types";
+import { useCKEditor } from "../../../../shared/ui/modal/media/useCKEditor";
 import { FormEvent } from "react";
-import { InputMediaFiles } from "../../../../../shared/ui/form/InputMediaFiles";
+import { InputMediaFiles } from "../../../../shared/ui/form/InputMediaFiles";
 
 type Props = {
     form: ReturnType<typeof useQuizForm>;
     ckEditor: ReturnType<typeof useCKEditor>;
     isSavingProgress: boolean;
-    categoriesList: Category[];
+    categoriesList?: Category[];
+    isCategoriesLoading?: boolean;
     openMediaModal: (target: MediaTarget, type: MediaType) => void;
     onSubmit: () => Promise<void>;
 };
@@ -24,6 +25,7 @@ export function QuizForm({
     ckEditor,
     isSavingProgress,
     categoriesList,
+    isCategoriesLoading,
     openMediaModal,
     onSubmit,
 }: Props) {
@@ -66,6 +68,7 @@ export function QuizForm({
                             <SelectCategories
                                 form={form}
                                 categoriesList={categoriesList}
+                                isLoading={isCategoriesLoading}
                             />
 
                             <InputTextField

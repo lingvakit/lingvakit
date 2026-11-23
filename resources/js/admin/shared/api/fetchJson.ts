@@ -1,4 +1,4 @@
-import {handleResponse} from "./utils/handleResponse";
+import { handleResponse } from "./utils/handleResponse";
 
 type FetchJsonOptions = {
     method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
@@ -7,11 +7,18 @@ type FetchJsonOptions = {
     headers?: HeadersInit;
 };
 
+function getXsrfHeader(): Record<string, string> {
+    const token = document.cookie.match(/(?:^|; )XSRF-TOKEN=([^;]*)/)?.[1];
+    return token ? { "X-XSRF-TOKEN": decodeURIComponent(token) } : {};
+}
+
 export async function fetchJson<T>(
     url: string,
-    options: FetchJsonOptions = {}
+    options: FetchJsonOptions = {},
 ): Promise<T> {
     const { method = "GET", body, headers, signal } = options;
+    const hasBody = body !== undefined;
+    const isMutation = method !== "GET";
 
     const response = await fetch(url, {
         method,
@@ -19,10 +26,12 @@ export async function fetchJson<T>(
         signal,
         headers: {
             Accept: "application/json",
-            ...(body ? { "Content-Type": "application/json" } : {}),
+            "X-Requested-With": "XMLHttpRequest",
+            ...(hasBody ? { "Content-Type": "application/json" } : {}),
+            ...(isMutation ? getXsrfHeader() : {}),
             ...headers,
         },
-        body: body ? JSON.stringify(body) : undefined,
+        body: hasBody ? JSON.stringify(body) : undefined,
     });
 
     return handleResponse<T>(response);
