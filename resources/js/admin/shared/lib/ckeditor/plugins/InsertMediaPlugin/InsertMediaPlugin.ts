@@ -1,7 +1,7 @@
 import { Plugin, Widget, toWidget } from "ckeditor5";
 import type { ViewDowncastWriter, ViewElement, ViewNode } from "ckeditor5";
-import type { MediaType } from "../../../../../entities/media/model/types";
-import type { MediaTarget } from "../../../../ui/modal/media/types";
+import type { MediaType } from "@admin/entities/media/model/types";
+import type { MediaTarget } from "@admin/shared/ui/modal/media/types";
 import DropdownButtonsUI from "./DropdownButtonsUI";
 import InsertMediaCommand from "./InsertMediaCommand";
 import { isSafeMediaUrl } from "./safeUrl";

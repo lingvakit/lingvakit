@@ -1,5 +1,5 @@
-import {Link, type UIMatch, useMatches} from "react-router-dom";
-import type {Breadcrumb, BreadcrumbHandle} from "./types";
+import { Link, type UIMatch, useMatches } from "react-router-dom";
+import type { Breadcrumb, BreadcrumbHandle } from "./types";
 
 export default function Breadcrumbs() {
     const matches = useMatches() as UIMatch<unknown, BreadcrumbHandle>[];
@@ -22,11 +22,22 @@ export default function Breadcrumbs() {
                 const isHome = c.label === "Home";
 
                 return (
-                    <li key={`${c.label}-${c.to ?? idx}`} className={`breadcrumb-item ${isLast ? "active" : ""}`}>
+                    <li
+                        key={`${c.label}-${c.to ?? idx}`}
+                        className={`breadcrumb-item ${isLast ? "active" : ""}`}
+                    >
                         {c.to && !isLast ? (
-                            <Link to={c.to}>{isHome ? <i className="ti ti-home" /> : c.label}</Link>
+                            <Link to={c.to}>
+                                {isHome ? (
+                                    <i className="ti ti-home" />
+                                ) : (
+                                    c.label
+                                )}
+                            </Link>
+                        ) : isHome ? (
+                            <i className="ti ti-home" />
                         ) : (
-                            isHome ? <i className="ti ti-home" /> : c.label
+                            c.label
                         )}
                     </li>
                 );

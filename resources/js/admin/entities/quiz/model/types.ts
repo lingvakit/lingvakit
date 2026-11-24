@@ -1,5 +1,5 @@
-import { MediaFile } from "../../media/model/types";
-import { QuestionGroup } from "../../questionGroup/model/types";
+import { MediaFile } from "@admin/entities/media/model/types";
+import { QuestionGroup } from "@admin/entities/questionGroup/model/types";
 
 type QuizStatuses = "deleted" | "draft" | "published";
 

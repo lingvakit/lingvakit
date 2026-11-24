@@ -1,4 +1,4 @@
-import {handleResponse} from "./utils/handleResponse.ts";
+import { handleResponse } from "./utils/handleResponse";
 
 type FetchMultipartOptions = {
     method?: "POST" | "PUT" | "PATCH";
@@ -9,7 +9,7 @@ type FetchMultipartOptions = {
 
 export async function fetchMultipart<T>(
     url: string,
-    options: FetchMultipartOptions
+    options: FetchMultipartOptions,
 ): Promise<T> {
     const { method = "POST", body, headers, signal } = options;
 

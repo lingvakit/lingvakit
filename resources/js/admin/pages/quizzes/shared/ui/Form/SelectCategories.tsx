@@ -1,8 +1,8 @@
 import { useMemo } from "react";
-import type { Category } from "../../../../../entities/category/model/types";
-import { useQuizForm } from "../../../../../features/quiz/model/useQuizForm";
-import { SelectField } from "../../../../../shared/ui/form/SelectField";
-import type { SelectOption } from "../../../../../shared/ui/form/SelectField";
+import type { Category } from "@admin/entities/category/model/types";
+import { useQuizForm } from "@admin/features/quiz/model/useQuizForm";
+import { SelectField } from "@admin/shared/ui/form/SelectField";
+import type { SelectOption } from "@admin/shared/ui/form/SelectField";
 
 type Props = {
     form: ReturnType<typeof useQuizForm>;

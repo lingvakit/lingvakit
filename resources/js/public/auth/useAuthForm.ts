@@ -1,10 +1,10 @@
-import {useState} from 'react';
-import {ApiError, post} from './api';
+import { useState } from "react";
+import { ApiError, post } from "./api";
 
 export function useAuthForm<T extends Record<string, string | boolean>>(
     initial: T,
     url: string,
-    visibleFields: string[] = Object.keys(initial)
+    visibleFields: string[] = Object.keys(initial),
 ) {
     const [values, setValues] = useState<T>(initial);
     const [errors, setErrors] = useState<Record<string, string>>({});
@@ -12,15 +12,16 @@ export function useAuthForm<T extends Record<string, string | boolean>>(
     const [processing, setProcessing] = useState(false);
 
     const setValue = <K extends keyof T>(key: K, value: T[K]) =>
-        setValues((prev) => ({...prev, [key]: value}));
+        setValues((prev) => ({ ...prev, [key]: value }));
 
-    /** Возвращает ответ сервера или null, если была ошибка (она уже в state). */
-    async function submit<R = unknown>(extra: Record<string, unknown> = {}): Promise<R | null> {
+    async function submit<R = unknown>(
+        extra: Record<string, unknown> = {},
+    ): Promise<R | null> {
         setProcessing(true);
         setErrors({});
         setFormError(null);
         try {
-            return await post<R>(url, {...values, ...extra});
+            return await post<R>(url, { ...values, ...extra });
         } catch (e) {
             if (e instanceof ApiError && e.status === 422) {
                 const mapped = Object.fromEntries(
@@ -28,15 +29,20 @@ export function useAuthForm<T extends Record<string, string | boolean>>(
                 );
                 setErrors(mapped);
 
-                const orphan = Object.keys(mapped).find((k) => !visibleFields.includes(k));
+                const orphan = Object.keys(mapped).find(
+                    (k) => !visibleFields.includes(k),
+                );
                 if (orphan) setFormError(mapped[orphan]);
-                else if (Object.keys(mapped).length === 0) setFormError(e.message);
+                else if (Object.keys(mapped).length === 0)
+                    setFormError(e.message);
             } else if (e instanceof ApiError) {
-                setFormError(e.status === 429
-                    ? 'Слишком много попыток. Попробуйте чуть позже.'
-                    : e.message);
+                setFormError(
+                    e.status === 429
+                        ? "Слишком много попыток. Попробуйте чуть позже."
+                        : e.message,
+                );
             } else {
-                setFormError('Нет соединения с сервером.');
+                setFormError("Нет соединения с сервером.");
             }
             return null;
         } finally {
@@ -44,5 +50,13 @@ export function useAuthForm<T extends Record<string, string | boolean>>(
         }
     }
 
-    return {values, setValue, errors, formError, setFormError, processing, submit};
+    return {
+        values,
+        setValue,
+        errors,
+        formError,
+        setFormError,
+        processing,
+        submit,
+    };
 }

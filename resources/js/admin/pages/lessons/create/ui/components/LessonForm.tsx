@@ -1,18 +1,18 @@
-import TextareaEditor from "../../../../../shared/ui/textarea-editor/TextareaEditor";
-import {FormEvent} from "react";
-import {useCKEditor} from "../../../../../shared/ui/modal/media/useCKEditor";
-import {MediaTarget} from "../../../../../shared/ui/modal/media/types";
-import {MediaType} from "../../../../../entities/media/model/types";
-import {useLessonForm} from "../../../../../features/lesson/create/model/useLessonForm";
-import {InputMediaFiles} from "../../../../../shared/ui/form/InputMediaFiles";
+import TextareaEditor from "@admin/shared/ui/textarea-editor/TextareaEditor";
+import { FormEvent } from "react";
+import { useCKEditor } from "@admin/shared/ui/modal/media/useCKEditor";
+import { MediaTarget } from "@admin/shared/ui/modal/media/types";
+import { MediaType } from "@admin/entities/media/model/types";
+import { useLessonForm } from "@admin/features/lesson/create/model/useLessonForm";
+import { InputMediaFiles } from "@admin/shared/ui/form/InputMediaFiles";
 
 type Props = {
-    ckEditor: ReturnType<typeof useCKEditor>
+    ckEditor: ReturnType<typeof useCKEditor>;
     isSavingProgress: boolean;
     onSubmit: () => Promise<void>;
     openMediaModal: (target: MediaTarget, type: MediaType) => void;
     openAiModal: () => void;
-    form: ReturnType<typeof useLessonForm>
+    form: ReturnType<typeof useLessonForm>;
     validationErrors?: Record<string, string[]>;
 };
 
@@ -26,16 +26,13 @@ export default function LessonForm({
     validationErrors,
 }: Props) {
     const handleSubmit = async (
-        e: FormEvent<HTMLFormElement>
+        e: FormEvent<HTMLFormElement>,
     ): Promise<void> => {
         e.preventDefault();
         await onSubmit();
-    }
+    };
 
-    const handleOpenMediaModal = (
-        target: MediaTarget,
-        type: MediaType
-    ) => {
+    const handleOpenMediaModal = (target: MediaTarget, type: MediaType) => {
         openMediaModal(target, type);
     };
 
@@ -44,12 +41,17 @@ export default function LessonForm({
             <div className="row flex-row">
                 <div className="col-12">
                     <div className="widget has-shadow">
-                        <div
-                            className="widget-header bordered no-actions d-flex align-items-center justify-content-between">
+                        <div className="widget-header bordered no-actions d-flex align-items-center justify-content-between">
                             <h4>Данные о курсе</h4>
                             <div className="text-right">
-                                <button className="btn btn-primary" type="submit" disabled={isSavingProgress}>
-                                    {isSavingProgress ? "Сохранение..." : "Сохранить"}
+                                <button
+                                    className="btn btn-primary"
+                                    type="submit"
+                                    disabled={isSavingProgress}
+                                >
+                                    {isSavingProgress
+                                        ? "Сохранение..."
+                                        : "Сохранить"}
                                 </button>
                             </div>
                         </div>
@@ -57,18 +59,18 @@ export default function LessonForm({
                         <div className="widget-body">
                             <div className="form-group row d-flex align-items-center mb-5">
                                 <label className="col-lg-3 form-control-label">
-                                    Название урока <span className="text-danger ml-2">*</span>
+                                    Название урока{" "}
+                                    <span className="text-danger ml-2">*</span>
                                 </label>
                                 <div className="col-lg-9">
                                     <input
                                         type="text"
                                         name="title"
-                                        className={
-                                            `form-control ${validationErrors?.title
-                                                ? 'is-invalid border-danger'
-                                                : ''
-                                            }`
-                                        }
+                                        className={`form-control ${
+                                            validationErrors?.title
+                                                ? "is-invalid border-danger"
+                                                : ""
+                                        }`}
                                         placeholder="Наименование"
                                         value={form.fields.title}
                                         onChange={form.handlers.handleChange}
@@ -86,18 +88,32 @@ export default function LessonForm({
                                             title="Геренировать текст курса с помощью ИИ"
                                             className="btn btn-gradient-04 btn-square btn-sm mt-2"
                                             onClick={openAiModal}
-                                        >AI помощник</button>
+                                        >
+                                            AI помощник
+                                        </button>
                                     )}
                                 </div>
                             </div>
 
                             <div className="form-group row d-flex align-items-center mb-5">
-                                <label className="col-lg-3 form-control-label">Описание</label>
+                                <label className="col-lg-3 form-control-label">
+                                    Описание
+                                </label>
                                 <div className="col-lg-9">
-                                    <div className={validationErrors?.description ? 'border border-danger p-1' : ''}>
+                                    <div
+                                        className={
+                                            validationErrors?.description
+                                                ? "border border-danger p-1"
+                                                : ""
+                                        }
+                                    >
                                         <TextareaEditor
-                                            value={form.fields.description ?? ""}
-                                            onChange={form.handlers.setDescription}
+                                            value={
+                                                form.fields.description ?? ""
+                                            }
+                                            onChange={
+                                                form.handlers.setDescription
+                                            }
                                             onOpenMediaModal={openMediaModal}
                                             setEditorRef={ckEditor.setEditorRef}
                                         />
@@ -115,16 +131,20 @@ export default function LessonForm({
                                 target={"form"}
                                 mediaFiles={form.fields.mediaFiles}
                                 onOpenMediaModal={handleOpenMediaModal}
-                                onRemoveMediaFile={form.handlers.removeMediaFile}
+                                onRemoveMediaFile={
+                                    form.handlers.removeMediaFile
+                                }
                             />
 
                             <div className="form-group row align-items-center mb-5">
-                                <label className="col-lg-3 form-control-label">Длительность, мин</label>
+                                <label className="col-lg-3 form-control-label">
+                                    Длительность, мин
+                                </label>
                                 <div className="col-lg-9">
                                     <input
                                         type="number"
                                         name="duration"
-                                        className={`form-control ${validationErrors?.duration ? 'is-invalid border-danger' : ''}`}
+                                        className={`form-control ${validationErrors?.duration ? "is-invalid border-danger" : ""}`}
                                         placeholder="100"
                                         min={0}
                                         value={form.fields.duration}

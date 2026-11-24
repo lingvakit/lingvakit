@@ -1,20 +1,20 @@
-import {useQuestionGroupForm} from "../../../../../../features/questionGroup/model/useQuestionGroupForm";
-import {InputTextField} from "../../../../../../shared/ui/form/InputTextField";
-import {InputMediaFiles} from "../../../../../../shared/ui/form/InputMediaFiles";
-import {MediaTarget} from "../../../../../../shared/ui/modal/media/types";
-import {MediaType} from "../../../../../../entities/media/model/types";
-import {TextareaField} from "../../../../../../shared/ui/form/TextareaField";
-import {InputRadioField} from "../../../../../../shared/ui/form/InputRadioField";
-import {FormEvent} from "react";
-import {SingleChoiceQuestionsFields} from "./SingleChoiceQuestionsFields";
+import { useQuestionGroupForm } from "@admin/features/questionGroup/model/useQuestionGroupForm";
+import { InputTextField } from "@admin/shared/ui/form/InputTextField";
+import { InputMediaFiles } from "@admin/shared/ui/form/InputMediaFiles";
+import { MediaTarget } from "@admin/shared/ui/modal/media/types";
+import { MediaType } from "@admin/entities/media/model/types";
+import { TextareaField } from "@admin/shared/ui/form/TextareaField";
+import { InputRadioField } from "@admin/shared/ui/form/InputRadioField";
+import { FormEvent } from "react";
+import { SingleChoiceQuestionsFields } from "./SingleChoiceQuestionsFields";
 
 type Props = {
-    form: ReturnType<typeof useQuestionGroupForm>,
-    isSavingProgress: boolean,
-    onSubmit: () => Promise<void>,
-    openMediaModal: (target: MediaTarget, type: MediaType) => void,
-    openAiModal?: () => void,
-    questionFields?: boolean
+    form: ReturnType<typeof useQuestionGroupForm>;
+    isSavingProgress: boolean;
+    onSubmit: () => Promise<void>;
+    openMediaModal: (target: MediaTarget, type: MediaType) => void;
+    openAiModal?: () => void;
+    questionFields?: boolean;
 };
 
 export function QuestionGroupForm({
@@ -23,10 +23,10 @@ export function QuestionGroupForm({
     onSubmit,
     openMediaModal,
     openAiModal,
-    questionFields = true
+    questionFields = true,
 }: Props) {
     const handleSubmit = async (
-        e: FormEvent<HTMLFormElement>
+        e: FormEvent<HTMLFormElement>,
     ): Promise<void> => {
         e.preventDefault();
         await onSubmit();
@@ -34,22 +34,17 @@ export function QuestionGroupForm({
 
     const handleOpenMediaModal = (
         target: MediaTarget,
-        type: MediaType
+        type: MediaType,
     ): void => {
         openMediaModal(target, type);
     };
 
     return (
-        <form
-            className="form-horizontal"
-            onSubmit={handleSubmit}
-        >
+        <form className="form-horizontal" onSubmit={handleSubmit}>
             <div className="row flex-row">
                 <div className="col-12">
                     <div className="widget has-shadow">
-                        <div
-                            className="widget-header bordered no-actions d-flex align-items-center justify-content-between"
-                        >
+                        <div className="widget-header bordered no-actions d-flex align-items-center justify-content-between">
                             <h4>Информация о группе</h4>
                             <div className="text-right">
                                 <button
@@ -57,7 +52,9 @@ export function QuestionGroupForm({
                                     type="submit"
                                     disabled={isSavingProgress}
                                 >
-                                    {isSavingProgress ? "Сохранение..." : "Сохранить"}
+                                    {isSavingProgress
+                                        ? "Сохранение..."
+                                        : "Сохранить"}
                                 </button>
                             </div>
                         </div>
@@ -75,7 +72,7 @@ export function QuestionGroupForm({
                             <TextareaField
                                 label="Описание"
                                 name="description"
-                                value={form.fields.description ?? ''}
+                                value={form.fields.description ?? ""}
                                 onChange={form.handlers.changeText}
                                 isRequired={false}
                                 placeholder="Подробное объяснение общего задания"
@@ -84,14 +81,19 @@ export function QuestionGroupForm({
                             <InputRadioField
                                 title="Размер шрифта вопросов"
                                 name="fontSize"
-                                currentValue={form.fields.meta?.fontSize ?? 'small'}
+                                currentValue={
+                                    form.fields.meta?.fontSize ?? "small"
+                                }
                                 onChange={(value) =>
-                                    form.handlers.setMetaValue("fontSize", value)
+                                    form.handlers.setMetaValue(
+                                        "fontSize",
+                                        value,
+                                    )
                                 }
                                 items={[
-                                    {value: 'small', label: 'Маленький'},
-                                    {value: 'medium', label: 'Средний'},
-                                    {value: 'large', label: 'Большой'},
+                                    { value: "small", label: "Маленький" },
+                                    { value: "medium", label: "Средний" },
+                                    { value: "large", label: "Большой" },
                                 ]}
                             />
 
@@ -99,7 +101,9 @@ export function QuestionGroupForm({
                                 target="form"
                                 mediaFiles={form.fields.mediaFiles}
                                 onOpenMediaModal={handleOpenMediaModal}
-                                onRemoveMediaFile={form.handlers.removeMediaFile}
+                                onRemoveMediaFile={
+                                    form.handlers.removeMediaFile
+                                }
                             />
                         </div>
                     </div>

@@ -1,8 +1,6 @@
 type QueryValue = string | number | boolean | null | undefined;
 
-export function buildQuery(
-    params: Record<string, QueryValue>
-): string {
+export function buildQuery(params: Record<string, QueryValue>): string {
     const searchParams = new URLSearchParams();
 
     Object.entries(params).forEach(([key, value]) => {

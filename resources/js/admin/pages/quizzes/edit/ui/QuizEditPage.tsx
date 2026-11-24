@@ -1,9 +1,9 @@
 import { useCallback } from "react";
 import { useLoaderData } from "react-router-dom";
 import { QuizFormScreen } from "../../shared/ui/QuizFormScreen";
-import { useUpdateQuiz } from "../../../../entities/quiz/model/hooks";
-import type { Quiz } from "../../../../entities/quiz/model/types";
-import type { QuizFormFields } from "../../../../features/quiz/lib/buildQuizPayload";
+import { useUpdateQuiz } from "@admin/entities/quiz/model/hooks";
+import type { Quiz } from "@admin/entities/quiz/model/types";
+import type { QuizFormFields } from "@admin/features/quiz/lib/buildQuizPayload";
 
 export function QuizEditPage() {
     const quiz = useLoaderData() as Quiz;

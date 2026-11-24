@@ -1,11 +1,12 @@
 import { type LoaderFunctionArgs } from "react-router-dom";
 import { Course } from "../../model/types";
-import { baseApiUrl } from "../../../../shared/constants/api";
-import { fetchLoaderData } from "../../../../shared/api/fetchLoaderData";
+import { baseApiUrl } from "@admin/shared/constants/api";
+import { fetchLoaderData } from "@admin/shared/api/fetchLoaderData";
 
-export async function getCourse(
-    { params, request }: LoaderFunctionArgs
-): Promise<Course> {
+export async function getCourse({
+    params,
+    request,
+}: LoaderFunctionArgs): Promise<Course> {
     const courseId = params.courseId;
 
     if (!courseId) {
@@ -13,6 +14,6 @@ export async function getCourse(
     }
 
     return fetchLoaderData<Course>(`${baseApiUrl}/courses/${courseId}`, {
-        signal: request.signal
+        signal: request.signal,
     });
 }

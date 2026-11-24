@@ -6,8 +6,14 @@ export default function ErrorPage() {
     if (isRouteErrorResponse(error)) {
         return (
             <div style={{ padding: 24 }}>
-                <h1>{error.status} {error.statusText}</h1>
-                <p>{typeof error.data === "string" ? error.data : "Страница не найдена"}</p>
+                <h1>
+                    {error.status} {error.statusText}
+                </h1>
+                <p>
+                    {typeof error.data === "string"
+                        ? error.data
+                        : "Страница не найдена"}
+                </p>
                 <Link to="/admin">На главную админки</Link>
             </div>
         );

@@ -1,11 +1,10 @@
 import { useCallback, useEffect, useMemo, useRef } from "react";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import { ClassicEditor } from "ckeditor5";
-import "ckeditor5/ckeditor5.css"; // ✅ без этого редактор рендерится без стилей
+import "ckeditor5/ckeditor5.css";
 import "./textarea-editor.css";
-
 import type { MediaTarget } from "../modal/media/types";
-import type { MediaType } from "../../../entities/media/model/types";
+import type { MediaType } from "@admin/entities/media/model/types";
 import { createEditorConfig } from "../../lib/ckeditor/createEditorConfig";
 
 type Props = {

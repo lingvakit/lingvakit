@@ -6,7 +6,7 @@ import {
     createDropdown,
 } from "ckeditor5";
 import type { ListDropdownItemDefinition } from "ckeditor5";
-import type { MediaType } from "../../../../../entities/media/model/types";
+import type { MediaType } from "@admin/entities/media/model/types";
 
 const ITEMS: ReadonlyArray<{ label: string; type: MediaType }> = [
     { label: "Изображение", type: "image" },

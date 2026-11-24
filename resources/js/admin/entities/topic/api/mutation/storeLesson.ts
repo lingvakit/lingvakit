@@ -1,9 +1,12 @@
-import {LessonStorePayload, LessonResponse} from "../../../lesson/model/types";
-import {fetchJson} from "../../../../shared/api/fetchJson";
-import {baseApiUrl} from "../../../../shared/constants/api";
+import {
+    LessonStorePayload,
+    LessonResponse,
+} from "@admin/entities/lesson/model/types";
+import { fetchJson } from "@admin/shared/api/fetchJson";
+import { baseApiUrl } from "@admin/shared/constants/api";
 
 export async function storeLesson(
-    data: LessonStorePayload
+    data: LessonStorePayload,
 ): Promise<LessonResponse> {
     const storeLessonEndpoint = `${baseApiUrl}/lessons`;
 

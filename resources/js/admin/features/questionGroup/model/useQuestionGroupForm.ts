@@ -1,52 +1,52 @@
-import {ChangeEvent, useState} from "react";
-import {MediaFile, MediaType} from "../../../entities/media/model/types";
-import {FontSize} from "./types";
-import {QuestionType} from "../../../entities/question/model/types";
-import {AiGeneratedQuestionsGroupPayload} from "../../../entities/questionGroup/model/types";
-import {MEDIA_FIELD_BY_TYPE} from "../../../entities/media/model/constants";
-import {MediaTarget} from "../../../shared/ui/modal/media/types";
-import {MediaFields} from "../../../shared/types/form";
+import { ChangeEvent, useState } from "react";
+import { MediaFile, MediaType } from "@admin/entities/media/model/types";
+import { FontSize } from "./types";
+import { QuestionType } from "@admin/entities/question/model/types";
+import { AiGeneratedQuestionsGroupPayload } from "@admin/entities/questionGroup/model/types";
+import { MEDIA_FIELD_BY_TYPE } from "@admin/entities/media/model/constants";
+import { MediaTarget } from "@admin/shared/ui/modal/media/types";
+import { MediaFields } from "@admin/shared/types/form";
 
 export type OptionValues = {
-    uuid: string,
-    text?: string | null,
-    matchKey?: string | null,
-    orderIndex?: number | null,
-    settings?: {} | null,
+    uuid: string;
+    text?: string | null;
+    matchKey?: string | null;
+    orderIndex?: number | null;
+    settings?: {} | null;
 };
 
 export type QuestionValues = {
-    uuid: string,
-    text: string,
-    type: QuestionType,
-    explanation?: string | null,
-    points: number,
-    orderIndex?: number | null,
-    settings?: {} | null,
-    mediaFiles: MediaFields,
+    uuid: string;
+    text: string;
+    type: QuestionType;
+    explanation?: string | null;
+    points: number;
+    orderIndex?: number | null;
+    settings?: {} | null;
+    mediaFiles: MediaFields;
     answer: {
-        questionType: QuestionType,
-        value: string[],
-    },
-    options: OptionValues[],
+        questionType: QuestionType;
+        value: string[];
+    };
+    options: OptionValues[];
 };
 
 type FormValues = {
-    title: string,
-    description: string | null,
+    title: string;
+    description: string | null;
     meta: {
-        fontSize: FontSize
-    },
-    mediaFiles: MediaFields,
-    questions: QuestionValues[],
+        fontSize: FontSize;
+    };
+    mediaFiles: MediaFields;
+    questions: QuestionValues[];
 };
 
 export function useQuestionGroupForm(initial?: Partial<FormValues>) {
     const [form, setForm] = useState<FormValues>({
-        title: initial?.title ?? '',
-        description: initial?.description ?? '',
+        title: initial?.title ?? "",
+        description: initial?.description ?? "",
         meta: {
-            fontSize: initial?.meta?.fontSize ?? 'small'
+            fontSize: initial?.meta?.fontSize ?? "small",
         },
         mediaFiles: {
             audio: initial?.mediaFiles?.audio ?? null,
@@ -56,9 +56,9 @@ export function useQuestionGroupForm(initial?: Partial<FormValues>) {
         questions: [
             {
                 uuid: crypto.randomUUID(),
-                text: '',
+                text: "",
                 type: "single_choice",
-                explanation: '',
+                explanation: "",
                 points: 10,
                 orderIndex: null,
                 settings: null,
@@ -68,280 +68,285 @@ export function useQuestionGroupForm(initial?: Partial<FormValues>) {
                     video: null,
                 },
                 answer: {
-                    questionType: 'single_choice',
-                    value: ['']
+                    questionType: "single_choice",
+                    value: [""],
                 },
                 options: [
                     {
                         uuid: crypto.randomUUID(),
-                        text: '',
+                        text: "",
                     },
                     {
                         uuid: crypto.randomUUID(),
-                        text: '',
+                        text: "",
                     },
-                ]
-            }
-        ]
+                ],
+            },
+        ],
     });
 
     const handleTextChange = (
-        e: ChangeEvent<HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement>
+        e: ChangeEvent<
+            HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+        >,
     ): void => {
         const { name, value } = e.target;
 
-        setForm(prev => ({
+        setForm((prev) => ({
             ...prev,
-            [name]: String(value)
+            [name]: String(value),
         }));
     };
 
-    const setMediaFile = (
-        target: MediaTarget,
-        file: MediaFile
-    ): void => {
+    const setMediaFile = (target: MediaTarget, file: MediaFile): void => {
         const field = MEDIA_FIELD_BY_TYPE[file.type];
 
-        setForm(prev => {
-            if (target === 'form') {
+        setForm((prev) => {
+            if (target === "form") {
                 return {
                     ...prev,
-                    mediaFiles: { ...prev.mediaFiles, [field]: file }
+                    mediaFiles: { ...prev.mediaFiles, [field]: file },
                 };
             }
 
             return {
                 ...prev,
-                questions: prev.questions.map(question =>
+                questions: prev.questions.map((question) =>
                     question.uuid === target
                         ? {
-                            ...question,
-                            mediaFiles: { ...question.mediaFiles, [field]: file }
-                        }
-                        : question
-                )
+                              ...question,
+                              mediaFiles: {
+                                  ...question.mediaFiles,
+                                  [field]: file,
+                              },
+                          }
+                        : question,
+                ),
             };
         });
     };
 
-    const setMetaValue = <
-        K extends keyof NonNullable<FormValues["meta"]>
-    >(
+    const setMetaValue = <K extends keyof NonNullable<FormValues["meta"]>>(
         key: K,
-        value: NonNullable<FormValues["meta"]>[K]
+        value: NonNullable<FormValues["meta"]>[K],
     ) => {
-        setForm(prev => ({
+        setForm((prev) => ({
             ...prev,
             meta: {
                 ...prev.meta,
-                [key]: value
-            }
+                [key]: value,
+            },
         }));
     };
 
     const addQuestion = () => {
-        setForm(prev => ({
+        setForm((prev) => ({
             ...prev,
             questions: [
                 ...prev.questions,
                 {
                     uuid: crypto.randomUUID(),
-                    text: '',
-                    type: 'single_choice',
-                    explanation: '',
+                    text: "",
+                    type: "single_choice",
+                    explanation: "",
                     points: 10,
                     orderIndex: null,
                     settings: null,
                     mediaFiles: {
                         audio: null,
                         image: null,
-                        video: null
+                        video: null,
                     },
                     answer: {
-                        questionType: 'single_choice',
-                        value: [''],
+                        questionType: "single_choice",
+                        value: [""],
                     },
                     options: [
                         {
                             uuid: crypto.randomUUID(),
-                            text: '',
+                            text: "",
                         },
                         {
                             uuid: crypto.randomUUID(),
-                            text: '',
+                            text: "",
                         },
                     ],
-                }
-            ]
+                },
+            ],
         }));
     };
 
     const addOption = (questionUuid: string) => {
-        setForm(prev => ({
+        setForm((prev) => ({
             ...prev,
-            questions: prev.questions.map(question =>
+            questions: prev.questions.map((question) =>
                 question.uuid === questionUuid
                     ? {
-                        ...question,
-                        options: [
-                            ...question.options,
-                            {
-                                uuid: crypto.randomUUID(),
-                                text: ''
-                            }
-                        ]
-                    }
-                    : question
-            )
+                          ...question,
+                          options: [
+                              ...question.options,
+                              {
+                                  uuid: crypto.randomUUID(),
+                                  text: "",
+                              },
+                          ],
+                      }
+                    : question,
+            ),
         }));
     };
 
-    const updateQuestion = <
-        K extends keyof QuestionValues
-    >(
+    const updateQuestion = <K extends keyof QuestionValues>(
         questionUuid: string,
         key: K,
         value: QuestionValues[K],
     ): void => {
-        setForm(prev => ({
+        setForm((prev) => ({
             ...prev,
-            questions: prev.questions.map(
-                question => question.uuid === questionUuid
+            questions: prev.questions.map((question) =>
+                question.uuid === questionUuid
                     ? {
-                        ...question,
-                        [key]: value
-                    }
-                    : question
-            )
-        }))
+                          ...question,
+                          [key]: value,
+                      }
+                    : question,
+            ),
+        }));
     };
 
     /* TODO: Make UI page */
-    const updateOption = <
-        K extends keyof OptionValues
-    >(
+    const updateOption = <K extends keyof OptionValues>(
         questionUuid: string,
         optionUuid: string,
         key: K,
-        value: OptionValues[K]
+        value: OptionValues[K],
     ): void => {
-        setForm(prev => ({
+        setForm((prev) => ({
             ...prev,
-            questions: prev.questions.map(question => {
+            questions: prev.questions.map((question) => {
                 if (question.uuid !== questionUuid) {
                     return question;
                 }
 
                 return {
                     ...question,
-                    options: question.options.map(
-                        option => option.uuid === optionUuid
+                    options: question.options.map((option) =>
+                        option.uuid === optionUuid
                             ? {
-                                ...option,
-                                [key]: value
-                            }
-                            : option
+                                  ...option,
+                                  [key]: value,
+                              }
+                            : option,
                     ),
                 };
-            })
-        }))
-    }
+            }),
+        }));
+    };
 
     const setCorrectOption = (
         questionUuid: string,
         optionUuid: string,
     ): void => {
-        setForm(prev => ({
+        setForm((prev) => ({
             ...prev,
-            questions: prev.questions.map(
-                question => question.uuid === questionUuid
+            questions: prev.questions.map((question) =>
+                question.uuid === questionUuid
                     ? {
-                        ...question,
-                        answer: {
-                            questionType: 'single_choice',
-                            value: [optionUuid]
-                        },
-                    }
-                    : question
-            )
-        }))
+                          ...question,
+                          answer: {
+                              questionType: "single_choice",
+                              value: [optionUuid],
+                          },
+                      }
+                    : question,
+            ),
+        }));
     };
 
     const applyAiData = (aiData: AiGeneratedQuestionsGroupPayload) => {
-        const generatedQuestions: QuestionValues[] = aiData.questions.map((aiQ) => {
-            const questionUuid = crypto.randomUUID();
+        const generatedQuestions: QuestionValues[] = aiData.questions.map(
+            (aiQ) => {
+                const questionUuid = crypto.randomUUID();
 
-            const optionsWithUuid = aiQ.options.map(opt => ({
-                uuid: crypto.randomUUID(),
-                text: opt.text,
-                _originalAiId: opt.id
-            }));
+                const optionsWithUuid = aiQ.options.map((opt) => ({
+                    uuid: crypto.randomUUID(),
+                    text: opt.text,
+                    _originalAiId: opt.id,
+                }));
 
-            const correctOption = optionsWithUuid.find(
-                opt => opt._originalAiId === aiQ.correct_answer_id
-            );
+                const correctOption = optionsWithUuid.find(
+                    (opt) => opt._originalAiId === aiQ.correct_answer_id,
+                );
 
-            const cleanOptions: OptionValues[] = optionsWithUuid.map(
-                ({ uuid, text }) => ({ uuid, text })
-            );
+                const cleanOptions: OptionValues[] = optionsWithUuid.map(
+                    ({ uuid, text }) => ({ uuid, text }),
+                );
 
-            return {
-                uuid: questionUuid,
-                text: aiQ.question,
-                type: "single_choice",
-                explanation: aiQ.explanation,
-                points: 10,
-                orderIndex: null,
-                settings: null,
-                mediaFiles: {
-                    audio: null,
-                    image: null,
-                    video: null
-                },
-                answer: {
-                    questionType: 'single_choice',
-                    value: [correctOption ? correctOption.uuid : '']
-                },
-                options: cleanOptions
-            };
-        });
+                return {
+                    uuid: questionUuid,
+                    text: aiQ.question,
+                    type: "single_choice",
+                    explanation: aiQ.explanation,
+                    points: 10,
+                    orderIndex: null,
+                    settings: null,
+                    mediaFiles: {
+                        audio: null,
+                        image: null,
+                        video: null,
+                    },
+                    answer: {
+                        questionType: "single_choice",
+                        value: [correctOption ? correctOption.uuid : ""],
+                    },
+                    options: cleanOptions,
+                };
+            },
+        );
 
-        setForm(prev => {
-            const isInitialEmpty = prev.questions.length === 1
-                && !prev.questions[0].text
-                && prev.questions[0].options.every(o => !o.text);
+        setForm((prev) => {
+            const isInitialEmpty =
+                prev.questions.length === 1 &&
+                !prev.questions[0].text &&
+                prev.questions[0].options.every((o) => !o.text);
 
             const existingQuestions = isInitialEmpty ? [] : prev.questions;
 
             return {
                 ...prev,
-                title: prev.title.trim() === '' ? aiData.topic : prev.title,
-                questions: [...existingQuestions, ...generatedQuestions]
+                title: prev.title.trim() === "" ? aiData.topic : prev.title,
+                questions: [...existingQuestions, ...generatedQuestions],
             };
         });
     };
 
-    const handleRemoveMediaFile = (target: MediaTarget, type: MediaType): void => {
+    const handleRemoveMediaFile = (
+        target: MediaTarget,
+        type: MediaType,
+    ): void => {
         const field = MEDIA_FIELD_BY_TYPE[type];
 
         setForm((prev) => {
-            if (target === 'form') {
+            if (target === "form") {
                 return {
                     ...prev,
-                    mediaFiles: { ...prev.mediaFiles, [field]: null }
+                    mediaFiles: { ...prev.mediaFiles, [field]: null },
                 };
             }
 
             return {
                 ...prev,
-                questions: prev.questions.map(question =>
+                questions: prev.questions.map((question) =>
                     question.uuid === target
                         ? {
-                            ...question,
-                            mediaFiles: { ...question.mediaFiles, [field]: null }
-                        }
-                        : question
-                )
+                              ...question,
+                              mediaFiles: {
+                                  ...question.mediaFiles,
+                                  [field]: null,
+                              },
+                          }
+                        : question,
+                ),
             };
         });
     };
@@ -358,7 +363,7 @@ export function useQuestionGroupForm(initial?: Partial<FormValues>) {
             updateQuestion,
             updateOption,
             setCorrectOption,
-            applyAiData
-        }
+            applyAiData,
+        },
     };
 }

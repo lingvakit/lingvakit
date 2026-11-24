@@ -1,10 +1,8 @@
-import {MediaFile, MediaFilePayload} from "../../model/types";
-import {baseApiUrl} from "../../../../shared/constants/api";
-import {fetchMultipart} from "../../../../shared/api/fetchMultipart";
+import { MediaFile, MediaFilePayload } from "../../model/types";
+import { baseApiUrl } from "@admin/shared/constants/api";
+import { fetchMultipart } from "@admin/shared/api/fetchMultipart";
 
-export async function uploadFile(
-    data: MediaFilePayload
-): Promise<MediaFile> {
+export async function uploadFile(data: MediaFilePayload): Promise<MediaFile> {
     const uploadFileEndpoint = `${baseApiUrl}/media/upload`;
 
     const formData = new FormData();

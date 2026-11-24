@@ -1,6 +1,6 @@
-import {baseApiUrl} from "../../../shared/constants/api";
-import {fetchJson} from "../../../shared/api/fetchJson";
-import {Quiz, QuizUpdatePayload} from "../model/types";
+import { baseApiUrl } from "@admin/shared/constants/api";
+import { fetchJson } from "@admin/shared/api/fetchJson";
+import { Quiz, QuizUpdatePayload } from "../model/types";
 
 export function updateQuiz(
     quizUuid: string,

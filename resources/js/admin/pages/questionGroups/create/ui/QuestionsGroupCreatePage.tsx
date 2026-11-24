@@ -1,31 +1,27 @@
-import PageLayout from "../../../../widgets/layout/PageLayout";
-import {useMediaModalManager} from "../../../../shared/ui/modal/media/useMediaModalManager";
-import {MediaFile} from "../../../../entities/media/model/types";
-import {useCKEditor} from "../../../../shared/ui/modal/media/useCKEditor";
-import MediaUploadModal from "../../../../shared/ui/modal/media/MediaUploadModal";
-import {useQuestionGroupForm} from "../../../../features/questionGroup/model/useQuestionGroupForm";
-import {useCreateQuestionGroup} from "../../../../entities/questionGroup/model/hooks";
-import {useParams} from "react-router-dom";
-import {AiQuestionGeneratorFormModal} from "../../../../shared/ui/modal/ai-generator/AiQuestionGeneratorFormModal";
-import {useState} from "react";
-import {AiGeneratedQuestionsGroupPayload} from "../../../../entities/questionGroup/model/types";
-import {MediaTarget} from "../../../../shared/ui/modal/media/types";
-import {QuestionGroupForm} from "./components/Form/QuestionGroupForm";
+import PageLayout from "@admin/widgets/layout/PageLayout";
+import { useMediaModalManager } from "@admin/shared/ui/modal/media/useMediaModalManager";
+import { MediaFile } from "@admin/entities/media/model/types";
+import { useCKEditor } from "@admin/shared/ui/modal/media/useCKEditor";
+import MediaUploadModal from "@admin/shared/ui/modal/media/MediaUploadModal";
+import { useQuestionGroupForm } from "@admin/features/questionGroup/model/useQuestionGroupForm";
+import { useCreateQuestionGroup } from "@admin/entities/questionGroup/model/hooks";
+import { useParams } from "react-router-dom";
+import { AiQuestionGeneratorFormModal } from "@admin/shared/ui/modal/ai-generator/AiQuestionGeneratorFormModal";
+import { useState } from "react";
+import { AiGeneratedQuestionsGroupPayload } from "@admin/entities/questionGroup/model/types";
+import { MediaTarget } from "@admin/shared/ui/modal/media/types";
+import { QuestionGroupForm } from "./components/Form/QuestionGroupForm";
 
 export function QuestionsGroupCreatePage() {
-    const {quizUuid} = useParams();
+    const { quizUuid } = useParams();
 
     if (!quizUuid) {
-        throw new Error('Quiz UUID is required');
+        throw new Error("Quiz UUID is required");
     }
 
     const [isAiModalOpen, setIsAiModalOpen] = useState(false);
 
-    const {
-        execute,
-        isSavingProcess,
-        error
-    } = useCreateQuestionGroup();
+    const { execute, isSavingProcess, error } = useCreateQuestionGroup();
 
     const form = useQuestionGroupForm();
     const ckEditor = useCKEditor();
@@ -33,8 +29,8 @@ export function QuestionsGroupCreatePage() {
     const mediaModal = useMediaModalManager({
         onCKEditorSelect: ckEditor.handleSelectMediaFile,
         onFormSelect: (target: MediaTarget, file: MediaFile) => {
-            form.handlers.setMediaFile(target, file)
-        }
+            form.handlers.setMediaFile(target, file);
+        },
     });
 
     const handleSubmit = async (): Promise<void> => {
@@ -46,19 +42,19 @@ export function QuestionsGroupCreatePage() {
             description: form.fields.description,
             orderIndex: null,
             meta: form.fields.meta,
-            questions: form.fields.questions
+            questions: form.fields.questions,
         });
     };
 
     const handleAiGenerateSuccess = (
-        payload: AiGeneratedQuestionsGroupPayload
+        payload: AiGeneratedQuestionsGroupPayload,
     ) => {
         form.handlers.applyAiData(payload);
         setIsAiModalOpen(false);
     };
 
     if (error) {
-        return <>Ошибка: {error}</>
+        return <>Ошибка: {error}</>;
     }
 
     return (

@@ -1,1 +1,1 @@
-export const noImageLink = '/assets/cms/img/no-image.jpg';
+export const noImageLink = "/assets/cms/img/no-image.jpg";

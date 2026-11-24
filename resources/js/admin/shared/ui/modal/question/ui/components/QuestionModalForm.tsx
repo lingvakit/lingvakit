@@ -1,13 +1,13 @@
-import {FormEvent} from "react";
-import {InputTextField} from "../../../../form/InputTextField";
-import {InputNumberField} from "../../../../form/InputNumberField";
-import {OptionField} from "../../../../../../pages/questionGroups/create/ui/components/Form/OptionField";
-import {useQuestionForm} from "../../../../../../features/question/model/useQuestionForm";
+import { FormEvent } from "react";
+import { InputTextField } from "../../../../form/InputTextField";
+import { InputNumberField } from "../../../../form/InputNumberField";
+import { OptionField } from "@admin/pages/questionGroups/create/ui/components/Form/OptionField";
+import { useQuestionForm } from "@admin/features/question/model/useQuestionForm";
 
 type Props = {
     form: ReturnType<typeof useQuestionForm>;
     isSavingProcess: boolean;
-    error: string|null;
+    error: string | null;
     onSubmit: () => Promise<void>;
 };
 
@@ -17,18 +17,13 @@ export function QuestionModalForm({
     error,
     onSubmit,
 }: Props) {
-    const handleSubmit = async (
-        e: FormEvent
-    ) => {
+    const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         await onSubmit();
     };
 
     return (
-        <form
-            className="form-horizontal"
-            onSubmit={handleSubmit}
-        >
+        <form className="form-horizontal" onSubmit={handleSubmit}>
             <div className="form-group">
                 <div className="col-md-6 col-12">
                     <InputTextField
@@ -52,25 +47,29 @@ export function QuestionModalForm({
                 </div>
 
                 <div className="col-md-6 col-12">
-                    <label className="form-control-label">Варианты ответов</label>
+                    <label className="form-control-label">
+                        Варианты ответов
+                    </label>
 
-                    {form.fields.options.map(option => (
+                    {form.fields.options.map((option) => (
                         <OptionField
                             key={option.uuid}
                             questionUuid={form.fields.uuid}
                             optionUuid={option.uuid}
-                            value={option.text ?? ''}
-                            checked={form.fields.answer.value[0] === option.uuid}
-
-                            onTextChange={(optionUuid, value) => form.handlers.updateOption(
-                                optionUuid,
-                                'text',
-                                value
-                            )}
-
-                            onCheckedChange={(optionUuid) => form.handlers.setCorrectOption(
-                                optionUuid
-                            )}
+                            value={option.text ?? ""}
+                            checked={
+                                form.fields.answer.value[0] === option.uuid
+                            }
+                            onTextChange={(optionUuid, value) =>
+                                form.handlers.updateOption(
+                                    optionUuid,
+                                    "text",
+                                    value,
+                                )
+                            }
+                            onCheckedChange={(optionUuid) =>
+                                form.handlers.setCorrectOption(optionUuid)
+                            }
                         />
                     ))}
 
@@ -79,14 +78,14 @@ export function QuestionModalForm({
                             type="button"
                             className="btn btn-shadow"
                             onClick={() => form.handlers.addOption()}
-                        >Добавить вариант</button>
+                        >
+                            Добавить вариант
+                        </button>
                     </div>
                 </div>
             </div>
 
-            <div
-                className="widget-footer bordered no-actions d-flex align-items-center justify-content-between"
-            >
+            <div className="widget-footer bordered no-actions d-flex align-items-center justify-content-between">
                 <button
                     className="btn btn-primary"
                     type="submit"

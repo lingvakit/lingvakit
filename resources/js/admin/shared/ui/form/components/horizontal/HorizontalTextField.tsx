@@ -1,12 +1,12 @@
-import {ChangeEvent} from "react";
+import { ChangeEvent } from "react";
 
 type Props = {
-    label: string,
-    name: string,
-    value: string,
-    onChange: (e: ChangeEvent<HTMLInputElement>) => void,
-    isRequired?: boolean,
-    placeholder?: string,
+    label: string;
+    name: string;
+    value: string;
+    onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+    isRequired?: boolean;
+    placeholder?: string;
 };
 
 export function HorizontalTextField({

@@ -1,9 +1,9 @@
-import {QuestionGroup, QuestionGroupPayload} from "../model/types";
-import {fetchJson} from "../../../shared/api/fetchJson";
-import {baseApiUrl} from "../../../shared/constants/api";
+import { QuestionGroup, QuestionGroupPayload } from "../model/types";
+import { fetchJson } from "@admin/shared/api/fetchJson";
+import { baseApiUrl } from "@admin/shared/constants/api";
 
 export async function storeQuestionGroup(
-    data: QuestionGroupPayload
+    data: QuestionGroupPayload,
 ): Promise<QuestionGroup> {
     return fetchJson<QuestionGroup>(`${baseApiUrl}/questionGroups`, {
         method: "POST",

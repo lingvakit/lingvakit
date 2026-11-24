@@ -1,20 +1,17 @@
 import { useMemo } from "react";
-import {MediaFile, MediaFilePayload, MediaType} from "./types";
+import { MediaFile, MediaFilePayload, MediaType } from "./types";
 import { getMediaList } from "../api/queries/getMediaList";
-import { usePaginatedList } from "../../../shared/hooks/usePagination";
-import {useEntityMutation} from "../../../shared/model/useEntityMutation";
-import {uploadFile} from "../api/mutation/uploadFile";
+import { usePaginatedList } from "@admin/shared/hooks/usePagination";
+import { useEntityMutation } from "@admin/shared/model/useEntityMutation";
+import { uploadFile } from "../api/mutation/uploadFile";
 
 export function useMediaList(mediaType: MediaType) {
-    const filters = useMemo(
-        () => ({fileType: mediaType}),
-        [mediaType]
-    );
+    const filters = useMemo(() => ({ fileType: mediaType }), [mediaType]);
 
-    const result = usePaginatedList<MediaFile, {fileType: MediaType}>({
+    const result = usePaginatedList<MediaFile, { fileType: MediaType }>({
         fetcher: getMediaList,
         filters,
-        appendMode: true
+        appendMode: true,
     });
 
     return {
@@ -34,6 +31,6 @@ export function useMediaList(mediaType: MediaType) {
 export function useUploadFile() {
     return useEntityMutation<MediaFilePayload, MediaFile>({
         mutationFn: (data) => uploadFile(data),
-        errorMessage: "Ошибка загрузки файла"
+        errorMessage: "Ошибка загрузки файла",
     });
 }

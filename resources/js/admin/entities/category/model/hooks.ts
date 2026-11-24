@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import type { Category, UseCategoryListResult } from "./types";
 import { getCategoryList } from "../api/getCategoriesList";
-import { isValidationError } from "../../../shared/api/utils/handleResponse";
+import { isValidationError } from "@admin/shared/api/utils/handleResponse";
 
 export function useCategoryList(): UseCategoryListResult {
     const [categoryList, setCategoryList] = useState<Category[]>([]);

@@ -5,7 +5,7 @@ export class ApiError extends Error {
     constructor(
         message: string,
         status: number,
-        errors: Record<string, string[]> = {}
+        errors: Record<string, string[]> = {},
     ) {
         super(message);
         this.name = "ApiError";

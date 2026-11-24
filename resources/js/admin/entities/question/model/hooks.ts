@@ -1,8 +1,8 @@
-import {useEntityMutation} from "../../../shared/model/useEntityMutation";
-import {QuestionAnswerPayload} from "../../questionAnswer/model/types"
-import {Question, QuestionPayload} from "./types";
-import {patchQuestionAnswer} from "../api/mutation/patchQuestionAnswer";
-import {storeQuestion} from "../api/mutation/storeQuestion";
+import { useEntityMutation } from "@admin/shared/model/useEntityMutation";
+import { QuestionAnswerPayload } from "@admin/entities/questionAnswer/model/types";
+import { Question, QuestionPayload } from "./types";
+import { patchQuestionAnswer } from "../api/mutation/patchQuestionAnswer";
+import { storeQuestion } from "../api/mutation/storeQuestion";
 
 export interface PatchQuestionAnswerVariables {
     questionUuid: string;
@@ -18,7 +18,8 @@ export function useCreateQuestion() {
 
 export function usePatchQuestionAnswer() {
     return useEntityMutation<PatchQuestionAnswerVariables, Question>({
-        mutationFn: ({ questionUuid, payload }) => patchQuestionAnswer(questionUuid, payload),
+        mutationFn: ({ questionUuid, payload }) =>
+            patchQuestionAnswer(questionUuid, payload),
         errorMessage: "Ошибка обновления ответа",
     });
 }

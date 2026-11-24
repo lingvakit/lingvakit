@@ -1,8 +1,8 @@
 import { useCallback, useMemo, useState } from "react";
 import type { ChangeEvent } from "react";
-import type { MediaFile, MediaType } from "../../../entities/media/model/types";
-import { MEDIA_FIELD_BY_TYPE } from "../../../entities/media/model/constants";
-import type { MediaTarget } from "../../../shared/ui/modal/media/types";
+import type { MediaFile, MediaType } from "@admin/entities/media/model/types";
+import { MEDIA_FIELD_BY_TYPE } from "@admin/entities/media/model/constants";
+import type { MediaTarget } from "@admin/shared/ui/modal/media/types";
 
 type MediaSlot = "audio" | "image" | "video";
 

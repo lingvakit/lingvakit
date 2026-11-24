@@ -1,7 +1,7 @@
-import {formatDurationToText} from "../../../../../shared/lib/converter";
-import {Link} from "react-router-dom";
-import {Module} from "../../../../../entities/module/model/types";
-import {Lesson} from "../../../../../entities/lesson/model/types";
+import { formatDurationToText } from "@admin/shared/lib/converter";
+import { Link } from "react-router-dom";
+import { Module } from "@admin/entities/module/model/types";
+import { Lesson } from "@admin/entities/lesson/model/types";
 
 type Props = {
     courseId: number;
@@ -10,14 +10,19 @@ type Props = {
     onDeleteTopic: (lesson: Lesson | null) => void;
 };
 
-export function ModuleTopics({courseId, moduleId, topics, onDeleteTopic}: Props) {
+export function ModuleTopics({
+    courseId,
+    moduleId,
+    topics,
+    onDeleteTopic,
+}: Props) {
     if (!topics || topics.length === 0) {
         return null;
     }
 
     return (
         <div className="stage-topics">
-            {Object.values(topics).map(topic => {
+            {Object.values(topics).map((topic) => {
                 if (topic.lesson) {
                     return (
                         <div
@@ -30,8 +35,11 @@ export function ModuleTopics({courseId, moduleId, topics, onDeleteTopic}: Props)
                                         <div className="table-img">
                                             {topic.lesson.imageFile && (
                                                 <img
-                                                    src={topic.lesson.imageFile.url}
-                                                    style={{width: 100}}
+                                                    src={
+                                                        topic.lesson.imageFile
+                                                            .url
+                                                    }
+                                                    style={{ width: 100 }}
                                                     alt={topic.lesson.title}
                                                 />
                                             )}
@@ -48,18 +56,26 @@ export function ModuleTopics({courseId, moduleId, topics, onDeleteTopic}: Props)
                                     </div>
 
                                     <div className="col-xl-2">
-                                        {formatDurationToText(topic.lesson.duration)}
+                                        {formatDurationToText(
+                                            topic.lesson.duration,
+                                        )}
                                     </div>
 
                                     <div className="col-2 td-actions d-flex justify-content-end">
                                         <Link
                                             to={`/dashboard/coursesReact/${courseId}/modules/${moduleId}/lessons/${topic.lesson.id}/edit`}
-                                        ><i className="la la-edit edit"></i></Link>
+                                        >
+                                            <i className="la la-edit edit"></i>
+                                        </Link>
 
                                         {topic.lesson && (
                                             <button
-                                                onClick={() => onDeleteTopic(topic.lesson!)}
-                                            ><i className="la la-close delete"></i></button>
+                                                onClick={() =>
+                                                    onDeleteTopic(topic.lesson!)
+                                                }
+                                            >
+                                                <i className="la la-close delete"></i>
+                                            </button>
                                         )}
                                     </div>
                                 </>
@@ -80,8 +96,10 @@ export function ModuleTopics({courseId, moduleId, topics, onDeleteTopic}: Props)
                                         <div className="table-img">
                                             {topic.quiz.imageFile && (
                                                 <img
-                                                    src={topic.quiz.imageFile.url}
-                                                    style={{width: 100}}
+                                                    src={
+                                                        topic.quiz.imageFile.url
+                                                    }
+                                                    style={{ width: 100 }}
                                                     alt={topic.quiz.title}
                                                 />
                                             )}
@@ -98,20 +116,28 @@ export function ModuleTopics({courseId, moduleId, topics, onDeleteTopic}: Props)
                                     </div>
 
                                     <div className="col-xl-2">
-                                        {formatDurationToText(topic.quiz.timeLimit)}
+                                        {formatDurationToText(
+                                            topic.quiz.timeLimit,
+                                        )}
                                     </div>
 
                                     <div className="col-2 td-actions d-flex justify-content-end">
-                                        <Link to={`/dashboard/coursesReact/${courseId}/modules/${moduleId}/quizzes/${topic.quiz.uuid}`}>
+                                        <Link
+                                            to={`/dashboard/coursesReact/${courseId}/modules/${moduleId}/quizzes/${topic.quiz.uuid}`}
+                                        >
                                             <i className="la la-eye edit" />
                                         </Link>
 
                                         <Link
                                             to={`/dashboard/coursesReact/${courseId}/modules/${moduleId}/quizzes/${topic.quiz.uuid}/edit`}
-                                        ><i className="la la-edit edit"></i></Link>
+                                        >
+                                            <i className="la la-edit edit"></i>
+                                        </Link>
 
                                         {topic.quiz && (
-                                            <button><i className="la la-close delete"></i></button>
+                                            <button>
+                                                <i className="la la-close delete"></i>
+                                            </button>
                                         )}
                                     </div>
                                 </>

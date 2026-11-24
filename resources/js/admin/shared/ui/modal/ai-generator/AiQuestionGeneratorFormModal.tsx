@@ -1,40 +1,37 @@
 import BaseModal from "../BaseModal";
-import {FormEvent, useEffect} from "react";
-import {InputTextField} from "../../form/InputTextField";
-import {InputNumberField} from "../../form/InputNumberField";
-import {TextareaField} from "../../form/TextareaField";
-import {useAiQuestionForm} from "../../../hooks/useAiQuestionForm";
-import {useAiGenerateMessage} from "../../../../entities/ai/model/hooks";
-import {AiGeneratedQuestionsGroupPayload} from "../../../../entities/questionGroup/model/types";
+import { FormEvent, useEffect } from "react";
+import { InputTextField } from "../../form/InputTextField";
+import { InputNumberField } from "../../form/InputNumberField";
+import { TextareaField } from "../../form/TextareaField";
+import { useAiQuestionForm } from "../../../hooks/useAiQuestionForm";
+import { useAiGenerateMessage } from "@admin/entities/ai/model/hooks";
+import { AiGeneratedQuestionsGroupPayload } from "@admin/entities/questionGroup/model/types";
 import {
     getQuizSystemPrompt,
     getQuizUserPrompt,
-    parseAiQuizResponse
-} from "../../../../features/questionGroup/utils/ai-quiz-helpers";
+    parseAiQuizResponse,
+} from "@admin/features/questionGroup/utils/ai-quiz-helpers";
 
 type Props = {
-    theme: string,
-    isOpen: boolean,
-    onClose: () => void,
-    onSuccess: (data: AiGeneratedQuestionsGroupPayload) => void
+    theme: string;
+    isOpen: boolean;
+    onClose: () => void;
+    onSuccess: (data: AiGeneratedQuestionsGroupPayload) => void;
 };
 
 export function AiQuestionGeneratorFormModal({
     theme,
     isOpen,
     onClose,
-    onSuccess
+    onSuccess,
 }: Props) {
-    const form = useAiQuestionForm({theme});
+    const form = useAiQuestionForm({ theme });
 
     useEffect(() => {
         form.setFieldValue("theme", theme);
     }, [theme]);
 
-    const {
-        execute,
-        isProcessing
-    } = useAiGenerateMessage();
+    const { execute, isProcessing } = useAiGenerateMessage();
 
     const handleSubmit = async (
         e: FormEvent<HTMLFormElement>,
@@ -47,14 +44,14 @@ export function AiQuestionGeneratorFormModal({
                 form.fields.theme,
                 form.fields.description,
                 form.fields.questionsQty,
-                form.fields.questionOptionsQty
+                form.fields.questionOptionsQty,
             );
 
             const response = await execute({
                 messages: [
                     { content: systemPrompt, role: "system" },
-                    { content: userPrompt, role: "user" }
-                ]
+                    { content: userPrompt, role: "user" },
+                ],
             });
 
             if (response) {
@@ -64,7 +61,7 @@ export function AiQuestionGeneratorFormModal({
         } catch (error) {
             console.error("Failed to parse AI response:", error);
         }
-    }
+    };
 
     return (
         <BaseModal
@@ -72,10 +69,7 @@ export function AiQuestionGeneratorFormModal({
             isOpen={isOpen}
             onClose={onClose}
         >
-            <form
-                className="form-horizontal"
-                onSubmit={handleSubmit}
-            >
+            <form className="form-horizontal" onSubmit={handleSubmit}>
                 <InputTextField
                     label="Тематика вопросов"
                     name="theme"
@@ -123,10 +117,11 @@ export function AiQuestionGeneratorFormModal({
                             className="btn btn-gradient-01 mr-2"
                             type="submit"
                             disabled={isProcessing}
-                        >{isProcessing
-                            ? 'Генерирую вопросы ...'
-                            : 'Генерировать вопросы'
-                        }</button>
+                        >
+                            {isProcessing
+                                ? "Генерирую вопросы ..."
+                                : "Генерировать вопросы"}
+                        </button>
                     </div>
                 </div>
             </form>

@@ -1,8 +1,8 @@
-import {type ChangeEvent, useState} from "react";
-import { CourseCreateFormState } from "./types.ts";
-import { MediaFile, MediaType } from "../../../../entities/media/model/types";
-import {MediaTarget} from "../../../../shared/ui/modal/media/types";
-import {MEDIA_FIELD_BY_TYPE} from "../../../../entities/media/model/constants";
+import { type ChangeEvent, useState } from "react";
+import { CourseCreateFormState } from "./types";
+import { MediaFile, MediaType } from "@admin/entities/media/model/types";
+import { MediaTarget } from "@admin/shared/ui/modal/media/types";
+import { MEDIA_FIELD_BY_TYPE } from "@admin/entities/media/model/constants";
 
 const initialFormState: CourseCreateFormState = {
     title: "",
@@ -23,13 +23,7 @@ const initialFormState: CourseCreateFormState = {
     },
 };
 
-const numberFields = [
-    "duration",
-    "price",
-    "categoryId",
-    "image",
-    "video",
-];
+const numberFields = ["duration", "price", "categoryId", "image", "video"];
 
 export function useCourseCreateForm() {
     const [form, setForm] = useState<CourseCreateFormState>(initialFormState);
@@ -38,7 +32,9 @@ export function useCourseCreateForm() {
     const [mediaTarget, setMediaTarget] = useState<MediaTarget>("form");
 
     const handleInputChange = (
-        e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+        e: ChangeEvent<
+            HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+        >,
     ): void => {
         const { name, value, type } = e.target;
 
@@ -46,8 +42,10 @@ export function useCourseCreateForm() {
             type === "checkbox"
                 ? (e.target as HTMLInputElement).checked
                 : numberFields.includes(name)
-                    ? value === "" ? 0 : Number(value)
-                    : value;
+                  ? value === ""
+                      ? 0
+                      : Number(value)
+                  : value;
 
         setForm((prev) => ({
             ...prev,
@@ -62,7 +60,10 @@ export function useCourseCreateForm() {
         }));
     };
 
-    const handleOpenMediaModal = (target: MediaTarget, type: MediaType): void => {
+    const handleOpenMediaModal = (
+        target: MediaTarget,
+        type: MediaType,
+    ): void => {
         setMediaTarget(target);
         setMediaType(type);
         setIsMediaModalOpen(true);
@@ -86,7 +87,10 @@ export function useCourseCreateForm() {
         setIsMediaModalOpen(false);
     };
 
-    const handleRemoveMediaFile = (type: MediaType): void => {
+    const handleRemoveMediaFile = (
+        target: MediaTarget,
+        type: MediaType,
+    ): void => {
         const field = MEDIA_FIELD_BY_TYPE[type];
 
         setForm((prev) => ({
@@ -109,7 +113,7 @@ export function useCourseCreateForm() {
             openMediaModal: handleOpenMediaModal,
             closeMediaModal: handleCloseMediaModal,
             selectMediaFile: handleSelectMediaFile,
-            removeMediaFile: handleRemoveMediaFile
+            removeMediaFile: handleRemoveMediaFile,
         },
     };
 }

@@ -1,8 +1,11 @@
-import {AiChatPayload, AiChatResponseDto} from "../model/types";
-import {fetchJson} from "../../../shared/api/fetchJson";
+import {
+    AiChatPayload,
+    AiChatResponseDto,
+} from "@admin/entities/ai/model/types";
+import { fetchJson } from "@admin/shared/api/fetchJson";
 
 export async function generateChatCompletions(
-    payload: AiChatPayload
+    payload: AiChatPayload,
 ): Promise<AiChatResponseDto> {
     const endpoint = "/ms/ai/api/v1/chat";
 

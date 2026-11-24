@@ -1,21 +1,19 @@
 import React from "react";
 
 type Props = {
-    value: string,
-    onChange: React.ChangeEventHandler<HTMLInputElement>
+    value: string;
+    onChange: React.ChangeEventHandler<HTMLInputElement>;
 };
 
 const paidTypes = [
-    {value: "paid", label: "Да"},
-    {value: "free", label: "Нет"},
+    { value: "paid", label: "Да" },
+    { value: "free", label: "Нет" },
 ];
 
 export default function SelectPaidTypeField({ value, onChange }: Props) {
     return (
         <div className="form-group row d-flex align-items-center mb-5">
-            <label className="col-lg-3 form-control-label">
-                Платный курс?
-            </label>
+            <label className="col-lg-3 form-control-label">Платный курс?</label>
             <div className="col-lg-9">
                 <div className="row">
                     {paidTypes.map((type) => (

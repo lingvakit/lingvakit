@@ -1,5 +1,5 @@
-import { fetchJson } from "../../../shared/api/fetchJson";
-import { baseApiUrl } from "../../../shared/constants/api";
+import { fetchJson } from "@admin/shared/api/fetchJson";
+import { baseApiUrl } from "@admin/shared/constants/api";
 import { Category } from "../model/types";
 
 export async function getCategoryList(

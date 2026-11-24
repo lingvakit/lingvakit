@@ -1,14 +1,11 @@
-import {ChangeEvent, FormEvent, useState} from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 
 type Props = {
     isUploading: boolean;
     onSubmit: (file: File) => Promise<void>;
 };
 
-export function UploadFileContent({
-    isUploading,
-    onSubmit
-}: Props) {
+export function UploadFileContent({ isUploading, onSubmit }: Props) {
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
     const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -17,7 +14,7 @@ export function UploadFileContent({
     };
 
     const handleSubmit = async (
-        e: FormEvent<HTMLFormElement>
+        e: FormEvent<HTMLFormElement>,
     ): Promise<void> => {
         e.preventDefault();
 

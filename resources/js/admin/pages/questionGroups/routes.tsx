@@ -1,10 +1,10 @@
-import {RouteObject} from "react-router-dom";
-import {getQuiz} from "../../entities/quiz/queries/getQuiz";
-import {BreadcrumbHandle} from "../../shared/ui/breadcrumbs/types";
-import {QuestionsGroupCreatePage} from "./create/ui/QuestionsGroupCreatePage";
+import { RouteObject } from "react-router-dom";
+import { getQuiz } from "@admin/entities/quiz/queries/getQuiz";
+import { BreadcrumbHandle } from "@admin/shared/ui/breadcrumbs/types";
+import { QuestionsGroupCreatePage } from "./create/ui/QuestionsGroupCreatePage";
 import QuestionGroupDetailsPage from "./details/ui/QuestionGroupDetailsPage";
-import {getQuestionGroup} from "../../entities/questionGroup/api/queries/getQuestionGroup";
-import {QuestionGroupEditPage} from "./edit/ui/QuestionGroupEditPage";
+import { getQuestionGroup } from "@admin/entities/questionGroup/api/queries/getQuestionGroup";
+import { QuestionGroupEditPage } from "./edit/ui/QuestionGroupEditPage";
 
 export const questionGroupRoutes: RouteObject[] = [
     {
@@ -18,7 +18,7 @@ export const questionGroupRoutes: RouteObject[] = [
                     label: quiz?.title,
                     to: `/dashboard/coursesReact/${params.courseId}/modules/${params.moduleId}/quizzes/${params.quizUuid}`,
                 };
-            }
+            },
         } satisfies BreadcrumbHandle,
 
         path: ":quizUuid/questionGroups",
@@ -28,30 +28,32 @@ export const questionGroupRoutes: RouteObject[] = [
                     title: "Новая группа вопросов",
                     breadcrumb: () => {
                         return {
-                            label: "Новая группа вопросов"
+                            label: "Новая группа вопросов",
                         };
-                    }
+                    },
                 } satisfies BreadcrumbHandle,
 
                 path: "create",
-                element: <QuestionsGroupCreatePage />
+                element: <QuestionsGroupCreatePage />,
             },
 
             {
                 handle: {
                     title: "Редактирование группы вопросов",
                     breadcrumb: ({ data }) => {
-                        const questionGroup = data as Awaited<ReturnType<typeof getQuestionGroup>>;
+                        const questionGroup = data as Awaited<
+                            ReturnType<typeof getQuestionGroup>
+                        >;
 
                         return {
-                            label: questionGroup.title
+                            label: questionGroup.title,
                         };
-                    }
+                    },
                 } satisfies BreadcrumbHandle,
 
                 path: ":questionGroupUuid/edit",
                 element: <QuestionGroupEditPage />,
-                loader: getQuestionGroup
+                loader: getQuestionGroup,
             },
 
             {
@@ -61,13 +63,13 @@ export const questionGroupRoutes: RouteObject[] = [
                         return {
                             label: "Группа вопросов",
                         };
-                    }
+                    },
                 } satisfies BreadcrumbHandle,
 
                 path: ":questionGroupUuid",
                 element: <QuestionGroupDetailsPage />,
                 loader: getQuestionGroup,
             },
-        ]
-    }
+        ],
+    },
 ];

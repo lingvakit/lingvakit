@@ -1,17 +1,20 @@
-import PageLayout from "../../../../widgets/layout/PageLayout";
-import {Link, useLoaderData, useParams} from "react-router-dom";
-import {Quiz} from "../../../../entities/quiz/model/types";
-import {PropertyBlock} from "../../../../shared/ui/blocks/PropertyBlock";
-import {formatDurationToText} from "../../../../shared/lib/converter";
-import {useState} from "react";
-import {noImageLink} from "../../../../shared/constants/links";
-import {QuestionGroup} from "../../../../entities/questionGroup/model/types";
-import {questionTypeDictionary, questionTypeOptions} from "../../../../entities/question/model/constants";
+import PageLayout from "@admin/widgets/layout/PageLayout";
+import { Link, useLoaderData, useParams } from "react-router-dom";
+import { Quiz } from "@admin/entities/quiz/model/types";
+import { PropertyBlock } from "@admin/shared/ui/blocks/PropertyBlock";
+import { formatDurationToText } from "@admin/shared/lib/converter";
+import { useState } from "react";
+import { noImageLink } from "@admin/shared/constants/links";
+import { QuestionGroup } from "@admin/entities/questionGroup/model/types";
+import {
+    questionTypeDictionary,
+    questionTypeOptions,
+} from "@admin/entities/question/model/constants";
 
 export function QuizDetailsPage() {
     const quiz = useLoaderData() as Quiz;
 
-    const {courseId, moduleId} = useParams();
+    const { courseId, moduleId } = useParams();
 
     const [isOpenDropdownMenu, setIsOpenDropdownMenu] = useState(false);
 
@@ -20,18 +23,24 @@ export function QuizDetailsPage() {
             <div className="row flex-row">
                 <div className="col-12">
                     <div className="widget has-shadow">
-                        <div
-                            className="widget-header bordered no-actions d-flex align-items-center justify-content-between">
+                        <div className="widget-header bordered no-actions d-flex align-items-center justify-content-between">
                             <h4>Описание теста</h4>
 
                             <div className="form-group">
                                 <Link
                                     to={`/dashboard/coursesReact/${courseId}/modules/${moduleId}/quizzes/${quiz.uuid}/edit`}
                                     className="btn btn-primary btn-square mr-1 mb-2"
-                                >Редактировать</Link>
+                                >
+                                    Редактировать
+                                </Link>
 
-                                <a href="#" type="button"
-                                   className="btn btn-danger btn-square mr-1 mb-2">Удалить</a>
+                                <a
+                                    href="#"
+                                    type="button"
+                                    className="btn btn-danger btn-square mr-1 mb-2"
+                                >
+                                    Удалить
+                                </a>
                             </div>
                         </div>
 
@@ -46,10 +55,7 @@ export function QuizDetailsPage() {
                                                     alt={quiz.title}
                                                 />
                                             ) : (
-                                                <img
-                                                    src={noImageLink}
-                                                    alt=''
-                                                />
+                                                <img src={noImageLink} alt="" />
                                             )}
                                         </div>
                                     </div>
@@ -68,7 +74,9 @@ export function QuizDetailsPage() {
 
                                     <PropertyBlock
                                         title="Длительность"
-                                        description={formatDurationToText(quiz.timeLimit)}
+                                        description={formatDurationToText(
+                                            quiz.timeLimit,
+                                        )}
                                     />
                                 </div>
                             </div>
@@ -78,27 +86,39 @@ export function QuizDetailsPage() {
 
                 <div className="col-xl-12">
                     <div className="widget has-shadow">
-                        <div
-                            className="widget-header bordered no-actions d-flex align-items-center justify-content-between">
+                        <div className="widget-header bordered no-actions d-flex align-items-center justify-content-between">
                             <h4>Вопросы</h4>
 
                             <div className="text-right">
                                 <div className="actions dark">
                                     <div className="dropdown">
-                                        <button type="button"
-                                                className="btn btn-primary mr-1 mb-2"
-                                                onClick={() => setIsOpenDropdownMenu(!isOpenDropdownMenu)}
-                                        >+ Добавить
+                                        <button
+                                            type="button"
+                                            className="btn btn-primary mr-1 mb-2"
+                                            onClick={() =>
+                                                setIsOpenDropdownMenu(
+                                                    !isOpenDropdownMenu,
+                                                )
+                                            }
+                                        >
+                                            + Добавить
                                         </button>
 
-                                        <div className={`dropdown-menu ${isOpenDropdownMenu ? 'show' : ''}`}>
-                                            {questionTypeOptions.map((questionType, i) => (
-                                                <Link
-                                                    key={i}
-                                                    to={`/dashboard/coursesReact/${courseId}/modules/${moduleId}/quizzes/${quiz.uuid}/questionGroups/create?type=${questionType.value}`}
-                                                    className="dropdown-item"
-                                                ><i className="la la-plus"></i>{questionType.label}</Link>
-                                            ))}
+                                        <div
+                                            className={`dropdown-menu ${isOpenDropdownMenu ? "show" : ""}`}
+                                        >
+                                            {questionTypeOptions.map(
+                                                (questionType, i) => (
+                                                    <Link
+                                                        key={i}
+                                                        to={`/dashboard/coursesReact/${courseId}/modules/${moduleId}/quizzes/${quiz.uuid}/questionGroups/create?type=${questionType.value}`}
+                                                        className="dropdown-item"
+                                                    >
+                                                        <i className="la la-plus"></i>
+                                                        {questionType.label}
+                                                    </Link>
+                                                ),
+                                            )}
                                         </div>
                                     </div>
                                 </div>
@@ -108,37 +128,61 @@ export function QuizDetailsPage() {
                         <div className="widget-body">
                             {quiz.questionGroups && (
                                 <div className="table-responsive">
-                                    <table id="sorting-table" className="table mb-0">
+                                    <table
+                                        id="sorting-table"
+                                        className="table mb-0"
+                                    >
                                         <thead>
-                                        <tr>
-                                            <th>Группа вопросов</th>
-                                            <th>Тип вопросов</th>
-                                            <th>Действия</th>
-                                        </tr>
+                                            <tr>
+                                                <th>Группа вопросов</th>
+                                                <th>Тип вопросов</th>
+                                                <th>Действия</th>
+                                            </tr>
                                         </thead>
 
                                         <tbody>
-                                        {quiz.questionGroups.map((questionGroup: QuestionGroup)=> (
-                                            <tr key={questionGroup.uuid}>
-                                                <td className="text-primary">{questionGroup.title}</td>
+                                            {quiz.questionGroups.map(
+                                                (
+                                                    questionGroup: QuestionGroup,
+                                                ) => (
+                                                    <tr
+                                                        key={questionGroup.uuid}
+                                                    >
+                                                        <td className="text-primary">
+                                                            {
+                                                                questionGroup.title
+                                                            }
+                                                        </td>
 
-                                                <td>{questionTypeDictionary[questionGroup.questionType]}</td>
+                                                        <td>
+                                                            {
+                                                                questionTypeDictionary[
+                                                                    questionGroup
+                                                                        .questionType
+                                                                ]
+                                                            }
+                                                        </td>
 
-                                                <td className="td-actions">
-                                                    <Link
-                                                        to={`/dashboard/coursesReact/${courseId}/modules/${moduleId}/quizzes/${quiz.uuid}/questionGroups/${questionGroup.uuid}`}
-                                                    ><i className="la la-eye edit" /></Link>
+                                                        <td className="td-actions">
+                                                            <Link
+                                                                to={`/dashboard/coursesReact/${courseId}/modules/${moduleId}/quizzes/${quiz.uuid}/questionGroups/${questionGroup.uuid}`}
+                                                            >
+                                                                <i className="la la-eye edit" />
+                                                            </Link>
 
-                                                    <Link
-                                                        to={`/dashboard/coursesReact/${courseId}/modules/${moduleId}/quizzes/${quiz.uuid}/questionGroups/${questionGroup.uuid}/edit`}
-                                                    ><i className="la la-edit edit" /></Link>
+                                                            <Link
+                                                                to={`/dashboard/coursesReact/${courseId}/modules/${moduleId}/quizzes/${quiz.uuid}/questionGroups/${questionGroup.uuid}/edit`}
+                                                            >
+                                                                <i className="la la-edit edit" />
+                                                            </Link>
 
-                                                    <a href="#">
-                                                        <i className="la la-close delete" />
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        ))}
+                                                            <a href="#">
+                                                                <i className="la la-close delete" />
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                ),
+                                            )}
                                         </tbody>
                                     </table>
                                 </div>

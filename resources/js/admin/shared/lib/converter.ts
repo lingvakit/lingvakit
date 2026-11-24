@@ -18,7 +18,8 @@ export function formatDurationToText(totalMinutes: number): string {
         const mod100 = n % 100;
 
         if (mod10 === 1 && mod100 !== 11) return forms[0];
-        if (mod10 >= 2 && mod10 <= 4 && (mod100 < 10 || mod100 >= 20)) return forms[1];
+        if (mod10 >= 2 && mod10 <= 4 && (mod100 < 10 || mod100 >= 20))
+            return forms[1];
 
         return forms[2];
     };
@@ -30,7 +31,9 @@ export function formatDurationToText(totalMinutes: number): string {
     }
 
     if (minutes > 0 || hours === 0) {
-        parts.push(`${minutes} ${plural(minutes, ["минута", "минуты", "минут"])}`);
+        parts.push(
+            `${minutes} ${plural(minutes, ["минута", "минуты", "минут"])}`,
+        );
     }
 
     return parts.join(" ");

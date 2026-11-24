@@ -1,14 +1,14 @@
-import {ChangeEvent} from "react";
+import { ChangeEvent } from "react";
 
 type Props = {
-    label: string,
-    name: string,
-    value: number,
-    onChange: (e: ChangeEvent<HTMLInputElement>) => void,
-    isRequired?: boolean,
-    placeholder?: string,
-    minDigit?: number,
-    maxDigit?: number,
+    label: string;
+    name: string;
+    value: number;
+    onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+    isRequired?: boolean;
+    placeholder?: string;
+    minDigit?: number;
+    maxDigit?: number;
 };
 
 export function VerticalNumberField({

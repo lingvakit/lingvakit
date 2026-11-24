@@ -1,11 +1,11 @@
-import {useParams} from "react-router-dom";
-import {useEntityMutation} from "../../../shared/model/useEntityMutation";
-import {Quiz, QuizStorePayload, QuizUpdatePayload} from "./types";
-import {storeQuiz} from "../api/storeQuiz";
-import {updateQuiz} from "../api/updateQuiz";
+import { useParams } from "react-router-dom";
+import { useEntityMutation } from "@admin/shared/model/useEntityMutation";
+import { Quiz, QuizStorePayload, QuizUpdatePayload } from "./types";
+import { storeQuiz } from "../api/storeQuiz";
+import { updateQuiz } from "../api/updateQuiz";
 
 export function useCreateQuiz() {
-    const {courseId} = useParams();
+    const { courseId } = useParams();
 
     return useEntityMutation<QuizStorePayload, Quiz>({
         mutationFn: storeQuiz,
@@ -17,7 +17,10 @@ export function useCreateQuiz() {
 }
 
 export function useUpdateQuiz() {
-    const {courseId, quizUuid} = useParams<{ courseId: string, quizUuid: string }>();
+    const { courseId, quizUuid } = useParams<{
+        courseId: string;
+        quizUuid: string;
+    }>();
 
     if (!quizUuid) {
         throw new Error("quizUuid is required");
@@ -28,6 +31,6 @@ export function useUpdateQuiz() {
         onSuccessNavigateTo: courseId
             ? `/dashboard/coursesReact/${courseId}`
             : "/dashboard/coursesReact",
-        errorMessage: "Ошибка обновления теста"
+        errorMessage: "Ошибка обновления теста",
     });
 }

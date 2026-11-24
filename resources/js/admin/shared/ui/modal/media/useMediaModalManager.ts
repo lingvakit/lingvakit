@@ -1,6 +1,6 @@
-import {useState} from "react";
-import {MediaFile, MediaType} from "../../../../entities/media/model/types";
-import {MediaTarget} from "./types";
+import { useState } from "react";
+import { MediaFile, MediaType } from "@admin/entities/media/model/types";
+import { MediaTarget } from "./types";
 
 type UseMediaManagerOptions = {
     onCKEditorSelect?: (media: MediaFile) => void;
@@ -12,10 +12,7 @@ export function useMediaModalManager(options?: UseMediaManagerOptions) {
     const [mediaType, setMediaType] = useState<MediaType>("image");
     const [mediaTarget, setMediaTarget] = useState<MediaTarget>("form");
 
-    const open = (
-        target: MediaTarget,
-        type: MediaType
-    ): void => {
+    const open = (target: MediaTarget, type: MediaType): void => {
         setMediaTarget(target);
         setMediaType(type);
         setIsOpen(true);
@@ -25,9 +22,7 @@ export function useMediaModalManager(options?: UseMediaManagerOptions) {
         setIsOpen(false);
     };
 
-    const handleSelect = (
-        file: MediaFile
-    ) => {
+    const handleSelect = (file: MediaFile) => {
         if (mediaTarget === "editor") {
             options?.onCKEditorSelect?.(file);
         } else {

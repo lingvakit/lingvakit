@@ -1,11 +1,8 @@
 import { useCallback, useRef, useState } from "react";
 import type { Editor } from "ckeditor5";
-import type {
-    MediaFile,
-    MediaType,
-} from "../../../../entities/media/model/types";
+import type { MediaFile, MediaType } from "@admin/entities/media/model/types";
 import type { MediaTarget } from "./types";
-import type { InsertMediaPayload } from "../../../lib/ckeditor/plugins/InsertMediaPlugin/InsertMediaCommand";
+import type { InsertMediaPayload } from "@admin/shared/lib/ckeditor/plugins/InsertMediaPlugin/InsertMediaCommand";
 
 export function useCKEditor() {
     const editorRef = useRef<Editor | null>(null);

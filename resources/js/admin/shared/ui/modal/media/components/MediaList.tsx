@@ -1,20 +1,16 @@
-import { MediaFile } from "../../../../../entities/media/model/types";
-import {SkeletonMediaList} from "./SkeletonMediaList";
-import {MODAL_IMAGE_THUMB_SIZE} from "../../../../../entities/media/model/constants";
+import { MediaFile } from "@admin/entities/media/model/types";
+import { SkeletonMediaList } from "./SkeletonMediaList";
+import { MODAL_IMAGE_THUMB_SIZE } from "@admin/entities/media/model/constants";
 
 type Props = {
-    mediaFiles: MediaFile[],
-    onSelect: (mediaFile: MediaFile) => void,
-    isLoading: boolean
-}
+    mediaFiles: MediaFile[];
+    onSelect: (mediaFile: MediaFile) => void;
+    isLoading: boolean;
+};
 
-export default function MediaList({
-    mediaFiles,
-    onSelect,
-    isLoading
-}: Props) {
+export default function MediaList({ mediaFiles, onSelect, isLoading }: Props) {
     if (isLoading) {
-        return <SkeletonMediaList />
+        return <SkeletonMediaList />;
     }
 
     if (!mediaFiles.length) {
@@ -43,14 +39,12 @@ export default function MediaList({
                         {mediaFile.type === "video" && (
                             <video
                                 src={mediaFile.url}
-                                style={{width: '100%'}}
+                                style={{ width: "100%" }}
                                 controls
                             />
                         )}
 
-                        <h6 className="text-center">
-                            {mediaFile.fileName}
-                        </h6>
+                        <h6 className="text-center">{mediaFile.fileName}</h6>
                     </div>
                 </div>
             ))}

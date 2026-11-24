@@ -1,4 +1,4 @@
-import {Topic} from "../../topic/model/types";
+import { Topic } from "../../topic/model/types";
 
 export type Module = {
     id: number;
@@ -7,7 +7,7 @@ export type Module = {
 };
 
 export type ModuleResponse = {
-    data: Module
+    data: Module;
 };
 
 export type ModuleCreatePayload = {

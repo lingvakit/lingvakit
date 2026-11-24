@@ -1,4 +1,4 @@
-import {AiGeneratedQuestionsGroupPayload} from "../../../entities/questionGroup/model/types.ts";
+import { AiGeneratedQuestionsGroupPayload } from "@admin/entities/questionGroup/model/types";
 
 export const getQuizSystemPrompt = (): string => {
     return `Ты — строгий API-сервер для образовательной платформы. Твоя задача — генерировать тестовые вопросы и возвращать их ИСКЛЮЧИТЕЛЬНО в формате валидного JSON.
@@ -9,10 +9,10 @@ export const getQuizUserPrompt = (
     theme: string,
     description: string,
     questionsQty: number,
-    optionsQty: number
+    optionsQty: number,
 ): string => {
     return `Сгенерируй ${questionsQty} вопроса(ов) по теме: "${theme}".
-${description ? `Контекст: ${description}\n` : ''}
+${description ? `Контекст: ${description}\n` : ""}
 ЖЕСТКИЕ ТРЕБОВАНИЯ К СТРУКТУРЕ (КРИТИЧНО ВАЖНО):
 1. Поле "question" должно содержать ТОЛЬКО сам текст вопроса (иероглифы + пиньинь + перевод). ЗАПРЕЩЕНО писать внутри поля "question" варианты ответа (A, B, C).
 2. Варианты ответа должны лежать СТРОГО внутри массива "options". Каждый вариант — это отдельный объект с полями "id" и "text". Ровно ${optionsQty} варианта(ов).
@@ -38,7 +38,7 @@ ${description ? `Контекст: ${description}\n` : ''}
 };
 
 export const parseAiQuizResponse = (
-    response: string
+    response: string,
 ): AiGeneratedQuestionsGroupPayload => {
     const jsonMatch = response.match(/\{[\s\S]*\}/);
 
@@ -47,7 +47,7 @@ export const parseAiQuizResponse = (
     }
 
     let cleanResponse = jsonMatch[0];
-    cleanResponse = cleanResponse.replace(/,\s*([\]}])/g, '$1');
+    cleanResponse = cleanResponse.replace(/,\s*([\]}])/g, "$1");
 
     return JSON.parse(cleanResponse) as AiGeneratedQuestionsGroupPayload;
 };

@@ -1,5 +1,5 @@
 import { Command } from "@ckeditor/ckeditor5-core";
-import { MediaType } from "../../../../../entities/media/model/types";
+import { MediaType } from "@admin/entities/media/model/types";
 import { isSafeMediaUrl } from "./safeUrl";
 
 export type InsertMediaPayload = {

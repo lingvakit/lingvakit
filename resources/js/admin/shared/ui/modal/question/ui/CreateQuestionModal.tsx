@@ -1,14 +1,14 @@
 import BaseModal from "../../BaseModal";
-import {Question} from "../../../../../entities/question/model/types";
-import {useCreateQuestion} from "../../../../../entities/question/model/hooks";
-import {useQuestionForm} from "../../../../../features/question/model/useQuestionForm";
-import {QuestionModalForm} from "./components/QuestionModalForm";
+import { Question } from "@admin/entities/question/model/types";
+import { useCreateQuestion } from "@admin/entities/question/model/hooks";
+import { useQuestionForm } from "@admin/features/question/model/useQuestionForm";
+import { QuestionModalForm } from "./components/QuestionModalForm";
 
 type Props = {
     questionGroupUuid: string;
-    isOpen: boolean,
-    onClose: () => void,
-    onCreated?: (question: Question | null) => void,
+    isOpen: boolean;
+    onClose: () => void;
+    onCreated?: (question: Question | null) => void;
 };
 
 export function CreateQuestionModal({
@@ -17,7 +17,7 @@ export function CreateQuestionModal({
     onClose,
     onCreated,
 }: Props) {
-    const {execute, isSavingProcess, error} = useCreateQuestion();
+    const { execute, isSavingProcess, error } = useCreateQuestion();
 
     const form = useQuestionForm();
 
@@ -32,7 +32,7 @@ export function CreateQuestionModal({
             type: form.fields.type,
             settings: null,
             answer: form.fields.answer,
-            options: form.fields.options
+            options: form.fields.options,
         });
 
         if (createdQuestion) {
@@ -43,11 +43,7 @@ export function CreateQuestionModal({
     };
 
     return (
-        <BaseModal
-            isOpen={isOpen}
-            title="Новый вопрос"
-            onClose={onClose}
-        >
+        <BaseModal isOpen={isOpen} title="Новый вопрос" onClose={onClose}>
             <QuestionModalForm
                 form={form}
                 isSavingProcess={isSavingProcess}

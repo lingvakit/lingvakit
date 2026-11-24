@@ -1,26 +1,21 @@
 import BaseModal from "../../../../BaseModal";
-import {ModuleForm} from "../../../components/ModuleForm";
-import {useModuleForm} from "../../../../../../../entities/module/model/useModuleForm";
-import {useUpdateModule} from "../../../../../../../entities/module/model/hooks";
-import {Module} from "../../../../../../../entities/module/model/types";
+import { ModuleForm } from "../../../components/ModuleForm";
+import { useModuleForm } from "@admin/entities/module/model/useModuleForm";
+import { useUpdateModule } from "@admin/entities/module/model/hooks";
+import { Module } from "@admin/entities/module/model/types";
 
 type Props = {
-    module: Module,
+    module: Module;
     isOpen: boolean;
     onClose: () => void;
-    onUpdated?: (module: Module | null) => void,
+    onUpdated?: (module: Module | null) => void;
 };
 
-export function EditModuleModal({
-    module,
-    isOpen,
-    onClose,
-    onUpdated
-}: Props) {
-    const {execute, isSavingProcess, error} = useUpdateModule(module.id);
+export function EditModuleModal({ module, isOpen, onClose, onUpdated }: Props) {
+    const { execute, isSavingProcess, error } = useUpdateModule(module.id);
 
     const form = useModuleForm({
-        title: module.title
+        title: module.title,
     });
 
     const handleSubmit = async (): Promise<void> => {

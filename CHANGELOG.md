@@ -2,13 +2,17 @@
 
 ---
 
-## [unreleased] - 2026-11-23
+## [unreleased] - 2026-11-24
 
 ### Fixed:
 
 - Routes for quizzes
 - CK Editor textarea in admin forms via React UI
 - Category field on create/update forms via React UI
+
+### Changed:
+
+- Add aliases for import for react app
 
 ---
 

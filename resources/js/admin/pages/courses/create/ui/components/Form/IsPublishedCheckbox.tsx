@@ -1,8 +1,8 @@
 import React from "react";
 
 type Props = {
-    value: boolean,
-    onChange: React.ChangeEventHandler<HTMLInputElement>
+    value: boolean;
+    onChange: React.ChangeEventHandler<HTMLInputElement>;
 };
 
 export default function IsPublishedCheckbox({ value, onChange }: Props) {
@@ -24,9 +24,7 @@ export default function IsPublishedCheckbox({ value, onChange }: Props) {
                                     checked={value}
                                     onChange={onChange}
                                 />
-                                <label htmlFor="isPublished">
-                                    Да
-                                </label>
+                                <label htmlFor="isPublished">Да</label>
                             </div>
                         </div>
                     </div>

@@ -1,17 +1,17 @@
-import {ChangeEvent} from "react";
-import {VerticalNumberField} from "./components/vertical/VerticalNumberField";
-import {HorizontalNumberField} from "./components/horizontal/HorizontalNumberField";
+import { ChangeEvent } from "react";
+import { VerticalNumberField } from "./components/vertical/VerticalNumberField";
+import { HorizontalNumberField } from "./components/horizontal/HorizontalNumberField";
 
 type Props = {
-    label: string,
-    name: string,
-    value: number,
-    onChange: (e: ChangeEvent<HTMLInputElement>) => void,
-    isRequired?: boolean,
-    placeholder?: string,
-    minDigit?: number,
-    maxDigit?: number,
-    isVertical?: boolean,
+    label: string;
+    name: string;
+    value: number;
+    onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+    isRequired?: boolean;
+    placeholder?: string;
+    minDigit?: number;
+    maxDigit?: number;
+    isVertical?: boolean;
 };
 
 export function InputNumberField({
@@ -25,29 +25,27 @@ export function InputNumberField({
     maxDigit,
     isVertical = false,
 }: Props) {
-    return (
-        isVertical ? (
-            <VerticalNumberField
-                label={label}
-                name={name}
-                value={value}
-                onChange={onChange}
-                isRequired={isRequired}
-                placeholder={placeholder}
-                minDigit={minDigit}
-                maxDigit={maxDigit}
-            />
-        ) : (
-            <HorizontalNumberField
-                label={label}
-                name={name}
-                value={value}
-                onChange={onChange}
-                isRequired={isRequired}
-                placeholder={placeholder}
-                minDigit={minDigit}
-                maxDigit={maxDigit}
-            />
-        )
+    return isVertical ? (
+        <VerticalNumberField
+            label={label}
+            name={name}
+            value={value}
+            onChange={onChange}
+            isRequired={isRequired}
+            placeholder={placeholder}
+            minDigit={minDigit}
+            maxDigit={maxDigit}
+        />
+    ) : (
+        <HorizontalNumberField
+            label={label}
+            name={name}
+            value={value}
+            onChange={onChange}
+            isRequired={isRequired}
+            placeholder={placeholder}
+            minDigit={minDigit}
+            maxDigit={maxDigit}
+        />
     );
 }

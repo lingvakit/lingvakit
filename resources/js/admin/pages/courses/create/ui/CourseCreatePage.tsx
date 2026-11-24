@@ -1,15 +1,19 @@
-import React from "react";
-import {useCategoryList} from "../../../../entities/category/model/hooks";
-import PageLayout from "../../../../widgets/layout/PageLayout";
-import {useCreateCourse} from "../../../../entities/course/model/hooks";
-import {useCourseCreateForm} from "../../../../features/course/create/model/useCourseCreateForm";
+import { useCategoryList } from "@admin/entities/category/model/hooks";
+import PageLayout from "@admin/widgets/layout/PageLayout";
+import { useCreateCourse } from "@admin/entities/course/model/hooks";
+import { useCourseCreateForm } from "@admin/features/course/create/model/useCourseCreateForm";
 import CourseForm from "./components/CourseForm";
-import MediaUploadModal from "../../../../shared/ui/modal/media/MediaUploadModal";
-import {useCKEditor} from "../../../../shared/ui/modal/media/useCKEditor";
+import MediaUploadModal from "@admin/shared/ui/modal/media/MediaUploadModal";
+import { useCKEditor } from "@admin/shared/ui/modal/media/useCKEditor";
 
 export default function CourseCreatePage() {
-    const {categoryList, isLoading, error} = useCategoryList();
-    const {create, isSaving, error: submitError, fieldErrors} = useCreateCourse();
+    const { categoryList, isLoading, error } = useCategoryList();
+    const {
+        create,
+        isSaving,
+        error: submitError,
+        fieldErrors,
+    } = useCreateCourse();
     const form = useCourseCreateForm();
     const ck = useCKEditor();
 

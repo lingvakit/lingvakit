@@ -1,35 +1,33 @@
-import {ChangeEvent, useEffect, useState} from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 
 type FormValues = {
-    title: string
+    title: string;
 };
 
 export function useModuleForm(initial?: Partial<FormValues>) {
     const [form, setForm] = useState<FormValues>({
-        title: initial?.title ?? '',
+        title: initial?.title ?? "",
     });
 
     useEffect(() => {
         setForm({
-            title: initial?.title ?? ''
+            title: initial?.title ?? "",
         });
     }, [initial?.title]);
 
-    const handleTextChange = (
-        e: ChangeEvent<HTMLInputElement>
-    ): void => {
+    const handleTextChange = (e: ChangeEvent<HTMLInputElement>): void => {
         const { name, value } = e.target;
 
-        setForm(prev => ({
+        setForm((prev) => ({
             ...prev,
-            [name]: String(value)
+            [name]: String(value),
         }));
     };
 
     return {
         fields: form,
         handlers: {
-            changeTitle: handleTextChange
-        }
+            changeTitle: handleTextChange,
+        },
     };
 }

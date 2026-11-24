@@ -1,23 +1,23 @@
-import {ChangeEvent} from "react";
+import { ChangeEvent } from "react";
 
 type Props = {
-    label: string,
-    name: string,
-    value: string,
-    onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void,
-    isRequired?: boolean,
-    placeholder?: string,
-    rows?: number,
+    label: string;
+    name: string;
+    value: string;
+    onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
+    isRequired?: boolean;
+    placeholder?: string;
+    rows?: number;
 };
 
-export function VerticalTextareaField ({
+export function VerticalTextareaField({
     label,
     name,
     value,
     onChange,
     isRequired,
     placeholder,
-    rows
+    rows,
 }: Props) {
     return (
         <div className="form-group row d-flex align-items-center mb-5">
@@ -31,7 +31,7 @@ export function VerticalTextareaField ({
                     rows={rows}
                     className="form-control"
                     placeholder={placeholder}
-                    value={value ?? ''}
+                    value={value ?? ""}
                     onChange={onChange}
                 />
             </div>

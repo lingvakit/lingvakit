@@ -1,11 +1,15 @@
-import {ModuleCreatePayload, ModuleResponse, ModuleUpdatePayload} from "./types";
-import {createModule} from "../api/mutation/createModule";
-import {useParams} from "react-router-dom";
-import {useEntityMutation} from "../../../shared/model/useEntityMutation";
-import {updateModule} from "../api/mutation/updateModule";
+import {
+    ModuleCreatePayload,
+    ModuleResponse,
+    ModuleUpdatePayload,
+} from "./types";
+import { createModule } from "../api/mutation/createModule";
+import { useParams } from "react-router-dom";
+import { useEntityMutation } from "@admin/shared/model/useEntityMutation";
+import { updateModule } from "../api/mutation/updateModule";
 
 export function useCreateModule() {
-    const {courseId} = useParams<{ courseId: string }>();
+    const { courseId } = useParams<{ courseId: string }>();
 
     return useEntityMutation<ModuleCreatePayload, ModuleResponse>({
         mutationFn: createModule,
@@ -17,7 +21,7 @@ export function useCreateModule() {
 }
 
 export function useUpdateModule(moduleId: number) {
-    const {courseId} = useParams<{ courseId: string }>();
+    const { courseId } = useParams<{ courseId: string }>();
 
     return useEntityMutation<ModuleUpdatePayload, ModuleResponse>({
         mutationFn: (payload) => {
@@ -30,6 +34,6 @@ export function useUpdateModule(moduleId: number) {
         onSuccessNavigateTo: courseId
             ? `/dashboard/coursesReact/${courseId}`
             : "/dashboard/coursesReact",
-        errorMessage: "Ошибка обновления названия модуля"
+        errorMessage: "Ошибка обновления названия модуля",
     });
 }

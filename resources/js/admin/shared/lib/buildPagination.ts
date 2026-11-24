@@ -1,6 +1,9 @@
-import type {PageItem} from "../types/pagination";
+import type { PageItem } from "../types/pagination";
 
-export function buildPagination(currentPage: number, lastPage: number): PageItem[] {
+export function buildPagination(
+    currentPage: number,
+    lastPage: number,
+): PageItem[] {
     if (lastPage <= 0) return [];
     if (lastPage === 1) return [1];
 
