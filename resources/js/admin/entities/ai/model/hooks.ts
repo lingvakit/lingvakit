@@ -1,11 +1,11 @@
-import {useCallback, useState} from "react";
-import {AiChatPayload} from "./types";
-import {generateChatCompletions} from "../api/generateChatCompletions";
+import { useCallback, useState } from "react";
+import { AiChatPayload } from "./types";
+import { generateChatCompletions } from "../api/generateChatCompletions";
 
 type UseAiGenerateMessageReturn = {
-    execute: (payload: AiChatPayload) => Promise<string|null>,
-    isProcessing: boolean,
-    error: string|null,
+    execute: (payload: AiChatPayload) => Promise<string | null>;
+    isProcessing: boolean;
+    error: string | null;
 };
 
 export function useAiGenerateMessage(): UseAiGenerateMessageReturn {
@@ -13,9 +13,7 @@ export function useAiGenerateMessage(): UseAiGenerateMessageReturn {
     const [error, setError] = useState<string | null>(null);
 
     const execute = useCallback(
-        async (
-            payload: AiChatPayload
-        ): Promise<string|null> => {
+        async (payload: AiChatPayload): Promise<string | null> => {
             try {
                 setIsProcessing(true);
                 setError(null);
@@ -27,7 +25,7 @@ export function useAiGenerateMessage(): UseAiGenerateMessageReturn {
                 setError(
                     error instanceof Error
                         ? error.message
-                        : 'Не удалось сгенерировать ответ.'
+                        : "Не удалось сгенерировать ответ.",
                 );
 
                 return null;
@@ -35,12 +33,12 @@ export function useAiGenerateMessage(): UseAiGenerateMessageReturn {
                 setIsProcessing(false);
             }
         },
-        []
+        [],
     );
 
     return {
         execute,
         isProcessing,
-        error
+        error,
     };
 }

@@ -1,7 +1,7 @@
-import {MediaFile} from "../../entities/media/model/types";
+import { MediaFile } from "@admin/entities/media/model/types";
 
 export type MediaFields = {
-    audio: MediaFile|null,
-    image: MediaFile|null,
-    video: MediaFile|null,
+    audio: MediaFile | null;
+    image: MediaFile | null;
+    video: MediaFile | null;
 };

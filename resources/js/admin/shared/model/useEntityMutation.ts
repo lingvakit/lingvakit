@@ -1,5 +1,5 @@
-import {useNavigate} from "react-router-dom";
-import {useCallback, useState} from "react";
+import { useNavigate } from "react-router-dom";
+import { useCallback, useState } from "react";
 
 type MutationFn<T, R> = (data: T) => Promise<R>;
 
@@ -20,7 +20,9 @@ export function useEntityMutation<T, R>({
 
     const [isSavingProcess, setIsSavingProcess] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const [validationErrors, setValidationErrors] = useState<Record<string, string[]> | undefined>(undefined);
+    const [validationErrors, setValidationErrors] = useState<
+        Record<string, string[]> | undefined
+    >(undefined);
 
     const execute = useCallback(
         async (data: T): Promise<R | null> => {
@@ -38,10 +40,12 @@ export function useEntityMutation<T, R>({
                 }
 
                 return response;
-            }catch (e: any) {
+            } catch (e: any) {
                 if (e?.response?.status === 422 && e?.response?.data?.errors) {
                     setValidationErrors(e.response.data.errors);
-                    setError("Пожалуйста, проверьте правильность заполнения формы.");
+                    setError(
+                        "Пожалуйста, проверьте правильность заполнения формы.",
+                    );
                 } else {
                     setError(e instanceof Error ? e.message : errorMessage);
                 }
@@ -51,13 +55,7 @@ export function useEntityMutation<T, R>({
                 setIsSavingProcess(false);
             }
         },
-        [
-            mutationFn,
-            navigate,
-            onSuccessNavigateTo,
-            errorMessage,
-            onSuccess
-        ]
+        [mutationFn, navigate, onSuccessNavigateTo, errorMessage, onSuccess],
     );
 
     return {

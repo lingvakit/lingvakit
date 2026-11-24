@@ -1,5 +1,5 @@
-import {Lesson} from "../../lesson/model/types";
-import {Quiz} from "../../quiz/model/types";
+import { Lesson } from "@admin/entities/lesson/model/types";
+import { Quiz } from "@admin/entities/quiz/model/types";
 
 export type TopicType = "lesson" | "quiz";
 

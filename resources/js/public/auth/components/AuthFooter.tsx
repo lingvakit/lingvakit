@@ -1,13 +1,20 @@
-import {COMPANY_NAME, LEGAL_LINKS} from '../config';
+import { COMPANY_NAME, LEGAL_LINKS } from "@app/auth/config";
 
 export function AuthFooter() {
     const year = new Date().getFullYear();
 
     return (
         <footer className="auth__legal">
-            <span>© {year} {COMPANY_NAME}. Все права защищены.</span>
+            <span>
+                © {year} {COMPANY_NAME}. Все права защищены.
+            </span>
             {LEGAL_LINKS.map((link) => (
-                <a key={link.href} href={link.href} target="_blank" rel="noreferrer">
+                <a
+                    key={link.href}
+                    href={link.href}
+                    target="_blank"
+                    rel="noreferrer"
+                >
                     {link.label}
                 </a>
             ))}

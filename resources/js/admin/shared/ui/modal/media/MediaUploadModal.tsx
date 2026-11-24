@@ -1,21 +1,26 @@
-import { MediaFile, MediaType } from "../../../../entities/media/model/types";
+import { MediaFile, MediaType } from "@admin/entities/media/model/types";
 import BaseModal from "../BaseModal";
-import {useState} from "react";
-import {FileSelectionContent} from "./components/tabs/FileSelectionContent";
-import {UploadFileContent} from "./components/tabs/UploadFileContent";
-import {useUploadFile} from "../../../../entities/media/model/hooks";
+import { useState } from "react";
+import { FileSelectionContent } from "./components/tabs/FileSelectionContent";
+import { UploadFileContent } from "./components/tabs/UploadFileContent";
+import { useUploadFile } from "@admin/entities/media/model/hooks";
 
 type Props = {
-    isOpen: boolean,
-    mediaType: MediaType,
-    onClose: () => void,
-    onSelect: (file: MediaFile) => void,
+    isOpen: boolean;
+    mediaType: MediaType;
+    onClose: () => void;
+    onSelect: (file: MediaFile) => void;
 };
 
 type ModalArea = "fileSelection" | "fileUpload";
 
-export default function MediaUploadModal({isOpen, mediaType, onClose, onSelect}: Props) {
-    const [modalTitle, setModalTitle] = useState("Выбор файлов")
+export default function MediaUploadModal({
+    isOpen,
+    mediaType,
+    onClose,
+    onSelect,
+}: Props) {
+    const [modalTitle, setModalTitle] = useState("Выбор файлов");
     const [modalArea, setModalArea] = useState<ModalArea>("fileSelection");
 
     const handleChangeToFileSelection = (): void => {
@@ -28,23 +33,16 @@ export default function MediaUploadModal({isOpen, mediaType, onClose, onSelect}:
         setModalArea("fileUpload");
     };
 
-    const {
-        execute,
-        isSavingProcess
-    } = useUploadFile();
+    const { execute, isSavingProcess } = useUploadFile();
 
     const handleSubmit = async (file: File): Promise<void> => {
-        await execute({file: file});
+        await execute({ file: file });
 
         handleChangeToFileSelection();
     };
 
     return (
-        <BaseModal
-            isOpen={isOpen}
-            title={modalTitle}
-            onClose={onClose}
-        >
+        <BaseModal isOpen={isOpen} title={modalTitle} onClose={onClose}>
             <ul className="nav nav-tabs">
                 <li className="nav-item">
                     <a

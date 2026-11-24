@@ -1,55 +1,55 @@
-import {Question, QuestionType} from "../../question/model/types";
-import {FontSize} from "../../../features/questionGroup/model/types";
-import {QuestionValues} from "../../../features/questionGroup/model/useQuestionGroupForm";
+import { Question, QuestionType } from "@admin/entities/question/model/types";
+import { FontSize } from "@admin/features/questionGroup/model/types";
+import { QuestionValues } from "@admin/features/questionGroup/model/useQuestionGroupForm";
 
 export type QuestionGroup = {
-    uuid: string,
-    title: string,
-    questionType: QuestionType,
-    description: string | null,
-    orderIndex: number | null,
+    uuid: string;
+    title: string;
+    questionType: QuestionType;
+    description: string | null;
+    orderIndex: number | null;
     meta: {
-        fontSize?: FontSize
-    } | null,
-    questions: Question[],
+        fontSize?: FontSize;
+    } | null;
+    questions: Question[];
 };
 
 export type QuestionGroupPayload = {
-    uuid: string,
-    quizUuid: string,
-    title: string,
-    questionType: QuestionType,
-    description?: string | null,
-    orderIndex?: number | null,
+    uuid: string;
+    quizUuid: string;
+    title: string;
+    questionType: QuestionType;
+    description?: string | null;
+    orderIndex?: number | null;
     meta?: {
-        fontSize?: FontSize,
-    },
-    questions: QuestionValues[],
-}
+        fontSize?: FontSize;
+    };
+    questions: QuestionValues[];
+};
 
 export type QuestionGroupUpdatePayload = {
-    title: string,
-    description?: string | null,
-    orderIndex?: number | null,
+    title: string;
+    description?: string | null;
+    orderIndex?: number | null;
     meta?: {
-        fontSize?: FontSize,
-    }
-}
+        fontSize?: FontSize;
+    };
+};
 
 type AiOptionPayload = {
-    id: string,
-    text: string
+    id: string;
+    text: string;
 };
 
 type AiQuestionPayload = {
-    id: number,
-    question: string,
-    options: AiOptionPayload[],
-    correct_answer_id: string,
-    explanation: string
+    id: number;
+    question: string;
+    options: AiOptionPayload[];
+    correct_answer_id: string;
+    explanation: string;
 };
 
 export type AiGeneratedQuestionsGroupPayload = {
-    topic: string,
-    questions: AiQuestionPayload[]
+    topic: string;
+    questions: AiQuestionPayload[];
 };

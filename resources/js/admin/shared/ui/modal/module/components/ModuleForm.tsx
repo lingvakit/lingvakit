@@ -1,31 +1,21 @@
-import {useModuleForm} from "../../../../../entities/module/model/useModuleForm";
-import {FormEvent} from "react";
+import { useModuleForm } from "@admin/entities/module/model/useModuleForm";
+import { FormEvent } from "react";
 
 type Props = {
     form: ReturnType<typeof useModuleForm>;
     isSavingProcess: boolean;
-    error: string|null;
+    error: string | null;
     onSubmit: () => Promise<void>;
 };
 
-export function ModuleForm({
-    form,
-    isSavingProcess,
-    error,
-    onSubmit,
-}: Props) {
-    const handleSubmit = async (
-        e: FormEvent
-    ) => {
+export function ModuleForm({ form, isSavingProcess, error, onSubmit }: Props) {
+    const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         await onSubmit();
     };
 
     return (
-        <form
-            className="form-horizontal"
-            onSubmit={handleSubmit}
-        >
+        <form className="form-horizontal" onSubmit={handleSubmit}>
             {error && (
                 <div className="alert alert-danger" role="alert">
                     {error}
@@ -56,7 +46,9 @@ export function ModuleForm({
                         className="btn btn-gradient-01"
                         type="submit"
                         disabled={isSavingProcess}
-                    >Сохранить</button>
+                    >
+                        Сохранить
+                    </button>
                 </div>
             </div>
         </form>

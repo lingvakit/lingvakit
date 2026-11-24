@@ -2,7 +2,7 @@ import { useId } from "react";
 import type { Editor } from "ckeditor5";
 import TextareaEditor from "../textarea-editor/TextareaEditor";
 import type { MediaTarget } from "../modal/media/types";
-import type { MediaType } from "../../../entities/media/model/types";
+import type { MediaType } from "@admin/entities/media/model/types";
 
 type Props = {
     label: string;

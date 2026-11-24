@@ -1,7 +1,7 @@
-import {MediaFile, MediaType} from "../../../../entities/media/model/types";
-import {ChangeEvent, useState} from "react";
-import {MEDIA_FIELD_BY_TYPE} from "../../../../entities/media/model/constants";
-import {MediaTarget} from "../../../../shared/ui/modal/media/types";
+import { MediaFile, MediaType } from "@admin/entities/media/model/types";
+import { ChangeEvent, useState } from "react";
+import { MEDIA_FIELD_BY_TYPE } from "@admin/entities/media/model/constants";
+import { MediaTarget } from "@admin/shared/ui/modal/media/types";
 
 type LessonFormValues = {
     title: string;
@@ -11,7 +11,7 @@ type LessonFormValues = {
         audio: MediaFile | null;
         image: MediaFile | null;
         video: MediaFile | null;
-    }
+    };
 };
 
 export function useLessonForm(initial?: Partial<LessonFormValues>) {
@@ -23,44 +23,38 @@ export function useLessonForm(initial?: Partial<LessonFormValues>) {
             audio: initial?.mediaFiles?.audio ?? null,
             image: initial?.mediaFiles?.image ?? null,
             video: initial?.mediaFiles?.video ?? null,
-        }
+        },
     });
 
-    const handleChange = (
-        e: ChangeEvent<HTMLInputElement>
-    ) => {
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
 
-        setForm(prev => ({
+        setForm((prev) => ({
             ...prev,
-            [name]: name === "duration" ? Number(value) : value
+            [name]: name === "duration" ? Number(value) : value,
         }));
     };
 
-    const setDescription = (
-        value: string
-    ) => {
-        setForm(prev => ({
+    const setDescription = (value: string) => {
+        setForm((prev) => ({
             ...prev,
-            description: value
+            description: value,
         }));
     };
 
-    const setMediaFile = (
-        file: MediaFile
-    ): void => {
-        setForm(prev => ({
+    const setMediaFile = (file: MediaFile): void => {
+        setForm((prev) => ({
             ...prev,
             mediaFiles: {
                 ...prev.mediaFiles,
-                [file.type]: file
-            }
+                [file.type]: file,
+            },
         }));
     };
 
     const handleRemoveMediaFile = (
         target: MediaTarget,
-        type: MediaType
+        type: MediaType,
     ): void => {
         const field = MEDIA_FIELD_BY_TYPE[type];
 
@@ -79,7 +73,7 @@ export function useLessonForm(initial?: Partial<LessonFormValues>) {
             handleChange,
             setDescription,
             setMediaFile,
-            removeMediaFile: handleRemoveMediaFile
-        }
+            removeMediaFile: handleRemoveMediaFile,
+        },
     };
 }

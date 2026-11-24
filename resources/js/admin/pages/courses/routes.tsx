@@ -1,10 +1,10 @@
-import type {RouteObject} from "react-router-dom";
-import { BreadcrumbHandle } from "../../shared/ui/breadcrumbs/types";
+import type { RouteObject } from "react-router-dom";
+import { BreadcrumbHandle } from "@admin/shared/ui/breadcrumbs/types";
 import CourseListPage from "./list/ui/CourseListPage";
 import CourseCreatePage from "./create/ui/CourseCreatePage";
 import CourseDetailsPage from "./details/ui/CourseDetailsPage";
-import { getCourse } from "../../entities/course/api/queries/getCourse";
-import {moduleRoutes} from "../modules/routes";
+import { getCourse } from "@admin/entities/course/api/queries/getCourse";
+import { moduleRoutes } from "@admin/pages/modules/routes";
 
 export const courseRoutes: RouteObject[] = [
     {
@@ -12,13 +12,13 @@ export const courseRoutes: RouteObject[] = [
             title: "Курсы",
             breadcrumb: () => ({
                 label: "Курсы",
-                to: "/dashboard/coursesReact"
+                to: "/dashboard/coursesReact",
             }),
         } satisfies BreadcrumbHandle,
         children: [
             {
                 index: true,
-                element: <CourseListPage />
+                element: <CourseListPage />,
             },
             {
                 path: "create",
@@ -27,7 +27,7 @@ export const courseRoutes: RouteObject[] = [
                     title: "Новый курс",
                     breadcrumb: () => ({
                         label: "Новый курс",
-                        to: "/dashboard/coursesReact/create"
+                        to: "/dashboard/coursesReact/create",
                     }),
                 } satisfies BreadcrumbHandle,
             },
@@ -38,17 +38,19 @@ export const courseRoutes: RouteObject[] = [
                 handle: {
                     title: "Курс",
                     breadcrumb: ({ params, data }) => {
-                        const course = data as Awaited<ReturnType<typeof getCourse>>;
+                        const course = data as Awaited<
+                            ReturnType<typeof getCourse>
+                        >;
 
                         return {
                             label: course?.title ?? `Курс #${params.courseId}`,
                             to: `/dashboard/coursesReact/${params.courseId}`,
                         };
-                    }
+                    },
                 } satisfies BreadcrumbHandle,
             },
 
-            ...moduleRoutes
-        ]
+            ...moduleRoutes,
+        ],
     },
 ];

@@ -1,16 +1,16 @@
 import {
     LessonStorePayload,
     LessonResponse,
-    LessonUpdatePayload
+    LessonUpdatePayload,
 } from "./types";
-import {useParams} from "react-router-dom";
-import {storeLesson} from "../../topic/api/mutation/storeLesson";
-import {updateLesson} from "../../topic/api/mutation/updateLesson";
-import {deleteLesson} from "../../topic/api/mutation/deleteLesson";
-import {useEntityMutation} from "../../../shared/model/useEntityMutation";
+import { useParams } from "react-router-dom";
+import { storeLesson } from "@admin/entities/topic/api/mutation/storeLesson";
+import { updateLesson } from "@admin/entities/topic/api/mutation/updateLesson";
+import { deleteLesson } from "@admin/entities/topic/api/mutation/deleteLesson";
+import { useEntityMutation } from "@admin/shared/model/useEntityMutation";
 
 export function useCreateLesson() {
-    const {courseId} = useParams();
+    const { courseId } = useParams();
 
     return useEntityMutation<LessonStorePayload, LessonResponse>({
         mutationFn: storeLesson,
@@ -22,7 +22,10 @@ export function useCreateLesson() {
 }
 
 export function useUpdateLesson() {
-    const {courseId, lessonId} = useParams<{ courseId: string, lessonId: string }>();
+    const { courseId, lessonId } = useParams<{
+        courseId: string;
+        lessonId: string;
+    }>();
 
     if (!lessonId) {
         throw new Error("lessonId is required");
@@ -33,7 +36,7 @@ export function useUpdateLesson() {
         onSuccessNavigateTo: courseId
             ? `/dashboard/coursesReact/${courseId}`
             : "/dashboard/coursesReact",
-        errorMessage: "Ошибка обновления урока"
+        errorMessage: "Ошибка обновления урока",
     });
 }
 
@@ -45,6 +48,6 @@ export function useDeleteLesson() {
         onSuccessNavigateTo: courseId
             ? `/dashboard/coursesReact/${courseId}`
             : "/dashboard/coursesReact",
-        errorMessage: "Ошибка удаления урока"
-    })
+        errorMessage: "Ошибка удаления урока",
+    });
 }

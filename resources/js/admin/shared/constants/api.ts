@@ -1,1 +1,1 @@
-export const baseApiUrl = '/react/api';
+export const baseApiUrl = "/react/api";

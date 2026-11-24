@@ -22,7 +22,7 @@ import {
 } from "ckeditor5";
 import type { EditorConfig } from "ckeditor5";
 import ru from "ckeditor5/translations/ru.js";
-import type { MediaType } from "../../../entities/media/model/types";
+import type { MediaType } from "@admin/entities/media/model/types";
 import type { MediaTarget } from "../../ui/modal/media/types";
 import InsertMediaPlugin from "./plugins/InsertMediaPlugin/InsertMediaPlugin";
 

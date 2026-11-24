@@ -1,8 +1,8 @@
-import {useState} from 'react';
-import {Link} from 'react-router-dom';
-import {AuthLayout} from '../components/AuthLayout';
-import {TextField} from '../components/TextField';
-import {useAuthForm} from '../useAuthForm';
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { AuthLayout } from "@app/auth/components/AuthLayout";
+import { TextField } from "@app/auth/components/TextField";
+import { useAuthForm } from "@app/auth/useAuthForm";
 
 interface RegisterForm extends Record<string, string | boolean> {
     name: string;
@@ -14,13 +14,13 @@ interface RegisterForm extends Record<string, string | boolean> {
 export default function RegisterPage() {
     const form = useAuthForm<RegisterForm>(
         {
-            name: '',
-            email: '',
+            name: "",
+            email: "",
             agreement: false,
-            hp_company: ''
+            hp_company: "",
         },
-        '/register',
-        ['name', 'email', 'agreement']
+        "/register",
+        ["name", "email", "agreement"],
     );
     const [sentTo, setSentTo] = useState<string | null>(null);
 
@@ -31,12 +31,14 @@ export default function RegisterPage() {
 
     if (sentTo) {
         return (
-            <AuthLayout title="Проверьте почту"
-                        subtitle={`Мы отправили письмо со ссылкой на ${sentTo}`}
-                        footer={<Link to="/login">Перейти ко входу</Link>}>
+            <AuthLayout
+                title="Проверьте почту"
+                subtitle={`Мы отправили письмо со ссылкой на ${sentTo}`}
+                footer={<Link to="/login">Перейти ко входу</Link>}
+            >
                 <div className="alert alert--success">
-                    Перейдите по ссылке из письма и придумайте пароль. Ссылка действует 24 часа.
-                    Не пришло — загляните в «Спам».
+                    Перейдите по ссылке из письма и придумайте пароль. Ссылка
+                    действует 24 часа. Не пришло — загляните в «Спам».
                 </div>
             </AuthLayout>
         );
@@ -45,17 +47,33 @@ export default function RegisterPage() {
     return (
         <AuthLayout
             title="Создание аккаунта"
-            footer={<>Уже есть аккаунт? <Link to="/login">Войти</Link></>}
+            footer={
+                <>
+                    Уже есть аккаунт? <Link to="/login">Войти</Link>
+                </>
+            }
         >
-            {form.formError && <div className="alert alert--error">{form.formError}</div>}
+            {form.formError && (
+                <div className="alert alert--error">{form.formError}</div>
+            )}
 
             <form onSubmit={onSubmit} noValidate>
-                <TextField label="Имя" autoComplete="given-name" autoFocus
-                           value={form.values.name} error={form.errors.name}
-                           onChange={(v) => form.setValue('name', v)}/>
-                <TextField label="Электронная почта" type="email" autoComplete="email"
-                           value={form.values.email} error={form.errors.email}
-                           onChange={(v) => form.setValue('email', v)}/>
+                <TextField
+                    label="Имя"
+                    autoComplete="given-name"
+                    autoFocus
+                    value={form.values.name}
+                    error={form.errors.name}
+                    onChange={(v) => form.setValue("name", v)}
+                />
+                <TextField
+                    label="Электронная почта"
+                    type="email"
+                    autoComplete="email"
+                    value={form.values.email}
+                    error={form.errors.email}
+                    onChange={(v) => form.setValue("email", v)}
+                />
 
                 <input
                     className="hp"
@@ -64,22 +82,39 @@ export default function RegisterPage() {
                     autoComplete="off"
                     aria-hidden="true"
                     value={form.values.hp_company}
-                    onChange={(e) => form.setValue('hp_company', e.target.value)}
+                    onChange={(e) =>
+                        form.setValue("hp_company", e.target.value)
+                    }
                 />
 
-                <label className={`check${form.errors.agreement ? ' check--error' : ''}`}>
+                <label
+                    className={`check${form.errors.agreement ? " check--error" : ""}`}
+                >
                     <input
                         type="checkbox"
                         checked={form.values.agreement}
-                        onChange={(e) => form.setValue('agreement', e.target.checked)}
+                        onChange={(e) =>
+                            form.setValue("agreement", e.target.checked)
+                        }
                     />
-                    <span>Я принимаю{' '} <a href="/terms" target="_blank" rel="noreferrer">правила и условия сайта</a></span>
+                    <span>
+                        Я принимаю{" "}
+                        <a href="/terms" target="_blank" rel="noreferrer">
+                            правила и условия сайта
+                        </a>
+                    </span>
                 </label>
-                {form.errors.agreement && <small className="field__error">{form.errors.agreement}</small>}
+                {form.errors.agreement && (
+                    <small className="field__error">
+                        {form.errors.agreement}
+                    </small>
+                )}
 
-
-                <button className="btn" disabled={form.processing || !form.values.agreement}>
-                    {form.processing ? 'Создаём…' : 'Создать аккаунт'}
+                <button
+                    className="btn"
+                    disabled={form.processing || !form.values.agreement}
+                >
+                    {form.processing ? "Создаём…" : "Создать аккаунт"}
                 </button>
             </form>
         </AuthLayout>

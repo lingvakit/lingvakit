@@ -1,18 +1,16 @@
-import { MediaFile, MediaType } from "../../../../../../entities/media/model/types";
+import { MediaFile, MediaType } from "@admin/entities/media/model/types";
 import MediaList from "../MediaList";
 import { useState } from "react";
-import { useMediaList } from "../../../../../../entities/media/model/hooks";
+import { useMediaList } from "@admin/entities/media/model/hooks";
 
 type Props = {
-    mediaType: MediaType,
-    onSelect: (file: MediaFile) => void,
+    mediaType: MediaType;
+    onSelect: (file: MediaFile) => void;
 };
 
-export function FileSelectionContent({
-    mediaType,
-    onSelect
-}: Props) {
-    const [currentMediaType, setCurrentMediaType] = useState<MediaType>(mediaType);
+export function FileSelectionContent({ mediaType, onSelect }: Props) {
+    const [currentMediaType, setCurrentMediaType] =
+        useState<MediaType>(mediaType);
 
     const {
         mediaFiles,
@@ -21,7 +19,7 @@ export function FileSelectionContent({
         setPage,
         paginatorMeta,
         query,
-        setQuery
+        setQuery,
     } = useMediaList(currentMediaType);
 
     const handleLoadMoreFiles = (): void => {
@@ -55,21 +53,27 @@ export function FileSelectionContent({
             <div className="mt-1 mb-4 btn-group">
                 <button
                     type="button"
-                    className={`mr-1 btn btn-sm btn-square ${currentMediaType === "image" ? 'btn-dark' : 'btn-outline-secondary'}`}
-                    onClick={() => handleTabChange('image')}
-                >Изображения</button>
+                    className={`mr-1 btn btn-sm btn-square ${currentMediaType === "image" ? "btn-dark" : "btn-outline-secondary"}`}
+                    onClick={() => handleTabChange("image")}
+                >
+                    Изображения
+                </button>
 
                 <button
                     type="button"
-                    className={`mr-1 btn btn-sm btn-square ${currentMediaType === "audio" ? 'btn-dark' : 'btn-outline-secondary'}`}
-                    onClick={() => handleTabChange('audio')}
-                >Аудио</button>
+                    className={`mr-1 btn btn-sm btn-square ${currentMediaType === "audio" ? "btn-dark" : "btn-outline-secondary"}`}
+                    onClick={() => handleTabChange("audio")}
+                >
+                    Аудио
+                </button>
 
                 <button
                     type="button"
-                    className={`mr-1 btn btn-sm btn-square ${currentMediaType === "video" ? 'btn-dark' : 'btn-outline-secondary'}`}
-                    onClick={() => handleTabChange('video')}
-                >Видео</button>
+                    className={`mr-1 btn btn-sm btn-square ${currentMediaType === "video" ? "btn-dark" : "btn-outline-secondary"}`}
+                    onClick={() => handleTabChange("video")}
+                >
+                    Видео
+                </button>
             </div>
 
             <MediaList

@@ -1,9 +1,9 @@
 import { useCallback, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import { QuizFormScreen } from "../../shared/ui/QuizFormScreen";
-import { useCreateQuiz } from "../../../../entities/quiz/model/hooks";
-import { buildQuizPayload } from "../../../../features/quiz/lib/buildQuizPayload";
-import type { QuizFormFields } from "../../../../features/quiz/lib/buildQuizPayload";
+import { useCreateQuiz } from "@admin/entities/quiz/model/hooks";
+import { buildQuizPayload } from "@admin/features/quiz/lib/buildQuizPayload";
+import type { QuizFormFields } from "@admin/features/quiz/lib/buildQuizPayload";
 
 export function QuizCreatePage() {
     const { moduleId: moduleIdParam } = useParams();

@@ -1,9 +1,9 @@
-import {RouteObject} from "react-router-dom";
+import { RouteObject } from "react-router-dom";
 import LessonCreatePage from "./create/ui/LessonCreatePage";
-import {LessonEditPage} from "./edit/ui/LessonEditPage";
-import {getLesson} from "../../entities/lesson/queries/getLesson";
-import {BreadcrumbHandle} from "../../shared/ui/breadcrumbs/types";
-import {getCourse} from "../../entities/course/api/queries/getCourse";
+import { LessonEditPage } from "./edit/ui/LessonEditPage";
+import { getLesson } from "@admin/entities/lesson/queries/getLesson";
+import { BreadcrumbHandle } from "@admin/shared/ui/breadcrumbs/types";
+import { getCourse } from "@admin/entities/course/api/queries/getCourse";
 
 export const lessonRoutes: RouteObject[] = [
     {
@@ -17,7 +17,7 @@ export const lessonRoutes: RouteObject[] = [
                     label: course?.title,
                     to: `/dashboard/coursesReact/${params.courseId}`,
                 };
-            }
+            },
         } satisfies BreadcrumbHandle,
 
         path: ":moduleId/lessons",
@@ -29,7 +29,7 @@ export const lessonRoutes: RouteObject[] = [
                         return {
                             label: "Новый урок",
                         };
-                    }
+                    },
                 } satisfies BreadcrumbHandle,
 
                 path: "create",
@@ -39,18 +39,20 @@ export const lessonRoutes: RouteObject[] = [
                 handle: {
                     title: "Редактирование урока",
                     breadcrumb: ({ data }) => {
-                        const lesson = data as Awaited<ReturnType<typeof getLesson>>;
+                        const lesson = data as Awaited<
+                            ReturnType<typeof getLesson>
+                        >;
 
                         return {
                             label: lesson?.title,
                         };
-                    }
+                    },
                 } satisfies BreadcrumbHandle,
 
                 path: ":lessonId/edit",
                 element: <LessonEditPage />,
-                loader: getLesson
-            }
-        ]
-    }
+                loader: getLesson,
+            },
+        ],
+    },
 ];

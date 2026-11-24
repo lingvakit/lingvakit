@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 
 type Props = {
     isOpen: boolean;
@@ -68,9 +68,7 @@ export default function BaseModal({ isOpen, title, onClose, children }: Props) {
                         </button>
                     </div>
 
-                    <div className="modal-body">
-                        {children}
-                    </div>
+                    <div className="modal-body">{children}</div>
                 </div>
             </div>
         </div>

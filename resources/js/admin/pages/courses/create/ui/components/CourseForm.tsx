@@ -1,13 +1,13 @@
-import {FormEvent} from "react";
-import { Category } from "../../../../../entities/category/model/types";
-import { useCourseCreateForm } from "../../../../../features/course/create/model/useCourseCreateForm";
-import TextareaEditor from "../../../../../shared/ui/textarea-editor/TextareaEditor";
-import SelectDifficulty from "../../../../../shared/ui/select-difficulty/SelectDifficulty";
-import {useCKEditor} from "../../../../../shared/ui/modal/media/useCKEditor";
-import SelectPaidTypeField from "../../../../../shared/ui/select-paid-type/SelectPaidTypeField";
-import IsNewCheckbox from "./Form/IsNewCheckbox.tsx";
+import { FormEvent } from "react";
+import { Category } from "@admin/entities/category/model/types";
+import { useCourseCreateForm } from "@admin/features/course/create/model/useCourseCreateForm";
+import TextareaEditor from "@admin/shared/ui/textarea-editor/TextareaEditor";
+import SelectDifficulty from "@admin/shared/ui/select-difficulty/SelectDifficulty";
+import { useCKEditor } from "@admin/shared/ui/modal/media/useCKEditor";
+import SelectPaidTypeField from "@admin/shared/ui/select-paid-type/SelectPaidTypeField";
+import IsNewCheckbox from "./Form/IsNewCheckbox";
 import IsPublishedCheckbox from "./Form/IsPublishedCheckbox";
-import {InputMediaFiles} from "../../../../../shared/ui/form/InputMediaFiles";
+import { InputMediaFiles } from "@admin/shared/ui/form/InputMediaFiles";
 
 type Props = {
     categoryList: Category[];
@@ -19,17 +19,18 @@ type Props = {
     fieldErrors?: Record<string, string[]>;
 };
 
-export default function CourseForm(
-    {
-        categoryList,
-        submitError,
-        isSaving,
-        form,
-        onSubmit,
-        ck,
-        fieldErrors,
-    }: Props) {
-    const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
+export default function CourseForm({
+    categoryList,
+    submitError,
+    isSaving,
+    form,
+    onSubmit,
+    ck,
+    fieldErrors,
+}: Props) {
+    const handleSubmit = async (
+        e: FormEvent<HTMLFormElement>,
+    ): Promise<void> => {
         e.preventDefault();
         await onSubmit();
     };
@@ -55,13 +56,18 @@ export default function CourseForm(
 
                         <div className="widget-body">
                             {submitError && (
-                                <div className="alert alert-danger" role="alert">
+                                <div
+                                    className="alert alert-danger"
+                                    role="alert"
+                                >
                                     {submitError}
                                 </div>
                             )}
 
                             <div className="form-group row d-flex align-items-center mb-5">
-                                <label className="col-lg-3 form-control-label">Категория</label>
+                                <label className="col-lg-3 form-control-label">
+                                    Категория
+                                </label>
                                 <div className="col-lg-9">
                                     <div className="row">
                                         <div className="col-12">
@@ -70,23 +76,35 @@ export default function CourseForm(
                                                 name="categoryId"
                                                 className="custom-select form-control"
                                                 value={form.fields.categoryId}
-                                                onChange={form.handlers.changeInput}
+                                                onChange={
+                                                    form.handlers.changeInput
+                                                }
                                             >
                                                 <option value="" disabled>
                                                     Категория
                                                 </option>
 
-                                                {categoryList.map((category: Category) => (
-                                                    <option key={category.id} value={category.id}>
-                                                        {category.title}
-                                                    </option>
-                                                ))}
+                                                {categoryList.map(
+                                                    (category: Category) => (
+                                                        <option
+                                                            key={category.id}
+                                                            value={category.id}
+                                                        >
+                                                            {category.title}
+                                                        </option>
+                                                    ),
+                                                )}
 
-                                                <option value="0">Новая категория</option>
+                                                <option value="0">
+                                                    Новая категория
+                                                </option>
                                             </select>
                                         </div>
 
-                                        <div id="new_category" className="col-12 mt-3">
+                                        <div
+                                            id="new_category"
+                                            className="col-12 mt-3"
+                                        >
                                             <input
                                                 type="text"
                                                 name="category"
@@ -94,7 +112,7 @@ export default function CourseForm(
                                                 placeholder="Новая категория"
                                                 value=""
                                                 disabled
-                                                onChange={() => { }}
+                                                onChange={() => {}}
                                             />
                                         </div>
                                     </div>
@@ -125,21 +143,28 @@ export default function CourseForm(
                             </div>
 
                             <div className="form-group row d-flex align-items-center mb-5">
-                                <label className="col-lg-3 form-control-label">Описание</label>
+                                <label className="col-lg-3 form-control-label">
+                                    Описание
+                                </label>
                                 <div className="col-lg-9">
                                     <TextareaEditor
                                         value={form.fields.description}
                                         onChange={form.handlers.setDescription}
-                                        onOpenMediaModal={form.handlers.openMediaModal}
+                                        onOpenMediaModal={
+                                            form.handlers.openMediaModal
+                                        }
                                         setEditorRef={ck.setEditorRef}
                                     />
                                 </div>
                             </div>
 
                             <InputMediaFiles
+                                target="form"
                                 mediaFiles={form.fields.media}
                                 onOpenMediaModal={form.handlers.openMediaModal}
-                                onRemoveMediaFile={form.handlers.removeMediaFile}
+                                onRemoveMediaFile={
+                                    form.handlers.removeMediaFile
+                                }
                             />
 
                             <SelectDifficulty
@@ -154,8 +179,13 @@ export default function CourseForm(
 
                             {form.fields.paidType === "paid" && (
                                 <>
-                                    <div id="price" className="form-group row align-items-center mb-5">
-                                        <label className="col-lg-3 form-control-label">Цена</label>
+                                    <div
+                                        id="price"
+                                        className="form-group row align-items-center mb-5"
+                                    >
+                                        <label className="col-lg-3 form-control-label">
+                                            Цена
+                                        </label>
                                         <div className="col-lg-9">
                                             <input
                                                 type="number"
@@ -163,13 +193,20 @@ export default function CourseForm(
                                                 className="form-control"
                                                 placeholder="100"
                                                 value={form.fields.price}
-                                                onChange={form.handlers.changeInput}
+                                                onChange={
+                                                    form.handlers.changeInput
+                                                }
                                             />
                                         </div>
                                     </div>
 
-                                    <div id="salePrice" className="form-group row align-items-center mb-5">
-                                        <label className="col-lg-3 form-control-label">Акционная цена</label>
+                                    <div
+                                        id="salePrice"
+                                        className="form-group row align-items-center mb-5"
+                                    >
+                                        <label className="col-lg-3 form-control-label">
+                                            Акционная цена
+                                        </label>
                                         <div className="col-lg-9">
                                             <input
                                                 type="number"
@@ -177,7 +214,9 @@ export default function CourseForm(
                                                 className="form-control"
                                                 placeholder="100"
                                                 value={form.fields.salePrice}
-                                                onChange={form.handlers.changeInput}
+                                                onChange={
+                                                    form.handlers.changeInput
+                                                }
                                             />
                                         </div>
                                     </div>

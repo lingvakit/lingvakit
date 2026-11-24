@@ -22,11 +22,16 @@ export type GetPaginateParams = {
     fileType?: string;
 };
 
-export type UsePaginatedListParams<TItem, TFilters extends Record<string, unknown> = {}> = {
-    fetcher: (params: GetPaginateParams & TFilters) => Promise<Paginated<TItem>>,
-    initialItemsPerPage?: number,
-    filters?: TFilters,
-    appendMode?: boolean
+export type UsePaginatedListParams<
+    TItem,
+    TFilters extends Record<string, unknown> = {},
+> = {
+    fetcher: (
+        params: GetPaginateParams & TFilters,
+    ) => Promise<Paginated<TItem>>;
+    initialItemsPerPage?: number;
+    filters?: TFilters;
+    appendMode?: boolean;
 };
 
 export type UsePaginatedListResult<TItem> = {

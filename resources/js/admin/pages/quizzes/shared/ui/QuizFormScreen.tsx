@@ -1,15 +1,15 @@
 import { useCallback } from "react";
-import PageLayout from "../../../../widgets/layout/PageLayout";
+import PageLayout from "@admin/widgets/layout/PageLayout";
 import { QuizForm } from "./QuizForm";
-import { useCategoryList } from "../../../../entities/category/model/hooks";
-import { useQuizForm } from "../../../../features/quiz/model/useQuizForm";
-import type { QuizFormFields } from "../../../../features/quiz/lib/buildQuizPayload";
-import { useCKEditor } from "../../../../shared/ui/modal/media/useCKEditor";
-import { useMediaModalManager } from "../../../../shared/ui/modal/media/useMediaModalManager";
-import MediaUploadModal from "../../../../shared/ui/modal/media/MediaUploadModal";
-import type { MediaFile } from "../../../../entities/media/model/types";
-import type { MediaTarget } from "../../../../shared/ui/modal/media/types";
-import type { QuizFormInitialValues } from "../../../../features/quiz/model/useQuizForm";
+import { useCategoryList } from "@admin/entities/category/model/hooks";
+import { useQuizForm } from "@admin/features/quiz/model/useQuizForm";
+import type { QuizFormFields } from "@admin/features/quiz/lib/buildQuizPayload";
+import { useCKEditor } from "@admin/shared/ui/modal/media/useCKEditor";
+import { useMediaModalManager } from "@admin/shared/ui/modal/media/useMediaModalManager";
+import MediaUploadModal from "@admin/shared/ui/modal/media/MediaUploadModal";
+import type { MediaFile } from "@admin/entities/media/model/types";
+import type { MediaTarget } from "@admin/shared/ui/modal/media/types";
+import type { QuizFormInitialValues } from "@admin/features/quiz/model/useQuizForm";
 
 type Props = {
     title: string;

@@ -1,11 +1,13 @@
 import React from "react";
-import Breadcrumbs from "../../shared/ui/breadcrumbs/Breadcrumbs";
+import Breadcrumbs from "@admin/shared/ui/breadcrumbs/Breadcrumbs";
 
-export default function PageLayout(
-    {title, children}: {
-        title: string;
-        children?: React.ReactNode
-    }) {
+export default function PageLayout({
+    title,
+    children,
+}: {
+    title: string;
+    children?: React.ReactNode;
+}) {
     return (
         <>
             <div className="row">

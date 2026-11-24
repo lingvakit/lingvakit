@@ -1,39 +1,38 @@
 import BaseModal from "../BaseModal";
-import {FormEvent, useEffect, useState} from "react";
-import {useLessonForm} from "../../../../features/lesson/create/model/useLessonForm";
-import {DifficultyLevel} from "../../../../entities/lesson/model/types";
-import {useAiGenerateMessage} from "../../../../entities/ai/model/hooks";
+import { FormEvent, useEffect, useState } from "react";
+import { useLessonForm } from "@admin/features/lesson/create/model/useLessonForm";
+import { DifficultyLevel } from "@admin/entities/lesson/model/types";
+import { useAiGenerateMessage } from "@admin/entities/ai/model/hooks";
 
 type Props = {
     lessonTheme: string;
     isOpen: boolean;
     onClose: () => void;
-    form: ReturnType<typeof useLessonForm>
+    form: ReturnType<typeof useLessonForm>;
 };
 
 export function AiLessonContentFormModal({
     lessonTheme,
     isOpen,
     onClose,
-    form
+    form,
 }: Props) {
-    const [title, setTitle] = useState('');
-    const [difficultyLevel, setDifficultyLevel] = useState<DifficultyLevel>('hard');
+    const [title, setTitle] = useState("");
+    const [difficultyLevel, setDifficultyLevel] =
+        useState<DifficultyLevel>("hard");
     const difficultyLevelOptions = [
-        {label: "Hard", value: "hard"},
-        {label: "HSK-1", value: "hsk1"},
-        {label: "HSK-2", value: "hsk2"},
-        {label: "HSK-3", value: "hsk3"},
+        { label: "Hard", value: "hard" },
+        { label: "HSK-1", value: "hsk1" },
+        { label: "HSK-2", value: "hsk2" },
+        { label: "HSK-3", value: "hsk3" },
     ];
-    const [lessonContent, setLessonContent] = useState<string | null>('');
+    const [lessonContent, setLessonContent] = useState<string | null>("");
 
     useEffect(() => {
-        setTitle(lessonTheme ?? '');
+        setTitle(lessonTheme ?? "");
     }, [lessonTheme]);
 
-    const {
-        execute,
-    } = useAiGenerateMessage();
+    const { execute } = useAiGenerateMessage();
 
     const handleSubmit = async (
         e: FormEvent<HTMLFormElement>,
@@ -46,9 +45,9 @@ export function AiLessonContentFormModal({
             messages: [
                 {
                     content: prompt,
-                    role: "user"
-                }
-            ]
+                    role: "user",
+                },
+            ],
         });
 
         setLessonContent(response);
@@ -68,10 +67,7 @@ export function AiLessonContentFormModal({
             isOpen={isOpen}
             onClose={onClose}
         >
-            <form
-                className="form-horizontal"
-                onSubmit={handleSubmit}
-            >
+            <form className="form-horizontal" onSubmit={handleSubmit}>
                 <div className="form-group">
                     <div className="col-12 mb-3">
                         <label className="form-control-label">
@@ -101,15 +97,19 @@ export function AiLessonContentFormModal({
                             name="difficulty"
                             className="custom-select form-control"
                             value={difficultyLevel}
-                            onChange={(e) => setDifficultyLevel(
-                                e.target.value as DifficultyLevel
-                            )}
+                            onChange={(e) =>
+                                setDifficultyLevel(
+                                    e.target.value as DifficultyLevel,
+                                )
+                            }
                         >
                             {difficultyLevelOptions.map((level) => (
                                 <option
                                     key={`level_${level.value}`}
                                     value={level.value}
-                                >{level.label}</option>
+                                >
+                                    {level.label}
+                                </option>
                             ))}
                         </select>
                     </div>
@@ -137,14 +137,17 @@ export function AiLessonContentFormModal({
                         <button
                             className="btn btn-gradient-01 mr-2"
                             type="submit"
-                        >Генерировать
+                        >
+                            Генерировать
                         </button>
 
                         <button
                             className="btn btn-gradient-02"
                             type="button"
                             onClick={handleAcceptContentFromAi}
-                        >Принять результат</button>
+                        >
+                            Принять результат
+                        </button>
                     </div>
                 </div>
             </form>

@@ -21,12 +21,14 @@ export async function fetchLoaderData<T>(
 
     if (!response.ok) {
         const text = await response.text().catch(() => "");
-        throw new Response(text || "Request failed", { status: response.status });
+        throw new Response(text || "Request failed", {
+            status: response.status,
+        });
     }
 
-    const json = await response.json() as ApiResponse<T>;
+    const json = (await response.json()) as ApiResponse<T>;
 
-    if (json && typeof json === 'object' && 'data' in json) {
+    if (json && typeof json === "object" && "data" in json) {
         return json.data as T;
     }
 

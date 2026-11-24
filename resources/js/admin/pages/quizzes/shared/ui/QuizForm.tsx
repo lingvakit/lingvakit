@@ -1,14 +1,14 @@
-import { Category } from "../../../../entities/category/model/types";
-import { useQuizForm } from "../../../../features/quiz/model/useQuizForm";
+import { Category } from "@admin/entities/category/model/types";
+import { useQuizForm } from "@admin/features/quiz/model/useQuizForm";
 import { SelectCategories } from "./Form/SelectCategories";
-import { InputTextField } from "../../../../shared/ui/form/InputTextField";
-import { InputNumberField } from "../../../../shared/ui/form/InputNumberField";
-import { TextareaCKEditorField } from "../../../../shared/ui/form/TextareaCKEditorField";
-import { MediaTarget } from "../../../../shared/ui/modal/media/types";
-import { MediaType } from "../../../../entities/media/model/types";
-import { useCKEditor } from "../../../../shared/ui/modal/media/useCKEditor";
+import { InputTextField } from "@admin/shared/ui/form/InputTextField";
+import { InputNumberField } from "@admin/shared/ui/form/InputNumberField";
+import { TextareaCKEditorField } from "@admin/shared/ui/form/TextareaCKEditorField";
+import { MediaTarget } from "@admin/shared/ui/modal/media/types";
+import { MediaType } from "@admin/entities/media/model/types";
+import { useCKEditor } from "@admin/shared/ui/modal/media/useCKEditor";
 import { FormEvent } from "react";
-import { InputMediaFiles } from "../../../../shared/ui/form/InputMediaFiles";
+import { InputMediaFiles } from "@admin/shared/ui/form/InputMediaFiles";
 
 type Props = {
     form: ReturnType<typeof useQuizForm>;

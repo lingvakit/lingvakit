@@ -1,11 +1,11 @@
-import {LoaderFunctionArgs} from "react-router-dom";
-import {Quiz} from "../model/types";
-import {fetchLoaderData} from "../../../shared/api/fetchLoaderData";
-import {baseApiUrl} from "../../../shared/constants/api";
+import { LoaderFunctionArgs } from "react-router-dom";
+import { Quiz } from "../model/types";
+import { fetchLoaderData } from "@admin/shared/api/fetchLoaderData";
+import { baseApiUrl } from "@admin/shared/constants/api";
 
 export async function getQuiz({
     params,
-    request
+    request,
 }: LoaderFunctionArgs): Promise<Quiz> {
     const quizUuid = params.quizUuid;
 
@@ -15,5 +15,5 @@ export async function getQuiz({
 
     return fetchLoaderData<Quiz>(`${baseApiUrl}/quizzes/${quizUuid}`, {
         signal: request.signal,
-    })
+    });
 }

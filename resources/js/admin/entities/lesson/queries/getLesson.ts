@@ -1,11 +1,12 @@
-import {Lesson} from "../model/types";
-import {LoaderFunctionArgs} from "react-router-dom";
-import {fetchLoaderData} from "../../../shared/api/fetchLoaderData";
-import {baseApiUrl} from "../../../shared/constants/api";
+import { Lesson } from "../model/types";
+import { LoaderFunctionArgs } from "react-router-dom";
+import { fetchLoaderData } from "@admin/shared/api/fetchLoaderData";
+import { baseApiUrl } from "@admin/shared/constants/api";
 
-export async function getLesson(
-    { params, request}: LoaderFunctionArgs
-): Promise<Lesson> {
+export async function getLesson({
+    params,
+    request,
+}: LoaderFunctionArgs): Promise<Lesson> {
     const lessonId = params.lessonId;
 
     if (!lessonId) {
@@ -14,5 +15,5 @@ export async function getLesson(
 
     return fetchLoaderData<Lesson>(`${baseApiUrl}/lessons/${lessonId}`, {
         signal: request.signal,
-    })
+    });
 }

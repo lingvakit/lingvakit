@@ -1,17 +1,12 @@
-import {ChangeEvent} from "react";
+import { ChangeEvent } from "react";
 
 type Props = {
     questionUuid: string;
-    optionUuid: string
-    value: string,
-    checked: boolean,
-    onTextChange: (
-        optionUuid: string,
-        value: string
-    ) => void,
-    onCheckedChange: (
-        optionUuid: string
-    ) => void
+    optionUuid: string;
+    value: string;
+    checked: boolean;
+    onTextChange: (optionUuid: string, value: string) => void;
+    onCheckedChange: (optionUuid: string) => void;
 };
 
 export function OptionField({
@@ -20,14 +15,11 @@ export function OptionField({
     value,
     checked,
     onTextChange,
-    onCheckedChange
+    onCheckedChange,
 }: Props) {
-
-    const handleTextChange = (
-        e: ChangeEvent<HTMLInputElement>
-    ): void => {
+    const handleTextChange = (e: ChangeEvent<HTMLInputElement>): void => {
         onTextChange(optionUuid, e.target.value);
-    }
+    };
 
     return (
         <div className="form-group row d-flex align-items-center mb-3">
