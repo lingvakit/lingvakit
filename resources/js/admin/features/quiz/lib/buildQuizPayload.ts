@@ -1,8 +1,6 @@
 import type { QuizFormValues } from "../model/useQuizForm";
 
-export type QuizFormFields = QuizFormValues;
-
-export function buildQuizPayload(fields: QuizFormFields) {
+export function buildQuizPayload(fields: QuizFormValues) {
     return {
         categoryId: fields.categoryId,
         title: fields.title,

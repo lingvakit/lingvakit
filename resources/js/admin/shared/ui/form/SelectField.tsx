@@ -1,5 +1,7 @@
-import { useId } from "react";
 import type { ChangeEvent, ReactNode } from "react";
+import { FieldLayout } from "./FieldLayout";
+import { useFieldControl } from "./useFieldControl";
+import type { FieldErrorValue } from "./validation";
 
 export type SelectOption = {
     value: string | number;
@@ -17,7 +19,7 @@ type Props = {
     disabled?: boolean;
     isLoading?: boolean;
     placeholder?: string;
-    error?: string;
+    error?: FieldErrorValue;
     children?: ReactNode;
 };
 
@@ -34,8 +36,11 @@ export function SelectField({
     error,
     children,
 }: Props) {
-    const id = useId();
-    const errorId = `${id}-error`;
+    const { controlProps, errorId } = useFieldControl({
+        error,
+        isRequired,
+        baseClassName: "custom-select form-control",
+    });
 
     const hasOption = options.some(
         (option) => String(option.value) === String(value),
@@ -43,47 +48,36 @@ export function SelectField({
     const selectValue = value && hasOption ? String(value) : "";
 
     return (
-        <div className="form-group row d-flex align-items-center mb-5">
-            <label htmlFor={id} className="col-lg-3 form-control-label">
-                {label}
-                {isRequired && <span className="text-danger"> *</span>}
-            </label>
+        <FieldLayout
+            label={label}
+            htmlFor={controlProps.id}
+            isRequired={isRequired}
+            error={error}
+            errorId={errorId}
+            footer={children}
+        >
+            <select
+                {...controlProps}
+                name={name}
+                value={selectValue}
+                onChange={onChange}
+                required={isRequired}
+                disabled={disabled || isLoading}
+            >
+                <option value="" disabled={isRequired}>
+                    {isLoading ? "Загрузка…" : placeholder}
+                </option>
 
-            <div className="col-lg-9">
-                <select
-                    id={id}
-                    name={name}
-                    className={`custom-select form-control${error ? " is-invalid" : ""}`}
-                    value={selectValue}
-                    onChange={onChange}
-                    required={isRequired}
-                    disabled={disabled || isLoading}
-                    aria-invalid={error ? true : undefined}
-                    aria-describedby={error ? errorId : undefined}
-                >
-                    <option value="" disabled={isRequired}>
-                        {isLoading ? "Загрузка…" : placeholder}
+                {options.map((option) => (
+                    <option
+                        key={option.value}
+                        value={option.value}
+                        disabled={option.disabled}
+                    >
+                        {option.label}
                     </option>
-
-                    {options.map((option) => (
-                        <option
-                            key={option.value}
-                            value={option.value}
-                            disabled={option.disabled}
-                        >
-                            {option.label}
-                        </option>
-                    ))}
-                </select>
-
-                {error && (
-                    <div id={errorId} className="invalid-feedback d-block">
-                        {error}
-                    </div>
-                )}
-
-                {children}
-            </div>
-        </div>
+                ))}
+            </select>
+        </FieldLayout>
     );
 }

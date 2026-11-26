@@ -14,6 +14,10 @@
 
 - Add aliases for import for react app
 
+### Refactored:
+
+- Optimized horizontal and certical layouts for form
+
 ---
 
 ## [3.4.3] - 2026-10-29

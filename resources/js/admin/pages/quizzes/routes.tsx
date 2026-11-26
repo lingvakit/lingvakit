@@ -1,10 +1,10 @@
 import { RouteObject } from "react-router-dom";
-import { QuizCreatePage } from "./create/ui/QuizCreatePage";
+import { QuizCreatePage } from "./ui/QuizCreatePage";
 import { getCourse } from "@admin/entities/course/api/queries/getCourse";
 import { BreadcrumbHandle } from "@admin/shared/ui/breadcrumbs/types";
 import { getQuiz } from "@admin/entities/quiz/queries/getQuiz";
-import { QuizEditPage } from "./edit/ui/QuizEditPage";
-import { QuizDetailsPage } from "./show/ui/QuizDetailsPage";
+import { QuizEditPage } from "./ui/QuizEditPage";
+import { QuizDetailsPage } from "./ui/QuizDetailsPage";
 import { questionGroupRoutes } from "../questionGroups/routes";
 
 export const quizRoutes: RouteObject[] = [

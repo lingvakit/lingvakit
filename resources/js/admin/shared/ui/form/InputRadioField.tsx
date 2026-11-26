@@ -1,3 +1,6 @@
+import { FieldLayout } from "./FieldLayout";
+import type { FieldErrorValue } from "./validation";
+
 type Props<T extends string> = {
     title: string;
     name: string;
@@ -7,6 +10,7 @@ type Props<T extends string> = {
         value: T;
         label: string;
     }>;
+    error?: FieldErrorValue;
 };
 
 export function InputRadioField<T extends string>({
@@ -15,39 +19,38 @@ export function InputRadioField<T extends string>({
     currentValue,
     onChange,
     items,
+    error,
 }: Props<T>) {
     return (
-        <div className="form-group row d-flex align-items-center mb-5">
-            <div className="col-lg-3 form-control-label">{title}</div>
-            <div className="col-lg-9">
-                <div className="row">
-                    {items.map((item, key) => {
-                        const id = `${name}_${item.value}`;
+        <FieldLayout
+            label={title}
+            labelAs="div"
+            group="radiogroup"
+            error={error}
+        >
+            <div className="row">
+                {items.map((item) => {
+                    const id = `${name}_${item.value}`;
 
-                        return (
-                            <div key={key} className="col-xl-2">
-                                <div className="mb-3">
-                                    <div className="styled-radio">
-                                        <input
-                                            type="radio"
-                                            name={name}
-                                            id={id}
-                                            value={item.value}
-                                            checked={
-                                                currentValue === item.value
-                                            }
-                                            onChange={() =>
-                                                onChange(item.value)
-                                            }
-                                        />
-                                        <label htmlFor={id}>{item.label}</label>
-                                    </div>
+                    return (
+                        <div key={item.value} className="col-xl-2">
+                            <div className="mb-3">
+                                <div className="styled-radio">
+                                    <input
+                                        type="radio"
+                                        name={name}
+                                        id={id}
+                                        value={item.value}
+                                        checked={currentValue === item.value}
+                                        onChange={() => onChange(item.value)}
+                                    />
+                                    <label htmlFor={id}>{item.label}</label>
                                 </div>
                             </div>
-                        );
-                    })}
-                </div>
+                        </div>
+                    );
+                })}
             </div>
-        </div>
+        </FieldLayout>
     );
 }
