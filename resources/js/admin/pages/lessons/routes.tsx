@@ -1,9 +1,9 @@
 import { RouteObject } from "react-router-dom";
-import LessonCreatePage from "./create/ui/LessonCreatePage";
-import { LessonEditPage } from "./edit/ui/LessonEditPage";
 import { getLesson } from "@admin/entities/lesson/queries/getLesson";
 import { BreadcrumbHandle } from "@admin/shared/ui/breadcrumbs/types";
 import { getCourse } from "@admin/entities/course/api/queries/getCourse";
+import LessonCreatePage from "./ui/LessonCreatePage";
+import { LessonEditPage } from "./ui/LessonEditPage";
 
 export const lessonRoutes: RouteObject[] = [
     {

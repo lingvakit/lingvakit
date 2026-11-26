@@ -1,13 +1,14 @@
 import { useCallback, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
-import { QuizFormScreen } from "../../shared/ui/QuizFormScreen";
+import { QuizFormScreen } from "./components/QuizFormScreen";
 import { useCreateQuiz } from "@admin/entities/quiz/model/hooks";
 import { buildQuizPayload } from "@admin/features/quiz/lib/buildQuizPayload";
-import type { QuizFormFields } from "@admin/features/quiz/lib/buildQuizPayload";
+import { QuizFormValues } from "@admin/features/quiz/model/useQuizForm";
 
 export function QuizCreatePage() {
     const { moduleId: moduleIdParam } = useParams();
-    const { execute, isSavingProcess, error } = useCreateQuiz();
+    const { execute, isSavingProcess, error, validationErrors } =
+        useCreateQuiz();
 
     const [quizUuid] = useState<string>(() => crypto.randomUUID());
 
@@ -16,7 +17,7 @@ export function QuizCreatePage() {
         : null;
 
     const handleSubmit = useCallback(
-        async (fields: QuizFormFields): Promise<void> => {
+        async (fields: QuizFormValues): Promise<void> => {
             if (moduleId === null) return;
 
             await execute({
@@ -38,6 +39,7 @@ export function QuizCreatePage() {
             title="Новый тест"
             isSaving={isSavingProcess}
             error={error}
+            validationErrors={validationErrors}
             onSubmit={handleSubmit}
         />
     );

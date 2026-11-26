@@ -1,46 +1,41 @@
-import { Category } from "@admin/entities/category/model/types";
-import { useQuizForm } from "@admin/features/quiz/model/useQuizForm";
-import { SelectCategories } from "./Form/SelectCategories";
-import { InputTextField } from "@admin/shared/ui/form/InputTextField";
-import { InputNumberField } from "@admin/shared/ui/form/InputNumberField";
-import { TextareaCKEditorField } from "@admin/shared/ui/form/TextareaCKEditorField";
+import { FormEvent } from "react";
+import { useCKEditor } from "@admin/shared/ui/modal/media/useCKEditor";
 import { MediaTarget } from "@admin/shared/ui/modal/media/types";
 import { MediaType } from "@admin/entities/media/model/types";
-import { useCKEditor } from "@admin/shared/ui/modal/media/useCKEditor";
-import { FormEvent } from "react";
+import { useLessonForm } from "@admin/features/lesson/model/useLessonForm";
 import { InputMediaFiles } from "@admin/shared/ui/form/InputMediaFiles";
+import { InputTextField } from "@admin/shared/ui/form/InputTextField";
+import { TextareaCKEditorField } from "@admin/shared/ui/form/TextareaCKEditorField";
+import { InputNumberField } from "@admin/shared/ui/form/InputNumberField";
 
 type Props = {
-    form: ReturnType<typeof useQuizForm>;
     ckEditor: ReturnType<typeof useCKEditor>;
     isSavingProgress: boolean;
-    categoriesList?: Category[];
-    isCategoriesLoading?: boolean;
-    openMediaModal: (target: MediaTarget, type: MediaType) => void;
     onSubmit: () => Promise<void>;
+    openMediaModal: (target: MediaTarget, type: MediaType) => void;
+    openAiModal: () => void;
+    form: ReturnType<typeof useLessonForm>;
+    validationErrors?: Record<string, string[]>;
 };
 
-export function QuizForm({
-    form,
+export default function LessonForm({
     ckEditor,
     isSavingProgress,
-    categoriesList,
-    isCategoriesLoading,
-    openMediaModal,
     onSubmit,
+    openMediaModal,
+    openAiModal,
+    form,
+    validationErrors,
 }: Props) {
-    const handleOpenMediaModal = (
-        target: MediaTarget,
-        type: MediaType,
-    ): void => {
-        openMediaModal(target, type);
-    };
-
     const handleSubmit = async (
         e: FormEvent<HTMLFormElement>,
     ): Promise<void> => {
         e.preventDefault();
         await onSubmit();
+    };
+
+    const handleOpenMediaModal = (target: MediaTarget, type: MediaType) => {
+        openMediaModal(target, type);
     };
 
     return (
@@ -49,8 +44,7 @@ export function QuizForm({
                 <div className="col-12">
                     <div className="widget has-shadow">
                         <div className="widget-header bordered no-actions d-flex align-items-center justify-content-between">
-                            <h4>Данные теста</h4>
-
+                            <h4>Данные о курсе</h4>
                             <div className="text-right">
                                 <button
                                     className="btn btn-primary"
@@ -65,27 +59,34 @@ export function QuizForm({
                         </div>
 
                         <div className="widget-body">
-                            <SelectCategories
-                                form={form}
-                                categoriesList={categoriesList}
-                                isLoading={isCategoriesLoading}
-                            />
-
                             <InputTextField
-                                label="Заголовок теста"
+                                label="Название урока"
                                 name="title"
                                 value={form.fields.title}
                                 onChange={form.handlers.changeText}
                                 isRequired={true}
-                                placeholder="Название теста"
-                            />
+                                placeholder="Название урока"
+                                error={validationErrors?.title}
+                            >
+                                {form.fields.title.length > 5 && (
+                                    <button
+                                        type="button"
+                                        title="Геренировать текст курса с помощью ИИ"
+                                        className="btn btn-gradient-04 btn-square btn-sm mt-2"
+                                        onClick={openAiModal}
+                                    >
+                                        AI помощник
+                                    </button>
+                                )}
+                            </InputTextField>
 
                             <TextareaCKEditorField
                                 label="Описание"
-                                value={form.fields.description}
+                                value={form.fields.description ?? ""}
                                 onChange={form.handlers.setDescription}
-                                onOpenMediaModal={handleOpenMediaModal}
+                                onOpenMediaModal={openMediaModal}
                                 setEditorRef={ckEditor.setEditorRef}
+                                error={validationErrors?.description}
                             />
 
                             <InputMediaFiles
@@ -98,23 +99,13 @@ export function QuizForm({
                             />
 
                             <InputNumberField
-                                label="Ограничение времени прохождения теста, мин"
-                                name="timeLimit"
-                                value={form.fields.timeLimit}
+                                label="Длительность, мин"
+                                name="duration"
+                                value={form.fields.duration}
                                 onChange={form.handlers.changeNumber}
-                                isRequired={true}
                                 minDigit={1}
                                 maxDigit={600}
-                            />
-
-                            <InputNumberField
-                                label="Проходной балл, %"
-                                name="passingScore"
-                                value={form.fields.passingScore}
-                                onChange={form.handlers.changeNumber}
-                                isRequired={true}
-                                minDigit={0}
-                                maxDigit={100}
+                                error={validationErrors?.duration}
                             />
                         </div>
                     </div>

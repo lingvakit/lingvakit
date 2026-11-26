@@ -1,6 +1,7 @@
-import { ChangeEvent } from "react";
-import { VerticalTextField } from "./components/vertical/VerticalTextField";
-import { HorizontalTextField } from "./components/horizontal/HorizontalTextField";
+import type { ChangeEvent, ReactNode } from "react";
+import { FieldLayout } from "./FieldLayout";
+import { useFieldControl } from "./useFieldControl";
+import type { FieldErrorValue } from "./validation";
 
 type Props = {
     label: string;
@@ -10,6 +11,8 @@ type Props = {
     isRequired?: boolean;
     placeholder?: string;
     isVertical?: boolean;
+    error?: FieldErrorValue;
+    children?: ReactNode;
 };
 
 export function InputTextField({
@@ -20,24 +23,29 @@ export function InputTextField({
     isRequired,
     placeholder,
     isVertical = false,
+    error,
+    children,
 }: Props) {
-    return isVertical ? (
-        <VerticalTextField
+    const { controlProps, errorId } = useFieldControl({ error, isRequired });
+
+    return (
+        <FieldLayout
+            layout={isVertical ? "vertical" : "horizontal"}
             label={label}
-            name={name}
-            value={value}
-            onChange={onChange}
+            htmlFor={controlProps.id}
             isRequired={isRequired}
-            placeholder={placeholder}
-        />
-    ) : (
-        <HorizontalTextField
-            label={label}
-            name={name}
-            value={value}
-            onChange={onChange}
-            isRequired={isRequired}
-            placeholder={placeholder}
-        />
+            error={error}
+            errorId={errorId}
+            footer={children}
+        >
+            <input
+                {...controlProps}
+                type="text"
+                name={name}
+                placeholder={placeholder}
+                value={value}
+                onChange={onChange}
+            />
+        </FieldLayout>
     );
 }

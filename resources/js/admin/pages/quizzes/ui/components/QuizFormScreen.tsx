@@ -2,21 +2,24 @@ import { useCallback } from "react";
 import PageLayout from "@admin/widgets/layout/PageLayout";
 import { QuizForm } from "./QuizForm";
 import { useCategoryList } from "@admin/entities/category/model/hooks";
-import { useQuizForm } from "@admin/features/quiz/model/useQuizForm";
-import type { QuizFormFields } from "@admin/features/quiz/lib/buildQuizPayload";
 import { useCKEditor } from "@admin/shared/ui/modal/media/useCKEditor";
 import { useMediaModalManager } from "@admin/shared/ui/modal/media/useMediaModalManager";
 import MediaUploadModal from "@admin/shared/ui/modal/media/MediaUploadModal";
 import type { MediaFile } from "@admin/entities/media/model/types";
 import type { MediaTarget } from "@admin/shared/ui/modal/media/types";
-import type { QuizFormInitialValues } from "@admin/features/quiz/model/useQuizForm";
+import {
+    useQuizForm,
+    type QuizFormInitialValues,
+    type QuizFormValues,
+} from "@admin/features/quiz/model/useQuizForm";
 
 type Props = {
     title: string;
     initialValues?: QuizFormInitialValues;
     isSaving: boolean;
     error?: string | null;
-    onSubmit: (fields: QuizFormFields) => Promise<void>;
+    validationErrors?: Record<string, string[]>;
+    onSubmit: (fields: QuizFormValues) => Promise<void>;
 };
 
 export function QuizFormScreen({
@@ -24,6 +27,7 @@ export function QuizFormScreen({
     initialValues,
     isSaving,
     error,
+    validationErrors,
     onSubmit,
 }: Props) {
     const form = useQuizForm(initialValues);
@@ -86,6 +90,7 @@ export function QuizFormScreen({
                 isCategoriesLoading={isCategoriesLoading}
                 openMediaModal={mediaModal.open}
                 onSubmit={handleSubmit}
+                validationErrors={validationErrors}
             />
 
             <MediaUploadModal

@@ -1,16 +1,19 @@
-import { ChangeEvent } from "react";
-import { VerticalTextareaField } from "./components/vertical/VerticalTextareaField";
-import { HorizontalTextareaField } from "./components/horizontal/HorizontalTextareaField";
+import type { ChangeEvent, ReactNode } from "react";
+import { FieldLayout } from "./FieldLayout";
+import { useFieldControl } from "./useFieldControl";
+import type { FieldErrorValue } from "./validation";
 
 type Props = {
     label: string;
     name: string;
-    value: string;
+    value: string | null;
     onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
     isRequired?: boolean;
     placeholder?: string;
     rows?: number;
     isVertical?: boolean;
+    error?: FieldErrorValue;
+    children?: ReactNode;
 };
 
 export function TextareaField({
@@ -22,26 +25,29 @@ export function TextareaField({
     placeholder = "",
     rows = 3,
     isVertical = false,
+    error,
+    children,
 }: Props) {
-    return isVertical ? (
-        <VerticalTextareaField
+    const { controlProps, errorId } = useFieldControl({ error, isRequired });
+
+    return (
+        <FieldLayout
+            layout={isVertical ? "vertical" : "horizontal"}
             label={label}
-            name={name}
-            value={value}
-            onChange={onChange}
-            rows={rows}
+            htmlFor={controlProps.id}
             isRequired={isRequired}
-            placeholder={placeholder}
-        />
-    ) : (
-        <HorizontalTextareaField
-            label={label}
-            name={name}
-            value={value}
-            onChange={onChange}
-            rows={rows}
-            isRequired={isRequired}
-            placeholder={placeholder}
-        />
+            error={error}
+            errorId={errorId}
+            footer={children}
+        >
+            <textarea
+                {...controlProps}
+                name={name}
+                rows={rows}
+                placeholder={placeholder}
+                value={value ?? ""}
+                onChange={onChange}
+            />
+        </FieldLayout>
     );
 }

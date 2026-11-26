@@ -1,8 +1,4 @@
-import {
-    LessonStorePayload,
-    LessonResponse,
-    LessonUpdatePayload,
-} from "./types";
+import { LessonStorePayload, LessonUpdatePayload, Lesson } from "./types";
 import { useParams } from "react-router-dom";
 import { storeLesson } from "@admin/entities/topic/api/mutation/storeLesson";
 import { updateLesson } from "@admin/entities/topic/api/mutation/updateLesson";
@@ -12,7 +8,7 @@ import { useEntityMutation } from "@admin/shared/model/useEntityMutation";
 export function useCreateLesson() {
     const { courseId } = useParams();
 
-    return useEntityMutation<LessonStorePayload, LessonResponse>({
+    return useEntityMutation<LessonStorePayload, Lesson>({
         mutationFn: storeLesson,
         onSuccessNavigateTo: courseId
             ? `/dashboard/coursesReact/${courseId}`
@@ -31,7 +27,7 @@ export function useUpdateLesson() {
         throw new Error("lessonId is required");
     }
 
-    return useEntityMutation<LessonUpdatePayload, LessonResponse>({
+    return useEntityMutation<LessonUpdatePayload, Lesson>({
         mutationFn: (data) => updateLesson(Number(lessonId), data),
         onSuccessNavigateTo: courseId
             ? `/dashboard/coursesReact/${courseId}`

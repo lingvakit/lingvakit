@@ -1,8 +1,10 @@
-import { useId } from "react";
 import type { Editor } from "ckeditor5";
 import TextareaEditor from "../textarea-editor/TextareaEditor";
 import type { MediaTarget } from "../modal/media/types";
 import type { MediaType } from "@admin/entities/media/model/types";
+import { FieldLayout } from "./FieldLayout";
+import { useFieldControl } from "./useFieldControl";
+import type { FieldErrorValue } from "./validation";
 
 type Props = {
     label: string;
@@ -10,6 +12,8 @@ type Props = {
     onChange: (value: string) => void;
     onOpenMediaModal: (target: MediaTarget, type: MediaType) => void;
     setEditorRef: (editor: Editor | null) => void;
+    isRequired?: boolean;
+    error?: FieldErrorValue;
 };
 
 export function TextareaCKEditorField({
@@ -18,16 +22,23 @@ export function TextareaCKEditorField({
     onChange,
     onOpenMediaModal,
     setEditorRef,
+    isRequired,
+    error,
 }: Props) {
-    const labelId = useId();
+    const { errorId, hasError } = useFieldControl({ error, isRequired });
 
     return (
-        <div className="form-group row d-flex align-items-center mb-5">
-            <label id={labelId} className="col-lg-3 form-control-label">
-                {label}
-            </label>
-
-            <div className="col-lg-9" role="group" aria-labelledby={labelId}>
+        <FieldLayout
+            label={label}
+            group="group"
+            isRequired={isRequired}
+            error={error}
+            errorId={errorId}
+        >
+            <div
+                className={hasError ? "border border-danger p-1" : undefined}
+                aria-describedby={hasError ? errorId : undefined}
+            >
                 <TextareaEditor
                     value={value ?? ""}
                     onChange={onChange}
@@ -35,6 +46,6 @@ export function TextareaCKEditorField({
                     setEditorRef={setEditorRef}
                 />
             </div>
-        </div>
+        </FieldLayout>
     );
 }

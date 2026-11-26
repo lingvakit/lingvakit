@@ -1,6 +1,6 @@
 import BaseModal from "../BaseModal";
 import { FormEvent, useEffect, useState } from "react";
-import { useLessonForm } from "@admin/features/lesson/create/model/useLessonForm";
+import { useLessonForm } from "@admin/features/lesson/model/useLessonForm";
 import { DifficultyLevel } from "@admin/entities/lesson/model/types";
 import { useAiGenerateMessage } from "@admin/entities/ai/model/hooks";
 
